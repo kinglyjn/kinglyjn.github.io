@@ -1,0 +1,17 @@
+---
+layout: default
+title: Hello, Java
+---
+<h2>{{ page.title }}</h2>
+<p>第一个java测试代码</p>
+
+{% highlight java %}  
+public class Test {
+    public static void main(String[] args) {
+        System.out.println("哈哈😝 ");
+    }
+}
+{% endhighlight %} 
+
+<p>{{ page.date | datte_to_string }}</p>
+<a href="{{ site.baseurl }}/index.html">Go back</a>
