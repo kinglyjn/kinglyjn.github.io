@@ -33,7 +33,7 @@
     detail: In ucloud, I started to deal with servers and Linux system and use shell scripts to manage massive server.
     i18n: ucloud_des
   date:
-    detail: Sep. 2013
+    detail: Sep. 2014
     i18n: ucloud_date
   job:
     detail: Dev Ops
@@ -44,10 +44,10 @@
     detail: Graduation
     i18n: college
   desc:
-    detail: At July 2013,I graduated from college and started my IT technology tour.
+    detail: At July 2014,I graduated from college and started my IT technology tour.
     i18n: college_des
   date:
-    detail: Jul. 2013
+    detail: Jul. 2014
     i18n: college_date
   job:
     detail: Student
