@@ -1,6 +1,6 @@
 {
   "website":{
-    "title": "杰克的博客"
+    "title": "张庆力的博客"
   },
   "nav":{
     "home": "首页",
@@ -13,7 +13,7 @@
   },
   "about_me":{
     "about_me": "关于我",
-    "des": "我是一名全栈工程师，有开发网站，运维自动化，编写脚本的经验。人生是不断学习的过程，工作使我变的更严谨，旅行让我的生活更加多彩。通过编程和旅行我能结识到很多朋友。"
+    "des": "一个懒人，求20-30岁、外表时尚端庄、身心健康、性格温柔体贴的未婚姑娘，执子之手，与子偕老 。。。"
   },
   "skills":{
     "my_skills": "我的技能"
@@ -27,22 +27,18 @@
   },
   "career":{
     "my_career": "职业生涯",
-    "nextcode": "Nextcode",
-    "nextcode_des": "现在我在Nextcode，使用Python为基因分析项目做网站.",
-    "nextcode_date": "2016年4月",
-    "nextcode_job": "Python工程师",
-    "netease": "网易游戏",
-    "netease_des": "在网易游戏，我了解到游戏体系，并使用Python代码为自动化运维服务.",
-    "netease_date": "2015年6月",
-    "netease_job": "运维开发工程师",
-    "ucloud": "Ucloud",
-    "ucloud_des": "在Ucloud,我开始和服务器、操作系统打交道，并使用shell脚本管理海量服务器.",
-    "ucloud_date": "2013年9月",
-    "ucloud_job": "运维开发工程师",
-    "college": "毕业",
-    "college_des": "2013年7月大学毕业，开始了IT职业生涯",
-    "college_date": "2013年7月",
-    "college_job": "学生"
+    "shangrong1": "上容信息技术有限公司（北京）",
+    "shangrong_des": "金融服务部产品研发|分布式数据平台产品研发|团队技术协作",
+    "shangrong_date": "2015年3月-",
+    "shangrong_job": "高级软件研发工程师",
+    "kaida1": "北京时代凯达科技有限公司",
+    "kaida_des": "Java Web 应用系统后台的代码设计以及编码工作",
+    "kaida_date": "2014年5月",
+    "kaida_job": "Java软件开发工程师",
+    "college1": "云南大学",
+    "college_des": "物理学和计算机科学专业 | 理学学士",
+    "college_date": "2014年7月",
+    "college_job": "小学生"
   },
   "blog":{
     "my_blog": "我的博客"

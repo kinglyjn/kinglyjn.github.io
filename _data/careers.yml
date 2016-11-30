@@ -1,6 +1,6 @@
 - name:
     detail: Hunan ShangRong Information Technology Co. Ltd. Beijing Branch
-    i18n: Hunan ShangRong Information Technology Co. Ltd. Beijing Branch
+    i18n: shangrong1
   desc:
     detail: Financial web system development|Distributed platform development|Team technical collaboration
     i18n: shangrong_des
@@ -8,13 +8,13 @@
     detail: Jun. 2015
     i18n: shangrong_date
   job:
-    detail: Dev Ops
+    detail: IT Engineer
     i18n: shangrong_job
   icon: fa-database
 
 - name:
     detail: Beijing Kaida Technology Co. Ltd.
-    i18n: Beijing Kaida Technology Co. Ltd.
+    i18n: kaida1
   desc:
     detail: Working major in background of javaee application system.
     i18n: kaida_des
@@ -22,13 +22,13 @@
     detail: May. 2014
     i18n: kaida_date
   job:
-    detail: Dev Ops
+    detail: Java Dev
     i18n: kaida_job
   icon: fa-group
 
 - name:
-    detail: Graduation
-    i18n: college
+    detail: Yunnan University
+    i18n: college1
   desc:
     detail: Major in physics and computer science | B.S.
     i18n: college_des
