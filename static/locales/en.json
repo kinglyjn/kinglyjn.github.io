@@ -13,7 +13,7 @@
   },
   "about_me":{
     "about_me": "About Me",
-    "des": "A Lazy Man, busy in selecting * from t_woman where (age between 20 and 30) and (married=false) and (feature is fashion dignified) and (bodyMind is healthy), gentle and caring disposition is better ..."
+    "des": "A Lazy Man, busy in selecting * from t_woman where (age between 20 and 30) and (married=false) and (feature is fashion dignified) and (bodyMind is healthy), gentle and caring disposition is better, don't bother if you are not pure-hearted ..."
   },
   "skills":{
     "my_skills": "My Skills"
