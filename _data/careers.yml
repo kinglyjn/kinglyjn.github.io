@@ -10,7 +10,7 @@
   job:
     detail: Dev Ops
     i18n: shangrong_job
-  icon: fa-gamepad
+  icon: fa-database
 
 - name:
     detail: Beijing Kaida Technology Co. Ltd.
@@ -24,7 +24,7 @@
   job:
     detail: Dev Ops
     i18n: kaida_job
-  icon: fa-cloud
+  icon: fa-group
 
 - name:
     detail: Graduation
@@ -38,4 +38,4 @@
   job:
     detail: Student
     i18n: college_job
-  icon: fa-book
+  icon: fa-graduation-cap
