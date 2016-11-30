@@ -1,9 +1,9 @@
 # Welcome to Jekyll!
 
 # Website settings
-title: "Kinlyjn"
-description: "Kinglyjn's blog,use Jekyll and github pages."
-keywords: "Kinglyjn,张庆力的博客,Kinglyjn Blog,Jekyll,github,gh-pages"
+title: "KinglyJn"
+description: "Kingly's blog,use Jekyll and github pages."
+keywords: "kinglyjn,张庆力的博客,kinglyjn blog,kingly,Jekyll,github,gh-pages"
 baseurl: "/"
 url: "https://kinglyjn.github.io"
 # url: "http://127.0.0.1:4000"
