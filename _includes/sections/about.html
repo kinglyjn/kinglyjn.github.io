@@ -29,11 +29,14 @@
                 <img src="{{ site.author.head_img | prepend: site.baseurl }}" height="110" width="110" class="img-responsive img-circle" alt="">
                 <h4><span class="navy">{{ site.author.last_name }}</span> {{ site.author.first_name }}</h4>
                 <ul class="list-inline social-icon">
-                    <li><a href="https://github.com/{{ site.author.github_username }}" target="blank"><i class="fa fa-github"></i></a>
+                    <li>
+                        <a href="https://github.com/{{ site.author.github_username }}" target="blank"><i class="fa fa-github"></i></a>
                     </li>
-                    <li><a href="javascript:void(0);" onclick=""><i class="fa fa-facebook"></i></a>
-                    <li><a href="mailto:{{ site.author.email }}"><i class="fa fa-envelope-o"></i></a>
+                    <li>
+                        <a href="mailto:{{ site.author.email }}"><i class="fa fa-envelope-o"></i></a>
                     </li>
+                    <li>
+                        <a href="#"><i class="fa fa-share-alt"></i></a>
                     </li>
                 </ul>
             </div>
@@ -55,6 +58,11 @@
             </div>
         </div>
     </div>
+
+    <div class="row">
+        <div class="social-share col-lg-offset-5" data-sites="wechat,qq,qzone,weibo,douban"></div> 
+    </div>
+
     <div class="row">
         <div class="col-lg-8 col-lg-offset-2 text-center m-t-lg m-b-lg wow zoomIn">
             <p><span data-i18n="about_me.des">{{ site.author.desc }}</span></p>
@@ -62,32 +70,20 @@
     </div>
 </div>
 
+<link rel="stylesheet" href="/static/css/share.min.css">
+<script src="http://apps.bdimg.com/libs/jquery/1.8.2/jquery.js"></script>
+<script src="/static/js/jquery.share.min.js"></script>
 <script>
-    window._bd_share_config = {
-        common : {
-            bdText : 'KinglyJn Blog | A Lazy Man, busy in selecting * from t_woman where (age between 20 and 30) and (married=false) and (feature is fashion dignified) and (bodyMind is healthy), gentle and caring disposition is better, do not bother if you are not pure-hearted ...', 
-            bdDesc : 'A Lazy Man, busy in selecting * from t_woman where (age between 20 and 30) and (married=false) and (feature is fashion dignified) and (bodyMind is healthy), gentle and caring disposition is better, do not bother if you are not pure-hearted ...', 
-            bdUrl : 'https://kinglyjn.github.io',   
-            bdPic : 'http://localhost:4000/static/img/landing/Kinglyjn.png'
-        },
-        share : [{
-            "bdSize" : 16
-        }],
-        slide : [{     
-            bdImg : 0,
-            bdPos : "right",
-            bdTop : 100
-        }],
-        image : [{
-            viewType : 'list',
-            viewPos : 'top',
-            viewColor : 'black',
-            viewSize : '16',
-            viewList : ['qzone','weixin']
-        }],
-        selectShare : [{
-            bdselectMiniList : ['qzone','tqq']
-        }]
-    }
-   with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+  var $config = {
+      url                 : 'https://kinglyjn.github.io', // 网址，默认使用 window.location.href
+      source              : 'https://kinglyjn.github.io', // 来源（QQ空间会用到）, 默认读取head标签：<meta name="site" content="http://overtrue" />
+      title               : 'KinglyJn Blog', // 标题，默认读取 document.title 或者 <meta name="title" content="share.js" />
+      description         : 'KinglyJn Blog Desc', // 描述, 默认读取head标签：<meta name="description" content="PHP弱类型的实现原理分析" />
+      image               : 'https://kinglyjn.github.io/static/img/landing/angularjs.png', // 图片, 默认取网页中第一个img标签
+      sites               : ['qzone', 'qq', 'weibo','wechat','douban'], // 启用的站点
+      disabled            : ['google', 'facebook', 'twitter'], // 禁用的站点
+      wechatQrcodeTitle   : "微信扫一扫：分享", // 微信二维码提示文字
+      wechatQrcodeHelper  : '<p>微信里点“发现”，扫一下</p><p>二维码便可将本文分享至朋友圈。</p>',
+   };
+  $('.social-share').share($config);
 </script>
