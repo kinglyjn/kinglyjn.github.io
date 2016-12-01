@@ -1,8 +1,8 @@
-- name: 'Saplatform'
-  i18n: 'saplatform'
-  url: '/Jack614/saplatform'
-  img: 'static/img/landing/saplatform.png'
-  desc: 'Saplatform is a automated service for operations, it has asset management, project release, database access function, it can control mass servers.'
+- name: 'sr-ddcs'
+  i18n: 'sr-ddcs'
+  url: 'javascript:void(0)'
+  img: 'static/img/landing/sr-ddcs.png'
+  desc: 'Sr-ddcs is a distributed realtime computation system based on storm and data collection technology which is providing service for enterprises decision and info publishment. Now it’s running well in SR-LAN and Credit Harmony production system.'
 
 - name: 'Jalpc'
   i18n: 'jalpc'
