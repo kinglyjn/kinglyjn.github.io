@@ -2,7 +2,7 @@
   i18n: 'sr-ddcs'
   url: 'javascript:void(0)'
   img: 'static/img/landing/sr-ddcs.png'
-  desc: 'Sr-ddcs is a distributed realtime computation system based on storm and data collection technology which is providing service for enterprises decision and info publishment. Now it’s running well in SR-LAN and Credit Harmony production system.'
+  desc: 'Sr-ddcs is a distributed realtime computation system based on storm and data collection technology which is providing service for enterprises decision and info publishment.'
 
 - name: 'Jalpc'
   i18n: 'jalpc'
@@ -20,7 +20,7 @@
   i18n: 'rsser'
   url: '/Jack614/Rsser'
   img: 'static/img/landing/rsser.png'
-  desc: Rsser is an Ionic application, with this application we can read news and articles freely, you can add rss address from the given list and add it manually.
+  desc: Rsser is an Ionic application, with this application we can read news and articles freely.
 
 - name: 'FamilyCODE Wchat'
   i18n: 'familycode'
