@@ -27,19 +27,20 @@ layout: default
                                     <button class="btn btn-white btn-xs" type="button">{{ tag }}</button>
                                 {% endfor %}
                         </div>
+                        <!--
                         <div class="col-md-6">
                             <div class="small text-right">
-                                <h5>Stats:</h5>
-                                <div> 
-                                {% if site.changyan %}
-                                    <i class="fa fa-comments-o"> </i> <span id = "url::{{post.url | prepend: page.url}}" class = "cy_cmt_count" ></span> comments
-                                {% endif %}
-                                {% if site.disqus %}
-                                <i class="fa fa-comments-o"> </i> <span class='disqus-comment-count' data-disqus-url="{{ site.url }}{{ page.url }}">0</span> comments
-                                {% endif %}
+                                <div>    
+                                    <i class="fa fa-comments-o"> </i> 
+                                    <span class="ds-comments">0</span>条评论
                                 </div>
+                                <div>
+                                    <i class="fa fa-share-alt"> </i> 
+                                    <span class="ds-shares">0</span>条转发
+                                </div>  
                             </div>
                         </div>
+                        -->
                     </div>
                     <br>
                     <div class="row">
@@ -65,3 +66,4 @@ layout: default
     </div>
 
 </div>
+
