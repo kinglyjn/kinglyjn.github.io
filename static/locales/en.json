@@ -9,24 +9,24 @@
     "projects": "Projects",
     "career": "Career",
     "blog": "Blog",
-    "link": "Link"
+    "link": "Link&Share"
   },
   "about_me":{
     "about_me": "About Me",
     "des": "A Lazy Man, intent to select * from t_woman where (age between 20 and 30) and (married=false) and (feature is fashion dignified) and (bodyMind is healthy), gentle and caring disposition is better, don't bother if you are not pure-hearted ..."
   },
   "skills":{
-    "my_skills": "My Skills"
+    "my_skills": "Skills"
   },
   "projects":{
-    "my_projects": "My Projects",
+    "my_projects": "Projects",
     "sr-ddcs": "Sr-ddcs is a distributed realtime computation system based on storm and data collection technology which is providing service for enterprises decision and info publishment.",
-    "jalpc": "Jalpc is a simple, beautiful and swift theme for Jekyll. It has comprehensive function, it can be easily used and edited. It's adapted for many kinds devices.",
-    "angularjs": "It is a web font application written by Angularjs and deployed by Jekyll on github (gh-pages), the backend platform is Leancloud, you can use Parse as well.",
-    "rsser": "sser is an Ionic application, with this application we can read news and articles freely, you can add rss address from the given list and add it manually."
+    "javaweb": "vcspark (financial service platform), lawcheck (legal service platform), CMS, electronic commerce system, etc.",
+    "cloudID": "an identity authentication private cloud platform based on SaaS mode, supports OTP and OpenID.",
+    "datactr": "datactr provides the platform and expertise to transform your business’ data into revenue-generating assets with analytics."
   },
   "career":{
-    "my_career": "My Career",
+    "my_career": "Career",
     "shangrong1": "Hunan ShangRong Information Technology Co. Ltd. Beijing Branch",
     "shangrong_des": "Financial web system development|Distributed platform development|Team technical collaboration.",
     "shangrong_date": "Mar. 2015 -",
@@ -44,7 +44,7 @@
     "my_blog": "My Blog"
   },
   "link":{
-    "link": "Link",
+    "link": "Link & Share",
     "view": "views"
   }
 

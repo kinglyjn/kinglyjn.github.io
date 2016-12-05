@@ -4,26 +4,20 @@
   img: 'static/img/landing/sr-ddcs.png'
   desc: 'Sr-ddcs is a distributed realtime computation system based on storm and data collection technology which is providing service for enterprises decision and info publishment.'
 
-- name: 'Jalpc'
-  i18n: 'jalpc'
+- name: 'javaweb'
+  i18n: 'javaweb'
   url: 'javascript:void(0)'
-  img: 'static/img/landing/jekyll.png'
-  desc: "Jalpc is a simple, beautiful and swift theme for Jekyll. It has comprehensive function, it can be easily used and edited. It's adapted for many kinds devices."
+  img: 'static/img/landing/javaweb.png'
+  desc: "vcspark (financial service platform), lawcheck (legal service platform), CMS, electronic commerce system, etc."
 
-- name: 'Jalpc-A'
-  i18n: 'angularjs'
+- name: 'cloudID'
+  i18n: 'cloudID'
   url: 'javascript:void(0)'
-  img: 'static/img/landing/angularjs.png'
-  desc: "It is a web font application written by Angularjs and deployed by Jekyll on github (gh-pages), the backend platform is Leancloud, you can use Parse as well."
+  img: 'static/img/landing/cloudID.png'
+  desc: "an identity authentication private cloud platform based on SaaS mode, supports OTP and OpenID."
 
-- name: 'Rsser'
-  i18n: 'rsser'
-  url: 'javascript:void(0)'
-  img: 'static/img/landing/rsser.png'
-  desc: Rsser is an Ionic application, with this application we can read news and articles freely, you can add rss address from the given list and add it manually.
-
-- name: 'FamilyCODE Wchat'
-  i18n: 'familycode'
-  url: 'javascript:void(0)'
-  img: 'static/img/landing/familycode.png'
-  desc: This is a shopping mall in wechat, it promotes gene detection. Since time is precious, I write this website with Django, jQuery, weui. This is WuxiNextcode's major product. You can scan project's picture by wechat.
+- name: 'datactr'
+  i18n: 'datactr'
+  url: 'http://www.datactr.cn'
+  img: 'static/img/landing/datactr.png'
+  desc: "datactr provides the platform and expertise to transform your business’ data into revenue-generating assets with analytics."

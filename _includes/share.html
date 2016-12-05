@@ -1,10 +1,32 @@
-<h2>Share:</h2>
 
-<div class="bshare-custom">
-	<a title="分享到微信" class="bshare-weixin"></a>
-	<a title="分享到QQ空间" class="bshare-qzone"></a>
-	<a title="分享到新浪微博" class="bshare-sinaminiblog"></a>
-	<a title="更多平台" class="bshare-more bshare-more-icon more-style-addthis"></a>
+<!--分享-->
+<div class="row" style="margin-top:30px;">
+	<h2>Share:</h2>
+    <div class="social-share" style="margin-left:-5px;"data-sites="wechat,qq,qzone,weibo,douban"></div> 
 </div>
-<script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid={{ site.bshare.uuid }}&amp;pophcol=1&amp;lang=zh"></script>
-<script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/bshareC0.js"></script>
+<link rel="stylesheet" href="/static/css/share.min.css">
+<script src="/static/js/jquery.share.min.js"></script>
+<script>
+  var excerpt = $("p:eq(0)").text();
+  var $config = {
+      url: '{{ site.url }}{{ page.url }}', // 网址，默认使用 window.location.href
+      source: '{{ site.url }}', // 来源（QQ空间会用到）, 默认读取head标签：<meta name="site" content="http://overtrue" />
+      title: '{{ page.title }}', // 标题，默认读取 document.title 或者 <meta name="title" content="share.js" />
+      description: excerpt, // 描述, 默认读取head标签：<meta name="description" content="PHP弱类型的实现原理分析" />
+      image: 'https://kinglyjn.github.io/static/img/landing/header_one.jpg', // 图片, 默认取网页中第一个img标签
+      sites: ['qzone', 'qq', 'weibo','wechat','douban'], // 启用的站点
+      //disabled: ['google', 'facebook', 'twitter'], // 禁用的站点
+      wechatQrcodeTitle: "微信扫一扫：分享", // 微信二维码提示文字
+      wechatQrcodeHelper: '<p style="font-size:10px;">微信里点“发现”，扫一下</p><p style="font-size:10px;">二维码便可将本文分享至朋友圈。</p>',
+   };
+  $('.social-share').share($config);
+</script>
+
+
+<!--评论-->
+<!-- UY BEGIN -->
+<div class="row" style="margin-top:35px;">
+	<div id="uyan_frame"></div>
+</div>
+<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2121001"></script>
+<!-- UY END -->
