@@ -9,12 +9,15 @@ tags: [tomcat, 优化]
 icon: icon-tomcat
 ---
 
+
 ```
 export LD_LIBRARY_PATH=/home/opt/tools/apr/lib
 JAVA_OPTS="-server -XX:PermSize=128M -XX:MaxPermSize=256m -Xms1g -Xmx1g -Xmn500m -XX:SurvivorRatio=65536 -XX:MaxTenuringThreshold=0 -XX:+UseParNewGC -XX:+CMSParallelRemarkEnabled -XX:+UseCMSCompactAtFullCollection -XX:CMSFullGCsBeforeCompaction=0 -Duser.timezone=Asia/Shanghai"
 ```
 
 #### Tomcat启动行参数的优化
+{{ site.img_path }}
+
 
 Tomcat 的启动参数位于tomcat的安装目录\bin目录下，如果你是Linux操作系统就是catalina.sh文件，如果你是Windows操作系统那么你需要改动的就是catalina.bat文件。打开该文件，一般该文件头部是一堆的由##包裹着的注释文字，找到注释文字的最后一段如：
 

@@ -1,14 +1,12 @@
-# <a name="jalpc"></a>Jalpc. [![Analytics](https://ga-beacon.appspot.com/UA-73784599-1/welcome-page)](https://github.com/Jack614/jalpc_jekyll_theme)
+# <a name="kinglyjn Blog"></a>Kinglyjn Blog. [![Analytics](https://ga-beacon.appspot.com/UA-73784599-1/welcome-page)](https://github.com/kinglyjn/kinglyjn.github.io)
 
 [![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
 [![stable](http://badges.github.io/stability-badges/dist/stable.svg)](http://github.com/badges/stability-badges)
 [![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.png?v=103)](https://github.com/ellerbrock/open-source-badge/)
 
-<http://www.jack003.com>
+<https://kinglyjn.github.io>
 
-![Blog](blog.gif)
 
-* [Ad](#ad)
 * [Getting Started](#getting-started)
 	* [Fork, then clone](#fork-then-clone)
 	* [Modify _config.yml](#modify-configyml)
@@ -24,9 +22,9 @@
 	* [Share](#share)
 	* [Search engines](#search-engines)
 	* [CNAME](#cname)
-	* [Put in a Jalpc Plug](#put-in-a-jalpc-plug)
+	* [Put in a this blog Plug](#put-in-a-this blog-plug)
 	* [Enjoy](#enjoy)
-* [Upgrading Jalpc](#upgrading-jalpc)
+* [Upgrading this blog](#upgrading-this blog)
 	* [Ensure there's an upstream remote](#ensure-theres-an-upstream-remote)
 	* [Pull in the latest changes](#pull-in-the-latest-changes)
 * [Thanks to the following](#thanks-to-the-following)
@@ -38,11 +36,8 @@ It's pretty minimal, but leverages large type and drastic contrast to make a sta
 
 The landing page of the blog is multilingual page.
 
-It is my pleasure to contact me, you can give me your website or some advice about my website. Let's build a wonderful Jekyll theme together!
+It is my pleasure to <a href="mailto:admin@datactr.cn">contact me</a>, you can give me your website or some advice about my website. Let's build a wonderful Jekyll theme together!
 
-## <a name="ad"></a>Ad
-
-[Jalpc-A](https://github.com/Jack614/Jalpc-A): another Jekyll theme written by [AngularJS](https://angularjs.org/).
 
 ##  <a name="getting-started"></a>Getting Started
 
@@ -53,35 +48,34 @@ If you're completely new to Jekyll, I recommend checking out the documentation a
 **Fork** the repo, and then **clone** it so you've got the code locally.
 
 ```
-$ git clone https://github.com/<your githubname>/jalpc_jekyll_theme.git
-$ cd jalpc_jekyll_theme
+$ git clone https://github.com/<your githubname>/jekyll_theme.git
+$ cd jekyll_theme
 $ gem install jekyll # If you don't have jekyll installed
 $ rm -rf _site && jekyll server
 ```
 
 ### <a name="modify-configyml"></a>Modify `_config.yml`
 
-The _config.yml located in the root of the jalpc_jekyll_theme directory contains all of the configuration details for the Jekyll site. The defaults are:
+The _config.yml located in the root of the jekyll_theme directory contains all of the configuration details for the Jekyll site. The defaults are:
 
 ``` yml
 # Website settings
-title: "Jalpc"
-description: "Jack's blog,use Jekyll and github pages."
-keywords: "Jack,Jalpc,blog,Jekyll,github,gh-pages"
+title: "KinglyJn Blog"
+description: "KinglyJn's blog, use Jekyll and github pages."
+keywords: "KinglyJn,blog,Jekyll,github,gh-pages"
 
 baseurl: "/"
-url: "http://www.jack003.com"
+url: "https://kinglyjn.github.io/"
 # url: "http://127.0.0.1:4000"
 
 # author
 author:
-  name: 'Jack'
-  first_name: 'Jia'
-  last_name: 'Kun'
-  email: 'me@jack003.com'
-  facebook_username: 'jiakunnj'
-  github_username: 'Jack614'
-  head_img: 'static/img/landing/Jack.jpg'
+  name: 'KinglyJn'
+  first_name: 'Kingly'
+  last_name: 'Jn'
+  email: 'admin@datactr.cn'
+  github_username: 'kinglyjn'
+  head_img: 'static/img/landing/Kinglyjn.png'
 ...
 ```
 
@@ -149,7 +143,7 @@ If you start server on localhost, you can turn on `# url: "http://127.0.0.1:4000
 
 ### <a name="pagination"></a>Pagination
 
-The pagination in jekyll is not very perfect,so I use front-end web method,there is a [blog](http://www.jack003.com/html/2016/06/04/jekyll-pagination-with-jpages.html) about the method and you can refer to [jPages](http://luis-almeida.github.io/jPages).
+The pagination in jekyll is not very perfect,so I use front-end web method,there is a [blog](https://kinglyjn.github.io/linux/2016/06/19/clean-git-repo.html) about the method and you can refer to [jPages](http://luis-almeida.github.io/jPages).
 
 ### <a name="page-counter"></a>Page counter
 
@@ -182,7 +176,7 @@ Example `en.json`
 ```json
 {
   "website":{
-    "title": "Jalpc"
+    "title": "KinglyJn Blog"
   },
   "nav":{
     "home": "Home",
@@ -250,24 +244,24 @@ Just use it.
 
 Replace your website domain in **CNAME** file.
 
-### <a name="put-in-a-jalpc-plug"></a>Put in a Jalpc Plug
+### <a name="put-in-a-blog-plug"></a>Put in a blog plug
 
-If you want to give credit to the Jalpc theme with a link to my personal website <http://www.jack003.com>, that'd be awesome. No worries if you don't.
+If you want to give credit to the blog theme with a link to my personal website <https://kinglyjn.github.io>, that'd be awesome. No worries if you don't.
 
 ### <a name="enjoy"></a>Enjoy
 
-Hope you enjoy using Jalpc. If you encounter any issues, please feel free to let me know by creating an issue. I'd love to help.
+Hope you enjoy using this blog. If you encounter any issues, please feel free to let me know by creating an issue. I'd love to help.
 
-## <a name="upgrading-jalpc"></a>Upgrading Jalpc
+## <a name="upgrading-blog"></a>Upgrading blog
 
-Jalpc is always being improved by its users, so sometimes one may need to upgrade.
+Blog is always being improved by its users, so sometimes one may need to upgrade.
 
 ### <a name="ensure-theres-an-upstream-remote"></a>Ensure there's an upstream remote
 
 If `git remote -v` doesn't have an upstream listed, you can do the following to add it:
 
 ```
-git remote add upstream https://github.com/Jack614/jalpc_jekyll_theme.git
+git remote add upstream https://github.com/Jack614/jekyll_theme.git
 ```
 
 ### <a name="pull-in-the-latest-changes"></a>Pull in the latest changes
@@ -284,8 +278,6 @@ There may be merge conflicts, so be sure to fix the files that git lists if they
 * [Bootstrap](http://www.bootcss.com)
 * [jPages](http://luis-almeida.github.io/jPages)
 * [i18next](http://i18next.github.io/i18next)
-* [pixyll](https://github.com/johnotander)
-* [androiddevelop](https://github.com/androiddevelop)
 
 ## <a name="contributing"></a>Contributing
 

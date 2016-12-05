@@ -37,7 +37,10 @@ permalink: /blog/
                         {% endif %}
                         -->
                             <i class="fa fa-clock-o"></i> <a>{{ post.date | date: "%Y-%m-%d" }}</a>
-                            <i class="fa fa-user"></i> <a>{{ site.author.name }}</a>
+                            
+                            <a href="{{ site.author.profile }}">
+                                <i class="fa fa-user"></i> {{ site.author.name }}
+                            </a>
                         </div>
                     </div>
                     <div class="col-md-2 ">
