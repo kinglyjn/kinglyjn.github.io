@@ -4,7 +4,7 @@ title:  "Markdown日常用法示例"
 desc: "Markdown日常用法示例"
 keywords: "markdown,first blog"
 date: 2016-12-05
-categories: [Life2]
+categories: [Other]
 tags: [blog]
 icon: fa-bookmark-o
 ---
