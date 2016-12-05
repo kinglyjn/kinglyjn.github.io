@@ -54,7 +54,7 @@ icon: fa-bookmark-o
 ` ` `java
 public class Test {
 	public static void main(String[] args) {
-		System.out.println("I ♡ U, money");
+		System.out.println("Hello World!");
 	}
 }
 ` ` `
@@ -62,7 +62,7 @@ public class Test {
 ```java
 public class Test {
 	public static void main(String[] args) {
-		System.out.println("I ♡ U, money");
+		System.out.println("Hello World!");
 	}
 }
 ```
