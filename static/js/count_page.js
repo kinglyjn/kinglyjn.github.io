@@ -1,3 +1,4 @@
+/*
 $(document).ready(function() {
     $.ajax({
         type: "get",
@@ -14,3 +15,4 @@ $(document).ready(function() {
         }
     });
 });
+*/
