@@ -10,15 +10,18 @@ icon: fa-bookmark-o
 ---
 
 ### Redis源码获取
+
 1. 进入Redis官网获取Redis最新稳定版下载地址
 2. 通过wget命令下载 Redis 源代码。
 
 ### Redis编译
+
 1. 通过tar -xvf redis-3.0.2.tar.gz命令解压下载Redis源码压缩包redis-3.0.2.tar.gz；
 2. 编译Redis。通过cd redis-3.0.2/进入Redis源码目录内，执行make编译Redis；
 注意：make命令执行完成编译后，会在src目录下生成6个可执行文件，分别是redis-server、redis-cli、redis-benchmark、redis-check-aof、redis-check-dump、redis-sentinel。
 
 ### Redis安装配置
+
 1. 安装Redis，执行make install。会将make编译生成的可执行文件拷贝到/usr/local/bin目录下；
 2. 执行./utils/install_server.sh配置Redis配置之后Redis能随系统启动。 
 
@@ -26,6 +29,7 @@ icon: fa-bookmark-o
 <br>
 
 ### Redis服务查看、开启、关闭
+
 1. 通过ps -ef 命令查看Redis进程；
 2. 开启Redis服务操作通过/etc/init.d/redis_6379 start命令；
 3. 关闭Redis服务操作通过/etc/init.d/redis_6379 stop命令；
@@ -38,9 +42,11 @@ icon: fa-bookmark-o
 <br><br>
 
 ### 使用Redis启动脚本设置开机自启动
+
 1、启动脚本
 推荐在生产环境中使用启动脚本方式启动redis服务。启动脚本 redis_init_script 位于位于Redis的 /utils/ 目录下。
-```
+
+```shell
 #大致浏览下该启动脚本，发现redis习惯性用监听的端口名作为配置文件等命名，我们后面也遵循这个约定。
 #redis服务器监听的端口
 REDISPORT=6379
@@ -55,7 +61,8 @@ CONF="/etc/redis/${REDISPORT}.conf"
 ```
 
 2、配置环境
-```
+
+```shell
 #根据启动脚本要求，将修改好的配置文件以端口为名复制一份到指定目录。需使用root用户
 mkdir /etc/redis
 cp redis.conf /etc/redis/6379.conf
@@ -82,7 +89,9 @@ service redisd stop
 
 
 ### 配置文件
+
 #### 常用
+
 ```shell
 #修改daemonize为yes，即默认以后台程序方式运行（也可手动使用&强制后台启动。
 daemonize no
@@ -95,6 +104,7 @@ dir /home/futeng/data/redisData
 ```
 
 #### 全部
+
 ```shell
 ==========================================================
 # redis 配置文件示例

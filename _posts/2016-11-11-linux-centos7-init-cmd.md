@@ -10,7 +10,8 @@ icon: fa-bookmark-o
 ---
 
 ### 软件升级和安装
-```
+
+```shell
 whatis yum      #获取yum命令简介
 man yum         #获取yum命令详情
 apropos 'Updater' #通过功能简介查找命令
@@ -19,27 +20,32 @@ yum -y upgrade  #只升级所有包，不升级软件和系统内核
 ```
 
 ### vim安装
-```
+
+```shell
 yum -y install vim 
 ```
 
 ### 命令行文件上传下载插件安装
-```
+
+```shell
 yum install lrzsz
 ```
 
 ### wget安装
-```
+
+```shell
 yum -y install wget
 ```
 
 ### 安装gcc和make
-```
+
+```shell
 yum install gcc make 
 ```
 
 ### 安装和配置时间同步服务
-```
+
+```shell
 sudo yum install chrony
 sudo vi /etc/chrony.conf
    ---------------------------------------------
@@ -54,13 +60,16 @@ sudo systemctl enable chronyd.service
 ```
 
 ### 列出所有被安装的rpm package 
-```
+
+```shell
 rpm -qa
 ```
 <br>
 
+
 ### 增加用户
-```
+
+```shell
 who    #查看当前系统中有哪些人登录
 whoami #查看我是谁
 uname -r[a] #查看内核版本
@@ -69,18 +78,20 @@ passwd centos
 ```
 
 ### 修改组名和用户名（root用户下）
-```
+
+```shell
 groupmod -g 1000 [-n new_group_name] group_name
 usermod -u 1000 [-n new_user_name] user_name
 ```
-> [注]
-> 将目录 dirname 这个目录的所有者和组改为user1:group1
-> chown -R user1:group1 dirname
-> 把目录 dirname 修改为可写可读可执行
-> chmod 777 dirname
+> [注]<br>
+> 将目录 dirname 这个目录的所有者和组改为user1:group1<br>
+> chown -R user1:group1 dirname<br>
+> 把目录 dirname 修改为可写可读可执行<br>
+> chmod 777 dirname<br>
 
 ### 给新加的用户root权限,并且使该用户（centos用户）sudo的时候不用输入密码
-```
+
+```shell
 sudo visudo
 # 添加配置
 centos  ALL=(ALL)       ALL
@@ -88,24 +99,27 @@ centos  ALL=(ALL)       NOPASSWD: ALL
 ```
 
 ### 更改本机的hosts 和 hostname
-```
+
+```shell
 nmcli general hostname myname 或 sudo vi /etc/hostname#更改主机名
 sudo vi /etc/hosts   #更改hosts
 # sudo vi /etc/sysconfig/network
 ```
 
 ### 关闭防火墙，并且禁止开机启动
-```
+
+```shell
 sudo systemctl stop firewalld.service    #停止firewall
 sudo systemctl disable firewalld.service #禁止firewall开机启动
 systemctl list-unit-files | grep firewalld #查看开机启动状态
 ```
-> [注]
-> 1. 防火墙：本质是过滤器  主要通过 ip port mac地址 包中数据进行过滤
-> 2. 防火墙和杀毒软件干的不是一件事。防火墙是捞鱼的网，网孔就是过滤规则，这张网就相当于防火墙；但捞上来的鱼不一定都是能吃的鱼，这时候就需要杀毒软件
+> [注]<br>
+> 1. 防火墙：本质是过滤器  主要通过 ip port mac地址 包中数据进行过滤<br>
+> 2. 防火墙和杀毒软件干的不是一件事。防火墙是捞鱼的网，网孔就是过滤规则，这张网就相当于防火墙；但捞上来的鱼不一定都是能吃的鱼，这时候就需要杀毒软件<br>
 
 ### 关闭selinux
-```
+
+```shell
 sudo vi /etc/selinux/config  
 # 编辑配置
 SELINUX=disabled   
@@ -114,7 +128,7 @@ sudo reboot
 ```
 
 ### ssh设置和重启
-```
+```shell
 #ssh设置
 sudo vi /etc/ssh/sshd_config    
 #编辑设置
@@ -124,14 +138,15 @@ systemctl restart sshd.service
 ```
 
 ### 增加开机启动执行的命令
-```
+
+```shell
 sudo vi /etc/rc.local
 # 编写开机执行脚本
 ```
 <br>
 
 ### 网络相关
-```  
+```shell  
 nmcli dev status                  #查看网卡状态
 nmtui edit eth0                   #UI修改网卡信息
 systemctl retart network.service  #重启网络服务
@@ -139,16 +154,17 @@ systemctl start network.service   #启动网络服务
 systemctl stop network.service    #停止网络服务
 ip addr 或 ifconfig               #查看网卡信息
 ```
-> [注]
-> 1. 用VMware安装完linux之后在本机网路连接中会出现两块虚拟出来的网卡 VMnet1 和 VMnet8；
-> 2. 虚拟机网络主要有三种不同的连接方式，分别是桥接、NAT、HostOnly；
-> 3. 桥接：利用本机真实的网卡进行通信，占用局域网的一个ip，相当于一台真实的机器与外界连接
-> 4. NAT：利用虚拟网卡VMnet8与真实机通信，不占用真实网段的ip地址，能与本机通信，也能连接互联网
-> 5. HostOnly：利用虚拟网卡VMnet1与真实机通信，不占用真实网段的ip地址，只能与本机进行通信
+> [注]<br>
+> 1. 用VMware安装完linux之后在本机网路连接中会出现两块虚拟出来的网卡 VMnet1 和 VMnet8；<br>
+> 2. 虚拟机网络主要有三种不同的连接方式，分别是桥接、NAT、HostOnly；<br>
+> 3. 桥接：利用本机真实的网卡进行通信，占用局域网的一个ip，相当于一台真实的机器与外界连接<br>
+> 4. NAT：利用虚拟网卡VMnet8与真实机通信，不占用真实网段的ip地址，能与本机通信，也能连接互联网<br>
+> 5. HostOnly：利用虚拟网卡VMnet1与真实机通信，不占用真实网段的ip地址，只能与本机进行通信<br>
 
 <br>
 
 ### linux文件系统相关
+
 ```shell
 /bin/      #主要放置系统的必备执行文件, ep. ls、cp 等
 /sbin/     #主要放置系统管理的必备程序，ep. ifconfig、reboot 等
@@ -177,6 +193,7 @@ ip addr 或 ifconfig               #查看网卡信息
 ```
 
 ### linux文件处理系常用命令
+
 ```shell
 查看：
 ls [-ald] [文件或目录] 

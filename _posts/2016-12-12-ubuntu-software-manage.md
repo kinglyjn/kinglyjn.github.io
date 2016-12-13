@@ -18,10 +18,12 @@ icon: fa-bookmark-o
 <br>
 
 #### Dpkg方式
+
 * 普通安装：dpkg -i package_name.deb
 <br>
 
 #### 源码安装（.tar、tar.gz、tar.bz2、tar.Z）
+
 * 首先解压缩源码压缩包然后通过tar命令来完成
 * 解xx.tar.gz：tar zxf xx.tar.gz 
 * 解xx.tar.Z：tar zxf xx.tar.Z 
@@ -33,7 +35,7 @@ icon: fa-bookmark-o
 <p style="font-size:12px; line-height:1.5">然后进入到解压出的目录中，建议先读一下README之类的说明文件，因为此时不同源代码包或者预编译包可能存在差异，然后建议使用ls -F --color或者ls -F命令（实际上我的只需要 l 命令即可）查看一下可执行文件，可执行文件会以*号的尾部标志。
 </p>
 
-```
+```shell
 一般依次执行./configure
            make
            sudo make install
@@ -42,7 +44,9 @@ icon: fa-bookmark-o
 <br>
 
 ### ubuntu中软件包的卸载方法
+
 #### APT方式
+
 ```
  1 移除式卸载：apt-get remove softname1 softname2 …;（移除软件包，当包尾部有+时，意为安装）
  2 清除式卸载：apt-get --purge remove softname1 softname2...;(同时清除配置)
@@ -50,6 +54,7 @@ icon: fa-bookmark-o
 ```
 
 #### Dpkg方式
+
 ```
  1 移除式卸载：dpkg -r pkg1 pkg2 ...;
  2 清除式卸载：dpkg -P pkg1 pkg2...;
@@ -57,7 +62,8 @@ icon: fa-bookmark-o
 <br>
 
 ### ubuntu中软件包常用命令总结
-```
+
+```shell
 apt-cache search # ------(package 搜索包)
 apt-cache show #------(package 获取包的相关信息，如说明、大小、版本等)
 apt-get install # ------(package 安装包)

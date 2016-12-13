@@ -10,6 +10,7 @@ icon: fa-bookmark-o
 ---
 
 ### 概述
+
 ```shell
 Git Home: https://git-scm.com/
 Git is a version control ststem.  
@@ -27,6 +28,7 @@ Git creating a new branch is quick and simple.
 
 
 ### 修改git用户名称和邮箱
+
 ```shell
 $ git config --global user.name "Your Name"
 $ git config --global user.email "email@example.com"
@@ -34,12 +36,14 @@ $ git config --global user.email "email@example.com"
 <br>
 
 ### 初始化git仓库
+
 ```shell
 初始化一个Git仓库，使用git init命令。
 ```
 <br>
 
 ### 添加文件到git仓库
+
 ```shell
 添加文件到Git仓库，分两步：
 第一步，使用命令git add <file>，注意，可反复多次使用，添加多个文件；
@@ -48,12 +52,14 @@ $ git config --global user.email "email@example.com"
 <br>
 
 ### 查看git仓库当前状态
+
 ```shell
 $git status
 ```
 <br>
 
 ### 如果git status告诉你有文件被修改过，用git diff可以查看修改内容
+
 ```shell
 $git diff
 $git diff HEAD -- readme.txt
@@ -62,6 +68,7 @@ $git diff HEAD^ -- readme.txt
 <br>
 
 ### 显示从最近到最远的提交日志
+
 ```shell
 $ git log
 $ git log --pretty=oneline
@@ -70,6 +77,7 @@ $ git log --graph --pretty=oneline --abbrev-commit (查看分支合并图)
 <br>
 
 ### 回退到以前的版本
+
 ```shell
 $ git reset --hard HEAD^     #回退到上一个版本（只能回到以前的版本）
 $ git reset --hard HEAD~100  #回退到上100个版本（只能回到以前的版本）
@@ -83,12 +91,14 @@ $ git reset HEAD readme.txt  #把暂存区的修改回退到工作区(unstage), 
 
 
 ### 在Git中，总是有后悔药可以吃的，Git提供了一个命令git reflog用来记录你的每一次命令
+
 ```shell
 $ git reflog
 ```
 <br>
 
 ### 让文件回到最近一次git commit或git add时的状态
+
 ```shell
 $git checkout -- readme.txt (注意：这里没有--，就变成了“切换到另一个分支”的命令)
 把readme.txt文件在工作区的修改全部撤销，这里有两种情况：
@@ -100,6 +110,7 @@ git checkout其实是用版本库里的版本替换工作区的版本，无论�
 <br>
 
 ### 删除文件
+
 ```shell
 一般情况下，你通常直接在文件管理器中把没用的文件删了，或者用rm命令删了:
 $ rm test.txt
@@ -117,12 +128,14 @@ $ git checkout -- test.txt
 <br>
 
 ### 仅删除暂存区的文件
+
 ```shell
 $ git rm --cache <file_name>
 ```
 <br>
 
 ### 分布式工作：添加github远程仓库
+
 ```shell
 1. 在本地开发库生成公钥和私钥, 注意秘钥对的名字不要私自修改，默认为id_rsa*
 $ ssh-keygen -t rsa -C "youremail@example.com"
@@ -149,6 +162,7 @@ $ ssh-keygen -t rsa -C "youremail@example.com"
 <br>
 
 ### 从远程仓库克隆
+
 ```shell
 1. 在本地开发库生成公钥和私钥
     $ ssh-keygen -t rsa -C "youremail@example.com"
@@ -162,6 +176,7 @@ $ ssh-keygen -t rsa -C "youremail@example.com"
 <br>
 
 ### 创建分支方式工作
+
 ```shell
 查看分支：git branch
 创建分支：git branch <branch_name>
@@ -174,6 +189,7 @@ $ ssh-keygen -t rsa -C "youremail@example.com"
 <br>
 
 ### 分支管理策略
+
 ```shell
 a. master分支是非常稳定的，仅用来发布新版本，平时不能在上面干活;
 b. dev分支是不稳定的，干活都在dev分支上，到某个时候，比如1.0版本发布时，再把dev分支合并到master上，在master分支发布1.0版本；
@@ -189,6 +205,7 @@ h. master时刻与远程同步；dev是所有成员都在上面工作，需要�
 <br>
 
 ### BUG分支管理
+
 ```shell
 a. 修复bug时，我们会通过创建新的bug分支（eg.issue-101）进行修复，然后合并，最后删除；
 b. 当手头工作没有完成时，先把工作现场 git stash 一下，然后去修复bug，修复后，再在相应的分支上git stash pop，回到工作现场。
@@ -200,6 +217,7 @@ b. 当手头工作没有完成时，先把工作现场 git stash 一下，然后
 <br>
 
 ### 多人协作
+
 ```shell
 a. 首先，可以试图 git push origin <branch_name> 推送自己的修改；
    $ git push origin <branch_name>
@@ -217,6 +235,7 @@ c. 合并远程的最新提交，如果合并有冲突，则解决冲突，并�
 <br>
 
 ### Git标签
+
 ```shell
 发布一个版本时，我们通常先在版本库中打一个标签（tag），这样，就唯一确定了打标签时刻的版本。将来无论什么时候，取某个标签的版本，就是把那个打标签的时刻的历史版本取出来。所以，标签也是版本库的一个快照。
 Git的标签虽然是版本库的快照，但其实它就是指向某个commit的指针（跟分支很像对不对？但是分支可以移动，标签不能移动），所以，创建和删除标签都是瞬间完成的。
@@ -231,6 +250,7 @@ c. 查看标签：git tag [--list] （查看标签列表，按字母顺序排序
 <br>
 
 ### Git配置
+
 ```shell
 配置文件的位置：
 repository config：在当前仓库的.git/config
@@ -266,6 +286,7 @@ $ git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Cre
 <br>
 
 ### 搭建内部Git服务器
+
 ```shell
 a. 搭建内部git服务器非常简单，通常只需要一下几步即可（强烈推荐用Ubuntu或Debian，这样，通过几条简单的apt命令就可以完成安装）：
    1. 安装git

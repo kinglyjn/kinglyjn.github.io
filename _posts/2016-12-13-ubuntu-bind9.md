@@ -10,18 +10,22 @@ icon: fa-bookmark-o
 ---
 
 ### 服务端
+
 #### bind9安装后目录文件列表
+
 <img src="http://img.blog.csdn.net/20161213094036960?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:700px;">
 
 #### 安装bind9
-```
+
+```shell
 #安装bind9 （dig @172.16.127.xxx version.bind chaos txt  
 #配置完之后查看bind的版本）
 sudo apt-get install bind9
 ```
 
 #### 配置文件
-```
+
+```shell
 sudo vi /etc/bind/named.conf.local //针对内网DNS域名解析
 =======================================================
 //
@@ -129,7 +133,8 @@ sudo service bind9 restart
 
 
 ### 客户端
-```
+
+```shell
 # DHCP（Dynamic Host Configuration Protocol）配置（用bind9做DNS域名解析, 需要重启客户端）
 sudo vi /etc/dhcp/dhclient.conf
 

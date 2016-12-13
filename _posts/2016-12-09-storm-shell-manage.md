@@ -10,14 +10,18 @@ icon: fa-bookmark-o
 ---
 
 ### 需求：
+
 * 实现nimbus机脚本控制supervisor节点机的开、关、查看
 
+
 ### 实现思路：
+
 1. 实现集群各节点间的网络通信和域名解析
 2. 建立各节点间的互信机制
 3. 脚本控制 
 
 ### 具体细节：
+
 1. 实现集群各节点间的网络通信和域名解析（网络配置&bind9）
 略
 2. 建立各节点间的互信机制（linux无秘钥登录技术）<br>
@@ -27,7 +31,9 @@ icon: fa-bookmark-o
     C  被控制节点<br>
 3. 脚本控制 
 
-准备：
+
+准备：<br>
+
 ```shell
 #编写supervisors.txt配置文件供脚本扫描使用
 supervisor01
@@ -38,7 +44,8 @@ supervisor51
 ```
 
 batch_scp.sh<br>
-主体控制脚本
+主体控制脚本<br>
+
 ```shell
 #!/bin/bash
 #
@@ -59,7 +66,9 @@ done < supervisors.txt
 ```
 
 batch_shutcls.sh<br>
+
 和被控节点的supervisor_shutcls.sh配合使用，先执行batch_scp.sh将主控节点的supervisor_shutcls.sh文件分发到各被控节点
+
 ```shell
 #!/bin/bash
 #
@@ -80,6 +89,7 @@ done < supervisors.txt
 
 supervisor_shutcls.sh<br>
 文件被分发存放在各被控节点
+
 ```shell
 #!/bin/bash
 #
@@ -115,6 +125,7 @@ echo -e "\n\n"
 ```
 
 batch_startup.sh
+
 ```shell
 #!/bin/bash
 #
@@ -137,6 +148,7 @@ echo ">>done!"
 ```
 
 batch_status.sh
+
 ```shell
 #!/bin/bash
 #

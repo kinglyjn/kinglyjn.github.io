@@ -10,9 +10,11 @@ icon: fa-bookmark-o
 ---
 
 ### 安装
-``` 
+
+```shell
 sudo apt-get install ufw 
 ```
+
 一般用户，只需如下设置：<br>
 sudo apt-get install ufw <br>
 sudo ufw enable <br>
@@ -21,7 +23,8 @@ sudo ufw default deny <br>
 
 
 ### 启用 
-```
+
+```shell
 sudo ufw enable 
 sudo ufw default deny 
 #运行以上两条命令后，开启了防火墙，并在系统启动时自动开启。 
@@ -29,12 +32,14 @@ sudo ufw default deny
 ```
 
 ### 开启/禁用 
-```
+
+```shell
 sudo ufw allow|deny [service] 
 ```
 
 ### 打开或关闭某个端口，例如： 
-```
+
+```shell
 sudo ufw allow smtp　      #允许所有的外部IP访问本机的25/tcp (smtp)端口 
 sudo ufw allow 22/tcp      #允许所有的外部IP访问本机的22/tcp (ssh)端口 
 sudo ufw allow 53          #允许外部访问53端口(tcp/udp) 
@@ -45,12 +50,14 @@ sudo ufw delete allow smtp #删除上面建立的某条规则
 ```
 
 ### 查看防火墙状态 
-```
+
+```shell
 sudo ufw status 
 ```
 
 ### 补充：
-```
+
+```shell
 #开启/关闭防火墙 (默认设置是’disable’)
 ufw enable|disable
 
@@ -70,7 +77,8 @@ ufw status
 
 
 ### UFW使用范例：
-```
+
+```shell
 #允许 53 端口
 $ sudo ufw allow 53
 
@@ -95,6 +103,7 @@ $ sudo ufw allow from 192.168.254.254
 #删除上面的规则
 $ sudo ufw delete allow from 192.168.254.254    
 ```
+
 [注]
 局域网ping不通mac主机的原因：
 1. 网络连接或网络不稳定

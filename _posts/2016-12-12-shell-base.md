@@ -10,12 +10,14 @@ icon: fa-bookmark-o
 ---
 
 ## 摘要
+
 <i>Shell 是一个用C语言编写的程序，它是用户使用Linux的桥梁。Shell既是一种命令语言，又是一种程序设计语言。
 Shell 是指一种应用程序，这个应用程序提供了一个界面，用户通过这个界面访问操作系统内核的服务。
 Shell 脚本（shell script），是一种为shell编写的脚本程序。业界所说的shell通常都是指shell脚本，但读者朋友要知道，shell和shell script是两个不同的概念。由于习惯的原因，简洁起见，本文出现的"shell编程"都是指shell脚本编程，不是指开发shell自身。</i>
 <br><br>
 
 ## shell运行环境和运行方法
+
 Shell 编程跟java、php编程一样，只要有一个能编写代码的文本编辑器和一个能解释执行的脚本解释器就可以了。Linux的Shell种类众多，常见的有：
 
 * Bourne Shell（/usr/bin/sh或/bin/sh）
@@ -26,15 +28,17 @@ Shell 编程跟java、php编程一样，只要有一个能编写代码的文本�
 * ……
 
 shell有两种运行方法：<br>
-1.作为可执行程序运行：
+1、作为可执行程序运行：<br>
+
 ```shell
 $ chmod +x ./test.sh  #使脚本具有执行权限
 $ ./test.sh  #执行脚本
 ```
 [注] 一定要写成./test.sh，而不是test.sh，运行其它二进制的程序也一样，直接写test.sh，linux系统会去PATH里寻找有没有叫test.sh的，而只有/bin, /sbin, /usr/bin，/usr/sbin等在PATH里，你的当前目录通常不在PATH里，所以写成test.sh是会找不到命令的，要用./test.sh告诉系统说，就在当前目录找。
 
-2.作为解释器参数执行
-这种运行方式是，直接运行解释器，其参数就是shell脚本的文件名，如：
+2、作为解释器参数执行<br>
+这种运行方式是，直接运行解释器，其参数就是shell脚本的文件名，如：<br>
+
 ```shell
 $ /bin/sh test.sh
 ```
@@ -42,8 +46,11 @@ $ /bin/sh test.sh
 <br><br>
 
 ## 语法
+
 ### 变量
-定义和使用变量
+
+定义和使用变量<br>
+
 ```shell
 #定义变量
 #定义变量时变量名不加美元符号,变量名和等号之间不能有空格
@@ -72,7 +79,8 @@ myUrl="http://www.datactr.cn"
 unset variable_name 
 ```
 
-字符串变量
+字符串变量<br>
+
 ```shell
 #字符串变量
 str='hello $your_name' 
@@ -110,7 +118,8 @@ echo ${str:1:5} #输出 ello_
 expr index "hello world" w #输出 7
 ```
 
-数组变量
+数组变量<br>
+
 ```shell
 #定义数组变量
 array_name=(value0 value1 value2 value3)
@@ -141,7 +150,9 @@ echo ${#array_name[*]}
 ```
 <br>
 
+
 ### 传递参数
+
 我们可以在执行 Shell 脚本时，向脚本传递参数，脚本内获取参数的格式为：＄n。n 代表一个数字， ＄0 为执行的文件名, 1 为执行脚本的第一个参数，2 为执行脚本的第二个参数，以此类推……
 
 ```shell
@@ -164,8 +175,10 @@ echo "显示最后命令的退出状态。0表示没有错误，其他值表明�
 <br>
 
 ### 运算符
-算术运算符：+-*/%= == !=
-```
+
+算术运算符：+-*/%= == !=<br>
+
+```shell
 #!/bin/bash
 # author:kinglyjn
 # url:https://kinglyjn.github.io
@@ -200,7 +213,8 @@ then
 fi
 ```
 
-关系运算符：-eq -ne -gt -lt -ge -le
+关系运算符：-eq -ne -gt -lt -ge -le<br>
+
 ```shell
 #!/bin/bash
 # author:kinglyjn
@@ -247,7 +261,8 @@ else
 fi
 ```
 
-布尔运算符：! -o -a
+布尔运算符：! -o -a<br>
+
 ```shell
 #!/bin/bash
 # author:kinglyjn
@@ -282,7 +297,8 @@ else
 fi
 ```
 
-逻辑运算符：&& ||
+逻辑运算符：&& ||<br>
+
 ```shell
 #!/bin/bash
 # author:kinglyjn
@@ -306,7 +322,8 @@ else
 fi
 ```
 
-字符串运算符：= != -z -n str
+字符串运算符：= != -z -n str<br>
+
 ```shell
 #假定变量 a 为 "abc"，变量 b 为 "efg"：
 [ $a = $b ]  返回false
@@ -316,7 +333,8 @@ fi
 [ $a ]       检测字符串是否为空，不为空返回true
 ```
 
-文件测试运算符：
+文件测试运算符：<br>
+
 ```shell
 -d file	   检测文件是否是目录，如果是，则返回 true
 -r file	   检测文件是否可读，如果是，则返回 true
@@ -377,6 +395,7 @@ fi
 ```
 
 ### echo
+
 ```shell
 #获取键盘输入参数
 #read命令从标准输入中读取一行,并把输入行每个字段的值指定给shell变量
@@ -402,7 +421,9 @@ echo `date`  #输出 Wed Dec  7 16:28:15 CST 2016
 ```
 
 ### test
-shell中的 test 命令用于检查某个条件是否成立，它可以进行数值、字符和文件三个方面的测试
+
+shell中的 test 命令用于检查某个条件是否成立，它可以进行数值、字符和文件三个方面的测试<br>
+
 ```shell
 #数值测试
 num1=100
@@ -436,6 +457,7 @@ fi
 <br>
 
 ### 分支语句
+
 ```shell
 #if分支语句测试
 a=10
@@ -474,6 +496,7 @@ esac
 <br>
 
 ### 循环语句
+
 ```shell
 #for循环
 for var in aaa bbb ccc
@@ -573,18 +596,20 @@ echo "函数的执行结果为：$?"
 <br>
 
 ### 输入和输出重定向
+
 * command > file    //将command输出重定向到 file
 * command >> file  //将command输出以追加的方式重定向到 file
 * command < file    //将file输入重定向到command
 * m>&n                   //将输出文件m和n合并
 * m<&n                   //将输入文件m和n合并
 <br>
+
 <i>[注]
 0 通常是标准输入（STDIN）<br>
 1 是标准输出（STDOUT）<br>
 2 是标准错误输出（STDERR）</i><br>
 
-```
+```shell
 command > file 2>&1      #将stdout和stderr合并后重定向到 file
 command > /dev/null 2>&1 #禁止输出结果
 
@@ -598,7 +623,9 @@ EOF<br>
 <br>
 
 ### 文件包含
-实例
+
+实例<br>
+
 ```shell
 #被应用文件test1.sh
 #!/bin/bash

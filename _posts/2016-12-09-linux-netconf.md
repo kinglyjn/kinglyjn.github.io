@@ -10,7 +10,8 @@ icon: fa-bookmark-o
 ---
 
 ### 常用网络诊断命令
-```
+
+```shell
 #基本工具
 #网络诊断的第一步，是了解自己的设备，比如有哪些接口，IP地址都是什么
 #显示网络接口(interface)信息。如接口名称，接口类型，接口的IP地址，硬件的MAC地址等
@@ -58,7 +59,8 @@ $ host www.sina.com.cn
 
 
 ### ubuntu系统
-```
+
+```shell
 $ service  networking restart #重启网络服务
 $ stop: Job failed while stoppingstart: Job is already running: networking
 
@@ -73,7 +75,8 @@ $ ifdown --exclude=lo -a && sudo ifup --exclude=lo -a<br>
 
 
 所以ubuntu网络配置如下：
-```
+
+```shell
 # 1.配置网络设备参数
 $ apt-get install bridge-utils
 $ cat /etc/network/interfaces
@@ -123,9 +126,12 @@ cat /etc/hosts
 
 
 ### redhat&centos系统
+
 #### 方法一：setup
+
 #### 方法二：直接编辑配置文件
-```
+
+```shell
 # 1.配置网络设备参数
 $ sudo vi /etc/sysconfig/network-scripts/ifcfg-eth0
 DEVICE=表示物理设备的名字
@@ -190,17 +196,17 @@ cat /etc/hosts
 
 
 如果服务器是有虚拟软件vmware虚拟出来的，那么也要进行相应的网络设置，下面按顺序给出相应的说明和配置过程：<br>
-![这里写图片描述](http://img.blog.csdn.net/20161212162928589?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+<img src="http://img.blog.csdn.net/20161212162928589?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:700px;"/>
 <br><br>
-![这里写图片描述](http://img.blog.csdn.net/20161212163001386?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+<img src="http://img.blog.csdn.net/20161212163001386?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:700px;"/>
 <br><br>
-![这里写图片描述](http://img.blog.csdn.net/20161212163029809?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+<img src="http://img.blog.csdn.net/20161212163029809?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:700px;"/>
 <br><br>
-![这里写图片描述](http://img.blog.csdn.net/20161212163057075?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+<img src="http://img.blog.csdn.net/20161212163057075?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:700px;"/>
 <br><br>
-![这里写图片描述](http://img.blog.csdn.net/20161212163239734?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+<img src="http://img.blog.csdn.net/20161212163239734?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:700px;"/>
 <br><br>
-![这里写图片描述](http://img.blog.csdn.net/20161212163305686?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+<img src="http://img.blog.csdn.net/20161212163305686?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:700px;"/>
 <br><br>
 
 

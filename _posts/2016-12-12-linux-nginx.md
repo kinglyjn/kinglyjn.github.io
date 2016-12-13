@@ -10,7 +10,8 @@ icon: fa-bookmark-o
 ---
 
 ### centos7下安装nginx
-```
+
+```shell
 1.
 下载对应当前系统版本的nginx包(package)
 # wget  http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm

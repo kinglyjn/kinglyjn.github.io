@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "linux/mac定时任务"
-desc: "linux/mac定时任务"
-keywords: "linux/mac定时任务,linux,mac,kinglyjn,张庆力"
+title:  "linux/mac定时任务(crontab)"
+desc: "linux/mac定时任务(crontab)"
+keywords: "linux/mac定时任务,crontab,linux,mac,kinglyjn,张庆力"
 date: 2016-12-12
 categories: [Linux]
 tags: [Linux]
@@ -11,6 +11,7 @@ icon: fa-bookmark-o
 
 
 ### 设置cron任务示例
+
 linux/mac下的定时执行主要是使用crontab文件中加入定制计划来执行，Cron本身是一个守护进程，在后台运行，通过配置文件“crontab”来根据时间调度指定的作业执行。下面主要介绍linux的定时任务，先来看一下linux的定时任务是怎样设置 的。
 
 ```shell
@@ -34,7 +35,9 @@ MAILTO="admin@datactr.cn"
 <br>
 
 ### 启动cron
+
 基本上所有的Linux发行版在默认情况下都预安装了cron工具。即使未预装cron，也很简单，执行命令手动安装它：
+
 ```shell
 $ sudo apt-get install cron
 $ service cron start 
@@ -43,6 +46,7 @@ cron start/running, process 1027
 ```
 
 ### crontab命令
+
 ```shell
 $ crontab –l #列出当前用户的任务列表
 $ crontab –l –u username #列出指定用户的任务列表
@@ -51,6 +55,7 @@ $ crontab -ri #提示性删除当前用户的任务列表
 ```
 
 ### 用crontab计划任务
+
 除了通过配置文件来处理计划cron作业之外，还有别的方法可以做到。如果你查看/etc目录，你会发现有这样的目录：cron.daily、 cron.hourly、cron.monthly等等。因此，把cron脚本放入这些目录中，那么系统会根据这些目录名定时执行这些作业脚本的。
 
 cron有两种配置文件类型，用于调度自动化任务：即系统级计划任务 和 用户级计划任务
@@ -63,6 +68,7 @@ cron有两种配置文件类型，用于调度自动化任务：即系统级计�
 <img src="http://img.blog.csdn.net/20161208153556051?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:700px"/>
 
 ### cron表达式
+
 ```shell
 * * * * * command to be executed 
 - - - - - - 
@@ -74,8 +80,10 @@ cron有两种配置文件类型，用于调度自动化任务：即系统级计�
 | ----------- 表示小时1～23（0表示0点） 
 ------------- 表示分钟1～59 每分钟用*或者 */1表示  
 ```
+
 下面是一些示例：
-```
+
+```shell
 30 21 * * * /usr/local/etc/rc.d/lighttpd restart 
 每晚的21:30重启apache
 
@@ -109,6 +117,7 @@ cron有两种配置文件类型，用于调度自动化任务：即系统级计�
 <br>
 
 ### 小结
+
 可以看到，用crontab实现自动化任务是很容易的，而且它可以按分钟、小时、周、月、星期来执行任务。除此之外，Linux还有一个at命令，它适用于处理只执行一次的任务，且需要先运行atd服务。
 
 其次要注意环境变量的问题。有时我们创建了一个crontab，但是这个任务却无法自动执行，而手动执行这个任务却没有问题，这种情况一般是由于在 crontab文件中没有配置环境变量引起的。在crontab文件中定义多个调度任务时，需要特别注环境变量的设置，因为我们手动执行某个任务时，是在 当前shell环境下进行的，程序当然能找到环境变量，而系统自动执行任务调度时，是不会加载任何环境变量的，因此，就需要在crontab文件中指定任 务运行所需的所有环境变量，这样，系统执行任务调度时就没有问题了。
