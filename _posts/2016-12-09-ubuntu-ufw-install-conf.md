@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "ubuntu防火墙安装和配置"
+title:  "ubuntu防火墙(ufw)安装和配置"
 desc: "ubuntu防火墙安装和配置"
-keywords: "防火墙,ubuntu,linux,安装和配置,kinglyjn"
+keywords: "防火墙,ufw,ubuntu,linux,安装和配置,kinglyjn"
 date: 2016-12-09
 categories: [Linux]
 tags: [Linux]

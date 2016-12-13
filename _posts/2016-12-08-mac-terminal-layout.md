@@ -13,6 +13,7 @@ icon: fa-apple
 
 最基本的，进入终端－偏好设置－描述文件－文本，在这儿可以设置Terminal的背景颜色，基本字体颜色，透明度等等，这些比较简单，不做过多介绍，看图<br>
 ![mac_terminal_layout_01](http://ww3.sinaimg.cn/mw690/e6de3f25jw1fakdricj9qj20m80jpjuf.jpg)
+<br>
 
 ### 第二步：ls颜色
 更改ls显示目录时的颜色
@@ -62,6 +63,7 @@ source .bash_profile
     H 浅灰色粗体<br>
     x 系统默认颜色<br>
     所以，如果我们想把目录显示成红色，就可以把LSCOLORS设置为bxfxaxdxcxegedabagacad就可以了<br>
+<br>
 
 
 ### 第三步： 设置vim颜色等等。即vim指令编辑文件的模式的显示效果
