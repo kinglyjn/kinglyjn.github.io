@@ -27,6 +27,7 @@ server.3=supervisor02z:2888:3888
 ```
 
 4、建立zookeeper节点标示文件myid<br>
+
 ```shell
 ubuntu@nimbusz:~$ echo “1” > /home/ubuntu/zookeeper-3.4.6/zkdata/myid
 ubuntu@supervisor01z:~$ echo “2” > /home/ubuntu/zookeeper-3.4.6/zkdata/myid
@@ -34,11 +35,13 @@ ubuntu@supervisor02z:~$ echo “3” > /home/ubuntu/zookeeper-3.4.6/zkdata/myid
 ```
 
 5、启动zookeeper，并且进行状态监控<br>
+
 ```shell
 zkServer.sh start 或者 zkServer.sh start-foreground
 ```
 
 6、查看zookeeper节点状态<br>
+
 ```shell
 zkServer.sh status
   //如果被选举为leader，则状态为 leader
@@ -47,6 +50,7 @@ zkServer.sh status
 <br>
 
 ### 常用zookeeper命令
+
 ```shell
 zk服务命令:
 在准备好相应的配置之后，可以直接通过zkServer.sh 这个脚本进行服务的相关操作
