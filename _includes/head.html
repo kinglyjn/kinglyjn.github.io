@@ -71,11 +71,24 @@
           /* initiate the plugin */
           $("div.pag-holder").jPages({
               containerID  : "pag-itemContainer",
-              perPage      : 5,  /* num of items per page */
+              perPage      : 10,  /* num of items per page */
               startPage    : 1,
               startRange   : 1,
               midRange     : 3,
               endRange     : 1
+          });
+
+          $("div.pag-jump button").click(function(){
+            var page = parseInt($("div.pag-jump input").val());
+            $("div.pag-holder").jPages(page);
+          });
+
+          $("div.pag-jump input").on("keypress", function(){
+            var e=e||window.event;
+            if (e.keyCode == 13) {
+                var page = parseInt($("div.pag-jump input").val());
+                $("div.pag-holder").jPages(page);
+            } 
           });
       });
   </script>
