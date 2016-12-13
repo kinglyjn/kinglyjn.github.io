@@ -13,7 +13,8 @@ icon: fa-bookmark-o
 1、配置hosts、hostname，测试各节点网络的连通性<br>
 2、解压zookeepr-3.4.6.tar.gz，编辑/etc/profile配置环境变量（注意. /etc/profile 或 source /etc/profile）<br>
 3、修改zookeeper篇日志文件zoo.cfg<br>
-```
+
+```shell
 ubuntu@supervisor01z:~$ vi zookeeper-3.4.6/conf/zoo.cfg 
 initLimit=10
 syncLimit=5
@@ -24,18 +25,21 @@ server.1=nimbusz:2888:3888
 server.2=supervisor01z:2888:3888
 server.3=supervisor02z:2888:3888
 ```
+
 4、建立zookeeper节点标示文件myid<br>
-```
+```shell
 ubuntu@nimbusz:~$ echo “1” > /home/ubuntu/zookeeper-3.4.6/zkdata/myid
 ubuntu@supervisor01z:~$ echo “2” > /home/ubuntu/zookeeper-3.4.6/zkdata/myid
 ubuntu@supervisor02z:~$ echo “3” > /home/ubuntu/zookeeper-3.4.6/zkdata/myid
 ```
+
 5、启动zookeeper，并且进行状态监控<br>
-```
+```shell
 zkServer.sh start 或者 zkServer.sh start-foreground
 ```
+
 6、查看zookeeper节点状态<br>
-```
+```shell
 zkServer.sh status
   //如果被选举为leader，则状态为 leader
   //如果没有被选举为leader，则状态一般为 follower
