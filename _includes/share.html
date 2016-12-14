@@ -7,13 +7,24 @@
 <link rel="stylesheet" href="/static/css/share.min.css">
 <script src="/static/js/jquery.share.min.js"></script>
 <script>
+  
+  var url = '{{ site.url }}{{ page.url }}';
+  var source = '{{ site.url }}{{ page.url }}';
+  var title = '{{ page.title }}';
   var excerpt = $("p:eq(0)").text();
+  
+  var imageUrl = '{{ site.url }}/static/img/landing/header_one.jpg';
+  var imgEle = $(".content_img:eq(0)");
+  if (imgEle) {
+    imageUrl = imgEle.attr("src");
+  }
+
   var $config = {
-      url: '{{ site.url }}{{ page.url }}', // 网址，默认使用 window.location.href
-      source: '{{ site.url }}', // 来源（QQ空间会用到）, 默认读取head标签：<meta name="site" content="http://overtrue" />
-      title: '{{ page.title }}', // 标题，默认读取 document.title 或者 <meta name="title" content="share.js" />
+      url: url, // 网址，默认使用 window.location.href
+      source: source, // 来源（QQ空间会用到）, 默认读取head标签：<meta name="site" content="http://overtrue" />
+      title: title, // 标题，默认读取 document.title 或者 <meta name="title" content="share.js" />
       description: excerpt, // 描述, 默认读取head标签：<meta name="description" content="PHP弱类型的实现原理分析" />
-      image: 'https://kinglyjn.github.io/static/img/landing/header_one.jpg', // 图片, 默认取网页中第一个img标签
+      image: imageUrl, // 图片, 默认取网页中第一个img标签
       sites: ['qzone', 'qq', 'weibo','wechat','douban'], // 启用的站点
       //disabled: ['google', 'facebook', 'twitter'], // 禁用的站点
       wechatQrcodeTitle: "微信扫一扫：分享", // 微信二维码提示文字
