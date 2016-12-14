@@ -62,10 +62,10 @@ cron有两种配置文件类型，用于调度自动化任务：即系统级计�
 
 1. 系统级计划任务
 这些cron作业被系统服务和关键作业所使用，且需要root级的权限才能执行。可以在/etc/crontab文件中查看系统级的cron作业。
-<img src="http://img.blog.csdn.net/20161208153036922?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:700px"/>
+<img src="http://img.blog.csdn.net/20161208153036922?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:80%;"/>
 2. 用户级计划任务
 用户级的cron作业是针对每个用户单独分开的。因此每个用户都可以使用crontab命令创建自己的cron作业，还可以使用以下命令编辑或查看自己的cron作业。每个用户的计划任务都放在/var/spool/cron/crontabs目录下，文件名称和用户名一致。
-<img src="http://img.blog.csdn.net/20161208153556051?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:700px"/>
+<img src="http://img.blog.csdn.net/20161208153556051?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:80%;"/>
 
 ### cron表达式
 

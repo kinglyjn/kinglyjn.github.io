@@ -11,9 +11,9 @@ icon: fa-apple
 
 ### 问题描述：
 
-<img src="http://img.blog.csdn.net/20161212161514038?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:700px;"/>
+<img src="http://img.blog.csdn.net/20161212161514038?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:80%;"/>
 <br>
-<img src="http://img.blog.csdn.net/20161212161551225?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:700px;"/>
+<img src="http://img.blog.csdn.net/20161212161551225?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:80%;"/>
 
 ### 原因分析
 
@@ -26,7 +26,7 @@ icon: fa-apple
 $ chmod 0600 /xxx/xxx/xxx.pem
 ```
 
-<img src="http://img.blog.csdn.net/20161212161617305?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:700px;"/>
+<img src="http://img.blog.csdn.net/20161212161617305?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:80%;"/>
 
 然后就可以登录了：<br>
 ssh -i /Users/zhangqingli/Documents/server-doc/key/xxx-xxx-key.pem ubuntu@52.xx.xx.xx

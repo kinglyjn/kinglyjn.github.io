@@ -17,7 +17,7 @@ vi启动后默认进入的是命令模式，从这个模式使用命令可以切
 在这个模式中我们可以编辑、修改、输入等编辑工作，在编辑器最后一行显示一个“--INSERT--”标志着vi进入了输入模式。当我们完成修改输入等操作的时候我们需要保存文件，这时我们需要先返回命令模式，在进入末行模式保存。
 * 末行模式：
 在命令模式输入“：”即可进入该模式，在末行模式中有好多好用的命令。<br>
-<img src="http://img.blog.csdn.net/20161212163639286?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:400px"/>
+<img src="http://img.blog.csdn.net/20161212163639286?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:40%;"/>
 <br>
 
 ### 编辑操作

@@ -88,4 +88,4 @@ ZooKeeper支持某些特定的四字命令字母与其的交互。它们大多�
 <br>
 
 ### 运行效果图
-<img src="http://img.blog.csdn.net/20161213112207892?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:700px;">
+<img src="http://img.blog.csdn.net/20161213112207892?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:80%;">

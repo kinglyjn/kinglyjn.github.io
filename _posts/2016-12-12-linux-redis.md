@@ -25,7 +25,7 @@ icon: fa-bookmark-o
 1. 安装Redis，执行make install。会将make编译生成的可执行文件拷贝到/usr/local/bin目录下；
 2. 执行./utils/install_server.sh配置Redis配置之后Redis能随系统启动。 
 
-![这里写图片描述](http://img.blog.csdn.net/20161212145128471?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)  
+<img src="http://img.blog.csdn.net/20161212145128471?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:70%;"/>
 <br>
 
 ### Redis服务查看、开启、关闭
