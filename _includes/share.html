@@ -2,12 +2,13 @@
 <!--分享-->
 <div class="row" style="margin-top:30px;">
 	<h2>Share:</h2>
-    <div class="social-share" style="margin-left:-5px;"data-sites="wechat,qq,qzone,weibo,douban"></div> 
+    <div class="social-share" style="margin-left:-5px;"data-sites="wechat,qq,qzone,weibo"></div> 
 </div>
 <link rel="stylesheet" href="/static/css/share.min.css">
 <script src="/static/js/jquery.share.min.js"></script>
+<script src="/static/js/embed.js"></script>
+
 <script>
-  
   var url = '{{ site.url }}{{ page.url }}';
   var source = '{{ site.url }}{{ page.url }}';
   var title = '{{ page.title }}';
