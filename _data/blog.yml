@@ -19,6 +19,9 @@
 - name: Life
   href: '/life/'
 
+- name: Art
+  href: '/art/'
+
 - name: Other
   href: '/other/'
 

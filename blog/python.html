@@ -23,7 +23,8 @@ permalink: /python/
                 <div class="ibox-content">
                     <a href="{{ post.url }}" class="btn-link">
                         <h2>
-                            {{ post.title }}
+                            {{ post.title }} &nbsp;
+                            {% if post.icon %}<i class="fa {{ post.icon }}"> </i>{% endif %}
                         </h2>
                     </a>
                     <div class="small m-b-xs">
