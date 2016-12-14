@@ -72,6 +72,9 @@ donate:
   wechat: 'static/img/pay/wechat.png'
   alipay: 'static/img/pay/alipay.png'
 
+#share
+socialShare:
+  demo: 'http://overtrue.me/share.js/'
 
 # baidu analytics
 ba:
