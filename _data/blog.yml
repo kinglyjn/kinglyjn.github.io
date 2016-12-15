@@ -1,8 +1,11 @@
 - name: Blog
   href: '/blog/'
 
-- name: Python
-  href: '/python/'
+- name: Java
+  href: '/java/'
+
+- name: C
+  href: '/c/'
 
 - name: Linux
   href: '/linux/'
