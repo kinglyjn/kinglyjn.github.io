@@ -3,10 +3,10 @@ layout: post
 title:  "常见框架单例、多例与线程安全性总结"
 desc: "常见框架单例、多例与线程安全性总结"
 keywords: "常见框架单例、多例与线程安全性总结,kinglyjn,张庆力"
-date: 2016-12-15
+date: 2012-12-15
 categories: [Java]
 tags: [frame]
-icon: fa-bookmark-o
+icon: fa-coffee
 ---
 
 单例与多例问题是指，当多个用户访问某个类时，系统是为每个用户创建一个该类实例，还是整个系统无论多少用户访问，只创建一个该类实例。<br>
