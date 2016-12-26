@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "java线程基础"
-desc: "java线程基础"
-keywords: "java线程基础,线程,thread,java,kinglyjn"
+title:  "java多线程基础"
+desc: "java多线程基础"
+keywords: "java多线程基础,多线程,thread,java,kinglyjn"
 date: 2012-11-16
 categories: [Java]
 tags: [java]

@@ -1,0 +1,336 @@
+---
+layout: post
+title:  "java网络编程基础"
+desc: "java网络编程基础"
+keywords: "java网络编程基础,java,kinglyjn"
+date: 2012-11-17
+categories: [Java]
+tags: [java]
+icon: fa-coffee
+---
+
+### 网络协议的概念
+
+所谓协议，可以理解为一些规则，这些规则规定了两个需要连通的两点之间应当如何进行数据交互（可以用人类的语言作比较）。<br>
+
+`OSI七层模型和TCP/IP模型`<br>
+
+对于网络来说，有两种模型，一种是OSI七层模型，另一种是TCP/IP协议5层模型。<br>
+
+<hr>
+OSP七层模型：是一种标准化的网络模型，然而这种模型设计过于理想化，并且有些层次分的过细，不实用。<br>
+
+* 应用层：
+* 表示层：
+* 会话层：这三层规定了在已经可以收发数据包的情况下如何完成网络程序间的通信
+
+* 传输层：规定了在能够找到终端通路的情况下应当如何收发数据包
+* 网络层：规定了数据包发出之后应以什么样的方式寻找路径，从而能够传输到另一台电脑上
+
+* 数据链路层：规定了网络传输时，底层的包结构
+* 物理层：规定网络连接中一些电气的特性
+
+<hr>
+TCP/IP网络模型：在实际的工业生产中更多使用的是这种网络协议。分五层。<br>
+
+* 应用层：规定了在已经可以收发数据包的情况下如何完成网络程序间的通信
+		
+* 传输层：规定了在能够找到终端通路的情况下应当如何收发数据包
+* IP层：规定了数据包发出之后应以什么样的方式寻找路径，从而能够传输到另一台电脑上
+
+* 数据链路层：规定了网络传输时，底层的包结构
+* 物理层：规定网络连接中一些电气的特性
+
+对于IP层来说，在TCP/IP协议栈中，网络中某一台计算机的定位，靠的是IP地址这种方式。因此在TCP/IP模型中，把网络层也称之为IP层。如果那生活中的例子来比喻的话，那IP就可以当做是电话号码，通过电话号码能够唯一定位城市中的一台电话机。而传输层，则可以认为是相互沟通的基础。从技术上说，传输层决定了一个数据包是如何从一台电脑传输到另一台电脑。传输层有两个协议：`TCP`和`UDP`协议，这两个协议各有不同。TCP协议是一个有连接、可靠的协议；而UDP协议是一个无连接，不可靠的协议。关于这两个协议的使用，我们在后面的编程中会进一步详细阐述。如何使用传输层进行网络通信，这是我们的重点。<br>
+
+应用层指的是应用程序使用底层的网络服务，典型的应用层协议包括ftp、http协议等。	事实上，大部分Java开发者，绝大多数时间都在开发基于应用层的软件。而这一章介绍的内容，也许在你的Java程序员生涯中并不会经常接触。但是，掌握这些相对底层的技术，了解底层工作的原理，对以后理解Web编程是有非常大的帮助的。<br>
+
+TCP协议：
+
+* 这是传输层的协议，与UDP协议相比较，是有连接并且可靠的协议，它能够保证数据完整无误的传输
+* 有连接：指的是在进行TCP通信之前，需要通信的主机之间首先建立一条数据通道
+* 可靠：指的是TCP协议能够保证发送端发送的数据不会丢失，接收端按发送端发送的顺序进行接收数据
+* IP地址/端口号：网络通信中，我们连接服务器时，往往不仅需要知道服务器的IP地址，还要知道服务器的端口号。网络通信的本质就是“进程间通信”，比如两台电脑之间进行QQ聊天，本质上是两台电脑的qq进程进行相互通信。每个进程都会绑定主机中的一个端口号。通过IP地址和端口号就可以进行进程间的通信了。可以这么来理解端口号：IP地址就好比是一个单位的电话号码，而端口号则好比是某一部电话的分机号。通过电话号码找到某一个单位，而通过分机号则可以找到具体的个人；这就类似于通过IP地址可以定位某一台电脑，而通过端口号可以找到电脑中某一个的进程。值得注意的是，在一台主机中，每个进程端口号上只能绑定唯一的一个进程。
+
+<hr>
+
+### TCP编程
+
+TCP编程要用到的两个类：`java.net.ServerSocket` 和 `java.net.Socket`。<br>
+
+```java
+//首先，从服务器端开始。在服务器端首先要做的是创建一个ServerSocket类型的对象
+ServerSocket ss = new ServerSocket(9000); //创建ServerSockert对象ss，并把ss绑定到9000端口，IP地址是电脑当前地址
+										  //查看地址命令：ipconfig
+//创建完ServerSocket对象ss之后，下一步就该调用ServerSocket类的accept方法,该方法签名如下:
+public Socket accept() throws IOException
+//这个方法返回一个Socket对象，这个方法的目的在于等待连接。如果没有一个客户端连接过来的话，则这个accept方法会一直不会返回。
+//返回的Socket对象，我们可以比喻为一部电话机，很显然，通过一个电话号码和一个分机号，可以唯一的找到一台电话机。
+
+
+//那么客户端怎么连接到服务器上呢？可以在客户端创建一个Socket对象连接服务器，如下：
+Socket s = new Socket("150.236.56.101", 9000); 
+//在创建Socket的时候，给出服务器IP地址和端口号，这样就创建了一个Socket对象并连接服务器，
+//此时客户端和服务器都有一个Socket对象，并保持连通，这就意味着两点已经连接了，可以进行数据交互了。
+```
+
+代码示例：<br>
+
+```java
+/**
+* 服务端
+*/
+
+//TcpServer.java
+public class TcpServer {
+
+	public static void main(String[] args) throws IOException {
+		ServerSocket ss = new ServerSocket(9000);
+		while (true) {
+			Socket s = ss.accept();
+			Thread t = new IoThread(s); //多个client可同时访问server
+			t.start();
+		}
+	}
+}
+
+//IoThread.java
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.Socket;
+
+public class IoThread extends Thread {
+	private Socket s;
+	
+	public IoThread() {
+		super();
+	}
+	public IoThread(Socket s) {
+		this.s = s;
+	}
+
+	@Override
+	public void run() {
+		try {
+			BufferedReader br = new BufferedReader(new InputStreamReader(s.getInputStream()));
+			String line = br.readLine();
+			
+			PrintWriter pw = new PrintWriter(new OutputStreamWriter(s.getOutputStream()));
+			pw.write("from server: " + line);
+			pw.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				s.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+}
+
+
+/**
+* 客户端
+*/
+
+//TcpClient.java
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
+public class TcpClient {
+	public static void main(String[] args) throws UnknownHostException, IOException {
+		Socket s = new Socket("127.0.0.1", 9000);
+		
+		PrintWriter pw = new PrintWriter(s.getOutputStream());
+		System.out.print("请输入：");
+		String line = new BufferedReader(new InputStreamReader(System.in)).readLine();
+		pw.println(line);
+		pw.flush();
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(s.getInputStream()));
+		String line2 = br.readLine();
+		System.out.println(line2);
+		
+		s.close();
+	}
+}
+
+
+//运行结果：
+请输入：你好啊
+from server: 你好啊
+```
+<br>
+
+### UDP编程
+
+与TCP协议相比UDP协议是一个无连接，不可靠的协议。即，数据的收发方只负责将数据发出去，数据的接收方只负责接收数据，数据的收发双方不会相互确认数据的传输是否成功。<br>
+
+使用UDP通信有点类似于写信，当我们寄信的时候，不需要想打电话一样事先准备一个连接，寄信人只知道把信寄了出去，但是对方有没有收到信，寄信人则一无所知。<br>
+
+相对于TCP而言，UDP有一个优点：效率较高。因此，当我们在对数据传输的正确率不太关心，但是对传输效率要求较高的情况下，可以采用UDP协议。典型的使用UDP协议的是网络语音以及视频聊天应用。<br>
+
+UDP编程所要用到的两个主要的类：`DatagramSocket`和`DatagramPacket`。我们可以把进行UDP通信比作收发传真。其中，DatagramSocket可以当做是一台传真机，传真机既可以发传真，又可以收传真。而DatagramPacket则是需要传输的数据。
+
+假设我们现在要从客户端向服务器端发送一个字符串，而服务器端回给客户端一个对应的字符串。<br>
+
+```java
+//客户端要发送数据，得先创建一个DatagramSocket，代码如下：
+DatagramSocket socket = new DatagramSocket();
+//上面的代码没有指定客户端的端口，这样的话，系统会自动为客户端分配一个随机的端口号。
+//为什么服务器端的端口号不能让系统随机分配呢？因为服务器端的地址和端口号是必须要向外界公布，供客户端去访问的，
+//如果一个网站向外公布：网站地址：xxxxxxxx，网站端口：随机，这样的话让用户究竟怎么访问你的网站？因此，服务器端必须手动指定端口号。
+
+//客户端创建了一个DatagramSocket之后，就可以准备发送的数据了。
+byte[] data = str.getBytes(); //data数组中保存的就是需要发送的数据内容
+
+//然后，应当把data封装到一个DatagramPacket中，代码如下：
+DatagramPacket packet = new DatagramPacket(
+	data, 
+	0, 
+	data.length,
+	new InetSocketAddress("150.236.56.101", 9000));
+
+//当一切准备就绪之后，客户端就可以调用socket的send方法，发送packet对象。代码如下：
+socket.send(packet); //这样，数据就从客户端发送到了服务器。
+
+
+
+//接下来，就是服务器如何接收了。
+//先要创建一个DatagramSocket类型的对象，代码如下：
+DatagramSocket socket = new DatagramSocket(9000); 
+
+//在接收数据的时候，同样需要一个DatagramPacket。这个DatagramPacket对象就好比是传真机上的纸，在收传真的时候，
+//需要传真机里放上白纸，然后传真机根据发过来的内容，在白纸上打印出来。当传真接受完毕之后，这张纸上就记录了接受到的内容。
+//我们首先要创建一个空数组，这个数组就好像是白纸。
+byte[] buf = new byte[100];
+
+//然后，根据这张白纸，创建一个DatagramPacket：
+DatagramPacket paper = new DatagramPacket(buf, 0, buf.length);
+
+//创建了paper对象之后，就可以调用socket对象的receive方法接受数据。
+socket.receive(paper);
+
+//接受到数据之后，可以通过paper对象的下面几个方法获得相关信息：
+
+paper.getSocketAddress() //获得发送者的地址。可以理解为获得发送传真的对方的号码，等一会儿回传真的时候，就可以用这个地址。
+paper.getLength() //获得发送的数据的长度。
+//当两边完成通信之后，应当关闭socket。
+```
+
+代码示例：<br>
+
+```java
+/**
+* 服务器端
+*/
+
+import java.io.*;
+import java.net.*;
+public class UCPServer {
+	public static void main(String[] args) throws Exception {
+		//创建socket
+		DatagramSocket socket = new DatagramSocket(9000);
+		//收数据
+		byte[] buf = new byte[100];
+		DatagramPacket paper = new DatagramPacket(buf, 0, buf.length);
+		socket.receive(paper);
+		String str = new String(buf, 0, paper.getLength());
+		System.out.println(str);
+		
+		//发数据
+		byte[] data = "hello client".getByes();
+		DatagramPacket packet = new DatagramPacket(data, 0, data.length, paper.getSocketAddress());
+		socket.send(packet);
+		
+		//关闭socket
+		socket.close();
+	}
+}
+
+
+/**
+* 客户端
+*/
+
+import java.io.*;
+import java.net.*;
+public class UCPClient {
+	public static void main(String[] args) throws Exception {
+		DatagramSocket socket = new DatagramSocket();
+		String str = "hello server";
+		byte[] data = str.getsBytes();
+		DatagramPacket packet = new DatagramPacket(data, 0, data.length, new InetSocketAddress("150.236.56.101", 9000));
+		socket.send(packet);
+		
+		byte[] buf = new byte[100];
+		DatagramPacket paper = new DatagramPacket(buf, 0, buf.length);
+		socket.receive(paper);
+		String smg = new String(buf, 0, paper.getLength());
+		System.out.println(smg);
+		
+		socket.close();
+	}
+}
+```
+<br>
+
+### URL编程
+
+URL是统一资源定位符（Uniform Resource Locator）的简称，用于表示Internet上某一资源的地址。<br>
+Internet上的网络资源非常丰富，如常见的万维网和FTP站点上的各种文件、目录等。URL的语法格式通常如下所示：<br>
+协议名://主机名或者IP地址:端口号/资源路径，如：http://localhost:8080/web/img/a.jpg这就是一个URL，指向了网络上的一个图片文件。
+<br>
+
+java语言同样提供了用URL来访问网络资源的编程方法：<br>
+
+java中的URL编程主要用到的类有两个：`URL`和`URLConnection`。<br>
+
+下面的代码能够读取新浪（http://www.sina.com.cn）首页的html源代码，并输出到屏幕上：<br>
+
+```java
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+
+public class URLTest {
+	public static void main(String[] args) throws MalformedURLException, IOException {
+		URLConnection conn = new URL("http://www.sina.com.cn").openConnection();
+		InputStream is = conn.getInputStream();
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(is));
+		String line = null;
+		while ((line=br.readLine()) != null) {
+			System.out.println(line);
+		}
+		br.close();
+	}
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
