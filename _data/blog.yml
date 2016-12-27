@@ -10,11 +10,8 @@
 - name: Linux
   href: '/linux/'
 
-- name: HTML
-  href: '/html/'
-
-- name: Database
-  href: '/database/'
+- name: DB
+  href: '/db/'
 
 - name: Mac
   href: '/mac/'
