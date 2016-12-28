@@ -13,8 +13,8 @@
 - name: DB
   href: '/db/'
 
-- name: Mac
-  href: '/mac/'
+- name: HTMLX
+  href: '/htmlx/'
 
 - name: Life
   href: '/life/'

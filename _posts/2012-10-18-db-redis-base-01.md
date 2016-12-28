@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "redis基础简介"
-desc: "redis基础简介"
-keywords: "redis基础简介,redis,kinglyjn"
+title:  "redis基础简介（一）- string（字符串）、list（列表）"
+desc: "redis基础简介（一）- string（字符串）、list（列表）"
+keywords: "redis基础简介,字符串,string,列表,list,redis,kinglyjn"
 date: 2012-10-18
 categories: [DB]
 tags: [redis]
