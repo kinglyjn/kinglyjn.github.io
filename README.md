@@ -236,9 +236,6 @@ I use [bshare](http://www.bshare.cn/) to share my blog on other social network p
 
 I use javascript to realize blog search,you can double click `Ctrl` or click the icon at lower right corner of the page,the detail you can got to this repo: <https://github.com/androiddevelop/jekyll-search>.
 
-Just use it.
-
-![search](search.gif)
 
 ### <a name="cname"></a>CNAME
 

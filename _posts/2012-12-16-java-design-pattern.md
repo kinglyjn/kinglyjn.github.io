@@ -3,7 +3,7 @@ layout: post
 title:  "java开发常见设计模式"
 desc: "java开发常见设计模式"
 keywords: "java开发常见设计模式,设计模式,java,kinglyjn"
-date: 2012-11-18
+date: 2012-12-16
 categories: [Java]
 tags: [java]
 icon: fa-coffee
@@ -273,10 +273,492 @@ grandFather hug child!  WakeupEvent [time=Wed Dec 28 15:35:14 CST 2012, location
 dad feed child!  WakeupEvent [time=Wed Dec 28 15:35:14 CST 2012, location=卧室]
 wang wang!  WakeupEvent [time=Wed Dec 28 15:35:14 CST 2012, location=卧室]
 ```
+<br><br>
+
+
+### 遍历器模式
+
+```java
+/**
+* 遍历器接口
+*/
+public interface Iterator<E> {
+	boolean hasNext();
+	E next();
+}
+
+
+/**
+* 集合接口
+*/
+public interface Collection<E> {
+	void add(E e);
+	int size();
+	Iterator<E> iterator();
+}
+
+
+/**
+* 集合实现类ArrayList
+*/
+package test;
+
+public class ArrayList<E> implements Collection<E> {
+	private Object[] array = new Object[10];
+	private int index = 0;
+
+	@Override
+	public void add(E e) {
+		array[index] = e;
+		index++;
+		if (index == array.length) {
+			Object[] newArray = new Object[array.length+10];
+			System.arraycopy(array, 0, newArray, 0, array.length);
+			array = newArray;
+		}
+	}
+
+	@Override
+	public int size() {
+		return index;
+	}
+
+	@Override
+	public Iterator<E> iterator() {
+		return new Iterator<E>() {
+			private int currentIndex = -1;
+			
+			@Override
+			public boolean hasNext() {
+				if (currentIndex >= index-1) {
+					return false;
+				}
+				return true;
+			}
+
+			@SuppressWarnings("unchecked")
+			@Override
+			public E next() {
+				currentIndex++;
+				return (E) array[currentIndex];
+			}
+			
+		};
+	}
+	
+	//
+	@SuppressWarnings("unchecked")
+	public E get(int i) {
+		return (E) array[i];
+	}
+}
+
+
+/**
+* 集合实现类LinkedList
+*/
+public class LinkedList<E> implements Collection<E> {
+	private Node preHead;
+	private Node head;
+	private Node tail;
+	private int index = 0;
+	
+	class Node {
+		private E data;
+		private Node nextNode;
+		public E getData() {
+			return data;
+		}
+		public void setData(E data) {
+			this.data = data;
+		}
+		public Node getNextNode() {
+			return nextNode;
+		}
+		public void setNextNode(Node nextNode) {
+			this.nextNode = nextNode;
+		}
+	}
+	
+	@Override
+	public void add(E e) {
+		if (head == null) {
+			head = tail = new Node();
+			head.setData(e);
+			preHead = new Node();
+            preHead.setNextNode(head);
+		} else {
+			Node newNode = new Node();
+            newNode.setData(e);
+            tail.setNextNode(newNode);
+            tail = newNode;
+		}
+		index++;
+	}
+
+	@Override
+	public int size() {
+		return index;
+	}
+
+	@Override
+	public Iterator<E> iterator() {
+		return new Iterator<E>() {
+			private Node currentNode = preHead;
+			
+			@Override
+			public boolean hasNext() {
+				return currentNode.getNextNode()==null ? false : true;
+			}
+
+			@Override
+			public E next() {
+				currentNode = currentNode.getNextNode();
+                return currentNode.getData();
+			}
+		};
+	}
+}
+
+
+/**
+* 测试方法
+*/
+public static void main(String[] args) {
+	Collection<String> list = new LinkedList<String>();
+	list.add("张三");
+	list.add("李四");
+	list.add("小娟");
+	
+	Iterator<String> it = list.iterator();
+	while (it.hasNext()) {
+		System.out.println(it.next());
+	}
+}
+
+//运行结果说明  
+//遍历器模式适合运用在 屏蔽同类事物的相同操作上
+张三
+李四
+小娟
+```
+<br><br>
+
+
+### 策略模式
+
+```java
+/**
+* Comparable接口
+*/
+public interface Comparable<T> {
+	int compareTo(T t);
+}
+
+
+/**
+* Comparator接口
+*/
+public interface Comparator<T> {
+	int compare(T o1, T o2);
+}
+
+/**
+* Comparator接口实现类 DogWeightComparator
+*/
+public class DogWeightComparator implements Comparator<Dog> {
+	private static final DogWeightComparator INSTANCE = new DogWeightComparator();
+    private DogWeightComparator(){}
+    
+    public static final DogWeightComparator getInstance() {
+        return INSTANCE;
+    }
+    @Override
+    public int compare(Dog o1, Dog o2) {
+        if (o1.getWeight() < o2.getWeight()) {
+            return 1;
+        } else if (o1.getWeight() > o2.getWeight()) {
+            return -1;
+        }
+        return 0;
+    } 
+}
+
+/**
+* Comparator接口实现类 DogHeightComparator
+*/
+public class DogHeightComparator implements Comparator<Dog> {
+    private static final DogHeightComparator INSTANCE = new DogHeightComparator();
+    private DogHeightComparator(){}
+    
+    public static final DogHeightComparator getInstance() {
+        return INSTANCE;
+    }
+    
+    @Override
+    public int compare(Dog o1, Dog o2) {
+        if (o1.getHeight() < o2.getHeight()) {
+            return -1;
+        } else if (o1.getHeight() > o2.getHeight()) {
+            return 1;
+        }
+        return 0;
+    }
+}
+
+
+/**
+* 对象元素Dog
+*/
+public class Dog implements Comparable<Dog> {
+	private int weight;
+    private int height;
+    private static Comparator<Dog> comparator = DogWeightComparator.getInstance(); // 默认按照狗的重量排序
+
+    public Dog(int weight, int height) {
+        this.weight = weight;
+        this.height = height;
+    }
+    
+    public int getWeight() {
+        return weight;
+    }
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
+    public int getHeight() {
+        return height;
+    }
+    public void setHeight(int height) {
+        this.height = height;
+    }
+    public static Comparator<Dog> getComparator() {
+        return comparator;
+    }
+    public static void setComparator(Comparator<Dog> comparator) {
+        Dog.comparator = comparator;
+    }
+    @Override
+    public String toString() {
+        return "Dog [weight=" + weight + ", height=" + height + "]";
+    }
+
+    @Override
+    public int compareTo(Dog o) {
+        return comparator.compare(this, o);
+    }
+}
+
+
+/**
+* 工具类 Arrays
+*/
+public class Arrays {
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static void sort(Object[] os) {
+		for (int i = 0; i < os.length; i++) {
+            for (int j = 0; j < os.length-i-1; j++) {
+                Comparable o1 = (Comparable) os[j];
+                Comparable o2 = (Comparable) os[j+1];
+                
+                if (o1.compareTo(o2) < 0) {
+                	Object tmp = os[j];
+                    os[j] = os[j+1];
+                    os[j+1] = tmp;
+                }
+            }
+        }
+	}
+	
+}
+
+
+/**
+* 测试方法
+*/
+public static void main(String[] args) {
+	Dog[] dogs = {new Dog(7, 3), new Dog(2, 2), new Dog(5, 6)};
+	//Dog.setComparator(DogWeightComparator.getInstance()); //按狗的重量排序测试
+    //Dog.setComparator(DogHeightComparator.getInstance()); //按狗的身高排序策略
+	
+	Arrays.sort(dogs);  //要求Dog类实现Compareble接口，默认按狗的重量排序
+	
+	for (int i = 0; i < dogs.length; i++) {
+        System.out.println(dogs[i]);
+    }
+}
+```
+<br><br>
+
+
+### 桥接模式
+
+<img src="http://img.blog.csdn.net/20161229170613706?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:50%"/><br>
+
+```java
+/**
+* 桥接抽象类
+*/
+public abstract class Gift {
+    String name;
+    GiftImpl giftImpl; // 用聚合或组合代替继承
+}
+
+
+/**
+* 桥接实现类顶层父类
+*/
+public class GiftImpl extends Gift {
+    @Override
+    public String toString() {
+        return "name: " + name + " giftImpl: " + giftImpl.getClass();
+    }
+}
+
+
+/**
+* 桥接具体实现类（各种实现类的定义之间可能存在交叉）
+*/
+public class WarmGift extends GiftImpl {
+    public WarmGift() {}
+    public WarmGift(String name, GiftImpl giftImpl) {
+        this.name = name;
+        this.giftImpl = giftImpl;
+    }
+}
+public class ColdGift extends GiftImpl {
+    public ColdGift() {}
+    public ColdGift(String name, GiftImpl giftImpl) {
+        this.name = name;
+        this.giftImpl = giftImpl;
+    }
+}
+public class FlowerGift extends GiftImpl {
+    public FlowerGift() {}
+    public FlowerGift(String name, GiftImpl giftImpl) {
+        this.name = name;
+        this.giftImpl = giftImpl;
+    }
+}
+public class RingGift extends GiftImpl {
+    public RingGift() {}
+    public RingGift(String name, GiftImpl giftImpl) {
+        this.name = name;
+        this.giftImpl = giftImpl;
+    }
+}
+
+
+/**
+* 测试方法
+*/
+public static void main(String[] args) {
+    Gift warmGift = new WarmGift("warmGift", new FlowerGift("flower", null));
+    System.out.println(warmGift); //name: warmGift giftImpl: class com.kly.bridge.FlowerGift
+    
+    Gift coldGift = new ColdGift("coldGift", new RingGift());
+    System.out.println(coldGift); //name: coldGift giftImpl: class com.kly.bridge.RingGift
+}
+```
+<br><br>
+
+
+### 代理模式
+
+* 代理类和被代理类实现同一个接口，代理类中聚合了被代理对象
+
+`静态代理`<br>
+
+```java
+/**
+* 代理接口
+*/
+public interface Movable {
+    void move();
+}
+
+
+/**
+* 被代理类
+*/
+public class Tank implements Movable {
+    @Override
+    public void move() {
+        System.out.println("tank moving...");
+    }
+    public static void main(String[] args) {
+        Movable m = new Tank();
+        m.move();
+    }
+}
+
+
+/**
+* 代理类
+*/
+public class TankLogProxy implements Movable {
+    private Movable tank;
+    public TankLogProxy(Movable tank) {
+        this.tank = tank;
+    }
+    @Override
+    public void move() {
+        System.out.println("tank start!");
+        tank.move();
+        System.out.println("tank end!");
+    }
+}
+
+
+/**
+* 代理类
+*/
+import java.util.Random;
+public class TankTimeProxy implements Movable {
+    private Movable tank;
+    public TankTimeProxy(Movable tank) {
+        this.tank = tank;
+    }
+    @Override
+    public void move() {
+        long start = System.currentTimeMillis();
+        
+        tank.move();
+        
+        try {
+            Thread.sleep(new Random().nextInt(10000));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        long end = System.currentTimeMillis();
+        System.out.println("运行时间：" + ((end-start)/1000.0) + " s");
+    }
+}
+
+
+//静态代理测试方法
+public static void main(String[] args) {
+    TankTimeProxy tankTimeProxy = new TankTimeProxy(new Tank());
+    TankLogProxy tankLogProxy = new TankLogProxy(tankTimeProxy);
+    tankLogProxy.move();
+}
+
+//运行结果：
+tank start!
+tank moving...
+运行时间：2.82 s
+tank end!
+```
 <br>
 
+### 工厂模式
 
+### 单例模式
 
+### 装饰模式
+
+<br>
 
 
 

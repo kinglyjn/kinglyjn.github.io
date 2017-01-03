@@ -5,7 +5,7 @@ desc: "css3盒子模型及其定位"
 keywords: "css3盒子模型及其定位,盒子模型,定位,css,kinglyjn"
 date: 2012-11-16
 categories: [HTMLX]
-tags: [js]
+tags: [css]
 icon: fa-html5
 ---
 
@@ -29,7 +29,7 @@ z-index                 //设置元素的堆叠次序
 
 /*浮动*/
 float    //浮动 left right none inherit
-clear    //去掉浮动 left right both inherit	
+clear    //去掉浮动 left right both inherit
 ```
 <br>
 
@@ -116,8 +116,6 @@ both : 不允许有浮动对象
 要想让div2下移，就必须在div2的CSS样式中使用浮动。本例中div2的左边有浮动元素div1，因此只要在div2的CSS样式中使用clear:left;来指定div2元素左边不允许出现浮动元素，这样div2就被能够迫下移一行。<br>
 
 <img src="http://img.blog.csdn.net/20161228191441488?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:30%"/><br>
-
-
 
 
 
