@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "旧事"
-desc: "旧事"
-keywords: "旧事,kinglyjn,自由的风"
+title:  "老事儿"
+desc: "老事儿"
+keywords: "老事儿,kinglyjn,自由的风"
 date: 2013-04-06
 categories: [Art]
 tags: [Story]
@@ -16,7 +16,7 @@ icon: fa-leaf
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;当时，我在昆明读大学。<br>
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;前些天，我爸打电话过来，跟我商量一件事，说冯奶奶有意想把她靠我家旁边的房宅低价卖给我们。<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;有一天，我爸打电话过来，跟我商量一件事，说冯奶奶有意想把她靠我家旁边的房宅低价卖给我们。<br>
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;冯奶奶是我们村的，七十岁左右的农村老太太，一个苦命的女人。十多年前，她的丈夫因为肺癌晚期，去了。说起她卖房宅的事，倒有更让人心酸的故事。<br>
 
