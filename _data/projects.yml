@@ -18,6 +18,6 @@
 
 - name: 'datactr'
   i18n: 'datactr'
-  url: 'http://www.datactr.cn'
+  url: 'http://www.keyllo.com'
   img: 'static/img/landing/datactr.png'
   desc: "datactr provides the platform and expertise to transform your business’ data into revenue-generating assets with analytics."

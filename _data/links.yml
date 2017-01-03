@@ -1,11 +1,11 @@
 - last_name: zhangsan
   first_name:
   desc: 'zs soft studio'
-  website: 'http://www.hellozs.cn/studio'
-  email: 'admin@datactr.cn'
+  website: 'http://www.keyllo.com/studio/'
+  email: 'admin@keyllo.com'
 
 - last_name: datactr
   first_name: 
   desc: 'data center project'
-  website: 'http://www.datactr.cn'
-  email: 'admin@datactr.cn'
+  website: 'http://www.keyllo.com'
+  email: 'admin@keyllo.com'

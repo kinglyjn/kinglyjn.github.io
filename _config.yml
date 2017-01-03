@@ -5,19 +5,20 @@ title: "KinglyJn"
 description: "Kingly's blog,use Jekyll and github pages."
 keywords: "kinglyjn,张庆力的博客,kinglyjn blog,kingly,Jekyll,github,gh-pages"
 baseurl: "/"
-url: "https://kinglyjn.github.io"
+url: "http://blog.keyllo.com"
 # url: "http://127.0.0.1:4000"
+# url: "https://kinglyjn.github.io"
 
 # author
 author:
   name: 'KinglyJn'
-  profile: 'http://www.hellozs.cn/studio/'
+  profile: 'http://www.keyllo.com/studio/'
   first_name: 'Kingly'
   last_name: 'Jn'
-  email: 'admin@datactr.cn'
+  email: 'admin@keyllo.com'
   github_username: 'Kinglyjn'
   head_img: 'static/img/landing/Kinglyjn.png'
-  desc: 'A Lazy Man, busy in selecting * from t_woman where (age between 20 and 30) and (married=false) and (feature is fashion dignified) and (bodyMind is healthy), gentle and caring disposition is better, do not bother if you are not pure-hearted ...'
+  desc: 'A Lazy Man, intent to select * from t_woman where (age between 20 and 30) and (married=false) and (feature is fashion dignified) and (bodyMind is healthy), gentle and caring disposition is better, do not bother if you are not pure-hearted ...'
 
 # sections
 sections:
