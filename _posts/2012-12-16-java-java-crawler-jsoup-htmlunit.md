@@ -486,18 +486,51 @@ The select method is available in a Document, Element, or in Elements. It is con
 
 Select returns a list of Elements (as Elements), which provides a range of methods to extract and manipulate the results. <br>
 
-Selector overview:
 
-* tagname: find elements by tag, e\.g. a
-* ns|tag: find elements by tag in a namespace, e\.g. fb|name finds \<fb:name\> elements
-* #id: find elements by ID, e.g. #logo
-* .class: find elements by class name, e.g. .masthead
-* [attribute]: elements with attribute, e.g. [href]
-* [^attr]: elements with an attribute name prefix, e.g. [^data-] finds elements with HTML5 dataset attributes
-* [attr=value]: elements with attribute value, e.g. [width=500] (also quotable, like [data-name='launch sequence'])
-* [attr^=value], [attr$=value], [attr*=value]: elements with attributes that start with, end with, or contain the * value, e.g. [href*=/path/]
-* [attr~=regex]: elements with attribute values that match the regular expression; e.g. img[src~=(?i)\.(png|jpe?g)]
-* \*: all elements, e.g. \*
+```default
+selector overview:
+----------------------
+tagname        find elements by tag, e.g. a
+ns|tag         find elements by tag in a namespace, e.g. fb|name finds <fb:name> elements
+#id            find elements by ID, e.g. #logo
+.class         find elements by class name, e.g. .masthead
+[attribute]    elements with attribute, e.g. [href]
+[^attr]        elements with an attribute name prefix
+[attr=value]   elements with attribute value, e.g. [width=500] 
+[attr^=value]  elements with attributes that start with,
+[attr$=value]  elements with attributes that end with
+attr*=value]   elements with attributes that contain the value. e.g. [href*=/path/]
+[attr~=regex]  elements with attribute values that match the regular expression
+*              all elements, e.g. *
+
+
+selector combinations:
+----------------------
+el#id                elements with ID, e.g. div#logo
+el.class             elements with class, e.g. div.masthead
+el[attr]             elements with attribute, e.g. a[href]
+any combination      e.g. a[href].highlight
+parent > child       child elements that descend directly from parent
+and body > *         finds the direct children of the body tag
+siblingA + siblingB  finds sibling B element immediately preceded by sibling A, e.g. div.head + div
+siblingA ~ siblingX  finds sibling X element preceded by sibling A, e.g. h1 ~ p
+el,el,el             group multiple selectors, find unique elements that match any of the selectors
+
+
+pseudo selectors:
+----------------------
+:lt(n)              find elements whose sibling index is less than n; e.g. td:lt(3)
+:gt(n)              find elements whose sibling index is greater than n; e.g. div p:gt(2)
+:eq(n)              find elements whose sibling index is equal to n; e.g. form input:eq(1)
+:has(seletor)       find elements that contain elements matching the selector; e.g. div:has(p)
+:not(selector)      find elements that do not match the selector; e.g. div:not(.logo)
+:contains(text)     find elements that contain the given text. The search is case-insensitive
+:containsOwn(text)  find elements that directly contain the given text
+:matches(regex)     find elements whose text matches the specified regular expression
+:matchesOwn(regex)  find elements whose own text matches the specified regular expression
+
+Note that the above indexed pseudo-selectors are 0-based, that is, the first element is at index 0, the second at 1, etc. More selector API is 'https://jsoup.org/apidocs/org/jsoup/select/Selector.html'.
+```
 
 ```java
 public static void main(String[] args) throws IOException {
@@ -518,6 +551,62 @@ public static void main(String[] args) throws IOException {
     System.out.println(eles); //
 }
 ```
+<br>
+
+### Jsoup防止XSS攻击
+
+在做网站的时候，经常会提供用户评论的功能。有些不怀好意的用户，会搞一些脚本到评论内容中，而这些脚本可能会破坏整个页面的行为，更严重的是获取一些机要信息，此时需要清理该HTML，以避免跨站脚本[cross-site scripting](http://en.wikipedia.org/wiki/Cross-site_scripting)攻击（XSS）。通常采取的做法是对前端输入的内容进行过滤。<br>
+
+可以选用的工具有：
+* Jsoup 是一款Java的HTML 解析器，可直接解析某个URL地址、HTML文本内容。它提供了一套非常省力的API，可通过DOM，CSS以及类似于JQuery的操作方法来取出和操作数据。
+* HTML Parser 是一个对HTML进行分析的快速实时的解析器，最新的发行版本是1.6，另外2.0的开发版本已经两年没有进展了。（采用Java实现）
+* XSS HTMLFilter 一个采用Java实现的开源类库。用于分析用户提交的输入，消除潜在跨站点脚本攻击(XSS)，恶意的HTML，或简单的HTML格式错误。
+* HTML Purifier 是基于php 5所编写的HTML过滤器，帮助用户保障HTML的合法性，支持自定义过滤规则，还可以把不标准的HTML转换为标准的HTML。它可以使你确认HTML是否包含跨站脚本攻击企图或其它的恶意攻击，有效防范XSS攻击。
+
+Jsuop使用示例代码：
+
+```java
+String unsafe = "<p><a href='http://xxx.com/' onclick='stealCookies()'>Link</a></p>";
+String safe = Jsoup.clean(unsafe, Whitelist.basic());
+
+
+//OSChina网站使用的Jsoup, 对输入内容进行过滤的代码：
+private final static Whitelist user_content_filter = Whitelist.relaxed();  
+static {  
+    user_content_filter.addTags("embed","object","param","span","div");  
+    user_content_filter.addAttributes(":all", "style", "class", "id", "name");  
+    user_content_filter.addAttributes("object", "width", "height","classid","codebase");      
+    user_content_filter.addAttributes("param", "name", "value");  
+    user_content_filter.addAttributes("embed", "src","quality",
+        "width","height","allowFullScreen",
+        "allowScriptAccess","flashvars",
+        "name","type","pluginspage");  
+}  
+  
+/** 
+ * 对用户输入内容进行过滤 
+ * @param html 
+ * @return 
+ */  
+public static String filterUserInputContent(String html) {  
+    if(StringUtils.isBlank(html)) return "";  
+    return Jsoup.clean(html, user_content_filter);  
+    //return filterScriptAndStyle(html);  
+}  
+```
+
+说明: <br>
+XSS又叫CSS (Cross Site Script) ，跨站脚本攻击。它指的是恶意攻击者往Web页面里插入恶意html代码，当用户浏览该页之时，嵌入其中Web里面的html代码会被执行，从而达到恶意攻击用户的特殊目的。XSS属于被动式的攻击，因为其被动且不好利用，所以许多人常忽略其危害性。所以我们经常只让用户输入纯文本的内容，但这样用户体验就比较差了。<br>
+一个更好的解决方法就是使用一个富文本编辑器WYSIWYG如CKEditor 和 TinyMCE。这些可以输出HTML并能够让用户可视化编辑。虽然他们可以在客户端进行校验，但是这样还不够安全，需要在服务器端进行校验并清除有害的HTML代码，这样才能确保输入到你网站的HTML是安全的。否则，攻击者能够绕过客户端的Javascript验证，并注入不安全的HMTL直接进入您的网站。<br>
+jsoup的whitelist清理器能够在服务器端对用户输入的HTML进行过滤，只输出一些安全的标签和属性。<br>
+jsoup提供了一系列的Whitelist基本配置，能够满足大多数要求；但如有必要，也可以进行修改，不过要小心。<br>
+这个cleaner非常好用不仅可以避免XSS攻击，还可以限制用户可以输入的标签范围。<br>
+
+
+
+
+
+
 
 
 

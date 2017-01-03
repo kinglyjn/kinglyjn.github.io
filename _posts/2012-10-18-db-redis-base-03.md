@@ -2,7 +2,7 @@
 layout: post
 title:  "redis基础简介（三）- 事务"
 desc: "redis基础简介（三）- 事务"
-keywords: "redis基础简介,事务,redis,kinglyjn"
+keywords: "redis基础简介（三）,事务,redis,kinglyjn"
 date: 2012-10-18
 categories: [DB]
 tags: [redis]

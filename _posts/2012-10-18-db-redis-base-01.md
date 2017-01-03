@@ -9,26 +9,42 @@ tags: [redis]
 icon: fa-database
 ---
 
-### 常见nosql产品之间的比较
+### Redis简介
 
-1. BerkeleyDB：支持事务及嵌套事务，海量数据存储，在用于存储实时数据方面具有极高的可用价值，不完全免费。
-2. MongoDB：独立的运行并提供相关的数据服务,主要适用于高并发的论坛或博客网站,多读少写、数据量大、逻辑关系简单，以及文档数据作为主要数据源等, 和BerkeleyDB一样，该产品的License同为GPL。
-3. Redis：可以作为服务程序独立运行于自己的服务器主机,Redis除了Key/Value之外还支持List、Hash、Set和Ordered Set等数据结构, Redis的License是Apache License，就目前而言，它是完全免费。
-4. memcached：与redis的比较，memcached只是提供了数据缓存服务，一旦服务器宕机，之前在内存中缓存的数据也将全部消失，因此可以看出memcached没有提供任何形式的数据持久化功能，而Redis则提供了这样的功能,再有就是Redis提供了更为丰富的数据存储结构，如Hash和Set。至于它们的相同点，主要有两个，一是完全免费，再有就是它们的提供的命令形式极为接近。
+Remote Dictionary Server(Redis) 是一个由Salvatore Sanfilippo写的key-value存储系统。
+Redis是一个开源的使用ANSI C语言编写、遵守BSD协议、支持网络、可基于内存亦可持久化的日志型、Key-Value数据库，并提供多种语言的API。它通常被称为数据结构服务器，因为值（value）可以是 字符串(String), 哈希(Map), 列表(list), 集合(sets) 和 有序集合(sorted sets)等类型。<br>
 
-<b>redis的优势：</b>
+Redis 与其他 key - value 缓存产品有以下三个特点：
+* Redis支持数据的持久化，可以将内存中的数据保存在磁盘中，重启的时候可以再次加载进行使用。
+* Redis不仅仅支持简单的key-value类型的数据，同时还提供list，set，zset，hash等数据结构的存储。
+* Redis支持数据的备份，即master-slave模式的数据备份。
 
-1. 和其他NoSQL产品相比，Redis的易用性极高，因此对于那些有类似产品使用经验的开发者来说，一两天，甚至是几个小时之后就可以利用Redis来搭建自己的平台了。
-2. 在解决了很多通用性问题的同时，也为一些个性化问题提供了相关的解决方案，如索引引擎、统计排名、消息队列服务等。
-3. 在数据存储方面，Redis遵循了现有NoSQL数据库的主流思想，即Key作为数据检索的唯一标识，我们可以将其简单的理解为关系型数据库中索引的键，而Value则作为数据存储的主要对象，其中每一个Value都有一个Key与之关联，这就好比索引中物理数据在数据表中存储的位置。在Redis中，Value将被视为二进制字节流用于存储任何格式的数据，如Json、XML和序列化对象的字节流等，因此我们也可以将其想象为RDB中的BLOB类型字段。由此可见，在进行数据查询时，我们只能基于Key作为我们查询的条件，当然我们也可以应用Redis中提供的一些技巧将Value作为其他数据的Key。
 
-<b>redis的持久化：</b> <br>
+<b>Redis的优势：</b>
+
+* 性能极高 – Redis能读的速度是110000次/s,写的速度是81000次/s 
+* 丰富的数据类型 – Redis支持二进制案例的 Strings, Lists, Hashes, Sets 及 Ordered Sets 数据类型操作。
+* 原子 – Redis的所有操作都是原子性的，同时Redis还支持对几个操作全并后的原子性执行。
+* 丰富的特性 – Redis还支持 publish/subscribe, 通知, key 过期等等特性。
+* Redis有着更为复杂的数据结构并且提供对他们的原子性操作，这是一个不同于其他数据库的进化路径。Redis的数据类型都是基于基本数据结构的同时对程序员透明，无需进行额外的抽象。
+* Redis运行在内存中但是可以持久化到磁盘，所以在对不同数据集进行高速读写时需要权衡内存，因为数据量不能大于硬件内存。在内存数据库方面的另一个优点是，相比在磁盘上相同的复杂的数据结构，在内存中操作起来非常简单，这样Redis可以做很多内部复杂性很强的事情。同时，在磁盘格式方面他们是紧凑的以追加的方式产生的，因为他们并不需要进行随机访问。
+
+
+<b>Redis的持久化：</b> <br>
 
 缺省情况下，Redis会参照当前数据库中数据被修改的数量，在达到一定的阈值后会将数据库的快照存储到磁盘上，这一点我们可以通过配置文件来设定该阈值。通常情况下，我们也可以将Redis设定为定时保存。如当有1000个以上的键数据被修改时，Redis将每隔60秒进行一次数据持久化操作。缺省设置为，如果有9个或9个以下数据修改是，Redis将每15分钟持久化一次。<br>
 
 从上面提到的方案中可以看出，如果采用该方式，Redis的运行时效率将会是非常高效的，既每当有新的数据修改发生时，仅仅是内存中的缓存数据发生改变，而这样的改变并不会被立即持久化到磁盘上，从而在绝大多数的修改操作中避免了磁盘IO的发生。然而事情往往是存在其两面性的，在该方法中我们确实得到了效率上的提升，但是却失去了数据可靠性。如果在内存快照被持久化到磁盘之前，Redis所在的服务器出现宕机，那么这些未写入到磁盘的已修改数据都将丢失。为了保证数据的高可靠性，redis还提供了另外一种数据持久化机制，即append模式。如果Redis服务器被配置为该方式，那么每当有数据修改发生时，都会被立即持久化到磁盘。<br>
 <br>
 
+<b>常见nosql产品之间的比较</b><br>
+
+1. BerkeleyDB：支持事务及嵌套事务，海量数据存储，在用于存储实时数据方面具有极高的可用价值，不完全免费。
+2. MongoDB：独立的运行并提供相关的数据服务,主要适用于高并发的论坛或博客网站,多读少写、数据量大、逻辑关系简单，以及文档数据作为主要数据源等, 和BerkeleyDB一样，该产品的License同为GPL。
+3. Redis：可以作为服务程序独立运行于自己的服务器主机,Redis除了Key/Value之外还支持List、Hash、Set和Ordered Set等数据结构, Redis的License是Apache License，就目前而言，它是完全免费。
+4. memcached：与redis的比较，memcached只是提供了数据缓存服务，一旦服务器宕机，之前在内存中缓存的数据也将全部消失，因此可以看出memcached没有提供任何形式的数据持久化功能，而Redis则提供了这样的功能,再有就是Redis提供了更为丰富的数据存储结构，如Hash和Set。至于它们的相同点，主要有两个，一是完全免费，再有就是它们的提供的命令形式极为接近。
+
+<br>
 
 ### redis的安装、配置、启动、关闭和状态查看
 
@@ -55,6 +71,9 @@ redis 127.0.0.1:6379 >
 redis 127.0.0.1:6379 > ping
 PONG # 这说明你已经成功地安装Redis在您的机器上
 
+# 远程服务器上执行redis命令
+$ redis-cli -h host -p port -a password
+
 # 在Ubuntu上安装Redis的桌面管理器
 # http://redisdesktop.com/download
 
@@ -62,6 +81,213 @@ PONG # 这说明你已经成功地安装Redis在您的机器上
 #Redis中的数据库是通过数字来进行命名的，缺省情况下打开的数据库为0，默认有16个库（0-15）
 #切换redis数据库
 redis 127.0.0.1:6379 > select_ 1
+```
+<br>
+
+
+redis.config<br>
+
+```shell
+# 1. Redis默认不是以守护进程的方式运行，可以通过该配置项修改，使用yes启用守护进程
+    daemonize no
+# 2. 当Redis以守护进程方式运行时，Redis默认会把pid写入/var/run/redis.pid文件，可以通过pidfile指定
+    pidfile /var/run/redis.pid
+# 3. 指定Redis监听端口，默认端口为6379，作者在自己的一篇博文中解释了为什么选用6379作为默认端口，因为6379在手机按键上MERZ对应的号码，而MERZ取自意大利歌女Alessia Merz的名字
+    port 6379
+# 4. 绑定的主机地址
+    bind 127.0.0.1
+# 5.当 客户端闲置多长时间后关闭连接，如果指定为0，表示关闭该功能
+    timeout 300
+# 6. 指定日志记录级别，Redis总共支持四个级别：debug、verbose、notice、warning，默认为verbose
+    loglevel verbose
+# 7. 日志记录方式，默认为标准输出，如果配置Redis为守护进程方式运行，而这里又配置为日志记录方式为标准输出，则日志将会发送给/dev/null
+    logfile stdout
+# 8. 设置数据库的数量，默认数据库为0，可以使用SELECT <dbid>命令在连接上指定数据库id
+    databases 16
+# 9. 指定在多长时间内，有多少次更新操作，就将数据同步到数据文件，可以多个条件配合
+    save <seconds> <changes>
+    # Redis默认配置文件中提供了三个条件：
+    save 900 1
+    save 300 10
+    save 60 10000
+    # 分别表示900秒（15分钟）内有1个更改，300秒（5分钟）内有10个更改以及60秒内有10000个更改。
+ 
+# 10. 指定存储至本地数据库时是否压缩数据，默认为yes，Redis采用LZF压缩，如果为了节省CPU时间，可以关闭该选项，但会导致数据库文件变的巨大
+    rdbcompression yes
+# 11. 指定本地数据库文件名，默认值为dump.rdb
+    dbfilename dump.rdb
+# 12. 指定本地数据库存放目录
+    dir ./
+# 13. 设置当本机为slav服务时，设置master服务的IP地址及端口，在Redis启动时，它会自动从master进行数据同步
+    slaveof <masterip> <masterport>
+# 14. 当master服务设置了密码保护时，slav服务连接master的密码
+    masterauth <master-password>
+# 15. 设置Redis连接密码，如果配置了连接密码，客户端在连接Redis时需要通过AUTH <password>命令提供密码，默认关闭
+    requirepass foobared
+# 16. 设置同一时间最大客户端连接数，默认无限制，Redis可以同时打开的客户端连接数为Redis进程可以打开的最大文件描述符数，如果设置 maxclients 0，表示不作限制。当客户端连接数到达限制时，Redis会关闭新的连接并向客户端返回max number of clients reached错误信息
+    maxclients 128
+# 17. 指定Redis最大内存限制，Redis在启动时会把数据加载到内存中，达到最大内存后，Redis会先尝试清除已到期或即将到期的Key，当此方法处理 后，仍然到达最大内存设置，将无法再进行写入操作，但仍然可以进行读取操作。Redis新的vm机制，会把Key存放内存，Value会存放在swap区
+    maxmemory <bytes>
+# 18. 指定是否在每次更新操作后进行日志记录，Redis在默认情况下是异步的把数据写入磁盘，如果不开启，可能会在断电时导致一段时间内的数据丢失。因为 redis本身同步数据文件是按上面save条件来同步的，所以有的数据会在一段时间内只存在于内存中。默认为no
+    appendonly no
+# 19. 指定更新日志文件名，默认为appendonly.aof
+     appendfilename appendonly.aof
+# 20. 指定更新日志条件，共有3个可选值： 
+    no：表示等操作系统进行数据缓存同步到磁盘（快） 
+    always：表示每次更新操作后手动调用fsync()将数据写到磁盘（慢，安全） 
+    everysec：表示每秒同步一次（折衷，默认值）
+    appendfsync everysec
+ 
+# 21. 指定是否启用虚拟内存机制，默认值为no，简单的介绍一下，VM机制将数据分页存放，由Redis将访问量较少的页即冷数据swap到磁盘上，访问多的页面由磁盘自动换出到内存中（在后面的文章我会仔细分析Redis的VM机制）
+     vm-enabled no
+# 22. 虚拟内存文件路径，默认值为/tmp/redis.swap，不可多个Redis实例共享
+     vm-swap-file /tmp/redis.swap
+# 23. 将所有大于vm-max-memory的数据存入虚拟内存,无论vm-max-memory设置多小,所有索引数据都是内存存储的(Redis的索引数据 就是keys),也就是说,当vm-max-memory设置为0的时候,其实是所有value都存在于磁盘。默认值为0
+     vm-max-memory 0
+# 24. Redis swap文件分成了很多的page，一个对象可以保存在多个page上面，但一个page上不能被多个对象共享，vm-page-size是要根据存储的 数据大小来设定的，作者建议如果存储很多小对象，page大小最好设置为32或者64bytes；如果存储很大大对象，则可以使用更大的page，如果不 确定，就使用默认值
+     vm-page-size 32
+# 25. 设置swap文件中的page数量，由于页表（一种表示页面空闲或使用的bitmap）是在放在内存中的，，在磁盘上每8个pages将消耗1byte的内存。
+     vm-pages 134217728
+# 26. 设置访问swap文件的线程数,最好不要超过机器的核数,如果设置为0,那么所有对swap文件的操作都是串行的，可能会造成比较长时间的延迟。默认值为4
+     vm-max-threads 4
+# 27. 设置在向客户端应答时，是否把较小的包合并为一个包发送，默认为开启
+    glueoutputbuf yes
+# 28. 指定在超过一定的数量或者最大的元素超过某一临界值时，采用一种特殊的哈希算法
+    hash-max-zipmap-entries 64
+    hash-max-zipmap-value 512
+# 29. 指定是否激活重置哈希，默认为开启（后面在介绍Redis的哈希算法时具体介绍）
+    activerehashing yes
+# 30. 指定包含其它的配置文件，可以在同一主机上多个Redis实例之间使用同一份配置文件，而同时各个实例又拥有自己的特定配置文件
+    include /path/to/local.conf
+```
+<br>
+
+
+redis服务器命令<br>
+
+```shell
+redis 127.0.0.1:6379> info
+
+# Server
+redis_version:2.8.13
+redis_git_sha1:00000000
+redis_git_dirty:0
+redis_build_id:c2238b38b1edb0e2
+redis_mode:standalone
+os:Linux 3.5.0-48-generic x86_64
+arch_bits:64
+multiplexing_api:epoll
+gcc_version:4.7.2
+process_id:3856
+run_id:0e61abd297771de3fe812a3c21027732ac9f41fe
+tcp_port:6379
+uptime_in_seconds:11554
+uptime_in_days:0
+hz:10
+lru_clock:16651447
+config_file:
+
+# Clients
+connected_clients:1
+client-longest_output_list:0
+client-biggest_input_buf:0
+blocked_clients:0
+
+# Memory
+used_memory:589016
+used_memory_human:575.21K
+used_memory_rss:2461696
+used_memory_peak:667312
+used_memory_peak_human:651.67K
+used_memory_lua:33792
+mem_fragmentation_ratio:4.18
+mem_allocator:jemalloc-3.6.0
+
+# Persistence
+loading:0
+rdb_changes_since_last_save:3
+rdb_bgsave_in_progress:0
+rdb_last_save_time:1409158561
+rdb_last_bgsave_status:ok
+rdb_last_bgsave_time_sec:0
+rdb_current_bgsave_time_sec:-1
+aof_enabled:0
+aof_rewrite_in_progress:0
+aof_rewrite_scheduled:0
+aof_last_rewrite_time_sec:-1
+aof_current_rewrite_time_sec:-1
+aof_last_bgrewrite_status:ok
+aof_last_write_status:ok
+
+# Stats
+total_connections_received:24
+total_commands_processed:294
+instantaneous_ops_per_sec:0
+rejected_connections:0
+sync_full:0
+sync_partial_ok:0
+sync_partial_err:0
+expired_keys:0
+evicted_keys:0
+keyspace_hits:41
+keyspace_misses:82
+pubsub_channels:0
+pubsub_patterns:0
+latest_fork_usec:264
+
+# Replication
+role:master
+connected_slaves:0
+master_repl_offset:0
+repl_backlog_active:0
+repl_backlog_size:1048576
+repl_backlog_first_byte_offset:0
+repl_backlog_histlen:0
+
+# CPU
+used_cpu_sys:10.49
+used_cpu_user:4.96
+used_cpu_sys_children:0.00
+used_cpu_user_children:0.01
+
+# Keyspace
+db0:keys=94,expires=1,avg_ttl=41638810
+db1:keys=1,expires=0,avg_ttl=0
+db3:keys=1,expires=0,avg_ttl=0
+
+
+----------------------------
+bgrewriteaof  #异步执行一个 AOF（AppendOnly File）文件重写操作
+bgsave  #在后台异步保存当前数据库的数据到磁盘
+client kill [ip:port] [ID client-id]  #关闭客户端连接
+client list  #获取连接到服务器的客户端连接列表
+client getname  #获取连接的名称
+client pause timeout  #在指定时间内终止运行来自客户端的命令
+client setname connection-name  #设置当前连接的名称
+cluster slots  #获取集群节点的映射数组
+command  #获取 Redis 命令详情数组
+command count  #获取 Redis 命令总数
+command getkeys  #获取给定命令的所有键
+time  #返回当前服务器时间
+command info command-name [command-name ...]  #获取指定 Redis 命令描述的数组
+config get parameter  #获取指定配置参数的值   
+config rewrite  #对启动 Redis 服务器时所指定的 redis.conf 配置文件进行改写
+config set parameter value  #修改 redis 配置参数，无需重启，【注】临时生效，redis重启失效  
+config resetstat  #重置 INFO 命令中的某些统计数据
+dbsize  #返回当前数据库的 key 的数量
+debug object key  #获取 key 的调试信息
+debug segfault  #让 Redis 服务崩溃
+flushall  #删除所有数据库的所有key
+flushdb  #删除当前数据库的所有key
+info  #获取 Redis 服务器的各种信息和统计数值 
+lastsave  #返回最近一次 Redis 成功将数据保存到磁盘上的时间，以 UNIX 时间戳格式表示
+monitor  #实时打印出 Redis 服务器接收到的命令，调试用
+role  #返回主从实例所属的角色
+save  #异步保存数据到硬盘
+shutdown [nosave] [save]  #异步保存数据到硬盘，并关闭服务器
+slaveof host port  #将当前服务器转变为指定服务器的从属服务器(slave server)
+slowlog subcommand [argument]   #管理 redis 的慢日志
+sync  #用于复制功能(replication)的内部命令
 ```
 <br>
 
