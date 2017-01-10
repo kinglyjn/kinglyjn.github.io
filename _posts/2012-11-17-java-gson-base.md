@@ -44,6 +44,33 @@ Gson gson = new GsonBuilder().setPrettyPrinting().create();
 示例结果：
 
 <img src="http://img.blog.csdn.net/20161229154505514?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:60%"/><br>
+<br>
+
+
+### 使用gson的TypeToken类解析泛型类
+
+```java
+import java.lang.reflect.Type;
+import com.google.gson.reflect.TypeToken;
+public class Test {
+    public static void main(String[] args) {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        Type type = new TypeToken<HashSet<String>>(){}.getType();
+        Set<String> set = new HashSet<String>();
+        set.add("张三");
+        set.add("李四");
+        set.add("小娟");
+        String json = gson.toJson(set);
+        System.out.println(json);
+        Set<String> fromJson = gson.fromJson(json, type);
+        System.out.println(fromJson);
+    }
+}
+```
+<br>
+
+
+
 
 
 
