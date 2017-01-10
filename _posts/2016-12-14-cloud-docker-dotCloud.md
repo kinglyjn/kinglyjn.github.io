@@ -29,7 +29,7 @@ dotCloud 把需要花费大量时间的手工工作和重复劳动抽象成组�
 
 一切看起来都是那么的美好，如果后来的事情按照这个设想进行下去的话，软件厂商和程序员都会松好几口气，那样我们的头发还能和「普通地铁站」里的人一样，倔强的飘在风里。<br>
 
-<img src="http://img.blog.csdn.net/20170110093709104?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:80%"/><br>
+<img src="http://img.blog.csdn.net/20170110093709104?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:60%"/><br>
 
 
 遗憾的是，我们抵达的是「中关村地铁站」！<br>
