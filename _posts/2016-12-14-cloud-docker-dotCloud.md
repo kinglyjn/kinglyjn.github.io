@@ -1,15 +1,15 @@
 ---
 layout: post
-title:  "Docker 传奇之 dotCloud"
-desc: "Docker 传奇之 dotCloud"
-keywords: "Docker 传奇之 dotCloud,docker,dotCloud,kinglyjn,张庆力"
+title:  "docker之路"
+desc: "docker之路"
+keywords: "ddocker之路,docker,dotCloud,kinglyjn,张庆力"
 date: 2016-12-14
 categories: [Cloud]
 tags: [Cloud]
 icon: fa-cloud
 ---
 
-> <i style="font-size:10px;">一切看起来都是那么的美好，如果后来的事情按照这个设想进行下去的话，软件厂商和程序员都会松好几口气，那样我们的头发还能和「普通地铁站」里的人一样，倔强的飘在风里。</i>
+> <i style="font-size:12px;">一切看起来都是那么的美好，如果后来的事情按照这个设想进行下去的话，软件厂商和程序员都会松好几口气，那样我们的头发还能和「普通地铁站」里的人一样，倔强的飘在风里。</i>
 
 2010年，几个大胡子年轻人在旧金山成立了一家做 PaaS 平台的公司，起名为「dotCloud」，这个名字让我想起了微软的「DotNet」。<br>
 
