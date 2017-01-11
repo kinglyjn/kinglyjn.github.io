@@ -13,6 +13,10 @@ icon: fa-cloud
 
 > <i style="font-size:12px;"> 简介：Docker是一个开源的引擎，可以轻松的为任何应用创建一个轻量级的、可移植的、自给自足的容器。开发者在笔记本上编译测试通过的容器可以批量地在生产环境中部署，包括VMs（虚拟机）、bare metal、OpenStack 集群和其他的基础应用平台。</i><br>
 
+Docker的基本架构组成：<br>
+
+<img src="http://img.blog.csdn.net/20170111173417214?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:70%"/><br>
+
 Docker通常用于如下场景：
 
 * web应用的自动化打包和发布；
@@ -129,3 +133,4 @@ ok，到现在为止，你已经建立了一个完整的、自成体系的docker
 1. docker images命令可以列出所有安装过的镜像。
 2. docker push命令可以将某一个镜像发布到官方网站。
 3. 你只能将镜像发布到自己的空间下面。这个模拟器登录的是learn帐号。
+
