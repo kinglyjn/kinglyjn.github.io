@@ -31,10 +31,13 @@ Docker通常用于如下场景：
 ```shell
 $ curl -sSL https://get.docker.com/ | sudo sh
 ```
+<br>
+
 
 2、普通方式安装<br>
 
 请参考 [https://www.docker.com/products/docker](https://www.docker.com/products/docker)<br>
+<br>
 
 
 ### 准备
@@ -44,6 +47,8 @@ $ curl -sSL https://get.docker.com/ | sudo sh
 检查docker的版本，这样可以用来确认docker服务在运行并可通过客户端链接: <br>
 
 <img src="http://img.blog.csdn.net/20170111154720775?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:70%"/><br>
+<br>
+
 
 ### 搜索可用的docker镜像
 
@@ -52,6 +57,8 @@ $ curl -sSL https://get.docker.com/ | sudo sh
 命令行的格式为：docker search 镜像名字 <br>
 
 <img src="http://img.blog.csdn.net/20170111155209777?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:70%"/><br>
+<br>
+
 
 ### 下载容器镜像
 
@@ -63,6 +70,8 @@ $ curl -sSL https://get.docker.com/ | sudo sh
 > 注2：docker run第一次执行的时候，如果本地没有相应的镜像，docker会默认去相应的配置源下载镜像，然后执行docker命令。
 
 <img src="http://img.blog.csdn.net/20170111161050099?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:70%"/><br>
+<br>
+
 
 ### 在docker容器中运行hello world
 
@@ -71,6 +80,8 @@ docker容器可以理解为在沙盒中运行的进程。这个沙盒包含了�
 命令行的格式为：docker run \[-itd..\-\-name=xxx\] \[镜像名\] \[要在镜像中运行的命令\] <br>
 
 <img src="http://img.blog.csdn.net/20170111161629538?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:70%"/><br>
+<br>
+
 
 ### docker常见容器命令
 
@@ -85,6 +96,7 @@ docker容器可以理解为在沙盒中运行的进程。这个沙盒包含了�
 docker指令的帮助文档：<br>
 
 <img src="http://img.blog.csdn.net/20170111170613067?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:40%"/><br>
+<br>
 
 
 ### 在容器中安装新的程序
@@ -93,6 +105,7 @@ docker指令的帮助文档：<br>
 备注：apt-get 命令执行完毕之后，容器就会停止，但对容器的改动不会丢失。<br>
 
 <img src="http://img.blog.csdn.net/20170111170141608?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:70%"/><br>
+<br>
 
 ### 保存对容器的修改
 
@@ -105,6 +118,8 @@ docker指令的帮助文档：<br>
 3.  无需拷贝完整的id，通常来讲最开始的三至四个字母即可区分。（非常类似git里面的版本号)
 
 <img src="http://img.blog.csdn.net/20170111171447047?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:70%"/><br>
+<br>
+
 
 ### 运行新的镜像
 
@@ -113,6 +128,7 @@ ok，到现在为止，你已经建立了一个完整的、自成体系的docker
 在新的镜像中运行ping www.google.com命令, 一定要使用新的镜像名learn/ping来运行ping命令。(最开始下载的learn/tutorial镜像中是没有ping命令的)<br>
 
 <img src="http://img.blog.csdn.net/20170111171638160?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:70%"/><br>
+<br>
 
 ### 检查运行中的镜像
 
@@ -121,6 +137,7 @@ ok，到现在为止，你已经建立了一个完整的、自成体系的docker
 查找某一个运行中容器的id，然后使用docker inspect命令查看容器的信息。<br>
 
 <img src="http://img.blog.csdn.net/20170111171752519?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:70%"/><br>
+<br>
 
 ### 发布docker镜像
 
@@ -133,4 +150,5 @@ ok，到现在为止，你已经建立了一个完整的、自成体系的docker
 1. docker images命令可以列出所有安装过的镜像。
 2. docker push命令可以将某一个镜像发布到官方网站。
 3. 你只能将镜像发布到自己的空间下面。这个模拟器登录的是learn帐号。
+
 
