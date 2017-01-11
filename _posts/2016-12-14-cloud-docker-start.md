@@ -24,6 +24,8 @@ Docker通常用于如下场景：
 * 在服务型环境中部署和调整数据库或其他的后台应用；
 * 从头编译或者扩展现有的OpenShift或Cloud Foundry平台来搭建自己的PaaS环境。
 
+<br>
+
 ### Docker的安装
 
 1、自动化安装脚本方式安装<br>
@@ -31,8 +33,6 @@ Docker通常用于如下场景：
 ```shell
 $ curl -sSL https://get.docker.com/ | sudo sh
 ```
-<br>
-
 
 2、普通方式安装<br>
 
