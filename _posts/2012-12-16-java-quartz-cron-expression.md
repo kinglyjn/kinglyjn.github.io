@@ -3,7 +3,7 @@ layout: post
 title:  "quartz cron 表达式"
 desc: "quartz cron 表达式"
 keywords: "quartz cron 表达式,cron,quartz,java,kinglyjn"
-date: 2012-11-16
+date: 2012-12-16
 categories: [Java]
 tags: [java]
 icon: fa-coffee
