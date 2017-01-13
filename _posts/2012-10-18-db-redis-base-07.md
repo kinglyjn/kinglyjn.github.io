@@ -37,11 +37,17 @@ redis主从复制的特点：<br>
 
 ### 主从复制的配置
 
-配置 slave 服务器，只需在 slave 的配置文件中加入以下配置：<br>
+master服务器的配置，需要指定哪些外部主机能够连接到master主服务器，修改master的配置文件：<br>
+
+```shell
+bind 0.0.0.0 #允许所有外部主机访问
+```
+
+slave服务器的配置，只需在 slave 的配置文件中加入以下配置：<br>
 
 ```shell
 slaveof 192.168.1.1 6379 #指定要同步的master的主机和端口
-masterauth xxxxxx #如果主机加了密码，则指定master服务主机的密码
+masterauth xxxxxx #如果主机加了密码，则指定master服务主机的密码，注意由于redis服务器效率非常高，理论上1s之内能够尝试15万次的密码尝试，为了防止外部暴力破解，需要设置高强度的密码
 ```
 <br>
 
