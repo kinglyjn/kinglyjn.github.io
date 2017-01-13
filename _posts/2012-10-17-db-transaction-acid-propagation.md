@@ -70,10 +70,12 @@ icon: fa-database
 
 以上这些隔离级别都是定义在java.sql. Connection中，在获取连接的时候我们可以进行设置，但是一般情况下，系统会用数据库默认的级别来设置。<br>
 
-* Connection.TRANSACTION_READ_UNCOMMITTED;
-* Connection.TRANSACTION_READ_COMMITTED;
-* Connection.TRANSACTION_REPEATABLE_READ;  
-* Connection.TRANSACTION_SERIALIZABLE;
+```default
+Connection.TRANSACTION_READ_UNCOMMITTED;
+Connection.TRANSACTION_READ_COMMITTED;
+Connection.TRANSACTION_REPEATABLE_READ;  
+Connection.TRANSACTION_SERIALIZABLE;
+```
 
 小结：<br>
 
