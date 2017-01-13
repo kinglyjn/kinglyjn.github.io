@@ -65,6 +65,18 @@ OK
 2) "mypass"
 ```
 
+或者直接修改配置文件redis.conf，这样密码设置就会永久生效：<br>
+
+```shell
+# 登录redis客户端可以指定密码（-a 即auth）
+$ redis-cli -a xxxpassxxx
+
+# 或者先开启客户端，再授权
+$ redis-cli
+127.0.0.1:6379> auth "mypass"
+```
+
+
 设置密码后，客户端连接 redis 服务就需要密码验证，否则无法执行命令。格式如下: <br>
 
 ```shell
