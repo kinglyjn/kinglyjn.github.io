@@ -30,6 +30,6 @@ su - postgres -c 'pg_ctl start'
 <br>
 
 > 注意:<br>
-> Please note that you must run 'chmod +x /etc/rc.d/rc.local' to ensure
+> Please note that you must run 'chmod +x /etc/rc.d/rc.local' to ensure <br>
 > centos7不仅用systemctl替代过去的service和chkconfig。rc.local机制也变了，我检查了centos6.5是没有这句话的。centos7默认的取消了该文件的执行的权限，执行一下就好了。官方既然不建议这么做，不知道会不会有其他问题，下次都改用service模式？
 
