@@ -272,55 +272,61 @@ img {
 ### HTML5音频、视频、文档预览
 
 ```html
-
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<title>Html文件测试</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="description" content="">
-		<meta name="author" content="">
-
-		<script type="text/javascript" src="http://sources.ikeepstudying.com/js/jquery-1.8.3.min.js"></script>
-		<script type="text/javascript" src="http://sources.ikeepstudying.com/jquery.media/jquery.media.js"></script>
-		<script type="text/javascript">
-		    $(function() {
-		        $('a.media').media({width:800, height:600});
-		    });
-		</script>
-	</head>
-	<body>
-		<!--音频-->
-		<p>音频测试</p>
-		<hr>
-		<audio src="http://nginxweb/2016068.mp3" controls="controls" loop="loop" style="display:block;">
-			<source src="http://nginxweb/2016068.mp3" type="audio/ogg">
-			<source src="http://nginxweb/2016068.mp3" type="audio/mpeg">
-			Your browser does not support the audio tag.
-		</audio>
-
-
-		<!--视频-->
-		<p>视频测试</p>
-		<hr>
-		<video controls="controls" autoplay="autoplay" loop="loop" style="display:block;" width="640" height="352">
-  			<!-- 兼容 Firefox --> 
-			<source src="http://nginxweb/mp4test.mp4" type="video/ogg"/> 
-			<!-- 兼容 Safari/Chrome--> 
-			<source src="http://nginxweb/mp4test.mp4" type="video/mp4"/> 
-			<!-- 如果浏览器不支持video标签，则使用flash --> 
-			<embed src="http://nginxweb/mp4test.mp4" type="application/x-shockwave-flash" 
-			width="320" height="240" allowscriptaccess="always" allowfullscreen="true"></embed> 
-			Your browser does not support the video tag.
-		</video>
-
-
-		<!--jquery.media.js实现文件预览-->
-		<p>文档测试</p>
-		<hr>
-		<a class="media" href="http://nginxweb/attack-tool.pdf">PDF File</a> 
-	</body>
+    <head>
+        <meta charset="utf-8">
+        <title>Html文件测试</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        
+        <script type="text/javascript" src="http://sources.ikeepstudying.com/js/jquery-1.8.3.min.js"></script>
+        <script type="text/javascript" src="http://sources.ikeepstudying.com/jquery.media/jquery.media.js"></script>
+        <script type="text/javascript">
+            $(function() {
+                $('a.media').media({width:800, height:600});
+            });
+        </script>
+    </head>
+    <body>
+        <!--音频-->
+        <p>音频测试</p>
+        <hr>
+        <audio src="http://nginxweb/2016068.mp3" controls="controls" loop="loop" style="display:block;">
+            <source src="http://nginxweb/2016068.mp3" type="audio/ogg">
+            <source src="http://nginxweb/2016068.mp3" type="audio/mpeg">
+            Your browser does not support the audio tag.
+        </audio>
+        
+        
+        <!--视频-->
+        <p>视频测试</p>
+        <hr>
+        <video src="http://nginxweb/mp4test.mp4" controls="controls" autoplay="autoplay" loop="loop" style="display:block;" width     ="640" height="352">
+            <!-- 兼容 Firefox --> 
+            <source src="http://nginxweb/mp4test.mp4" type="video/ogg"/> 
+            <!-- 兼容 Safari/Chrome--> 
+            <source src="http://nginxweb/mp4test.mp4" type="video/mp4"/> 
+            <!-- 如果浏览器不支持video标签，则使用flash --> 
+            <embed src="http://nginxweb/mp4test.mp4" type="application/x-shockwave-flash" 
+            width="320" height="240" allowscriptaccess="always" allowfullscreen="true"></embed> 
+            Your browser does not support the video tag.
+        </video>
+        <input type="button" id="nextvideo" value="下一个视频"/>
+        <script type="text/javascript">
+            $(function() {
+                $("#nextvideo").on("click", function(){
+                    $("video").attr("src", "http://nginxweb/docker.mp4");
+                });
+            });
+        </script>
+        
+        <!--jquery.media.js实现文件预览-->
+        <p>文档测试</p>
+        <hr>
+        <a class="media" href="http://nginxweb/attack-tool.pdf">PDF File</a> 
+    </body>
 </html>
 ```
 <br>
