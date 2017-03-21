@@ -582,6 +582,241 @@ public class FileTest {
 	}
 }
 ```
+<br><br>
+
+
+### 综合测试类
+
+```java
+package iotest;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.PushbackInputStream;
+import java.io.SequenceInputStream;
+import java.io.Serializable;
+import java.util.Enumeration;
+import java.util.Vector;
+
+/*
+ 字节流：
+ 	InputStream
+ 		FileInputStream
+ 		FileterIputStream
+ 			BufferedInputStream
+ 			DataInputStream
+ 			PushbackInputStream
+ 		ObjectInputStream
+ 		PipedInputStream
+ 		SequenceInputStream
+ 		StringBufferInputStream
+ 		ByteArrayInputStream
+ 	OutputStream
+ 		FileOutputStream
+ 		FilterOutPutStream
+ 			BufferedOutputStream
+ 			DataOutputStream
+ 			PrintStream
+ 		ObjectOutputStream
+ 		PipedOutputStream
+ 		ByteArrayOutputStream
+ 		
+ 字符流：
+ 	Reader
+ 		BufferedReader
+ 		InputStreamReader
+ 			FileReader
+ 		StringReader
+ 		PipedReader
+ 		ByteArrayReader
+ 		FilterReader
+ 			PushbackReader
+ 	Writer
+ 		BufferedWriter
+ 		OutputStreamWriter
+ 			FileWriter
+ 		PrintWriter
+ 		StringWriter
+ 		PipedWriter
+ 		CharArrayWriter
+ 		FilterWriter
+ */
+
+public class IOTest {
+	
+	/**
+	 * 字节流
+	 */
+	//一次读取1或n个字符
+	public static int getFileSize(File file) {
+		int count = 0;
+		InputStream is = null;
+		try {
+			/*is = new FileInputStream(file);
+			while (is.read()!=-1) {
+				count++;
+			}*/
+			is = new FileInputStream(file);
+			byte[] bs = new byte[100];
+			int n = 0;
+			while ((n=is.read(bs)) != -1) {
+				count+=n;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (is != null) {
+				try {
+					is.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return count;
+	}
+	
+	//复制文件
+	public static void copyFile(File srcFile, File disFile) {
+		FileInputStream fin = null;
+		FileOutputStream fos = null;
+		try {
+			fin = new FileInputStream(srcFile);
+			fos = new FileOutputStream(disFile);
+			byte[] bs = new byte[1024];
+			int len = 0;
+			while ((len=fin.read(bs)) != -1) {
+				fos.write(bs, 0, len);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				fos.close();
+				fin.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	//读写对象
+	public static void writeAndReadObjectTest(File file) {
+		ObjectOutputStream oos = null;
+		ObjectInputStream ois = null;
+		try {
+			oos = new ObjectOutputStream(new FileOutputStream(file));
+			oos.writeObject(new Student("张三", 23));
+			oos.writeObject(new Student("小娟", 20));
+			oos.flush();
+			
+			ois = new ObjectInputStream(new FileInputStream(file));
+			for (int i = 0; i < 2; i++) {
+				Student student = (Student) ois.readObject();
+				System.out.println(student);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				oos.close();
+				ois.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	//回退字节流
+	public static void pushbackTest() {
+		PushbackInputStream pis = null;
+		try {
+			String str = "hello,world,haha!";
+			pis = new PushbackInputStream(new ByteArrayInputStream(str.getBytes()));
+			int ch = 0;
+			while ((ch=pis.read()) != -1) {
+				if (ch==',') { //判断读取的是否是逗号  
+					pis.unread(ch);
+					ch = pis.read();
+					System.out.println("(回退"+ (char)ch +")");
+				} else {
+					System.out.println((char)ch);
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				pis.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	//合并多个输入流
+	public static void sequenceIsTest() {
+		SequenceInputStream sis = null;
+		BufferedOutputStream bos = null;
+		try {
+			// 构建流集合
+			Vector<InputStream> vector = new Vector<InputStream>();
+			vector.add(new FileInputStream(new File("/Users/zhangqingli/Desktop/log.txt")));
+			vector.add(new FileInputStream(new File("/Users/zhangqingli/Desktop/log2.txt")));
+			vector.add(new FileInputStream(new File("/Users/zhangqingli/Desktop/log3.txt")));
+			Enumeration<InputStream> es = vector.elements();
+			sis = new SequenceInputStream(es);
+			
+			bos = new BufferedOutputStream(new FileOutputStream(new File("/Users/zhangqingli/Desktop/log4.txt")));
+			byte[] bs = new byte[1024];
+			int len = 0;
+			while ((len=sis.read(bs)) != -1) {
+				bos.write(bs, 0, len);
+				bos.flush();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				bos.close();
+				sis.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	
+	public static void main(String[] args) {
+		//System.out.println(getFileSize(new File("/Users/zhangqingli/Desktop/log.txt")));
+		//copyFile(new File("/Users/zhangqingli/Desktop/log.txt"), new File("/Users/zhangqingli/Desktop/log2.txt"));
+		//writeAndReadObjectTest(new File("/Users/zhangqingli/Desktop/log.txt"));
+		//pushbackTest();
+		//sequenceIsTest();
+	}
+}
+
+class Student implements Serializable {
+	private static final long serialVersionUID = 1L;
+	public String name;
+	public transient int age;
+	public Student(String name, int age) {
+		this.name = name;
+		this.age = age;
+	}
+	@Override
+	public String toString() {
+		return "Student [name=" + name + ", age=" + age + "]";
+	}
+}
+```
+<br><br>
 
 
 
