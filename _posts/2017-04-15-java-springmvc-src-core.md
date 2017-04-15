@@ -12,7 +12,7 @@ icon: fa-coffee
 
 ### springmvc请求执行流程
 
-<img src="http://img.blog.csdn.net/20170415210640025?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" width="90%"/><br><br>
+<img src="http://img.blog.csdn.net/20170415210640025?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" width="100%"/><br><br>
 
 
 ### springmvc核心源码
@@ -116,7 +116,8 @@ protected void doDispatch(HttpServletRequest request, HttpServletResponse respon
 
 #### 相关方法
 
-DispatcherServlet.getHandler（dispatcherServlet.handlerMappings 获取 HandlerExecutionChain 对象）
+DispatcherServlet.getHandler<br>
+由dispatcherServlet.handlerMappings 获取 HandlerExecutionChain 对象 <br>
 
 ```java
 /**
@@ -142,7 +143,9 @@ protected HandlerExecutionChain getHandler(HttpServletRequest request) throws Ex
 <br>
 
 
-HandlerExecutionChain.applyPreHandle（通过 HandlerExecutionChain 调用拦截器的 preHandle 方法	）
+HandlerExecutionChain.applyPreHandle <br>
+通过 HandlerExecutionChain 调用拦截器的 preHandle 方法<br>
+
 
 ```java
 /**
@@ -169,7 +172,8 @@ boolean applyPreHandle(HttpServletRequest request, HttpServletResponse response)
 <br>
 
 
-HandlerExecutionChain.applyPostHandle：(通过 HandlerExecutionChain 调用拦截器的postHandle方法)
+HandlerExecutionChain.applyPostHandle <br>
+通过 HandlerExecutionChain 调用拦截器的postHandle方法 <br>
 
 ```java
 /**
@@ -187,7 +191,8 @@ void applyPostHandle(HttpServletRequest request, HttpServletResponse response, M
 ```
 <br>
 
-HandlerExecutionChain.triggerAfterCompletion（通过 HandlerExecutionChain 调用拦截器的afterCompletion方法）
+HandlerExecutionChain 的 triggerAfterCompletion方法<br>
+通过 HandlerExecutionChain 调用拦截器的afterCompletion方法<br>
 
 ```java
 /**
@@ -214,7 +219,8 @@ void triggerAfterCompletion(HttpServletRequest request, HttpServletResponse resp
 ```
 <br>
 
-HandlerExecutionChain.applyAfterConcurrentHandlingStarted（）
+HandlerExecutionChain的
+applyAfterConcurrentHandlingStarted方法<br>
 
 ```java
 /**
@@ -239,7 +245,10 @@ void applyAfterConcurrentHandlingStarted(HttpServletRequest request, HttpServlet
 ```
 <br>
 
-DispatcherServlet.processDispatchResult（渲染视图，最终执行转发操作）
+DispatcherServlet的
+processDispatchResult 方法<br>
+渲染视图，最终执行转发操作<br>
+
 
 * 上述调用的过程中是否发生异常，由HandlerExceptionResolver组件处理异常，得到新的ModelAndView对象<br>
 * 通过 HandlerExecutionChain 调用拦截器的afterCompletion方法<br>
@@ -296,7 +305,7 @@ private void processDispatchResult(HttpServletRequest request, HttpServletRespon
 ```
 <br>
 
-DispatcherServlet.processHandlerException（由异常解析器处理异常，返回新的异常模型视图对象）
+DispatcherServlet 的 processHandlerException 方法（由异常解析器处理异常，返回新的异常模型视图对象）
 
 ```java
 /**
@@ -435,7 +444,9 @@ protected View resolveViewName(String viewName, Map<String, Object> model, Local
 ```
 <br>
 
-org.springframework.web.servlet.view.AbstractView.render
+
+AbstractView.render <br>
+
 
 ```java
 /**
@@ -460,7 +471,7 @@ public void render(Map<String, ?> model, HttpServletRequest request, HttpServlet
 <br>
 
 
-org.springframework.web.servlet.view.InternalResourceView.renderMergedOutputModel
+InternalResourceView 的 renderMergedOutputModel方法
 
 ```java
 /**
