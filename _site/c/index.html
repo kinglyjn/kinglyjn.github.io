@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html>
+	
+	    <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  
+  <meta name="author" content="KinglyJn">
+
+  <title>
+    
+        KinglyJn|C
+    
+  </title>
+  <!-- favicon -->
+  <link rel="shortcut icon" href="/static/img/favicon.ico">
+
+  <!-- Third-party CSS -->
+  <link href="/bower_components/normalize-css/normalize.min.css" rel="stylesheet">
+  <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/bower_components/animate.css/animate.min.css" rel="stylesheet">
+  <link href="/bower_components/components-font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="/static/font-mfizz/font-mfizz.css" rel="stylesheet">
+  <!-- <link href="/bower_components/toastr/toastr.min.css" rel="stylesheet"> -->
+  <link href="/bower_components/jquery.gritter/css/jquery.gritter.css" rel="stylesheet">
+  <link rel="stylesheet" href="/search/css/cb-search.css">
+
+  <!-- Custom styles for this template -->
+  <link href="/static/css/style.min.css" rel="stylesheet">
+  <link href="/static/css/pygments.css" rel="stylesheet">
+
+  <!-- Scripts -->
+  <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="/search/js/bootstrap3-typeahead.min.js"></script>
+
+  <!-- cb-search -->
+  <script src="/search/js/cb-search.js"></script>
+  <script>
+    $(function(){
+        $("pre").css('display','block');
+    });
+  </script>
+  <!-- Mainly scripts -->
+  <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="/bower_components/metisMenu/dist/metisMenu.min.js"></script>
+  <script src="/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+
+  <!-- Peity -->
+  <script src="/bower_components/peity/jquery.peity.min.js"></script>
+
+  <script src="/bower_components/PACE/pace.min.js"></script>
+  <script src="/bower_components/wow/dist/wow.min.js"></script>
+  <!-- Custom and plugin javascript -->
+  <script src="/static/js/inspinia.js"></script>
+
+  <!-- Rickshaw -->
+  <script src="/bower_components/rickshaw/vendor/d3.v3.js"></script>
+  <script src="/bower_components/rickshaw/rickshaw.min.js"></script>
+
+
+  <!-- jPages -->
+  <script src="/static/js/jPages.js"></script>
+  <script src="/static/js/js.js"></script>
+  <script type="text/javascript">
+        $(function(){
+          /* initiate the plugin */
+          $("div.pag-holder").jPages({
+              containerID  : "pag-itemContainer",
+              perPage      : 10,  /* num of items per page */
+              startPage    : 1,
+              startRange   : 1,
+              midRange     : 3,
+              endRange     : 1
+          });
+
+          $("div.pag-jump button").click(function(){
+            var page = parseInt($("div.pag-jump input").val());
+            $("div.pag-holder").jPages(page);
+          });
+
+          $("div.pag-jump input").on("keypress", function(){
+            var e=e||window.event;
+            if (e.keyCode == 13) {
+                var page = parseInt($("div.pag-jump input").val());
+                $("div.pag-holder").jPages(page);
+            } 
+          });
+      });
+  </script>
+
+<!-- GrowingIO -->
+
+  <script>
+    var _vds = _vds || [];
+    window._vds = _vds;
+    (function(){
+      _vds.push(['setAccountId', 'a49d4901c7853da9']);
+      (function() {
+        var vds = document.createElement('script');
+        vds.type='text/javascript';
+        vds.async = true;
+        vds.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'dn-growing.qbox.me/vds.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(vds, s);
+      })();
+    })();
+  </script>
+
+
+</head>
+
+	
+
+
+<body id="page-top" class="landing-page">
+
+	
+	    
+
+<!--修复手机端横轴方向左右滑动BUG-->
+<style type="text/css">
+    .landing-page .row {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+</style>
+
+<div class="search-tool"
+      style="position: fixed; top: 0px ; bottom: 0px; left: 0px; right:  0px; opacity: 0.95; background-color: #111111; z-index: 9999; display: none;">
+    <input type="text" class="form-control search-content" id="search-content" style="position: fixed; top: 60px" placeholder="Search Blog">
+
+    <div style="position: fixed; top: 16px; right: 16px; z-index: 9999;">
+        <img src="/search/img/cb-close.png" id="close-btn"/>
+    </div>
+</div>
+
+<div style="position: fixed; right: 16px; bottom: 20px; z-index: 9999;">
+    <img src="/search/img/cb-search.png"  id="search-btn"  title="Double click Ctrl"/>
+</div>
+
+<div class="navbar-wrapper">
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header page-scroll">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/">KinglyJn</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a class="page-scroll" href="/blog/"></a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/blog/">Blog</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/linux/">Linux</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/cloud/">Cloud</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/java/">Java</a></li>
+                        
+                            
+                            <li class="active">
+                            
+                            <a class="page-scroll" href="/c/">C</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/php/">PHP</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/db/">DB</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/htmlx/">HTMLX</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/life/">Life</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/art/">Art</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/other/">Other</a></li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </nav>
+</div>
+<div id="inSlider" class="carousel carousel-fade" data-ride="carousel">
+    <div style="position:absolute;float:left;left:25%;z-index:15;width:50%;margin-bottom:18%;bottom:0;text-align:center;list-style:none;">
+        <span style="color:white;font-size:24px;">以平实之心写作</span><br>
+        <span style="color:white;font-size:13px;">writing with simple heart ♬. </span>
+    </div>
+    <!--
+    <ol class="carousel-indicators">
+        <li data-target="#inSlider" data-slide-to="0" class="active"></li>
+        <li data-target="#inSlider" data-slide-to="1"></li>
+    </ol>
+    -->
+    <div class="carousel-inner" role="listbox">
+        <div class="item active">
+            <div class="container">
+                <div class="carousel-caption">
+                </div>
+                <div class="carousel-image wow zoomIn">
+                    <!-- <img src="static/img/landing/laptop.png" alt="laptop"/> -->
+                </div>
+            </div>
+            <!-- Set background for slide in css -->
+            <div class="header-back blog-one"></div>
+        </div>
+        <!--
+        <div class="item">
+            <div class="container">
+                <div class="carousel-caption blank">
+                </div>
+            </div>
+            Set background for slide in css
+            <div class="header-back two"></div>
+        </div>
+        -->
+    </div>
+    <!--
+    <a class="left carousel-control" href="#inSlider" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#inSlider" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+    -->
+</div>
+
+
+	
+
+        <div class="row">
+    <div class="col-lg-12 text-center">
+        <div class="navy-line"></div>
+        <h1>C</h1>
+    </div>
+</div>
+
+<div class="wrapper wrapper-content  animated fadeInRight blog">
+    <div class="row">
+		<ul id="pag-itemContainer" style="list-style:none;">
+    
+		
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/c/2013/03/20/C-C-pointer-05.html" class="btn-link">
+                        <h2>
+                            C指针编程之道（五）- 排序算法 &nbsp;
+                            <i class="fa fa-cc"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2013-03-20</span>
+                    </div>
+                    <p>
+                    	冒泡排序
+
+算法介绍：
+
+算法的基本思想：
+冒泡法排序是交换排序的一种，我们可以将待排序的数组 array[0...n-1] 理解为一个圆柱，将数组中的每一个元素都看成是重量为
+array[i]...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                            <h5 style="display: inline;">Tags:</h5>
+                            
+                                <button class="btn btn-white btn-xs" type="button">c</button>
+                            
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/c/2013/03/20/C-C-pointer-04.html" class="btn-link">
+                        <h2>
+                            C指针编程之道（四）- 指向文件类型的指针 &nbsp;
+                            <i class="fa fa-cc"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2013-03-20</span>
+                    </div>
+                    <p>
+                    	文件结构体和文件指针
+
+// 在c语言中，对文件的操作一般是用库函数来实现的
+// ANSI(美国国家标准学会)规定了标准的输入输出函数，用他们对文件进行读写以规范和提高编程效率
+// 每个被使...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                            <h5 style="display: inline;">Tags:</h5>
+                            
+                                <button class="btn btn-white btn-xs" type="button">c</button>
+                            
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/c/2013/03/20/C-C-pointer-03.html" class="btn-link">
+                        <h2>
+                            C指针编程之道（三）- 数据结构中指针的应用 &nbsp;
+                            <i class="fa fa-cc"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2013-03-20</span>
+                    </div>
+                    <p>
+                    	循环队列（数组实现）
+
+# include &lt;stdio.h&gt;
+
+# define CIRQUEUE_LENGTH 8
+
+typedef struct {
+    int font;...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                            <h5 style="display: inline;">Tags:</h5>
+                            
+                                <button class="btn btn-white btn-xs" type="button">c</button>
+                            
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/c/2013/03/20/C-C-pointer-02.html" class="btn-link">
+                        <h2>
+                            C指针编程之道（二）- 指针与函数 &nbsp;
+                            <i class="fa fa-cc"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2013-03-20</span>
+                    </div>
+                    <p>
+                    	指向函数的指针（函数指针）
+
+/**
+* 测试函数指针
+*/
+
+# include &lt;stdio.h&gt;
+
+int main() {
+    int a=1, b=2;
+    
+  ...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                            <h5 style="display: inline;">Tags:</h5>
+                            
+                                <button class="btn btn-white btn-xs" type="button">c</button>
+                            
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/c/2013/03/20/C-C-pointer-01.html" class="btn-link">
+                        <h2>
+                            C指针编程之道（一）- 指针与数组 &nbsp;
+                            <i class="fa fa-cc"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2013-03-20</span>
+                    </div>
+                    <p>
+                    	数组的下标表示法和指针表示法
+
+# include &lt;stdio.h&gt;
+
+int main() {
+    char title[] = {"C language pointer!"...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                            <h5 style="display: inline;">Tags:</h5>
+                            
+                                <button class="btn btn-white btn-xs" type="button">c</button>
+                            
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/c/2013/02/26/C-C-base-12.html" class="btn-link">
+                        <h2>
+                            C语言基础（十二）- 数据结构概览 &nbsp;
+                            <i class="fa fa-cc"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2013-02-26</span>
+                    </div>
+                    <p>
+                    	相关术语：
+	数据—----类
+	数据对象--集合
+	数据元素--类对象
+	数据项-———属性
+
+什么是数据结构？
+	概念：相互之间存在一种或多种特定关系的数据元素（类对象）的集合。
+	数据结构...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                            <h5 style="display: inline;">Tags:</h5>
+                            
+                                <button class="btn btn-white btn-xs" type="button">c</button>
+                            
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/c/2013/02/26/C-C-base-11.html" class="btn-link">
+                        <h2>
+                            C语言基础（十一）- 文件和目录操作运算 &nbsp;
+                            <i class="fa fa-cc"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2013-02-26</span>
+                    </div>
+                    <p>
+                    	C\C++关于FILE结构定义说明
+
+//此结构VC定义于stdio.h头文件中，
+struct _iobuf { 
+     char   *_ptr;      //文件输入的下一个位置 
+...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                            <h5 style="display: inline;">Tags:</h5>
+                            
+                                <button class="btn btn-white btn-xs" type="button">c</button>
+                            
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/c/2013/02/26/C-C-base-10.html" class="btn-link">
+                        <h2>
+                            C语言基础（十）- 预处理 &nbsp;
+                            <i class="fa fa-cc"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2013-02-26</span>
+                    </div>
+                    <p>
+                    	预处理就是在编译之前所做的事情，所以也叫预编译，主要有宏定义、文件包含处理和条件编译。
+
+宏定义
+宏定义指令是指用一个指定的标识符代表一个字符串，可以减少程序中重复书写某些字符串的工作量，使用宏...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                            <h5 style="display: inline;">Tags:</h5>
+                            
+                                <button class="btn btn-white btn-xs" type="button">c</button>
+                            
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/c/2013/02/26/C-C-base-09.html" class="btn-link">
+                        <h2>
+                            C语言基础（九）- 链表 &nbsp;
+                            <i class="fa fa-cc"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2013-02-26</span>
+                    </div>
+                    <p>
+                    	数组和链表的比较
+
+
+
+数组
+
+优点：
+
+
+  存取速度快，并且每个元素有标号，方便找到
+
+
+缺点：
+
+
+  只能够连续存储，如果需要存数的信息量特别大，可能就会定义数组失败！
+  当删除数据或...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                            <h5 style="display: inline;">Tags:</h5>
+                            
+                                <button class="btn btn-white btn-xs" type="button">c</button>
+                            
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/c/2013/02/26/C-C-base-08.html" class="btn-link">
+                        <h2>
+                            C语言基础（八）- 进制转化、计算机补码、位运算符 &nbsp;
+                            <i class="fa fa-cc"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2013-02-26</span>
+                    </div>
+                    <p>
+                    	进制转化
+
+
+  一个数字的大小本质上都是表示状态数的多少
+  数字的表示可以用不同的进制
+  十进制转r进制：整数部分–除r取余，直至商0，余数倒置即可，小数部分–乘r取整，直至积为0，整数正...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                            <h5 style="display: inline;">Tags:</h5>
+                            
+                                <button class="btn btn-white btn-xs" type="button">c</button>
+                            
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/c/2013/02/26/C-C-base-07.html" class="btn-link">
+                        <h2>
+                            C语言基础（七）- 动态内存 &nbsp;
+                            <i class="fa fa-cc"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2013-02-26</span>
+                    </div>
+                    <p>
+                    	静态内存和动态内存
+
+
+  静态内存是由系统自动分配，由系统自动释放，是在栈中分配的；
+  动态内存是由程序员手动分配，手动释放，是由堆分配的！
+
+
+
+
+动态内存的开辟
+
+/**
+* 2013年...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                            <h5 style="display: inline;">Tags:</h5>
+                            
+                                <button class="btn btn-white btn-xs" type="button">c</button>
+                            
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/c/2013/02/26/C-C-base-06.html" class="btn-link">
+                        <h2>
+                            C语言基础（六）- 结构体、共用体、枚举和typeof自定义类型 &nbsp;
+                            <i class="fa fa-cc"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2013-02-26</span>
+                    </div>
+                    <p>
+                    	什么是结构体？
+结构体的本质就是把一些基本类型数据组合在一起形成的一个新的复合数据类型。
+
+利用结构体可以造出一种新的数据类型，这种新的数据类型是由基本数据类型组合在一起的，利用结构体，我们就可...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                            <h5 style="display: inline;">Tags:</h5>
+                            
+                                <button class="btn btn-white btn-xs" type="button">c</button>
+                            
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/c/2013/02/26/C-C-base-05.html" class="btn-link">
+                        <h2>
+                            C语言基础（五）- 指针 &nbsp;
+                            <i class="fa fa-cc"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2013-02-26</span>
+                    </div>
+                    <p>
+                    	什么事指针？
+
+指针就是内存地址（注意：通常我们叙述时，会把指针变量简称为指针，实际上他们含义并不一样），指针的本质是一个变量房间的“门牌号”，是一个操作受限的非负整数！（可以进行相减运算（表示...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                            <h5 style="display: inline;">Tags:</h5>
+                            
+                                <button class="btn btn-white btn-xs" type="button">c</button>
+                            
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/c/2013/02/26/C-C-base-04.html" class="btn-link">
+                        <h2>
+                            C语言基础（四）- 函数 &nbsp;
+                            <i class="fa fa-cc"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2013-02-26</span>
+                    </div>
+                    <p>
+                    	什么叫做函数？ –(结合数据结构和面向对象的语言才能理解的更深刻)
+
+
+  逻辑上：能够完成特定功能的独立的代码单元
+  物理上：能够接收数据【当也可以不接受】，能够对接收的数据处理【当然也可以...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                            <h5 style="display: inline;">Tags:</h5>
+                            
+                                <button class="btn btn-white btn-xs" type="button">c</button>
+                            
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/c/2013/02/26/C-C-base-03.html" class="btn-link">
+                        <h2>
+                            C语言基础（三）- 数组 &nbsp;
+                            <i class="fa fa-cc"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2013-02-26</span>
+                    </div>
+                    <p>
+                    	数组的特点：
+
+
+  连续的存储空间
+  所有变量的数据类型必须相同
+  所有数据占用的字节大小都相等
+
+
+为什么需要数组：
+
+
+  
+    为了解决大量同类型数据的存数和使用问题
+  
+  ...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                            <h5 style="display: inline;">Tags:</h5>
+                            
+                                <button class="btn btn-white btn-xs" type="button">c</button>
+                            
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/c/2013/02/26/C-C-base-02.html" class="btn-link">
+                        <h2>
+                            C语言基础（二）- 流程 &nbsp;
+                            <i class="fa fa-cc"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2013-02-26</span>
+                    </div>
+                    <p>
+                    	什么是流程控制？
+
+程序代码的执行顺序
+
+流程控制的分类
+
+
+  顺序
+  选择
+  循环
+
+
+
+
+顺序
+没啥好说的，略。
+
+选择
+
+/**
+* 测试if
+*/
+
+#include &lt;st...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                            <h5 style="display: inline;">Tags:</h5>
+                            
+                                <button class="btn btn-white btn-xs" type="button">c</button>
+                            
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/c/2013/02/26/C-C-base-01.html" class="btn-link">
+                        <h2>
+                            C语言基础（一）- 背景 &nbsp;
+                            <i class="fa fa-cc"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2013-02-26</span>
+                    </div>
+                    <p>
+                    	
+  当你成为C语言的高手，那么你就很容易进入到操作系统的平台里去；当你进入到系统的平台里实际做程序时，就懂得进行调试；当你懂得调试的时候，你就会发现能轻而易举地了解整个平台的架构。这时候，计算...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                            <h5 style="display: inline;">Tags:</h5>
+                            
+                                <button class="btn btn-white btn-xs" type="button">c</button>
+                            
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+        </ul>
+        <!--在head.html中配置的是煤业显示10条-->
+<!--如果大于10条就显示分页-->
+
+    <div class="col-lg-6 col-lg-offset-5">
+		<div class="pag-holder" style="float:left; display:inline;"></div>
+		<div class="pag-jump" style="float:left;margin:22px 10px">
+			转到
+			<input type="text" value="1" style="width:30px;"/>&nbsp;页
+			<button type="button" class="btn btn-default btn-xs" style="margin-left:10px;">确定</button>
+		</div>
+	</div>
+
+
+
+    </div>
+</div>
+
+
+	
+	    <script src="/static/js/scroll.js"></script>
+
+<!-- Baidu analytics -->
+
+
+<!-- Google analytics -->
+
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-73784599-1', 'auto');
+    ga('send', 'pageview');
+
+  </script>
+
+
+<!--
+
+-->
+
+<!--
+
+-->
+
+<script async src="/static/js/count_page.js"></script>
+
+	
+
+</body>
+</html>

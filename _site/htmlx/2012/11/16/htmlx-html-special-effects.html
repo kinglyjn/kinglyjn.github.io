@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html>
+	
+	    <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+    <meta content="html基本常见特效设置" name="description">
+  
+  
+    <meta name="keywords" content="html基本常见特效设置,kinglyjn">
+  
+  <meta name="author" content="KinglyJn">
+
+  <title>
+    
+        KinglyJn|html基本常见特效设置
+    
+  </title>
+  <!-- favicon -->
+  <link rel="shortcut icon" href="/static/img/favicon.ico">
+
+  <!-- Third-party CSS -->
+  <link href="/bower_components/normalize-css/normalize.min.css" rel="stylesheet">
+  <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/bower_components/animate.css/animate.min.css" rel="stylesheet">
+  <link href="/bower_components/components-font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="/static/font-mfizz/font-mfizz.css" rel="stylesheet">
+  <!-- <link href="/bower_components/toastr/toastr.min.css" rel="stylesheet"> -->
+  <link href="/bower_components/jquery.gritter/css/jquery.gritter.css" rel="stylesheet">
+  <link rel="stylesheet" href="/search/css/cb-search.css">
+
+  <!-- Custom styles for this template -->
+  <link href="/static/css/style.min.css" rel="stylesheet">
+  <link href="/static/css/pygments.css" rel="stylesheet">
+
+  <!-- Scripts -->
+  <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="/search/js/bootstrap3-typeahead.min.js"></script>
+
+  <!-- cb-search -->
+  <script src="/search/js/cb-search.js"></script>
+  <script>
+    $(function(){
+        $("pre").css('display','block');
+    });
+  </script>
+  <!-- Mainly scripts -->
+  <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="/bower_components/metisMenu/dist/metisMenu.min.js"></script>
+  <script src="/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+
+  <!-- Peity -->
+  <script src="/bower_components/peity/jquery.peity.min.js"></script>
+
+  <script src="/bower_components/PACE/pace.min.js"></script>
+  <script src="/bower_components/wow/dist/wow.min.js"></script>
+  <!-- Custom and plugin javascript -->
+  <script src="/static/js/inspinia.js"></script>
+
+  <!-- Rickshaw -->
+  <script src="/bower_components/rickshaw/vendor/d3.v3.js"></script>
+  <script src="/bower_components/rickshaw/rickshaw.min.js"></script>
+
+
+  <!-- jPages -->
+  <script src="/static/js/jPages.js"></script>
+  <script src="/static/js/js.js"></script>
+  <script type="text/javascript">
+        $(function(){
+          /* initiate the plugin */
+          $("div.pag-holder").jPages({
+              containerID  : "pag-itemContainer",
+              perPage      : 10,  /* num of items per page */
+              startPage    : 1,
+              startRange   : 1,
+              midRange     : 3,
+              endRange     : 1
+          });
+
+          $("div.pag-jump button").click(function(){
+            var page = parseInt($("div.pag-jump input").val());
+            $("div.pag-holder").jPages(page);
+          });
+
+          $("div.pag-jump input").on("keypress", function(){
+            var e=e||window.event;
+            if (e.keyCode == 13) {
+                var page = parseInt($("div.pag-jump input").val());
+                $("div.pag-holder").jPages(page);
+            } 
+          });
+      });
+  </script>
+
+<!-- GrowingIO -->
+
+  <script>
+    var _vds = _vds || [];
+    window._vds = _vds;
+    (function(){
+      _vds.push(['setAccountId', 'a49d4901c7853da9']);
+      (function() {
+        var vds = document.createElement('script');
+        vds.type='text/javascript';
+        vds.async = true;
+        vds.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'dn-growing.qbox.me/vds.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(vds, s);
+      })();
+    })();
+  </script>
+
+
+</head>
+
+	
+
+
+<body id="page-top" class="landing-page">
+
+	
+	    
+
+<!--修复手机端横轴方向左右滑动BUG-->
+<style type="text/css">
+    .landing-page .row {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+</style>
+
+<div class="search-tool"
+      style="position: fixed; top: 0px ; bottom: 0px; left: 0px; right:  0px; opacity: 0.95; background-color: #111111; z-index: 9999; display: none;">
+    <input type="text" class="form-control search-content" id="search-content" style="position: fixed; top: 60px" placeholder="Search Blog">
+
+    <div style="position: fixed; top: 16px; right: 16px; z-index: 9999;">
+        <img src="/search/img/cb-close.png" id="close-btn"/>
+    </div>
+</div>
+
+<div style="position: fixed; right: 16px; bottom: 20px; z-index: 9999;">
+    <img src="/search/img/cb-search.png"  id="search-btn"  title="Double click Ctrl"/>
+</div>
+
+<div class="navbar-wrapper">
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header page-scroll">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/">KinglyJn</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a class="page-scroll" href="/blog/"></a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/blog/">Blog</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/linux/">Linux</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/cloud/">Cloud</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/java/">Java</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/c/">C</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/php/">PHP</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/db/">DB</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/htmlx/">HTMLX</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/life/">Life</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/art/">Art</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/other/">Other</a></li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </nav>
+</div>
+<div id="inSlider" class="carousel carousel-fade" data-ride="carousel">
+    <div style="position:absolute;float:left;left:25%;z-index:15;width:50%;margin-bottom:18%;bottom:0;text-align:center;list-style:none;">
+        <span style="color:white;font-size:24px;">以平实之心写作</span><br>
+        <span style="color:white;font-size:13px;">writing with simple heart ♬. </span>
+    </div>
+    <!--
+    <ol class="carousel-indicators">
+        <li data-target="#inSlider" data-slide-to="0" class="active"></li>
+        <li data-target="#inSlider" data-slide-to="1"></li>
+    </ol>
+    -->
+    <div class="carousel-inner" role="listbox">
+        <div class="item active">
+            <div class="container">
+                <div class="carousel-caption">
+                </div>
+                <div class="carousel-image wow zoomIn">
+                    <!-- <img src="static/img/landing/laptop.png" alt="laptop"/> -->
+                </div>
+            </div>
+            <!-- Set background for slide in css -->
+            <div class="header-back blog-one"></div>
+        </div>
+        <!--
+        <div class="item">
+            <div class="container">
+                <div class="carousel-caption blank">
+                </div>
+            </div>
+            Set background for slide in css
+            <div class="header-back two"></div>
+        </div>
+        -->
+    </div>
+    <!--
+    <a class="left carousel-control" href="#inSlider" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#inSlider" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+    -->
+</div>
+
+
+	
+
+    <div class="wrapper wrapper-content  animated fadeInRight article">
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <div class="pull-right">
+                    	
+                        	<button class="btn btn-white btn-xs" type="button">HTMLX</button>
+                        
+                    </div>
+                    <div class="text-center article-title" style="margin-bottom:50px;">
+                        <h1>
+                            html基本常见特效设置
+                        </h1>
+                        <a href="http://www.keyllo.com/studio/">
+                            <span class="text-muted"><i class="fa fa-user"></i> KinglyJn</span>
+                        </a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <span class="text-muted"><i class="fa fa-clock-o"></i> 2012-11-16</span>
+                    </div>
+                    	<h3 id="私有名称前缀">私有名称前缀</h3>
+
+<p>为了兼容老版本的写法。例如：比较新版本的浏览器都支持直接写：border-radius。因为制定HTML和CSS标准的组织W3C动作是很慢的。
+通常，有w3c组织成员提出一个新属性，比如说圆角border-radius，大家都觉得好，但w3c制定标准，要走很复杂的程序，审查等。而浏览器商市场推广时间紧，如果一个属性已经够成熟了，就会在浏览器中加入支持。为避免日后w3c公布标准时有所变更，加入一个私有前缀，比如-webkit-border-radius，通过这种方式来提前支持新属性。等到日后w3c公布了标准，border-radius的标准写法确立之后，再让新版的浏览器支持border-radius这种写法。<br /></p>
+
+<p>简单的说，浏览器私有前缀，是浏览器对于新CSS属性的一个提前支持。-webkit- 表示 webkit内核，-moz- 代表 Firefox Gecko内核，moz代表的是Firefox的开发商Mozilla。</p>
+
+<ul>
+  <li>-moz代表firefox浏览器私有属性</li>
+  <li>-ms代表ie浏览器私有属性</li>
+  <li>-webkit代表safari、chrome私有属性</li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="动画效果">动画效果</h3>
+
+<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head</span> <span class="na">lang=</span><span class="s">"en"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"UTF-8"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;title&gt;</span>CSS3_页面特效_动画<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;style </span><span class="na">type=</span><span class="s">"text/css"</span><span class="nt">&gt;</span>
+    <span class="c">/*
+	Chrome和Safari 需要前缀 -webkit-
+	Firefx需要前缀：-moz-
+	Opera：-o-
+	IE：-ms-
+	*/</span>
+    <span class="nt">div</span> <span class="p">{</span>
+	    <span class="nl">width</span><span class="p">:</span><span class="m">100px</span><span class="p">;</span>
+	    <span class="nl">height</span><span class="p">:</span><span class="m">100px</span><span class="p">;</span>
+	    <span class="nl">background-color</span><span class="p">:</span> <span class="no">red</span><span class="p">;</span>
+	    <span class="nl">position</span><span class="p">:</span> <span class="nb">relative</span><span class="p">;</span> <span class="c">/*可做不占位移动操作*/</span>
+	    <span class="nl">animation</span><span class="p">:</span><span class="n">anim</span> <span class="m">5s</span><span class="p">;</span>  <span class="c">/*动画 5s*/</span>
+	    <span class="nl">-webkit-animation</span><span class="p">:</span> <span class="n">anim</span> <span class="m">5s</span> <span class="n">infinite</span> <span class="n">alternate</span><span class="p">;</span> <span class="c">/*chrome safari支持 无限交替循环执行*/</span>
+	<span class="p">}</span>
+	<span class="k">@keyframes</span> <span class="n">anim</span><span class="p">,</span><span class="err">@</span><span class="n">-webkit-keyframes</span> <span class="n">anim</span><span class="p">{</span>
+	    <span class="nt">0</span><span class="o">%</span> <span class="p">{</span>
+	        <span class="nl">background-color</span><span class="p">:</span> <span class="no">red</span><span class="p">;</span>
+	        <span class="nl">left</span><span class="p">:</span> <span class="m">0</span><span class="p">;</span>
+	        <span class="nl">top</span><span class="p">:</span> <span class="m">0</span><span class="p">;</span>
+	    <span class="p">}</span>
+	    <span class="nt">25</span><span class="o">%</span> <span class="p">{</span>
+	        <span class="nl">background-color</span><span class="p">:</span> <span class="no">blue</span><span class="p">;</span>
+	        <span class="nl">left</span><span class="p">:</span> <span class="m">200px</span><span class="p">;</span>
+	        <span class="nl">top</span><span class="p">:</span> <span class="m">0</span><span class="p">;</span>
+	    <span class="p">}</span>
+	    <span class="nt">50</span><span class="o">%</span> <span class="p">{</span>
+	        <span class="nl">background-color</span><span class="p">:</span> <span class="no">green</span><span class="p">;</span>
+	        <span class="nl">left</span><span class="p">:</span> <span class="m">200px</span><span class="p">;</span>
+	        <span class="nl">top</span><span class="p">:</span> <span class="m">200px</span><span class="p">;</span>
+	    <span class="p">}</span>
+	    <span class="nt">75</span><span class="o">%</span> <span class="p">{</span>
+	        <span class="nl">background-color</span><span class="p">:</span> <span class="no">orangered</span><span class="p">;</span>
+	        <span class="nl">left</span><span class="p">:</span> <span class="m">0</span><span class="p">;</span>
+	        <span class="nl">top</span><span class="p">:</span> <span class="m">200px</span><span class="p">;</span>
+	    <span class="p">}</span>
+	    <span class="nt">100</span><span class="o">%</span> <span class="p">{</span>
+	        <span class="nl">background-color</span><span class="p">:</span> <span class="no">red</span><span class="p">;</span>
+	        <span class="nl">left</span><span class="p">:</span> <span class="m">0</span><span class="p">;</span>
+	        <span class="nl">top</span><span class="p">:</span> <span class="m">0</span><span class="p">;</span>
+	    <span class="p">}</span>
+	<span class="p">}</span>
+	<span class="k">@-webkit-keyframes</span> <span class="n">anim</span> <span class="p">{</span>
+	    <span class="nt">0</span><span class="o">%</span> <span class="p">{</span>
+	        <span class="nl">background-color</span><span class="p">:</span> <span class="no">red</span><span class="p">;</span>
+	        <span class="nl">left</span><span class="p">:</span> <span class="m">0</span><span class="p">;</span>
+	        <span class="nl">top</span><span class="p">:</span> <span class="m">0</span><span class="p">;</span>
+	    <span class="p">}</span>
+	    <span class="nt">25</span><span class="o">%</span> <span class="p">{</span>
+	        <span class="nl">background-color</span><span class="p">:</span> <span class="no">blue</span><span class="p">;</span>
+	        <span class="nl">left</span><span class="p">:</span> <span class="m">200px</span><span class="p">;</span>
+	        <span class="nl">top</span><span class="p">:</span> <span class="m">0</span><span class="p">;</span>
+	    <span class="p">}</span>
+	    <span class="nt">50</span><span class="o">%</span> <span class="p">{</span>
+	        <span class="nl">background-color</span><span class="p">:</span> <span class="no">green</span><span class="p">;</span>
+	        <span class="nl">left</span><span class="p">:</span> <span class="m">200px</span><span class="p">;</span>
+	        <span class="nl">top</span><span class="p">:</span> <span class="m">200px</span><span class="p">;</span>
+	    <span class="p">}</span>
+	    <span class="nt">75</span><span class="o">%</span> <span class="p">{</span>
+	        <span class="nl">background-color</span><span class="p">:</span> <span class="no">orangered</span><span class="p">;</span>
+	        <span class="nl">left</span><span class="p">:</span> <span class="m">0</span><span class="p">;</span>
+	        <span class="nl">top</span><span class="p">:</span> <span class="m">200px</span><span class="p">;</span>
+	    <span class="p">}</span>
+	    <span class="nt">100</span><span class="o">%</span> <span class="p">{</span>
+	        <span class="nl">background-color</span><span class="p">:</span> <span class="no">red</span><span class="p">;</span>
+	        <span class="nl">left</span><span class="p">:</span> <span class="m">0</span><span class="p">;</span>
+	        <span class="nl">top</span><span class="p">:</span> <span class="m">0</span><span class="p">;</span>
+	    <span class="p">}</span>
+	<span class="p">}</span>
+    <span class="nt">&lt;/style&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;div&gt;</span>效果展示<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre>
+</div>
+
+<p>效果图：<br /></p>
+
+<p><img src="http://img.blog.csdn.net/20161229110133916?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:60%" />
+<br /><br /></p>
+
+<h3 id="过度效果">过度效果</h3>
+
+<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head</span> <span class="na">lang=</span><span class="s">"en"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"UTF-8"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;title&gt;</span>CSS3_页面特效_过渡<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;style </span><span class="na">type=</span><span class="s">"text/css"</span><span class="nt">&gt;</span>
+    <span class="c">/*过渡效果：
+	  transition  设置四个过渡属性
+	  transition-property  过度的名称
+	  transition-duration  过渡效果所花费的时间
+	  transition-timing-function  过渡效果的时间曲线
+	  transition-delay  过渡效果的开始时间
+	*/</span>
+	<span class="nt">div</span> <span class="p">{</span>
+	    <span class="nl">width</span><span class="p">:</span><span class="m">100px</span><span class="p">;</span>
+	    <span class="nl">height</span><span class="p">:</span><span class="m">100px</span><span class="p">;</span>
+	    <span class="nl">background-color</span><span class="p">:</span> <span class="no">green</span><span class="p">;</span>
+	    <span class="nl">-webkit-transition</span><span class="p">:</span> <span class="n">width</span> <span class="m">2s</span><span class="p">,</span> <span class="n">height</span> <span class="m">2s</span><span class="p">,</span> <span class="n">transform</span> <span class="m">2s</span><span class="p">;</span>
+	    <span class="nl">-moz-transition</span><span class="p">:</span> <span class="n">width</span> <span class="m">2s</span><span class="p">,</span> <span class="n">height</span> <span class="m">2s</span><span class="p">,</span> <span class="n">transform</span> <span class="m">2s</span><span class="p">;</span>
+	    <span class="nl">-ms-transition</span><span class="p">:</span> <span class="n">width</span> <span class="m">2s</span><span class="p">,</span> <span class="n">height</span> <span class="m">2s</span><span class="p">,</span> <span class="n">transform</span> <span class="m">2s</span><span class="p">;</span>
+	    <span class="nl">-o-transition</span><span class="p">:</span><span class="n">width</span> <span class="m">2s</span><span class="p">,</span> <span class="n">height</span> <span class="m">2s</span><span class="p">,</span> <span class="n">transform</span> <span class="m">2s</span><span class="p">;</span>
+	    <span class="nl">transition</span><span class="p">:</span> <span class="n">width</span> <span class="m">2s</span><span class="p">,</span> <span class="n">height</span> <span class="m">2s</span><span class="p">,</span> <span class="n">transform</span> <span class="m">2s</span><span class="p">;</span>
+	    <span class="nl">-webkit-transition-delay</span><span class="p">:</span> <span class="m">1s</span><span class="p">;</span> <span class="c">/*延时1s执行*/</span>
+	    <span class="nl">-moz-transition-delay</span><span class="p">:</span> <span class="m">1s</span><span class="p">;</span>
+	    <span class="nl">-ms-transition-delay</span><span class="p">:</span> <span class="m">1s</span><span class="p">;</span>
+	    <span class="nl">-o-transition-delay</span><span class="p">:</span> <span class="m">1s</span><span class="p">;</span>
+	    <span class="nl">transition-delay</span><span class="p">:</span> <span class="m">1s</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="nt">div</span><span class="nd">:hover</span> <span class="p">{</span>
+	    <span class="nl">width</span><span class="p">:</span><span class="m">200px</span><span class="p">;</span>
+	    <span class="nl">height</span><span class="p">:</span> <span class="m">200px</span><span class="p">;</span>
+	    <span class="nl">transform</span><span class="p">:</span> <span class="n">rotate</span><span class="p">(</span><span class="m">720deg</span><span class="p">);</span>
+	    <span class="nl">-webkit-transition</span><span class="p">:</span> <span class="n">rotate</span><span class="p">(</span><span class="m">360deg</span><span class="p">);</span>
+	<span class="p">}</span> 
+    <span class="nt">&lt;/style&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;div&gt;</span>效果展示<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre>
+</div>
+
+<p>效果图：<br /></p>
+
+<p><img src="http://img.blog.csdn.net/20161229111742737?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:60%" /><br /><br /></p>
+
+<h3 id="移动旋转缩放倾斜矩阵投影">移动、旋转、缩放、倾斜、矩阵、投影</h3>
+
+<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head</span> <span class="na">lang=</span><span class="s">"en"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"UTF-8"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;title&gt;</span>CSS3_页面特效<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;style </span><span class="na">type=</span><span class="s">"text/css"</span><span class="nt">&gt;</span>
+    <span class="c">/*转换方法
+	  translate 移动 
+	  rotate 旋转
+      scale 缩放
+      skew 倾斜
+      matrix 矩阵
+      rotateX(Y) 旋转投影
+    */</span>
+	
+	<span class="nt">div</span> <span class="p">{</span>
+	    <span class="nl">width</span><span class="p">:</span> <span class="m">100px</span><span class="p">;</span>
+	    <span class="nl">height</span><span class="p">:</span> <span class="m">100px</span><span class="p">;</span>
+	    <span class="nl">background-color</span><span class="p">:</span> <span class="no">green</span><span class="p">;</span>
+	<span class="p">}</span>
+	
+	<span class="c">/*移动*/</span>
+	<span class="nc">.div2</span> <span class="p">{</span>
+	    <span class="nl">transform</span><span class="p">:</span> <span class="n">translate</span><span class="p">(</span><span class="m">200px</span><span class="p">,</span> <span class="m">100px</span><span class="p">);</span>
+	    <span class="nl">-webkit-transform</span><span class="p">:</span> <span class="n">translate</span><span class="p">(</span><span class="m">200px</span><span class="p">,</span> <span class="m">100px</span><span class="p">);</span> <span class="c">/*chrome和safari支持*/</span>
+	    <span class="nl">-ms-transform</span><span class="p">:</span> <span class="n">translate</span><span class="p">(</span><span class="m">200px</span><span class="p">,</span> <span class="m">100px</span><span class="p">);</span> <span class="c">/*ie支持*/</span>
+	    <span class="nl">-o-transform</span><span class="p">:</span> <span class="n">translate</span><span class="p">(</span><span class="m">200px</span><span class="p">,</span> <span class="m">100px</span><span class="p">);</span> <span class="c">/*opera支持*/</span>
+	    <span class="nl">-moz-transform</span><span class="p">:</span> <span class="n">translate</span><span class="p">(</span><span class="m">200px</span><span class="p">,</span> <span class="m">100px</span><span class="p">);</span> <span class="c">/*firefox支持*/</span>
+	<span class="p">}</span>
+	
+	<span class="c">/*旋转*/</span>
+	<span class="nc">.div3</span> <span class="p">{</span>
+	    <span class="nl">transform</span><span class="p">:</span><span class="n">rotate</span><span class="p">(</span><span class="m">30deg</span><span class="p">);</span>
+	    <span class="nl">-webkit-transform</span><span class="p">:</span> <span class="n">rotate</span><span class="p">(</span><span class="m">30deg</span><span class="p">);</span>
+	    <span class="nl">-ms-transform</span><span class="p">:</span> <span class="n">rotate</span><span class="p">(</span><span class="m">30deg</span><span class="p">);</span>
+	    <span class="nl">-o-transform</span><span class="p">:</span> <span class="n">rotate</span><span class="p">(</span><span class="m">30deg</span><span class="p">);</span>
+	    <span class="nl">-moz-transform</span><span class="p">:</span> <span class="n">rotate</span><span class="p">(</span><span class="m">30deg</span><span class="p">);</span>
+	<span class="p">}</span>
+	
+	<span class="c">/*缩放*/</span>
+	<span class="nc">.div4</span> <span class="p">{</span>
+	    <span class="nl">transform</span><span class="p">:</span> <span class="n">scale</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">);</span> <span class="c">/*宽度不变，高度为原来的2倍*/</span>
+	    <span class="nl">-webkit-transform</span><span class="p">:</span> <span class="n">scale</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">);</span>
+	    <span class="nl">-ms-transform</span><span class="p">:</span> <span class="n">scale</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">);</span>
+	    <span class="nl">-o-transform</span><span class="p">:</span> <span class="n">scale</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">);</span>
+	    <span class="nl">-moz-transform</span><span class="p">:</span> <span class="n">scale</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">);</span>
+	<span class="p">}</span>
+	
+	<span class="c">/*倾斜*/</span>
+	<span class="nc">.div5</span> <span class="p">{</span>
+	    <span class="nl">transform</span><span class="p">:</span> <span class="n">skew</span><span class="p">(</span><span class="m">20deg</span><span class="p">,</span><span class="m">30deg</span><span class="p">);</span> <span class="c">/*以x轴为基准倾斜20度（高度不变，图形本身被拉伸），以y轴为基准倾斜30度*/</span>
+	    <span class="nl">-webkit-transform</span><span class="p">:</span> <span class="n">skew</span><span class="p">(</span><span class="m">20deg</span><span class="p">,</span> <span class="m">30deg</span><span class="p">);</span>
+	    <span class="nl">-ms-transform</span><span class="p">:</span> <span class="n">skew</span><span class="p">(</span><span class="m">20deg</span><span class="p">,</span> <span class="m">30deg</span><span class="p">);</span>
+	    <span class="nl">-o-transform</span><span class="p">:</span> <span class="n">skew</span><span class="p">(</span><span class="m">20deg</span><span class="p">,</span> <span class="m">30deg</span><span class="p">);</span>
+	    <span class="nl">-moz-transform</span><span class="p">:</span> <span class="n">skew</span><span class="p">(</span><span class="m">20deg</span><span class="p">,</span> <span class="m">30deg</span><span class="p">);</span>
+	<span class="p">}</span>
+	
+	<span class="c">/*旋转投影 rotateX  rotateY*/</span>
+	<span class="nc">.div6</span> <span class="p">{</span>
+	    <span class="nl">transform</span><span class="p">:</span> <span class="n">rotateX</span><span class="p">(</span><span class="m">45deg</span><span class="p">);</span> <span class="c">/*绕x轴旋转45度后在垂直于纸面方向的投影*/</span>
+	    <span class="nl">-webkit-transform</span><span class="p">:</span> <span class="n">rotateX</span><span class="p">(</span><span class="m">45deg</span><span class="p">);</span>
+	    <span class="nl">-ms-transform</span><span class="p">:</span> <span class="n">rotateX</span><span class="p">(</span><span class="m">45deg</span><span class="p">);</span>
+	    <span class="nl">-o-transform</span><span class="p">:</span> <span class="n">rotateX</span><span class="p">(</span><span class="m">45deg</span><span class="p">);</span>
+	    <span class="nl">-moz-transform</span><span class="p">:</span> <span class="n">rotateX</span><span class="p">(</span><span class="m">45deg</span><span class="p">);</span>
+	<span class="p">}</span>
+    <span class="nt">&lt;/style&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;div&gt;</span>这是初始效果<span class="nt">&lt;/div&gt;&lt;br/&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"div2"</span><span class="nt">&gt;</span>移动后的效果<span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"div3"</span><span class="nt">&gt;</span>旋转后的效果<span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"div4"</span><span class="nt">&gt;</span>缩放后的效果<span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"div5"</span><span class="nt">&gt;</span>倾斜后的效果<span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"div6"</span><span class="nt">&gt;</span>3D转换后的效果<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre>
+</div>
+
+<p>效果图：<br /></p>
+
+<p><img src="http://img.blog.csdn.net/20161229112229082?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:40%" /><br /><br /></p>
+
+
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-6">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">html</button>
+                                
+                        </div>
+                        
+                        <!--
+                        <div class="col-md-6">
+                            <div class="small text-right">
+                                <div>    
+                                    <i class="fa fa-comments-o"> </i> 
+                                    <span class="ds-comments">0</span>条评论
+                                </div>
+                                <div>
+                                    <i class="fa fa-share-alt"> </i> 
+                                    <span class="ds-shares">0</span>条转发
+                                </div>  
+                            </div>
+                        </div>
+                        -->
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <!-- donate -->
+                            
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal2">
+    Donate
+</button>
+<div class="modal inmodal" id="myModal2" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated flipInY">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Donate Me</h4>
+                <small class="font-bold">Thanks for your support!</small>
+            </div>
+            <div class="modal-body">
+                <div class="tabbable" id="tabs-960227">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#panel-405278" data-toggle="tab">Alipay</a>
+                        </li>
+                        <li>
+                            <a href="#panel-874705" data-toggle="tab">Wechat</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="panel-405278">
+                            <div class="text-center">
+                                <img src="/static/img/pay/alipay.png"" height="250" width="250">
+                            </div>    
+                        </div>
+                        <div class="tab-pane" id="panel-874705">
+                            <div class="text-center">
+                                <img src="/static/img/pay/wechat.png"" height="250" width="250">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+                            
+                            <br>
+                            <!-- share -->
+                            
+                                
+<!--分享-->
+<div class="row" style="margin-top:30px;">
+	<h2>Share:</h2>
+    <div class="social-share" style="margin-left:-5px;"data-sites="wechat,qq,qzone,weibo"></div> 
+</div>
+<link rel="stylesheet" href="/static/css/share.min.css">
+<script src="/static/js/jquery.share.min.js"></script>
+<script src="/static/js/embed.js"></script>
+
+<script>
+  var url = 'http://localhost:4000/htmlx/2012/11/16/htmlx-html-special-effects.html';
+  var source = 'http://localhost:4000/htmlx/2012/11/16/htmlx-html-special-effects.html';
+  var title = 'html基本常见特效设置';
+  var excerpt = $("p:eq(0)").text();
+  
+  var imageUrl = 'http://localhost:4000/static/img/landing/header_one.jpg';
+  var imgEle = $(".content_img:eq(0)");
+  if (imgEle) {
+    imageUrl = imgEle.attr("src");
+  }
+
+  var $config = {
+      url: url, // 网址，默认使用 window.location.href
+      source: source, // 来源（QQ空间会用到）, 默认读取head标签：<meta name="site" content="http://overtrue" />
+      title: title, // 标题，默认读取 document.title 或者 <meta name="title" content="share.js" />
+      description: excerpt, // 描述, 默认读取head标签：<meta name="description" content="PHP弱类型的实现原理分析" />
+      image: imageUrl, // 图片, 默认取网页中第一个img标签
+      sites: ['qzone', 'qq', 'weibo','wechat','douban'], // 启用的站点
+      //disabled: ['google', 'facebook', 'twitter'], // 禁用的站点
+      wechatQrcodeTitle: "微信扫一扫：分享", // 微信二维码提示文字
+      wechatQrcodeHelper: '<p style="font-size:10px;">微信里点“发现”，扫一下</p><p style="font-size:10px;">二维码便可将本文分享至朋友圈。</p>',
+   };
+  $('.social-share').share($config);
+</script>
+
+
+
+
+                            
+                            <br>
+                            <!-- comment -->
+                            <!--
+
+
+
+-->
+
+<!-- 多说评论框 start -->
+<div class="row" style="margin-top:25px;"></div>
+<div class="ds-thread" data-thread-key="/htmlx/2012/11/16/htmlx-html-special-effects.html" data-title="html基本常见特效设置" data-url="http://localhost:4000/htmlx/2012/11/16/htmlx-html-special-effects.html"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+	var duoshuoQuery = {short_name:"kinglyjn"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+<!-- 多说公共JS代码 end -->
+
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+	
+	    <script src="/static/js/scroll.js"></script>
+
+<!-- Baidu analytics -->
+
+
+<!-- Google analytics -->
+
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-73784599-1', 'auto');
+    ga('send', 'pageview');
+
+  </script>
+
+
+<!--
+
+-->
+
+<!--
+
+-->
+
+<script async src="/static/js/count_page.js"></script>
+
+	
+
+</body>
+</html>

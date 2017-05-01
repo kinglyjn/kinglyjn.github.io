@@ -1,0 +1,1344 @@
+<!DOCTYPE html>
+<html>
+	
+	    <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+    <meta content="redis基础简介（一）- string（字符串）、list（列表）" name="description">
+  
+  
+    <meta name="keywords" content="redis基础简介,字符串,string,列表,list,redis,kinglyjn">
+  
+  <meta name="author" content="KinglyJn">
+
+  <title>
+    
+        KinglyJn|redis基础简介（一）- string（字符串）、list（列表）
+    
+  </title>
+  <!-- favicon -->
+  <link rel="shortcut icon" href="/static/img/favicon.ico">
+
+  <!-- Third-party CSS -->
+  <link href="/bower_components/normalize-css/normalize.min.css" rel="stylesheet">
+  <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/bower_components/animate.css/animate.min.css" rel="stylesheet">
+  <link href="/bower_components/components-font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="/static/font-mfizz/font-mfizz.css" rel="stylesheet">
+  <!-- <link href="/bower_components/toastr/toastr.min.css" rel="stylesheet"> -->
+  <link href="/bower_components/jquery.gritter/css/jquery.gritter.css" rel="stylesheet">
+  <link rel="stylesheet" href="/search/css/cb-search.css">
+
+  <!-- Custom styles for this template -->
+  <link href="/static/css/style.min.css" rel="stylesheet">
+  <link href="/static/css/pygments.css" rel="stylesheet">
+
+  <!-- Scripts -->
+  <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="/search/js/bootstrap3-typeahead.min.js"></script>
+
+  <!-- cb-search -->
+  <script src="/search/js/cb-search.js"></script>
+  <script>
+    $(function(){
+        $("pre").css('display','block');
+    });
+  </script>
+  <!-- Mainly scripts -->
+  <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="/bower_components/metisMenu/dist/metisMenu.min.js"></script>
+  <script src="/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+
+  <!-- Peity -->
+  <script src="/bower_components/peity/jquery.peity.min.js"></script>
+
+  <script src="/bower_components/PACE/pace.min.js"></script>
+  <script src="/bower_components/wow/dist/wow.min.js"></script>
+  <!-- Custom and plugin javascript -->
+  <script src="/static/js/inspinia.js"></script>
+
+  <!-- Rickshaw -->
+  <script src="/bower_components/rickshaw/vendor/d3.v3.js"></script>
+  <script src="/bower_components/rickshaw/rickshaw.min.js"></script>
+
+
+  <!-- jPages -->
+  <script src="/static/js/jPages.js"></script>
+  <script src="/static/js/js.js"></script>
+  <script type="text/javascript">
+        $(function(){
+          /* initiate the plugin */
+          $("div.pag-holder").jPages({
+              containerID  : "pag-itemContainer",
+              perPage      : 10,  /* num of items per page */
+              startPage    : 1,
+              startRange   : 1,
+              midRange     : 3,
+              endRange     : 1
+          });
+
+          $("div.pag-jump button").click(function(){
+            var page = parseInt($("div.pag-jump input").val());
+            $("div.pag-holder").jPages(page);
+          });
+
+          $("div.pag-jump input").on("keypress", function(){
+            var e=e||window.event;
+            if (e.keyCode == 13) {
+                var page = parseInt($("div.pag-jump input").val());
+                $("div.pag-holder").jPages(page);
+            } 
+          });
+      });
+  </script>
+
+<!-- GrowingIO -->
+
+  <script>
+    var _vds = _vds || [];
+    window._vds = _vds;
+    (function(){
+      _vds.push(['setAccountId', 'a49d4901c7853da9']);
+      (function() {
+        var vds = document.createElement('script');
+        vds.type='text/javascript';
+        vds.async = true;
+        vds.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'dn-growing.qbox.me/vds.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(vds, s);
+      })();
+    })();
+  </script>
+
+
+</head>
+
+	
+
+
+<body id="page-top" class="landing-page">
+
+	
+	    
+
+<!--修复手机端横轴方向左右滑动BUG-->
+<style type="text/css">
+    .landing-page .row {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+</style>
+
+<div class="search-tool"
+      style="position: fixed; top: 0px ; bottom: 0px; left: 0px; right:  0px; opacity: 0.95; background-color: #111111; z-index: 9999; display: none;">
+    <input type="text" class="form-control search-content" id="search-content" style="position: fixed; top: 60px" placeholder="Search Blog">
+
+    <div style="position: fixed; top: 16px; right: 16px; z-index: 9999;">
+        <img src="/search/img/cb-close.png" id="close-btn"/>
+    </div>
+</div>
+
+<div style="position: fixed; right: 16px; bottom: 20px; z-index: 9999;">
+    <img src="/search/img/cb-search.png"  id="search-btn"  title="Double click Ctrl"/>
+</div>
+
+<div class="navbar-wrapper">
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header page-scroll">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/">KinglyJn</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a class="page-scroll" href="/blog/"></a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/blog/">Blog</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/linux/">Linux</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/cloud/">Cloud</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/java/">Java</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/c/">C</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/php/">PHP</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/db/">DB</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/htmlx/">HTMLX</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/life/">Life</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/art/">Art</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/other/">Other</a></li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </nav>
+</div>
+<div id="inSlider" class="carousel carousel-fade" data-ride="carousel">
+    <div style="position:absolute;float:left;left:25%;z-index:15;width:50%;margin-bottom:18%;bottom:0;text-align:center;list-style:none;">
+        <span style="color:white;font-size:24px;">以平实之心写作</span><br>
+        <span style="color:white;font-size:13px;">writing with simple heart ♬. </span>
+    </div>
+    <!--
+    <ol class="carousel-indicators">
+        <li data-target="#inSlider" data-slide-to="0" class="active"></li>
+        <li data-target="#inSlider" data-slide-to="1"></li>
+    </ol>
+    -->
+    <div class="carousel-inner" role="listbox">
+        <div class="item active">
+            <div class="container">
+                <div class="carousel-caption">
+                </div>
+                <div class="carousel-image wow zoomIn">
+                    <!-- <img src="static/img/landing/laptop.png" alt="laptop"/> -->
+                </div>
+            </div>
+            <!-- Set background for slide in css -->
+            <div class="header-back blog-one"></div>
+        </div>
+        <!--
+        <div class="item">
+            <div class="container">
+                <div class="carousel-caption blank">
+                </div>
+            </div>
+            Set background for slide in css
+            <div class="header-back two"></div>
+        </div>
+        -->
+    </div>
+    <!--
+    <a class="left carousel-control" href="#inSlider" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#inSlider" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+    -->
+</div>
+
+
+	
+
+    <div class="wrapper wrapper-content  animated fadeInRight article">
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <div class="pull-right">
+                    	
+                        	<button class="btn btn-white btn-xs" type="button">DB</button>
+                        
+                    </div>
+                    <div class="text-center article-title" style="margin-bottom:50px;">
+                        <h1>
+                            redis基础简介（一）- string（字符串）、list（列表）
+                        </h1>
+                        <a href="http://www.keyllo.com/studio/">
+                            <span class="text-muted"><i class="fa fa-user"></i> KinglyJn</span>
+                        </a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <span class="text-muted"><i class="fa fa-clock-o"></i> 2012-10-18</span>
+                    </div>
+                    	<h3 id="redis简介">Redis简介</h3>
+
+<p>Remote Dictionary Server(Redis) 是一个由Salvatore Sanfilippo写的key-value存储系统。
+Redis是一个开源的使用ANSI C语言编写、遵守BSD协议、支持网络、可基于内存亦可持久化的日志型、Key-Value数据库，并提供多种语言的API。它通常被称为数据结构服务器，因为值（value）可以是 字符串(String), 哈希(Map), 列表(list), 集合(sets) 和 有序集合(sorted sets)等类型。<br /></p>
+
+<p>Redis 与其他 key - value 缓存产品有以下三个特点：</p>
+<ul>
+  <li>Redis支持数据的持久化，可以将内存中的数据保存在磁盘中，重启的时候可以再次加载进行使用。</li>
+  <li>Redis不仅仅支持简单的key-value类型的数据，同时还提供list，set，zset，hash等数据结构的存储。</li>
+  <li>Redis支持数据的备份，即master-slave模式的数据备份。</li>
+</ul>
+
+<p><b>Redis的优势：</b></p>
+
+<ul>
+  <li>性能极高 – Redis能读的速度是110000次/s,写的速度是81000次/s</li>
+  <li>丰富的数据类型 – Redis支持二进制案例的 Strings, Lists, Hashes, Sets 及 Ordered Sets 数据类型操作。</li>
+  <li>原子 – Redis的所有操作都是原子性的，同时Redis还支持对几个操作全并后的原子性执行。</li>
+  <li>丰富的特性 – Redis还支持 publish/subscribe, 通知, key 过期等等特性。</li>
+  <li>Redis有着更为复杂的数据结构并且提供对他们的原子性操作，这是一个不同于其他数据库的进化路径。Redis的数据类型都是基于基本数据结构的同时对程序员透明，无需进行额外的抽象。</li>
+  <li>Redis运行在内存中但是可以持久化到磁盘，所以在对不同数据集进行高速读写时需要权衡内存，因为数据量不能大于硬件内存。在内存数据库方面的另一个优点是，相比在磁盘上相同的复杂的数据结构，在内存中操作起来非常简单，这样Redis可以做很多内部复杂性很强的事情。同时，在磁盘格式方面他们是紧凑的以追加的方式产生的，因为他们并不需要进行随机访问。</li>
+</ul>
+
+<p><b>Redis的持久化：</b> <br /></p>
+
+<p>缺省情况下，Redis会参照当前数据库中数据被修改的数量，在达到一定的阈值后会将数据库的快照存储到磁盘上，这一点我们可以通过配置文件来设定该阈值。通常情况下，我们也可以将Redis设定为定时保存。如当有1000个以上的键数据被修改时，Redis将每隔60秒进行一次数据持久化操作。缺省设置为，如果有9个或9个以下数据修改是，Redis将每15分钟持久化一次。<br /></p>
+
+<p>从上面提到的方案中可以看出，如果采用该方式，Redis的运行时效率将会是非常高效的，既每当有新的数据修改发生时，仅仅是内存中的缓存数据发生改变，而这样的改变并不会被立即持久化到磁盘上，从而在绝大多数的修改操作中避免了磁盘IO的发生。然而事情往往是存在其两面性的，在该方法中我们确实得到了效率上的提升，但是却失去了数据可靠性。如果在内存快照被持久化到磁盘之前，Redis所在的服务器出现宕机，那么这些未写入到磁盘的已修改数据都将丢失。为了保证数据的高可靠性，redis还提供了另外一种数据持久化机制，即append模式。如果Redis服务器被配置为该方式，那么每当有数据修改发生时，都会被立即持久化到磁盘。<br />
+<br /></p>
+
+<p><b>常见nosql产品之间的比较</b><br /></p>
+
+<ol>
+  <li>BerkeleyDB：支持事务及嵌套事务，海量数据存储，在用于存储实时数据方面具有极高的可用价值，不完全免费。</li>
+  <li>MongoDB：独立的运行并提供相关的数据服务,主要适用于高并发的论坛或博客网站,多读少写、数据量大、逻辑关系简单，以及文档数据作为主要数据源等, 和BerkeleyDB一样，该产品的License同为GPL。</li>
+  <li>Redis：可以作为服务程序独立运行于自己的服务器主机,Redis除了Key/Value之外还支持List、Hash、Set和Ordered Set等数据结构, Redis的License是Apache License，就目前而言，它是完全免费。</li>
+  <li>memcached：与redis的比较，memcached只是提供了数据缓存服务，一旦服务器宕机，之前在内存中缓存的数据也将全部消失，因此可以看出memcached没有提供任何形式的数据持久化功能，而Redis则提供了这样的功能,再有就是Redis提供了更为丰富的数据存储结构，如Hash和Set。至于它们的相同点，主要有两个，一是完全免费，再有就是它们的提供的命令形式极为接近。</li>
+</ol>
+
+<p><br /></p>
+
+<h3 id="redis的安装配置启动关闭和状态查看">redis的安装、配置、启动、关闭和状态查看</h3>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="c"># ubuntu安装redis</span>
+sudo apt-get update
+sudo apt-get install redis-server
+
+<span class="c"># 配置redis</span>
+/etc/redis/redis.conf
+
+<span class="c"># 启动或重启redis</span>
+sudo service redis-server start/restart <span class="c">#默认端口为6379</span>
+
+<span class="c"># 关闭redis</span>
+sudo service redis-server stop
+
+<span class="c"># 查看redis状态</span>
+sudo service redis-server status
+
+<span class="c"># shell命令行启动Redis客户端程序</span>
+<span class="nv">$redis</span>-cli  
+redis 127.0.0.1:6379 &gt;
+redis 127.0.0.1:6379 &gt; ping
+PONG <span class="c"># 这说明你已经成功地安装Redis在您的机器上</span>
+
+<span class="c"># 远程服务器上执行redis命令</span>
+<span class="gp">$ </span>redis-cli -h host -p port -a password
+
+<span class="c"># 在Ubuntu上安装Redis的桌面管理器</span>
+<span class="c"># http://redisdesktop.com/download</span>
+
+<span class="c">#选取数据库</span>
+<span class="c">#Redis中的数据库是通过数字来进行命名的，缺省情况下打开的数据库为0，默认有16个库（0-15）</span>
+<span class="c">#切换redis数据库</span>
+redis 127.0.0.1:6379 &gt; select_ 1
+</code></pre>
+</div>
+<p><br /></p>
+
+<p>redis.conf （redis 2.8.9）<br /></p>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="c">#daemonize no  默认情况下， redis 不是在后台运行的，如果需要在后台运行，把该项的值更改为 yes</span>
+daemonize yes
+<span class="c">#  当 redis 在后台运行的时候， Redis 默认会把 pid 文件放在 /var/run/redis.pid ，你可以配置到其他地址。</span>
+<span class="c">#  当运行多个 redis 服务时，需要指定不同的 pid 文件和端口</span>
+pidfile /var/run/redis_6379.pid
+<span class="c">#  指定 redis 运行的端口，默认是 6379</span>
+port 6379
+<span class="c">#  在高并发的环境中，为避免慢客户端的连接问题，需要设置一个高速后台日志</span>
+tcp-backlog 511
+<span class="c">#  指定 redis 只接收来自于该 IP 地址的请求，如果不进行设置，那么将处理所有请求</span>
+<span class="c"># bind 192.168.1.100 10.0.0.1</span>
+<span class="c"># bind 127.0.0.1</span>
+<span class="c">#  设置客户端连接时的超时时间，单位为秒。当客户端在这段时间内没有发出任何指令，那么关闭该连接</span>
+<span class="c"># 0 是关闭此设置</span>
+timeout 0
+<span class="c"># TCP keepalive</span>
+<span class="c">#  在 Linux 上，指定值（秒）用于发送 ACKs 的时间。注意关闭连接需要双倍的时间。默认为 0 。</span>
+tcp-keepalive 0
+<span class="c">#  指定日志记录级别，生产环境推荐 notice</span>
+<span class="c"># Redis 总共支持四个级别： debug 、 verbose 、 notice 、 warning ，默认为 verbose</span>
+<span class="c"># debug     记录很多信息，用于开发和测试</span>
+<span class="c"># varbose   有用的信息，不像 debug 会记录那么多</span>
+<span class="c"># notice    普通的 verbose ，常用于生产环境</span>
+<span class="c"># warning   只有非常重要或者严重的信息会记录到日志</span>
+loglevel notice
+<span class="c">#  配置 log 文件地址</span>
+<span class="c">#  默认值为 stdout ，标准输出，若后台模式会输出到 /dev/null 。</span>
+logfile /var/log/redis/redis.log
+<span class="c">#  可用数据库数</span>
+<span class="c">#  默认值为 16 ，默认数据库为 0 ，数据库范围在 0- （ database-1 ）之间</span>
+databases 16
+<span class="c">################################ 快照#################################</span>
+<span class="c">#  保存数据到磁盘，格式如下 :</span>
+<span class="c">#   save &lt;seconds&gt; &lt;changes&gt;</span>
+<span class="c">#    指出在多长时间内，有多少次更新操作，就将数据同步到数据文件 rdb 。</span>
+<span class="c">#    相当于条件触发抓取快照，这个可以多个条件配合</span>
+<span class="c">#    比如默认配置文件中的设置，就设置了三个条件</span>
+<span class="c">#   save 900 1  900 秒内至少有 1 个 key 被改变</span>
+<span class="c">#   save 300 10  300 秒内至少有 300 个 key 被改变</span>
+<span class="c">#   save 60 10000  60 秒内至少有 10000 个 key 被改变</span>
+<span class="c"># save 900 1</span>
+<span class="c"># save 300 10</span>
+<span class="c"># save 60 10000</span>
+<span class="c">#  后台存储错误停止写。</span>
+stop-writes-on-bgsave-error yes
+<span class="c">#  存储至本地数据库时（持久化到 rdb 文件）是否压缩数据，默认为 yes</span>
+rdbcompression yes
+<span class="c"># RDB 文件的是否直接偶像 chcksum</span>
+rdbchecksum yes
+<span class="c">#  本地持久化数据库文件名，默认值为 dump.rdb</span>
+dbfilename dump.rdb
+<span class="c">#  工作目录</span>
+<span class="c">#  数据库镜像备份的文件放置的路径。</span>
+<span class="c">#  这里的路径跟文件名要分开配置是因为 redis 在进行备份时，先会将当前数据库的状态写入到一个临时文件中，等备份完成，</span>
+<span class="c">#  再把该该临时文件替换为上面所指定的文件，而这里的临时文件和上面所配置的备份文件都会放在这个指定的路径当中。</span>
+<span class="c"># AOF 文件也会存放在这个目录下面</span>
+<span class="c">#  注意这里必须制定一个目录而不是文件</span>
+dir /var/lib/redis/
+<span class="c">################################# 复制 #################################</span>
+<span class="c">#  主从复制 . 设置该数据库为其他数据库的从数据库 .</span>
+<span class="c">#  设置当本机为 slav 服务时，设置 master 服务的 IP 地址及端口，在 Redis 启动时，它会自动从 master 进行数据同步</span>
+<span class="c"># slaveof &lt;masterip&gt;&lt;masterport&gt;</span>
+<span class="c">#  当 master 服务设置了密码保护时 ( 用 requirepass 制定的密码 )</span>
+<span class="c"># slave 服务连接 master 的密码</span>
+<span class="c"># masterauth &lt;master-password&gt;</span>
+<span class="c">#  当从库同主机失去连接或者复制正在进行，从机库有两种运行方式：</span>
+<span class="c"># 1)  如果 slave-serve-stale-data 设置为 yes( 默认设置 ) ，从库会继续响应客户端的请求</span>
+<span class="c"># 2)  如果 slave-serve-stale-data 是指为 no ，出去 INFO 和 SLAVOF 命令之外的任何请求都会返回一个</span>
+<span class="c">#     错误 "SYNC with master in progress"</span>
+slave-serve-stale-data yes
+<span class="c">#  配置 slave 实例是否接受写。写 slave 对存储短暂数据（在同 master 数据同步后可以很容易地被删除）是有用的，但未配置的情况下，客户端写可能会发送问题。</span>
+<span class="c">#  从 Redis2.6 后，默认 slave 为 read-only</span>
+slaveread-only yes
+<span class="c">#  从库会按照一个时间间隔向主库发送 PINGs. 可以通过 repl-ping-slave-period 设置这个时间间隔，默认是 10 秒</span>
+<span class="c"># repl-ping-slave-period 10</span>
+<span class="c"># repl-timeout  设置主库批量数据传输时间或者 ping 回复时间间隔，默认值是 60 秒</span>
+<span class="c">#  一定要确保 repl-timeout 大于 repl-ping-slave-period</span>
+<span class="c"># repl-timeout 60</span>
+<span class="c">#  在 slave socket 的 SYNC 后禁用 TCP_NODELAY</span>
+<span class="c">#  如果选择“ yes ” ,Redis 将使用一个较小的数字 TCP 数据包和更少的带宽将数据发送到 slave ， 但是这可能导致数据发送到 slave 端会有延迟 , 如果是 Linux kernel 的默认配置，会达到 40 毫秒 .</span>
+<span class="c">#  如果选择 "no" ，则发送数据到 slave 端的延迟会降低，但将使用更多的带宽用于复制 .</span>
+repl-disable-tcp-nodelay no
+<span class="c">#  设置复制的后台日志大小。</span>
+<span class="c">#  复制的后台日志越大， slave 断开连接及后来可能执行部分复制花的时间就越长。</span>
+<span class="c">#  后台日志在至少有一个 slave 连接时，仅仅分配一次。</span>
+<span class="c"># repl-backlog-size 1mb</span>
+<span class="c">#  在 master 不再连接 slave 后，后台日志将被释放。下面的配置定义从最后一个 slave 断开连接后需要释放的时间（秒）。</span>
+<span class="c"># 0 意味着从不释放后台日志</span>
+<span class="c"># repl-backlog-ttl 3600</span>
+<span class="c">#  如果 master 不能再正常工作，那么会在多个 slave 中，选择优先值最小的一个 slave 提升为 master ，优先值为 0 表示不能提升为 master 。</span>
+slave-priority 100
+<span class="c">#  如果少于 N 个 slave 连接，且延迟时间 &lt;=M 秒，则 master 可配置停止接受写操作。</span>
+<span class="c">#  例如需要至少 3 个 slave 连接，且延迟 &lt;=10 秒的配置：</span>
+<span class="c"># min-slaves-to-write 3</span>
+<span class="c"># min-slaves-max-lag 10</span>
+<span class="c">#  设置 0 为禁用</span>
+<span class="c">#   默认 min-slaves-to-write 为 0 （禁用）， min-slaves-max-lag 为 10</span>
+<span class="c">################################## 安全 ###################################</span>
+<span class="c">#  设置客户端连接后进行任何其他指定前需要使用的密码。</span>
+<span class="c">#  警告：因为 redis 速度相当快，所以在一台比较好的服务器下，一个外部的用户可以在一秒钟进行 150K 次的密码尝试，这意味着你需要指定非常非常强大的密码来防止暴力破解</span>
+<span class="c"># requirepass foobared</span>
+<span class="c">#  命令重命名 .</span>
+<span class="c">#  在一个共享环境下可以重命名相对危险的命令。比如把 CONFIG 重名为一个不容易猜测的字符。</span>
+<span class="c">#  举例 :</span>
+<span class="c"># rename-command CONFIG b840fc02d524045429941cc15f59e41cb7be6c52</span>
+<span class="c">#  如果想删除一个命令，直接把它重命名为一个空字符 "" 即可，如下：</span>
+<span class="c"># rename-command CONFIG ""</span>
+<span class="c">################################### 约束###################################</span>
+<span class="c">#设置同一时间最大客户端连接数，默认无限制， </span>
+<span class="c">#Redis 可以同时打开的客户端连接数为 Redis 进程可以打开的最大文件描述符数，</span>
+<span class="c">#如果设置  maxclients 0 ，表示不作限制。</span>
+<span class="c">#当客户端连接数到达限制时， Redis 会关闭新的连接并向客户端返回 max number of clients reached 错误信息</span>
+<span class="c"># maxclients 10000</span>
+<span class="c">#  指定 Redis 最大内存限制， Redis 在启动时会把数据加载到内存中，达到最大内存后， Redis 会按照清除策略尝试清除已到期的 Key</span>
+<span class="c">#  如果 Redis 依照策略清除后无法提供足够空间，或者策略设置为 ”noeviction” ，则使用更多空间的命令将会报错，例如 SET, LPUSH 等。但仍然可以进行读取操作</span>
+<span class="c">#  注意： Redis 新的 vm 机制，会把 Key 存放内存， Value 会存放在 swap 区</span>
+<span class="c">#  该选项对 LRU 策略很有用。</span>
+<span class="c"># maxmemory 的设置比较适合于把 redis 当作于类似 memcached 的缓存来使用，而不适合当做一个真实的 DB 。</span>
+<span class="c">#  当把 Redis 当做一个真实的数据库使用的时候，内存使用将是一个很大的开销</span>
+<span class="c"># maxmemory &lt;bytes&gt;</span>
+<span class="c">#  当内存达到最大值的时候 Redis 会选择删除哪些数据？有五种方式可供选择</span>
+<span class="c"># volatile-lru -&gt;  利用 LRU 算法移除设置过过期时间的 key (LRU: 最近使用  Least RecentlyUsed )</span>
+<span class="c"># allkeys-lru -&gt;  利用 LRU 算法移除任何 key</span>
+<span class="c"># volatile-random -&gt;  移除设置过过期时间的随机 key</span>
+<span class="c"># allkeys-&gt;random -&gt; remove a randomkey, any key</span>
+<span class="c"># volatile-ttl -&gt;  移除即将过期的 key(minor TTL)</span>
+<span class="c"># noeviction -&gt;  不移除任何可以，只是返回一个写错误</span>
+<span class="c">#  注意：对于上面的策略，如果没有合适的 key 可以移除，当写的时候 Redis 会返回一个错误</span>
+<span class="c">#  默认是 :  volatile-lru</span>
+<span class="c"># maxmemory-policy volatile-lru  </span>
+<span class="c"># LRU  和  minimal TTL 算法都不是精准的算法，但是相对精确的算法 ( 为了节省内存 ) ，随意你可以选择样本大小进行检测。</span>
+<span class="c"># Redis 默认的灰选择 3 个样本进行检测，你可以通过 maxmemory-samples 进行设置</span>
+<span class="c"># maxmemory-samples 3</span>
+<span class="c">############################## AOF###############################</span>
+<span class="c">#  默认情况下， redis 会在后台异步的把数据库镜像备份到磁盘，但是该备份是非常耗时的，而且备份也不能很频繁，如果发生诸如拉闸限电、拔插头等状况，那么将造成比较大范围的数据丢失。</span>
+<span class="c">#  所以 redis 提供了另外一种更加高效的数据库备份及灾难恢复方式。</span>
+<span class="c">#  开启 append only 模式之后， redis 会把所接收到的每一次写操作请求都追加到 appendonly.aof 文件中，当 redis 重新启动时，会从该文件恢复出之前的状态。</span>
+<span class="c">#  但是这样会造成 appendonly.aof 文件过大，所以 redis 还支持了 BGREWRITEAOF 指令，对 appendonly.aof 进行重新整理。</span>
+<span class="c">#  你可以同时开启 asynchronous dumps 和  AOF</span>
+appendonly no
+<span class="c"># AOF 文件名称  ( 默认 : "appendonly.aof")</span>
+<span class="c"># appendfilename appendonly.aof</span>
+<span class="c"># Redis 支持三种同步 AOF 文件的策略 :</span>
+<span class="c"># no:  不进行同步，系统去操作  . Faster.</span>
+<span class="c"># always: always 表示每次有写操作都进行同步 . Slow, Safest.</span>
+<span class="c"># everysec:  表示对写操作进行累积，每秒同步一次 . Compromise.</span>
+<span class="c">#  默认是 "everysec" ，按照速度和安全折中这是最好的。</span>
+<span class="c">#  如果想让 Redis 能更高效的运行，你也可以设置为 "no" ，让操作系统决定什么时候去执行</span>
+<span class="c">#  或者相反想让数据更安全你也可以设置为 "always"</span>
+<span class="c">#  如果不确定就用  "everysec".</span>
+<span class="c"># appendfsync always</span>
+appendfsync everysec
+<span class="c"># appendfsync no</span>
+<span class="c"># AOF 策略设置为 always 或者 everysec 时，后台处理进程 ( 后台保存或者 AOF 日志重写 ) 会执行大量的 I/O 操作</span>
+<span class="c">#  在某些 Linux 配置中会阻止过长的 fsync() 请求。注意现在没有任何修复，即使 fsync 在另外一个线程进行处理</span>
+<span class="c">#  为了减缓这个问题，可以设置下面这个参数 no-appendfsync-on-rewrite</span>
+no-appendfsync-on-rewrite no
+<span class="c"># AOF  自动重写</span>
+<span class="c">#  当 AOF 文件增长到一定大小的时候 Redis 能够调用  BGREWRITEAOF  对日志文件进行重写</span>
+<span class="c">#  它是这样工作的： Redis 会记住上次进行些日志后文件的大小 ( 如果从开机以来还没进行过重写，那日子大小在开机的时候确定 )</span>
+<span class="c">#  基础大小会同现在的大小进行比较。如果现在的大小比基础大小大制定的百分比，重写功能将启动</span>
+<span class="c">#  同时需要指定一个最小大小用于 AOF 重写，这个用于阻止即使文件很小但是增长幅度很大也去重写 AOF 文件的情况</span>
+<span class="c">#  设置  percentage 为 0 就关闭这个特性</span>
+auto-aof-rewrite-percentage 100
+auto-aof-rewrite-min-size 64mb
+<span class="c">################################ LUASCRIPTING #############################</span>
+<span class="c"># 一个 Lua 脚本最长的执行时间为 5000 毫秒（ 5 秒），如果为 0 或负数表示无限执行时间。</span>
+lua-time-limit 5000
+<span class="c">################################LOW LOG################################</span>
+<span class="c"># Redis Slow Log  记录超过特定执行时间的命令。执行时间不包括 I/O 计算比如连接客户端，返回结果等，只是命令执行时间</span>
+<span class="c">#  可以通过两个参数设置 slow log ：一个是告诉 Redis 执行超过多少时间被记录的参数 slowlog-log-slower-than( 微妙 ) ，</span>
+<span class="c">#  另一个是 slow log 的长度。当一个新命令被记录的时候最早的命令将被从队列中移除</span>
+<span class="c">#  下面的时间以微妙为单位，因此 1000000 代表一秒。</span>
+<span class="c">#  注意指定一个负数将关闭慢日志，而设置为 0 将强制每个命令都会记录</span>
+slowlog-log-slower-than 10000
+<span class="c">#  对日志长度没有限制，只是要注意它会消耗内存</span>
+<span class="c">#  可以通过  SLOWLOG RESET 回收被慢日志消耗的内存</span>
+<span class="c">#  推荐使用默认值 128 ，当慢日志超过 128 时，最先进入队列的记录会被踢出</span>
+slowlog-max-len 128
+<span class="c">################################  事件通知  #############################</span>
+<span class="c">#  当事件发生时， Redis 可以通知 Pub/Sub 客户端。</span>
+<span class="c">#  可以在下表中选择 Redis 要通知的事件类型。事件类型由单个字符来标识：</span>
+<span class="c"># K     Keyspace 事件，以 _keyspace@&lt;db&gt;_ 的前缀方式发布</span>
+<span class="c"># E     Keyevent 事件，以 _keysevent@&lt;db&gt;_ 的前缀方式发布</span>
+<span class="c"># g     通用事件（不指定类型），像 DEL, EXPIRE, RENAME, …</span>
+<span class="c"># $     String 命令</span>
+<span class="c"># s     Set 命令</span>
+<span class="c"># h     Hash 命令</span>
+<span class="c"># z     有序集合命令</span>
+<span class="c"># x     过期事件（每次 key 过期时生成）</span>
+<span class="c"># e     清除事件（当 key 在内存被清除时生成）</span>
+<span class="c"># A     g$lshzxe 的别称，因此 ”AKE” 意味着所有的事件</span>
+<span class="c"># notify-keyspace-events 带一个由 0 到多个字符组成的字符串参数。空字符串意思是通知被禁用。</span>
+<span class="c">#  例子：启用 list 和通用事件：</span>
+<span class="c"># notify-keyspace-events Elg</span>
+<span class="c">#  默认所用的通知被禁用，因为用户通常不需要改特性，并且该特性会有性能损耗。</span>
+<span class="c">#  注意如果你不指定至少 K 或 E 之一，不会发送任何事件。</span>
+notify-keyspace-events “”
+<span class="c">##############################  高级配置  ###############################</span>
+<span class="c">#  当 hash 中包含超过指定元素个数并且最大的元素没有超过临界时，</span>
+<span class="c"># hash 将以一种特殊的编码方式（大大减少内存使用）来存储，这里可以设置这两个临界值</span>
+<span class="c"># Redis Hash 对应 Value 内部实际就是一个 HashMap ，实际这里会有 2 种不同实现，</span>
+<span class="c">#  这个 Hash 的成员比较少时 Redis 为了节省内存会采用类似一维数组的方式来紧凑存储，而不会采用真正的 HashMap 结构，对应的 valueredisObject 的 encoding 为 zipmap,</span>
+<span class="c">#  当成员数量增大时会自动转成真正的 HashMap, 此时 encoding 为 ht 。</span>
+<span class="nb">hash</span>-max-zipmap-entries 512
+<span class="nb">hash</span>-max-zipmap-value 64  
+<span class="c">#  和 Hash 一样，多个小的 list 以特定的方式编码来节省空间。</span>
+<span class="c"># list 数据类型节点值大小小于多少字节会采用紧凑存储格式。</span>
+list-max-ziplist-entries 512
+list-max-ziplist-value 64
+<span class="c"># set 数据类型内部数据如果全部是数值型，且包含多少节点以下会采用紧凑格式存储。</span>
+<span class="nb">set</span>-max-intset-entries 512
+<span class="c">#  和 hashe 和 list 一样 , 排序的 set 在指定的长度内以指定编码方式存储以节省空间</span>
+<span class="c"># zsort 数据类型节点值大小小于多少字节会采用紧凑存储格式。</span>
+zset-max-ziplist-entries 128
+zset-max-ziplist-value 64
+<span class="c"># Redis 将在每 100 毫秒时使用 1 毫秒的 CPU 时间来对 redis 的 hash 表进行重新 hash ，可以降低内存的使用</span>
+<span class="c">#  当你的使用场景中，有非常严格的实时性需要，不能够接受 Redis 时不时的对请求有 2 毫秒的延迟的话，把这项配置为 no 。</span>
+<span class="c">#  如果没有这么严格的实时性要求，可以设置为 yes ，以便能够尽可能快的释放内存</span>
+activerehashing yes
+<span class="c"># 客户端的输出缓冲区的限制，因为某种原因客户端从服务器读取数据的速度不够快，</span>
+<span class="c"># 可用于强制断开连接（一个常见的原因是一个发布 / 订阅客户端消费消息的速度无法赶上生产它们的速度）。</span>
+<span class="c">#  可以三种不同客户端的方式进行设置：</span>
+<span class="c"># normal -&gt;  正常客户端</span>
+<span class="c"># slave  -&gt; slave 和 MONITOR 客户端</span>
+<span class="c"># pubsub -&gt;  至少订阅了一个 pubsub channel 或 pattern 的客户端</span>
+<span class="c">#  每个 client-output-buffer-limit 语法 :</span>
+<span class="c"># client-output-buffer-limit &lt;class&gt;&lt;hard limit&gt; &lt;soft limit&gt; &lt;soft seconds&gt;</span>
+<span class="c">#  一旦达到硬限制客户端会立即断开，或者达到软限制并保持达成的指定秒数（连续）。</span>
+<span class="c">#  例如，如果硬限制为 32 兆字节和软限制为 16 兆字节 /10 秒，客户端将会立即断开</span>
+<span class="c">#  如果输出缓冲区的大小达到 32 兆字节，客户端达到 16 兆字节和连续超过了限制 10 秒，也将断开连接。</span>
+<span class="c">#  默认 normal 客户端不做限制，因为他们在一个请求后未要求时（以推的方式）不接收数据，</span>
+<span class="c">#  只有异步客户端可能会出现请求数据的速度比它可以读取的速度快的场景。</span>
+<span class="c">#  把硬限制和软限制都设置为 0 来禁用该特性</span>
+client-output-buffer-limit normal 0 0 0
+client-output-buffer-limit slave 256mb 64mb60
+client-output-buffer-limit pubsub 32mb 8mb60
+<span class="c"># Redis 调用内部函数来执行许多后台任务，如关闭客户端超时的连接，清除过期的 Key ，等等。</span>
+<span class="c">#  不是所有的任务都以相同的频率执行，但 Redis 依照指定的“ Hz ”值来执行检查任务。</span>
+<span class="c">#  默认情况下，“ Hz ”的被设定为 10 。</span>
+<span class="c">#  提高该值将在 Redis 空闲时使用更多的 CPU 时，但同时当有多个 key 同时到期会使 Redis 的反应更灵敏，以及超时可以更精确地处理。</span>
+<span class="c">#  范围是 1 到 500 之间，但是值超过 100 通常不是一个好主意。</span>
+<span class="c">#  大多数用户应该使用 10 这个预设值，只有在非常低的延迟的情况下有必要提高最大到 100 。</span>
+hz 10  
+<span class="c">#  当一个子节点重写 AOF 文件时，如果启用下面的选项，则文件每生成 32M 数据进行同步。</span>
+aof-rewrite-incremental-fsync yes
+</code></pre>
+</div>
+<p><br /></p>
+
+<p>redis服务器命令<br /></p>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code>redis 127.0.0.1:6379&gt; info
+
+<span class="c"># Server</span>
+redis_version:2.8.13
+redis_git_sha1:00000000
+redis_git_dirty:0
+redis_build_id:c2238b38b1edb0e2
+redis_mode:standalone
+os:Linux 3.5.0-48-generic x86_64
+arch_bits:64
+multiplexing_api:epoll
+gcc_version:4.7.2
+process_id:3856
+run_id:0e61abd297771de3fe812a3c21027732ac9f41fe
+tcp_port:6379
+uptime_in_seconds:11554
+uptime_in_days:0
+hz:10
+lru_clock:16651447
+config_file:
+
+<span class="c"># Clients</span>
+connected_clients:1
+client-longest_output_list:0
+client-biggest_input_buf:0
+blocked_clients:0
+
+<span class="c"># Memory</span>
+used_memory:589016
+used_memory_human:575.21K
+used_memory_rss:2461696
+used_memory_peak:667312
+used_memory_peak_human:651.67K
+used_memory_lua:33792
+mem_fragmentation_ratio:4.18
+mem_allocator:jemalloc-3.6.0
+
+<span class="c"># Persistence</span>
+loading:0
+rdb_changes_since_last_save:3
+rdb_bgsave_in_progress:0
+rdb_last_save_time:1409158561
+rdb_last_bgsave_status:ok
+rdb_last_bgsave_time_sec:0
+rdb_current_bgsave_time_sec:-1
+aof_enabled:0
+aof_rewrite_in_progress:0
+aof_rewrite_scheduled:0
+aof_last_rewrite_time_sec:-1
+aof_current_rewrite_time_sec:-1
+aof_last_bgrewrite_status:ok
+aof_last_write_status:ok
+
+<span class="c"># Stats</span>
+total_connections_received:24
+total_commands_processed:294
+instantaneous_ops_per_sec:0
+rejected_connections:0
+sync_full:0
+sync_partial_ok:0
+sync_partial_err:0
+expired_keys:0
+evicted_keys:0
+keyspace_hits:41
+keyspace_misses:82
+pubsub_channels:0
+pubsub_patterns:0
+latest_fork_usec:264
+
+<span class="c"># Replication</span>
+role:master
+connected_slaves:0
+master_repl_offset:0
+repl_backlog_active:0
+repl_backlog_size:1048576
+repl_backlog_first_byte_offset:0
+repl_backlog_histlen:0
+
+<span class="c"># CPU</span>
+used_cpu_sys:10.49
+used_cpu_user:4.96
+used_cpu_sys_children:0.00
+used_cpu_user_children:0.01
+
+<span class="c"># Keyspace</span>
+db0:keys<span class="o">=</span>94,expires<span class="o">=</span>1,avg_ttl<span class="o">=</span>41638810
+db1:keys<span class="o">=</span>1,expires<span class="o">=</span>0,avg_ttl<span class="o">=</span>0
+db3:keys<span class="o">=</span>1,expires<span class="o">=</span>0,avg_ttl<span class="o">=</span>0
+
+
+----------------------------
+bgrewriteaof  <span class="c">#异步执行一个 AOF（AppendOnly File）文件重写操作</span>
+bgsave  <span class="c">#在后台异步保存当前数据库的数据到磁盘</span>
+client <span class="nb">kill</span> <span class="o">[</span>ip:port] <span class="o">[</span>ID client-id]  <span class="c">#关闭客户端连接</span>
+client list  <span class="c">#获取连接到服务器的客户端连接列表</span>
+client getname  <span class="c">#获取连接的名称</span>
+client pause timeout  <span class="c">#在指定时间内终止运行来自客户端的命令</span>
+client setname connection-name  <span class="c">#设置当前连接的名称</span>
+cluster slots  <span class="c">#获取集群节点的映射数组</span>
+<span class="nb">command</span>  <span class="c">#获取 Redis 命令详情数组</span>
+<span class="nb">command </span>count  <span class="c">#获取 Redis 命令总数</span>
+<span class="nb">command </span>getkeys  <span class="c">#获取给定命令的所有键</span>
+<span class="nb">time</span>  <span class="c">#返回当前服务器时间</span>
+<span class="nb">command </span>info <span class="nb">command</span>-name <span class="o">[</span><span class="nb">command</span>-name ...]  <span class="c">#获取指定 Redis 命令描述的数组</span>
+config get parameter  <span class="c">#获取指定配置参数的值   </span>
+config rewrite  <span class="c">#对启动 Redis 服务器时所指定的 redis.conf 配置文件进行改写</span>
+config <span class="nb">set </span>parameter value  <span class="c">#修改 redis 配置参数，无需重启，【注】临时生效，redis重启失效  </span>
+config resetstat  <span class="c">#重置 INFO 命令中的某些统计数据</span>
+dbsize  <span class="c">#返回当前数据库的 key 的数量</span>
+debug object key  <span class="c">#获取 key 的调试信息</span>
+debug segfault  <span class="c">#让 Redis 服务崩溃</span>
+flushall  <span class="c">#删除所有数据库的所有key</span>
+flushdb  <span class="c">#删除当前数据库的所有key</span>
+info  <span class="c">#获取 Redis 服务器的各种信息和统计数值 </span>
+lastsave  <span class="c">#返回最近一次 Redis 成功将数据保存到磁盘上的时间，以 UNIX 时间戳格式表示</span>
+monitor  <span class="c">#实时打印出 Redis 服务器接收到的命令，调试用</span>
+role  <span class="c">#返回主从实例所属的角色</span>
+save  <span class="c">#异步保存数据到硬盘</span>
+shutdown <span class="o">[</span>nosave] <span class="o">[</span>save]  <span class="c">#异步保存数据到硬盘，并关闭服务器</span>
+slaveof host port  <span class="c">#将当前服务器转变为指定服务器的从属服务器(slave server)</span>
+slowlog subcommand <span class="o">[</span>argument]   <span class="c">#管理 redis 的慢日志</span>
+sync  <span class="c">#用于复制功能(replication)的内部命令</span>
+</code></pre>
+</div>
+<p><br /></p>
+
+<h3 id="redis的数据类型">redis的数据类型</h3>
+
+<ul>
+  <li><code class="highlighter-rouge">字符串(Strings)</code><br />
+字符串是Redis值的最基础的类型。Redis字符串是二进制安全的，这意味着一个Redis字符串可以包含任何种类的数据，例如一个JPEG图像或者一个序列化的Ruby对象。 一个字符串值最多可以保存512M字节的内容。你可以使用Redis的字符串做一些有趣的事情，例如你可以：
+    <ul>
+      <li>在使用命令INCR系列（ INCR, DECR, INCRBY）命令时将字符串作为的原子计数器。</li>
+      <li>使用APPEND命令追加字符串。</li>
+      <li>将字符串作为GETRANGE 和 SETRANGE的随机访问向量。</li>
+      <li>在小空间里编码大量数据, 或者使用 GETBIT 和 SETBIT创建一个Redis支持的Bloom过滤器。</li>
+    </ul>
+  </li>
+  <li><code class="highlighter-rouge">列表(Lists)</code> <br />
+Redis列表是简单的字符串列表，按照插入顺序排序。你可以添加一个元素导列表的头部（左边）或者尾部（右边）LPUSH命令插入一个新的元素导头部,而RPUSH插入一个新元素导尾部。当LPUSH或RPUSH操作在一个空的Key上被执行的时候一个新的列表被创建。相似的，如果一个列表操作清空一个列表那么对应的key将被从key空间删除。这是非常方便的语义，因为他们被调用使用一个空列表完全就像他们被调用时使用一个不存在的键值（可以）做为参数。一个列表最多可以包含 2^32-1 个元素 (4294967295, 每个列表超过40亿个元素)。从时间复杂度的角度来看Redis列表的主要特征是在头和尾的元素插入和删除是固定时间，即便是数以百万计的插入。在列表的两端访问元素是非常快的。但是如果你试着访问一个非常大的列表的中间的元素是很慢的，因为那是一个O(N)操作。你可以用Redis列表做很多有趣的事情，比如你可以：
+    <ul>
+      <li>在一个社交网络中建立一个时间线模型，使用LPUSH 去添加新的元素到用户的时间线， 使用LRANGE去接收一些最近插入的元素。</li>
+      <li>你可以将 LPUSH 和 LTRIM 一起用去创建一个永远也不会超过指定元素数目的列表，但是记住是最后的N个元素。</li>
+      <li>列表能够被用来作为消息传递的primitive[基元], 例如众所周知的用来创建后台工作的Resque Ruby库。</li>
+      <li>你可以使用列表做更多的事，这个数据类型支持许多命令，包括像BLPOP这样的阻塞命令。</li>
+    </ul>
+  </li>
+  <li><code class="highlighter-rouge">集合(Sets)</code> <br />
+Redis 集合（Set）是一个无序的字符串集合. 你可以以O(1)的时间复杂度 (无论集合中有多少元素时间复杂度都是常量)完成添加，删除，以及测试元素是否存在。redis集合拥有令人满意的不允许包含相同成员的属性。多次添加相同的元素，最终在集合里只会有一个元素。实际上说这些就是意味着在添加元素的时候无须检测元素是否存在。一个Redis集合的非常有趣的事情是他支持一些服务端的命令从现有的集合出发去进行集合运算，因此你可以在非常短的时间内进行合并（unions）, 求交集（intersections）,找出不同的元素（differences of sets）。一个集合最多可以包含 2^32-1 个元素(4294967295, 每个集合超过40亿个元素). 你可以使用集合多很多有趣的事情，比如你能够：
+    <ul>
+      <li>你可以使用集合追踪一件（独一无二的）事情，想要知道所有访问一个博客文章的独立IP?每次当你处理一个页面访问的事简单的使用SADD。你可以肯定重复的IP是不会被插入的。</li>
+      <li>redis 集合是很擅长表现关系的。你可以使用Redis集合创建一个tagging系统去表现每一个tag。接下来你能够使用SADD命令将有一个给定tag的所有对象的所有ID添加到一个用来展现这个特定tag的集合里。你想要同时有三个不同tag的所有对象的ID吗？使用SINTER就好了。</li>
+      <li>使用 SPOP 或者 SRANDMEMBER 命令你可以使用集合去随意的抽取元素。</li>
+    </ul>
+  </li>
+  <li><code class="highlighter-rouge">哈希（Hashes)</code><br />
+Redis Hashes是字符串字段和字符串值之间的映射,因此他们是展现对象的完美数据类型(例如:一个有名，姓，年龄等等属性的用户)。一个带有一些字段（这里的一些意味着高达一百左右）的hash仅仅需要一块很小的空间存储,因此你可以存储数以百万计的对象在一个小的Redis实例中。 哈希主要用来表现对象，他们有能力存储很多对象，因此你可以将哈希用于许多其他的任务。 每一个哈希可以存储超过2^32-1 字段-值(超过40亿)。</li>
+  <li><code class="highlighter-rouge">有序集合(Sorted Sets)</code><br />
+Redis有序集合与普通集合非常相似，是一个没有重复元素的字符串集合。不同之处是有序集合的没有成员都关联了一个评分，这个评分被用来按照从最低分到最高分的方式排序集合中的成员。集合的成员是唯一的，但是评分可以是重复了。 使用有序集合你可以以非常快的速度（O(log(N))）添加，删除和更新元素。因为元素是有序的, 所以你也可以很快的根据评分（score）或者次序（position）来获取一个范围的元素。访问有序集合的中间元素也是非常快的,因此你能够使用有序集合作为一个没有重复成员的智能列表。在有序集合中，你可以很快捷的访问一切你需要的东西：有序的元素，快速的存在性测试，快速访问集合的中间元素！简而言之使用有序集合你可以做完成许多对性能有极端要求的任务，而那些任务使用其他类型的数据库真的是很难完成的。 使用有序集合你可以：
+    <ul>
+      <li>在一个大型的在线游戏中展示一个排行榜，在那里一旦一个新的分数被提交，你可以使用ZADD命令去更新它.你也可用使用 ZRANGE命令来得到顶级的用户,你还可以使用ZRANK命令根据用户名返回该用户在排行榜中的位次。同时使用ZRANK 和 ZRANGE 你可以显示和给定用户分数相同的所有用户。所有这些操作都非常的快速。</li>
+      <li>有序集合常常被用来索引存储在Redis中的数据。举个例子，如果你有许多的哈希（Hashes）来代表用户，你可以使用一个有序集合，这个集合中的元素的年龄字段被用来当做评分，而ID作为值。因此，使用 ZRANGEBYSCORE 命令，那是微不足道的并且能够很快的接收到给定年龄段的所有用户。</li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="redis字符串相关操作">redis字符串相关操作</h3>
+
+<p>keys/set/get/append/strlen/del</p>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code>redis 127.0.0.1:6379&gt; keys <span class="k">*</span>                <span class="c">#列出该库中所有的键</span>
+redis 127.0.0.1:6379&gt; exists mykey          <span class="c">#判断该键是否存在，存在返回1，否则返回0</span>
+redis 127.0.0.1:6379&gt; append mykey <span class="s2">"hello"</span>  <span class="c">#该键并不存在，因此append命令返回当前Value的长度</span>
+redis 127.0.0.1:6379&gt; append mykey <span class="s2">" world"</span> <span class="c">#该键已经存在，因此返回追加后Value的长度</span>
+redis 127.0.0.1:6379&gt; get mykey             <span class="c">#通过get命令获取该键，以判断append的结果</span>
+redis 127.0.0.1:6379&gt; <span class="nb">set </span>mykey <span class="s2">"this is a test"</span> <span class="c">#通过set命令为键设置新值，并覆盖原有值</span>
+redis 127.0.0.1:6379&gt; strlen mykey          <span class="c">#获取指定Key的字符长度，等效于C库中strlen函数</span>
+redis 127.0.0.1:6379&gt; del mykey             <span class="c">#根据键，删除键值</span>
+</code></pre>
+</div>
+
+<p>incr/decr/incrby/decrby</p>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code>redis 127.0.0.1:6379&gt; <span class="nb">set </span>mykey 20     <span class="c">#设置Key的值为20</span>
+OK
+redis 127.0.0.1:6379&gt; incr mykey       <span class="c">#该Key的值递增1</span>
+<span class="o">(</span>integer<span class="o">)</span> 21
+redis 127.0.0.1:6379&gt; decr mykey       <span class="c">#该Key的值递减1</span>
+<span class="o">(</span>integer<span class="o">)</span> 20
+redis 127.0.0.1:6379&gt; del mykey        <span class="c">#删除已有键。</span>
+<span class="o">(</span>integer<span class="o">)</span> 1
+redis 127.0.0.1:6379&gt; decr mykey       <span class="c">#对空值执行递减操作，其原值被设定为0，递减后的值为-1</span>
+<span class="o">(</span>integer<span class="o">)</span> -1
+redis 127.0.0.1:6379&gt; del mykey   
+<span class="o">(</span>integer<span class="o">)</span> 1
+redis 127.0.0.1:6379&gt; incr mykey       <span class="c">#对空值执行递增操作，其原值被设定为0，递增后的值为1</span>
+<span class="o">(</span>integer<span class="o">)</span> 1
+redis 127.0.0.1:6379&gt; <span class="nb">set </span>mykey hello  <span class="c">#将该键的Value设置为不能转换为整型的普通字符串。</span>
+OK
+redis 127.0.0.1:6379&gt; incr mykey       <span class="c">#在该键上再次执行递增操作时，Redis将报告错误信息。</span>
+<span class="o">(</span>error<span class="o">)</span> ERR value is not an integer or out of range
+redis 127.0.0.1:6379&gt; <span class="nb">set </span>mykey 10
+OK
+redis 127.0.0.1:6379&gt; decrby mykey 5 
+<span class="o">(</span>integer<span class="o">)</span> 5
+redis 127.0.0.1:6379&gt; incrby mykey 10
+<span class="o">(</span>integer<span class="o">)</span> 15
+</code></pre>
+</div>
+
+<p>getset/setex/setnx</p>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code>redis 127.0.0.1:6379&gt; incr mycounter      <span class="c">#将计数器的值原子性的递增1，现在mycounter的值为1</span>
+<span class="o">(</span>integer<span class="o">)</span> 1
+redis 127.0.0.1:6379&gt; getset mycounter 0  <span class="c">#在获取计数器原有值的同时，并将其设置为新值，这两个操作[原子性地]同时完成。</span>
+<span class="s2">"1"</span>
+redis 127.0.0.1:6379&gt; get mycounter       <span class="c">#查看设置后的结果。</span>
+<span class="s2">"0"</span>
+
+
+redis 127.0.0.1:6379&gt; setex mykey 10 <span class="s2">"hello"</span>  <span class="c">#设置指定Key的过期时间为10秒。</span>
+OK    
+redis 127.0.0.1:6379&gt; ttl mykey           <span class="c">#0表示已经过期，-1表示永不过期，-2表示不存在。                   </span>
+<span class="o">(</span>integer<span class="o">)</span> 4
+redis 127.0.0.1:6379&gt; get mykey           <span class="c">#在该键的存活期内我们仍然可以获取到它的Value。</span>
+<span class="s2">"hello"</span>
+redis 127.0.0.1:6379&gt; ttl mykey           <span class="c">#该ttl命令的返回值显示，该Key已经过期。</span>
+<span class="o">(</span>integer<span class="o">)</span> 0
+redis 127.0.0.1:6379&gt; get mykey           <span class="c">#获取已过期的Key将返回nil。</span>
+<span class="o">(</span>nil<span class="o">)</span>
+
+
+redis 127.0.0.1:6379&gt; del mykey           <span class="c">#删除该键，以便于下面的测试验证。</span>
+<span class="o">(</span>integer<span class="o">)</span> 1
+redis 127.0.0.1:6379&gt; setnx mykey <span class="s2">"hello"</span> <span class="c">#该键并不存在，因此该命令执行成功。(set if not exists)</span>
+<span class="o">(</span>integer<span class="o">)</span> 1
+redis 127.0.0.1:6379&gt; setnx mykey <span class="s2">"world"</span> <span class="c">#该键已经存在，因此本次设置没有产生任何效果。</span>
+<span class="o">(</span>integer<span class="o">)</span> 0
+redis 127.0.0.1:6379&gt; get mykey           <span class="c">#从结果可以看出，返回的值仍为第一次设置的值。</span>
+<span class="s2">"hello"</span>
+</code></pre>
+</div>
+
+<p>setrange/getrange/setbit/getbit</p>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code>redis 127.0.0.1:6379&gt; <span class="nb">set </span>mykey <span class="s2">"hello world"</span>      <span class="c">#设定初始值。</span>
+OK
+redis 127.0.0.1:6379&gt; setrange mykey 6 dd          <span class="c">#从第六个字节开始替换2个字节(dd只有2个字节)</span>
+<span class="o">(</span>integer<span class="o">)</span> 11
+redis 127.0.0.1:6379&gt; get mykey                    <span class="c">#查看替换后的值。</span>
+<span class="s2">"hello ddrld"</span>
+redis 127.0.0.1:6379&gt; setrange mykey 20 dd         <span class="c">#offset已经超过该Key原有值的长度了，该命令将会在末尾补0。</span>
+<span class="o">(</span>integer<span class="o">)</span> 22
+redis 127.0.0.1:6379&gt; get mykey                    <span class="c">#查看补0后替换的结果。</span>
+<span class="s2">"hello ddrld</span><span class="se">\x</span><span class="s2">00</span><span class="se">\x</span><span class="s2">00</span><span class="se">\x</span><span class="s2">00</span><span class="se">\x</span><span class="s2">00</span><span class="se">\x</span><span class="s2">00</span><span class="se">\x</span><span class="s2">00</span><span class="se">\x</span><span class="s2">00</span><span class="se">\x</span><span class="s2">00</span><span class="se">\x</span><span class="s2">00dd"</span>
+redis 127.0.0.1:6379&gt; del mykey                    <span class="c">#删除该Key。</span>
+<span class="o">(</span>integer<span class="o">)</span> 1
+redis 127.0.0.1:6379&gt; setrange mykey 2 dd          <span class="c">#替换空值。</span>
+<span class="o">(</span>integer<span class="o">)</span> 4
+redis 127.0.0.1:6379&gt; get mykey                    <span class="c">#查看替换空值后的结果。</span>
+<span class="s2">"</span><span class="se">\x</span><span class="s2">00</span><span class="se">\x</span><span class="s2">00dd"</span>   
+redis 127.0.0.1:6379&gt; <span class="nb">set </span>mykey <span class="s2">"0123456789"</span>       <span class="c">#设置新值。</span>
+OK
+redis 127.0.0.1:6379&gt; getrange mykey 1 2           <span class="c">#截取该键的Value，从第一个字节开始，到第二个字节结束。</span>
+<span class="s2">"12"</span>
+redis 127.0.0.1:6379&gt; getrange mykey 1 20          <span class="c">#20已经超过Value的总长度，因此将截取第一个字节后面的所有字节。</span>
+<span class="s2">"123456789"</span>
+
+
+redis 127.0.0.1:6379&gt; del mykey
+<span class="o">(</span>integer<span class="o">)</span> 1
+redis 127.0.0.1:6379&gt; setbit mykey 2 1         <span class="c">#设置从0开始计算的第2位BIT值为1，返回原有BIT值0</span>
+<span class="o">(</span>integer<span class="o">)</span> 0
+redis 127.0.0.1:6379&gt; get mykey                <span class="c">#获取设置的结果，二进制的0010 0000的十六进制值为0x20,对应的ASCII值为空格</span>
+<span class="s2">" "</span> 
+redis 127.0.0.1:6379&gt; getbit mykey 2           <span class="c">#返回了指定offset的BIT值(上述00100000，返回的是下标2对应的1)。</span>
+<span class="o">(</span>integer<span class="o">)</span> 1
+redis 127.0.0.1:6379&gt; getbit mykey 10          <span class="c">#offset已经超出了value的长度，因此返回0。</span>
+<span class="o">(</span>integer<span class="o">)</span> 0
+</code></pre>
+</div>
+
+<p>mset/mget/msetnx</p>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="c">#批量设置了key1和key2两个键。</span>
+redis 127.0.0.1:6379&gt; mset key1 <span class="s2">"hello"</span> key2 <span class="s2">"world"</span>  
+OK
+
+<span class="c">#批量获取了key1和key2两个键的值。</span>
+redis 127.0.0.1:6379&gt; mget key1 key2 
+1<span class="o">)</span> <span class="s2">"hello"</span>
+2<span class="o">)</span> <span class="s2">"world"</span>
+
+<span class="c">#批量设置了key3和key4两个键，因为之前他们并不存在，所以该命令执行成功并返回1。</span>
+redis 127.0.0.1:6379&gt; msetnx key3 <span class="s2">"stephen"</span> key4 <span class="s2">"liu"</span> 
+<span class="o">(</span>integer<span class="o">)</span> 1
+redis 127.0.0.1:6379&gt; mget key3 key4                   
+1<span class="o">)</span> <span class="s2">"stephen"</span>
+2<span class="o">)</span> <span class="s2">"liu"</span>
+
+<span class="c">#批量设置了key3和key5两个键，但是key3已经存在，所以该命令执行失败并返回0。</span>
+redis 127.0.0.1:6379&gt; msetnx key3 <span class="s2">"hello"</span> key5 <span class="s2">"world"</span> 
+<span class="o">(</span>integer<span class="o">)</span> 0
+
+<span class="c">#批量获取key3和key5，由于key5没有设置成功，所以返回nil。</span>
+redis 127.0.0.1:6379&gt; mget key3 key5                   
+1<span class="o">)</span> <span class="s2">"stephen"</span>
+2<span class="o">)</span> <span class="o">(</span>nil<span class="o">)</span>
+</code></pre>
+</div>
+<p><br /></p>
+
+<h3 id="redis列表相关操作">redis列表相关操作</h3>
+
+<p>lpush/lpushx/lrange</p>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code>redis 127.0.0.1:6379&gt; del mykey
+<span class="o">(</span>integer<span class="o">)</span> 1
+
+<span class="c">#mykey键并不存在，该命令会创建该键及与其关联的List，之后在将参数中的values从左到右依次插入。</span>
+redis 127.0.0.1:6379&gt; lpush mykey a b c d
+<span class="o">(</span>integer<span class="o">)</span> 4
+
+<span class="c">#取从位置0开始到位置2结束的3个元素。</span>
+redis 127.0.0.1:6379&gt; lrange mykey 0 2
+1<span class="o">)</span> <span class="s2">"d"</span>
+2<span class="o">)</span> <span class="s2">"c"</span>
+3<span class="o">)</span> <span class="s2">"b"</span>
+
+<span class="c">#取链表中的全部元素，其中0表示第一个元素，-1表示最后一个元素。</span>
+redis 127.0.0.1:6379&gt; lrange mykey 0 -1
+1<span class="o">)</span> <span class="s2">"d"</span>
+2<span class="o">)</span> <span class="s2">"c"</span>
+3<span class="o">)</span> <span class="s2">"b"</span>
+4<span class="o">)</span> <span class="s2">"a"</span>
+
+<span class="c">#mykey2键此时并不存在，因此该命令将不会进行任何操作，其返回值为0。</span>
+redis 127.0.0.1:6379&gt; lpushx mykey2 e
+<span class="o">(</span>integer<span class="o">)</span> 0
+
+<span class="c">#可以看到mykey2没有关联任何List Value。</span>
+redis 127.0.0.1:6379&gt; lrange mykey2 0 -1
+<span class="o">(</span>empty list or <span class="nb">set</span><span class="o">)</span>
+
+<span class="c">#mykey键此时已经存在，所以该命令插入成功，并返回链表中当前元素的数量。</span>
+redis 127.0.0.1:6379&gt; lpushx mykey e
+<span class="o">(</span>integer<span class="o">)</span> 5
+<span class="c">#获取该键的List Value的头部元素。</span>
+redis 127.0.0.1:6379&gt; lrange mykey 0 0
+1<span class="o">)</span> <span class="s2">"e"</span>
+</code></pre>
+</div>
+
+<p>lpop/llen</p>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code>redis 127.0.0.1:6379&gt; lpush mykey a b c d
+<span class="o">(</span>integer<span class="o">)</span> 4
+redis 127.0.0.1:6379&gt; lpop mykey
+<span class="s2">"d"</span>
+redis 127.0.0.1:6379&gt; lpop mykey
+<span class="s2">"c"</span>
+
+<span class="c">#在执行lpop命令两次后，链表头部的两个元素已经被弹出，此时链表中元素的数量是2</span>
+redis 127.0.0.1:6379&gt; llen mykey
+<span class="o">(</span>integer<span class="o">)</span> 2
+</code></pre>
+</div>
+
+<p>lrem/lset/lindex/ltrim</p>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="c">#为后面的示例准备测试数据。</span>
+redis 127.0.0.1:6379&gt; lpush mykey a b c d a c
+<span class="o">(</span>integer<span class="o">)</span> 6
+
+<span class="c">#从头部(left)向尾部(right)变量链表，删除2个值等于a的元素，返回值为实际删除的数量。</span>
+redis 127.0.0.1:6379&gt; lrem mykey 2 a
+<span class="o">(</span>integer<span class="o">)</span> 2
+
+<span class="c">#看出删除后链表中的全部元素。</span>
+redis 127.0.0.1:6379&gt; lrange mykey 0 -1
+1<span class="o">)</span> <span class="s2">"c"</span>
+2<span class="o">)</span> <span class="s2">"d"</span>
+3<span class="o">)</span> <span class="s2">"c"</span>
+4<span class="o">)</span> <span class="s2">"b"</span>
+
+<span class="c">#获取索引值为1(头部的第二个元素)的元素值。</span>
+redis 127.0.0.1:6379&gt; lindex mykey 1
+<span class="s2">"d"</span>
+
+<span class="c">#将索引值为1(头部的第二个元素)的元素值设置为新值e。</span>
+redis 127.0.0.1:6379&gt; lset mykey 1 e
+OK
+
+<span class="c">#查看是否设置成功。</span>
+redis 127.0.0.1:6379&gt; lindex mykey 1
+<span class="s2">"e"</span>
+
+<span class="c">#索引值6超过了链表中元素的数量，该命令返回nil。</span>
+redis 127.0.0.1:6379&gt; lindex mykey 6
+<span class="o">(</span>nil<span class="o">)</span>
+
+<span class="c">#设置的索引值6超过了链表中元素的数量，设置失败，该命令返回错误信息。</span>
+redis 127.0.0.1:6379&gt; lset mykey 6 hh
+<span class="o">(</span>error<span class="o">)</span> ERR index out of range
+
+<span class="c">#仅保留索引值0到2之间的3个元素，注意第0个和第2个元素均被保留。</span>
+redis 127.0.0.1:6379&gt; ltrim mykey 0 2
+OK
+
+<span class="c">#查看trim后的结果。</span>
+redis 127.0.0.1:6379&gt; lrange mykey 0 -1
+1<span class="o">)</span> <span class="s2">"c"</span>
+2<span class="o">)</span> <span class="s2">"e"</span>
+3<span class="o">)</span> <span class="s2">"c"</span> 
+</code></pre>
+</div>
+
+<p>linsert</p>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="c">#删除该键便于后面的测试。</span>
+redis 127.0.0.1:6379&gt; del mykey
+<span class="o">(</span>integer<span class="o">)</span> 1
+
+<span class="c">#为后面的示例准备测试数据。</span>
+redis 127.0.0.1:6379&gt; lpush mykey a b c d e
+<span class="o">(</span>integer<span class="o">)</span> 5
+
+<span class="c">#在a的前面插入新元素a1。</span>
+redis 127.0.0.1:6379&gt; linsert mykey before a a1
+<span class="o">(</span>integer<span class="o">)</span> 6
+
+<span class="c">#查看是否插入成功，从结果看已经插入。注意lindex的index值是0-based。</span>
+redis 127.0.0.1:6379&gt; lindex mykey 0
+<span class="s2">"e"</span>
+
+<span class="c">#在e的后面插入新元素e2，从返回结果看已经插入成功。</span>
+redis 127.0.0.1:6379&gt; linsert mykey after e e2
+<span class="o">(</span>integer<span class="o">)</span> 7
+
+<span class="c">#再次查看是否插入成功。</span>
+redis 127.0.0.1:6379&gt; lindex mykey 1
+<span class="s2">"e2"</span>
+
+<span class="c">#在不存在的元素之前或之后插入新元素，该命令操作失败，并返回-1。</span>
+redis 127.0.0.1:6379&gt; linsert mykey after k a
+<span class="o">(</span>integer<span class="o">)</span> -1
+
+<span class="c">#为不存在的Key插入新元素，该命令操作失败，返回0。</span>
+redis 127.0.0.1:6379&gt; linsert mykey1 after a a2
+<span class="o">(</span>integer<span class="o">)</span> 0
+</code></pre>
+</div>
+
+<p>rpush/rpushx/rpop/rpoplpush</p>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="c">#删除该键，以便于后面的测试。</span>
+redis 127.0.0.1:6379&gt; del mykey
+<span class="o">(</span>integer<span class="o">)</span> 1
+
+<span class="c">#从链表的尾部插入参数中给出的values，插入顺序是从左到右依次插入。</span>
+redis 127.0.0.1:6379&gt; rpush mykey a b c d
+<span class="o">(</span>integer<span class="o">)</span> 4
+
+<span class="c">#通过lrange的可以获悉rpush在插入多值时的插入顺序。</span>
+redis 127.0.0.1:6379&gt; lrange mykey 0 -1
+1<span class="o">)</span> <span class="s2">"a"</span>
+2<span class="o">)</span> <span class="s2">"b"</span>
+3<span class="o">)</span> <span class="s2">"c"</span>
+4<span class="o">)</span> <span class="s2">"d"</span>
+
+<span class="c">#该键已经存在并且包含4个元素，rpushx命令将执行成功，并将元素e插入到链表的尾部。</span>
+redis 127.0.0.1:6379&gt; rpushx mykey e
+<span class="o">(</span>integer<span class="o">)</span> 5
+
+<span class="c">#通过lindex命令可以看出之前的rpushx命令确实执行成功，因为索引值为4的元素已经是新元素了。</span>
+redis 127.0.0.1:6379&gt; lindex mykey 4
+<span class="s2">"e"</span>
+
+<span class="c">#由于mykey2键并不存在，因此该命令不会插入数据，其返回值为0。</span>
+redis 127.0.0.1:6379&gt; rpushx mykey2 e
+<span class="o">(</span>integer<span class="o">)</span> 0
+
+<span class="c">#在执行rpoplpush命令前，先看一下mykey中链表的元素有哪些，注意他们的位置关系。</span>
+redis 127.0.0.1:6379&gt; lrange mykey 0 -1
+1<span class="o">)</span> <span class="s2">"a"</span>
+2<span class="o">)</span> <span class="s2">"b"</span>
+3<span class="o">)</span> <span class="s2">"c"</span>
+4<span class="o">)</span> <span class="s2">"d"</span>
+5<span class="o">)</span> <span class="s2">"e"</span>
+
+<span class="c">#将mykey的尾部元素e弹出，同时再插入到mykey2的头部(原子性的完成这两步操作)。</span>
+redis 127.0.0.1:6379&gt; rpoplpush mykey mykey2
+<span class="s2">"e"</span>
+
+<span class="c">#通过lrange命令查看mykey在弹出尾部元素后的结果。</span>
+redis 127.0.0.1:6379&gt; lrange mykey 0 -1
+1<span class="o">)</span> <span class="s2">"a"</span>
+2<span class="o">)</span> <span class="s2">"b"</span>
+3<span class="o">)</span> <span class="s2">"c"</span>
+4<span class="o">)</span> <span class="s2">"d"</span>
+
+<span class="c">#通过lrange命令查看mykey2在插入元素后的结果。</span>
+redis 127.0.0.1:6379&gt; lrange mykey2 0 -1
+1<span class="o">)</span> <span class="s2">"e"</span>
+
+<span class="c">#将source和destination设为同一键，将mykey中的尾部元素移到其头部。</span>
+redis 127.0.0.1:6379&gt; rpoplpush mykey mykey
+<span class="s2">"d"</span>
+
+<span class="c">#查看移动结果。</span>
+redis 127.0.0.1:6379&gt; lrange mykey 0 -1
+1<span class="o">)</span> <span class="s2">"d"</span>
+2<span class="o">)</span> <span class="s2">"a"</span>
+3<span class="o">)</span> <span class="s2">"b"</span>
+4<span class="o">)</span> <span class="s2">"c"</span>
+</code></pre>
+</div>
+<p>[注] redis链表操作的小技巧：<br />
+针对链表结构的Value，Redis在其官方文档中给出了一些实用技巧，如RPOPLPUSH命令，下面给出具体的解释。
+Redis链表经常会被用于消息队列的服务，以完成多程序之间的消息交换。假设一个应用程序正在执行LPUSH操
+作向链表中添加新的元素，我们通常将这样的程序称之为”生产者(Producer)”，而另外一个应用程序正在执行
+RPOP操作从链表中取出元素，我们称这样的程序为”消费者(Consumer)”。如果此时，消费者程序在取出消息元
+素后立刻崩溃，由于该消息已经被取出且没有被正常处理，那么我们就可以认为该消息已经丢失，由此可能会
+导致业务数据丢失，或业务状态的不一致等现象的发生。然而通过使用RPOPLPUSH命令，消费者程序在从主消
+息队列中取出消息之后再将其插入到备份队列中，直到消费者程序完成正常的处理逻辑后再将该消息从备份队
+列中删除。同时我们还可以提供一个守护进程，当发现备份队列中的消息过期时，可以重新将其再放回到主消
+息队列中，以便其它的消费者程序继续处理。<br /></p>
+
+
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-6">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">redis</button>
+                                
+                        </div>
+                        
+                        <!--
+                        <div class="col-md-6">
+                            <div class="small text-right">
+                                <div>    
+                                    <i class="fa fa-comments-o"> </i> 
+                                    <span class="ds-comments">0</span>条评论
+                                </div>
+                                <div>
+                                    <i class="fa fa-share-alt"> </i> 
+                                    <span class="ds-shares">0</span>条转发
+                                </div>  
+                            </div>
+                        </div>
+                        -->
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <!-- donate -->
+                            
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal2">
+    Donate
+</button>
+<div class="modal inmodal" id="myModal2" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated flipInY">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Donate Me</h4>
+                <small class="font-bold">Thanks for your support!</small>
+            </div>
+            <div class="modal-body">
+                <div class="tabbable" id="tabs-960227">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#panel-405278" data-toggle="tab">Alipay</a>
+                        </li>
+                        <li>
+                            <a href="#panel-874705" data-toggle="tab">Wechat</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="panel-405278">
+                            <div class="text-center">
+                                <img src="/static/img/pay/alipay.png"" height="250" width="250">
+                            </div>    
+                        </div>
+                        <div class="tab-pane" id="panel-874705">
+                            <div class="text-center">
+                                <img src="/static/img/pay/wechat.png"" height="250" width="250">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+                            
+                            <br>
+                            <!-- share -->
+                            
+                                
+<!--分享-->
+<div class="row" style="margin-top:30px;">
+	<h2>Share:</h2>
+    <div class="social-share" style="margin-left:-5px;"data-sites="wechat,qq,qzone,weibo"></div> 
+</div>
+<link rel="stylesheet" href="/static/css/share.min.css">
+<script src="/static/js/jquery.share.min.js"></script>
+<script src="/static/js/embed.js"></script>
+
+<script>
+  var url = 'http://localhost:4000/db/2012/10/18/db-redis-base-01.html';
+  var source = 'http://localhost:4000/db/2012/10/18/db-redis-base-01.html';
+  var title = 'redis基础简介（一）- string（字符串）、list（列表）';
+  var excerpt = $("p:eq(0)").text();
+  
+  var imageUrl = 'http://localhost:4000/static/img/landing/header_one.jpg';
+  var imgEle = $(".content_img:eq(0)");
+  if (imgEle) {
+    imageUrl = imgEle.attr("src");
+  }
+
+  var $config = {
+      url: url, // 网址，默认使用 window.location.href
+      source: source, // 来源（QQ空间会用到）, 默认读取head标签：<meta name="site" content="http://overtrue" />
+      title: title, // 标题，默认读取 document.title 或者 <meta name="title" content="share.js" />
+      description: excerpt, // 描述, 默认读取head标签：<meta name="description" content="PHP弱类型的实现原理分析" />
+      image: imageUrl, // 图片, 默认取网页中第一个img标签
+      sites: ['qzone', 'qq', 'weibo','wechat','douban'], // 启用的站点
+      //disabled: ['google', 'facebook', 'twitter'], // 禁用的站点
+      wechatQrcodeTitle: "微信扫一扫：分享", // 微信二维码提示文字
+      wechatQrcodeHelper: '<p style="font-size:10px;">微信里点“发现”，扫一下</p><p style="font-size:10px;">二维码便可将本文分享至朋友圈。</p>',
+   };
+  $('.social-share').share($config);
+</script>
+
+
+
+
+                            
+                            <br>
+                            <!-- comment -->
+                            <!--
+
+
+
+-->
+
+<!-- 多说评论框 start -->
+<div class="row" style="margin-top:25px;"></div>
+<div class="ds-thread" data-thread-key="/db/2012/10/18/db-redis-base-01.html" data-title="redis基础简介（一）- string（字符串）、list（列表）" data-url="http://localhost:4000/db/2012/10/18/db-redis-base-01.html"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+	var duoshuoQuery = {short_name:"kinglyjn"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+<!-- 多说公共JS代码 end -->
+
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+	
+	    <script src="/static/js/scroll.js"></script>
+
+<!-- Baidu analytics -->
+
+
+<!-- Google analytics -->
+
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-73784599-1', 'auto');
+    ga('send', 'pageview');
+
+  </script>
+
+
+<!--
+
+-->
+
+<!--
+
+-->
+
+<script async src="/static/js/count_page.js"></script>
+
+	
+
+</body>
+</html>

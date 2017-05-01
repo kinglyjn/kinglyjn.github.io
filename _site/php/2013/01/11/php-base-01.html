@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html>
+	
+	    <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+    <meta content="php语法基础（一）- 变量、常变量、函数、分支和循环、字符串、数组、类、时间、日期、包含文件、文件及图片读写等" name="description">
+  
+  
+    <meta name="keywords" content="php语法基础（一）,语法,php,kinglyjn">
+  
+  <meta name="author" content="KinglyJn">
+
+  <title>
+    
+        KinglyJn|php语法基础（一）- 变量、常变量、函数、分支和循环、字符串、数组、类、时间、日期、包含文件、文件及图片读写等
+    
+  </title>
+  <!-- favicon -->
+  <link rel="shortcut icon" href="/static/img/favicon.ico">
+
+  <!-- Third-party CSS -->
+  <link href="/bower_components/normalize-css/normalize.min.css" rel="stylesheet">
+  <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/bower_components/animate.css/animate.min.css" rel="stylesheet">
+  <link href="/bower_components/components-font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="/static/font-mfizz/font-mfizz.css" rel="stylesheet">
+  <!-- <link href="/bower_components/toastr/toastr.min.css" rel="stylesheet"> -->
+  <link href="/bower_components/jquery.gritter/css/jquery.gritter.css" rel="stylesheet">
+  <link rel="stylesheet" href="/search/css/cb-search.css">
+
+  <!-- Custom styles for this template -->
+  <link href="/static/css/style.min.css" rel="stylesheet">
+  <link href="/static/css/pygments.css" rel="stylesheet">
+
+  <!-- Scripts -->
+  <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="/search/js/bootstrap3-typeahead.min.js"></script>
+
+  <!-- cb-search -->
+  <script src="/search/js/cb-search.js"></script>
+  <script>
+    $(function(){
+        $("pre").css('display','block');
+    });
+  </script>
+  <!-- Mainly scripts -->
+  <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="/bower_components/metisMenu/dist/metisMenu.min.js"></script>
+  <script src="/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+
+  <!-- Peity -->
+  <script src="/bower_components/peity/jquery.peity.min.js"></script>
+
+  <script src="/bower_components/PACE/pace.min.js"></script>
+  <script src="/bower_components/wow/dist/wow.min.js"></script>
+  <!-- Custom and plugin javascript -->
+  <script src="/static/js/inspinia.js"></script>
+
+  <!-- Rickshaw -->
+  <script src="/bower_components/rickshaw/vendor/d3.v3.js"></script>
+  <script src="/bower_components/rickshaw/rickshaw.min.js"></script>
+
+
+  <!-- jPages -->
+  <script src="/static/js/jPages.js"></script>
+  <script src="/static/js/js.js"></script>
+  <script type="text/javascript">
+        $(function(){
+          /* initiate the plugin */
+          $("div.pag-holder").jPages({
+              containerID  : "pag-itemContainer",
+              perPage      : 10,  /* num of items per page */
+              startPage    : 1,
+              startRange   : 1,
+              midRange     : 3,
+              endRange     : 1
+          });
+
+          $("div.pag-jump button").click(function(){
+            var page = parseInt($("div.pag-jump input").val());
+            $("div.pag-holder").jPages(page);
+          });
+
+          $("div.pag-jump input").on("keypress", function(){
+            var e=e||window.event;
+            if (e.keyCode == 13) {
+                var page = parseInt($("div.pag-jump input").val());
+                $("div.pag-holder").jPages(page);
+            } 
+          });
+      });
+  </script>
+
+<!-- GrowingIO -->
+
+  <script>
+    var _vds = _vds || [];
+    window._vds = _vds;
+    (function(){
+      _vds.push(['setAccountId', 'a49d4901c7853da9']);
+      (function() {
+        var vds = document.createElement('script');
+        vds.type='text/javascript';
+        vds.async = true;
+        vds.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'dn-growing.qbox.me/vds.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(vds, s);
+      })();
+    })();
+  </script>
+
+
+</head>
+
+	
+
+
+<body id="page-top" class="landing-page">
+
+	
+	    
+
+<!--修复手机端横轴方向左右滑动BUG-->
+<style type="text/css">
+    .landing-page .row {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+</style>
+
+<div class="search-tool"
+      style="position: fixed; top: 0px ; bottom: 0px; left: 0px; right:  0px; opacity: 0.95; background-color: #111111; z-index: 9999; display: none;">
+    <input type="text" class="form-control search-content" id="search-content" style="position: fixed; top: 60px" placeholder="Search Blog">
+
+    <div style="position: fixed; top: 16px; right: 16px; z-index: 9999;">
+        <img src="/search/img/cb-close.png" id="close-btn"/>
+    </div>
+</div>
+
+<div style="position: fixed; right: 16px; bottom: 20px; z-index: 9999;">
+    <img src="/search/img/cb-search.png"  id="search-btn"  title="Double click Ctrl"/>
+</div>
+
+<div class="navbar-wrapper">
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header page-scroll">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/">KinglyJn</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a class="page-scroll" href="/blog/"></a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/blog/">Blog</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/linux/">Linux</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/cloud/">Cloud</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/java/">Java</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/c/">C</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/php/">PHP</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/db/">DB</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/htmlx/">HTMLX</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/life/">Life</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/art/">Art</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/other/">Other</a></li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </nav>
+</div>
+<div id="inSlider" class="carousel carousel-fade" data-ride="carousel">
+    <div style="position:absolute;float:left;left:25%;z-index:15;width:50%;margin-bottom:18%;bottom:0;text-align:center;list-style:none;">
+        <span style="color:white;font-size:24px;">以平实之心写作</span><br>
+        <span style="color:white;font-size:13px;">writing with simple heart ♬. </span>
+    </div>
+    <!--
+    <ol class="carousel-indicators">
+        <li data-target="#inSlider" data-slide-to="0" class="active"></li>
+        <li data-target="#inSlider" data-slide-to="1"></li>
+    </ol>
+    -->
+    <div class="carousel-inner" role="listbox">
+        <div class="item active">
+            <div class="container">
+                <div class="carousel-caption">
+                </div>
+                <div class="carousel-image wow zoomIn">
+                    <!-- <img src="static/img/landing/laptop.png" alt="laptop"/> -->
+                </div>
+            </div>
+            <!-- Set background for slide in css -->
+            <div class="header-back blog-one"></div>
+        </div>
+        <!--
+        <div class="item">
+            <div class="container">
+                <div class="carousel-caption blank">
+                </div>
+            </div>
+            Set background for slide in css
+            <div class="header-back two"></div>
+        </div>
+        -->
+    </div>
+    <!--
+    <a class="left carousel-control" href="#inSlider" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#inSlider" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+    -->
+</div>
+
+
+	
+
+    <div class="wrapper wrapper-content  animated fadeInRight article">
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <div class="pull-right">
+                    	
+                        	<button class="btn btn-white btn-xs" type="button">PHP</button>
+                        
+                    </div>
+                    <div class="text-center article-title" style="margin-bottom:50px;">
+                        <h1>
+                            php语法基础（一）- 变量、常变量、函数、分支和循环、字符串、数组、类、时间、日期、包含文件、文件及图片读写等
+                        </h1>
+                        <a href="http://www.keyllo.com/studio/">
+                            <span class="text-muted"><i class="fa fa-user"></i> KinglyJn</span>
+                        </a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <span class="text-muted"><i class="fa fa-clock-o"></i> 2013-01-11</span>
+                    </div>
+                    	<h3 id="测试环境">测试环境</h3>
+
+<ul>
+  <li>phpstorm9</li>
+  <li>xampp5.6.14</li>
+  <li>linux-xx</li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="变量常变量函数分支和循环">变量、常变量、函数、分支和循环</h3>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+<span class="c1">//当只是php代码的时候，&lt;?php末尾标识符省略，若包含html代码，则需将php末尾标识符加上
+</span>
+<span class="c1">//变量
+</span><span class="nv">$a</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+<span class="nv">$b</span> <span class="o">=</span> <span class="mf">15.000000000001</span><span class="p">;</span><span class="c1">//精确到E-12
+</span><span class="k">echo</span> <span class="nv">$a</span> <span class="o">+</span> <span class="nv">$b</span> <span class="o">.</span><span class="s2">"&lt;br/&gt;"</span><span class="p">;</span>
+
+
+<span class="c1">//常量
+</span><span class="k">const</span> <span class="no">CONST_VALUE1</span> <span class="o">=</span> <span class="mi">11</span><span class="p">;</span> <span class="c1">//php5
+</span><span class="nb">define</span><span class="p">(</span><span class="s2">"CONST_VALUE2"</span><span class="p">,</span> <span class="mi">12</span><span class="p">);</span> <span class="c1">//php4
+</span><span class="k">echo</span> <span class="nx">CONST_VALUE1</span> <span class="o">.</span><span class="s2">"&lt;/br&gt;"</span><span class="p">;</span>
+<span class="k">echo</span> <span class="nx">CONST_VALUE2</span> <span class="o">.</span><span class="s2">"&lt;/br&gt;"</span><span class="p">;</span>
+
+
+<span class="c1">//函数（一）
+</span><span class="k">function</span> <span class="nf">sayHello</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">echo</span> <span class="s2">"hello!"</span><span class="o">.</span><span class="s2">"&lt;br/&gt;"</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="c1">//调用函数
+</span><span class="nx">sayHello</span><span class="p">();</span>
+
+
+<span class="c1">//函数（二） //回调 //函数可作为参数进行传递
+</span><span class="nv">$func</span> <span class="o">=</span> <span class="s2">"sayHello"</span><span class="p">;</span>
+<span class="nv">$func</span><span class="p">();</span>
+
+<span class="nv">$aaa</span> <span class="o">=</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">echo</span> <span class="s2">"hello 呵呵呵！"</span><span class="p">;</span>
+<span class="p">};</span>
+<span class="nv">$aaa</span><span class="p">();</span>
+
+
+<span class="c1">//函数（三） //含参函数
+</span><span class="k">function</span> <span class="nf">sayName</span><span class="p">(</span><span class="nv">$name</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">echo</span> <span class="s2">"hello "</span><span class="o">.</span> <span class="nv">$name</span> <span class="o">.</span> <span class="s2">"！&lt;br/&gt;"</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nx">sayName</span><span class="p">(</span><span class="s2">"张三"</span><span class="p">);</span>
+<span class="nx">sayName</span><span class="p">(</span><span class="s2">"李四"</span><span class="p">);</span>
+
+<span class="c1">//函数（四） //多个参数
+</span><span class="k">function</span> <span class="nf">add</span><span class="p">(</span><span class="nv">$a</span><span class="p">,</span> <span class="nv">$b</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">echo</span> <span class="s2">"a=</span><span class="nv">$a</span><span class="s2">, b=</span><span class="nv">$b</span><span class="s2">&lt;br/&gt;"</span><span class="p">;</span> <span class="c1">//a=1, b=2
+</span>    <span class="k">echo</span> <span class="s2">"a+b=(</span><span class="nv">$a</span><span class="s2">+</span><span class="nv">$b</span><span class="s2">)&lt;br/&gt;"</span><span class="p">;</span> <span class="c1">//a+b=(1+2)
+</span>    <span class="k">echo</span> <span class="s2">"a+b="</span><span class="o">.</span><span class="p">(</span><span class="nv">$a</span><span class="o">+</span><span class="nv">$b</span><span class="p">)</span><span class="o">.</span><span class="s2">"&lt;br/&gt;"</span><span class="p">;</span> <span class="c1">//a+b=3
+</span><span class="p">}</span>
+<span class="nx">add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
+
+<span class="c1">//函数（五） //返回值
+</span><span class="k">function</span> <span class="nf">getNum</span><span class="p">(</span><span class="nv">$num</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$num</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">echo</span> <span class="nx">getNum</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="s2">"&lt;br/&gt;"</span><span class="p">;</span> <span class="c1">//2
+</span>
+
+
+<span class="c1">//分支 if switch
+</span><span class="k">function</span> <span class="nf">getLevelByIf</span><span class="p">(</span><span class="nv">$score</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$score</span><span class="o">&gt;</span><span class="mi">100</span> <span class="o">||</span> <span class="nv">$score</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="s2">"&lt;span style='color:red;'&gt;illegal!&lt;/span&gt;"</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nv">$score</span><span class="o">&gt;</span><span class="mi">90</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="s2">"excellent"</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nv">$score</span><span class="o">&gt;</span><span class="mi">80</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="s2">"good"</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="s2">"bad"</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="k">echo</span> <span class="nx">getLevelByIf</span><span class="p">(</span><span class="mi">101</span><span class="p">)</span><span class="o">.</span><span class="s2">"&lt;br/&gt;"</span><span class="p">;</span>
+
+<span class="k">function</span> <span class="nf">getLevelBySwitch</span><span class="p">(</span><span class="nv">$score</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">switch</span><span class="p">((</span><span class="nb">intval</span><span class="p">(</span><span class="nv">$score</span><span class="o">/</span><span class="mi">10</span><span class="p">)))</span> <span class="p">{</span> <span class="c1">//intval是php整数函数
+</span>        <span class="k">case</span> <span class="mi">10</span><span class="o">:</span>
+        <span class="k">case</span> <span class="mi">9</span><span class="o">:</span>
+            <span class="k">return</span> <span class="s2">"excellent"</span><span class="p">;</span> <span class="c1">//
+</span>        <span class="k">case</span> <span class="mi">8</span><span class="o">:</span>
+            <span class="k">return</span> <span class="s2">"good"</span><span class="p">;</span>
+        <span class="k">case</span> <span class="mi">7</span><span class="o">:</span>
+        <span class="k">case</span> <span class="mi">6</span><span class="o">:</span>
+        <span class="k">case</span> <span class="mi">5</span><span class="o">:</span>
+        <span class="k">case</span> <span class="mi">4</span><span class="o">:</span>
+        <span class="k">case</span> <span class="mi">3</span><span class="o">:</span>
+        <span class="k">case</span> <span class="mi">2</span><span class="o">:</span>
+        <span class="k">case</span> <span class="mi">1</span><span class="o">:</span>
+        <span class="k">case</span> <span class="mi">0</span><span class="o">:</span>
+            <span class="k">return</span> <span class="s2">"bad"</span><span class="p">;</span>
+        <span class="k">default</span><span class="o">:</span>
+            <span class="k">return</span> <span class="s2">"&lt;span style='color:red;'&gt;illegal!&lt;/span&gt;"</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="k">echo</span> <span class="nx">getLevelBySwitch</span><span class="p">(</span><span class="mi">91</span><span class="p">)</span><span class="o">.</span><span class="s2">"&lt;br/&gt;"</span><span class="p">;</span>
+
+
+
+<span class="c1">//循环 for while
+</span><span class="k">function</span> <span class="nf">getSumByFor</span><span class="p">(</span><span class="nv">$start</span><span class="p">,</span> <span class="nv">$end</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span><span class="nv">$i</span><span class="o">=</span><span class="nv">$start</span><span class="p">;</span> <span class="nv">$i</span><span class="o">&lt;=</span><span class="nv">$end</span><span class="p">;</span> <span class="nv">$i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nv">$sum</span> <span class="o">+=</span> <span class="nv">$i</span><span class="p">;</span> <span class="c1">//可以 break或continue
+</span>    <span class="p">}</span>
+    <span class="k">return</span> <span class="nv">$sum</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">echo</span> <span class="nx">getSumByFor</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span> <span class="o">.</span> <span class="s2">"&lt;br/&gt;"</span><span class="p">;</span>
+
+<span class="k">function</span> <span class="nf">getSumByWhile</span><span class="p">(</span><span class="nv">$start</span><span class="p">,</span> <span class="nv">$end</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="nv">$i</span> <span class="o">=</span> <span class="nv">$start</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">(</span><span class="nv">$i</span><span class="o">&lt;=</span><span class="nv">$end</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nv">$sum</span> <span class="o">+=</span> <span class="nv">$i</span><span class="p">;</span>
+        <span class="nv">$i</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nv">$sum</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">echo</span> <span class="nx">getSumByWhile</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span> <span class="o">.</span> <span class="s2">"&lt;br/&gt;"</span><span class="p">;</span>
+
+<span class="k">function</span> <span class="nf">getSumByDoWhile</span><span class="p">(</span><span class="nv">$start</span><span class="p">,</span> <span class="nv">$end</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="nv">$i</span> <span class="o">=</span> <span class="nv">$start</span><span class="p">;</span>
+    <span class="k">do</span> <span class="p">{</span>
+        <span class="nv">$sum</span> <span class="o">+=</span> <span class="nv">$i</span><span class="p">;</span>
+        <span class="nv">$i</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="nv">$i</span><span class="o">&lt;=</span><span class="nv">$end</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nv">$sum</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">echo</span> <span class="nx">getSumByDoWhile</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span> <span class="o">.</span> <span class="s2">"&lt;br/&gt;"</span><span class="p">;</span>
+
+<span class="cp">?&gt;</span>
+</code></pre>
+</div>
+<p><br /></p>
+
+<h3 id="字符串和数组stringarray">字符串和数组（String&amp;Array）</h3>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+<span class="cm">/*字符串的使用*/</span>
+<span class="c1">//位置
+</span><span class="nv">$str</span> <span class="o">=</span> <span class="s1">'Hello PHP!'</span><span class="p">;</span>
+<span class="k">echo</span> <span class="nb">strpos</span><span class="p">(</span><span class="nv">$str</span><span class="p">,</span><span class="s1">'PH'</span><span class="p">)</span><span class="o">.</span><span class="s1">'&lt;br/&gt;'</span><span class="p">;</span> <span class="c1">//6
+</span>
+<span class="c1">//子串
+</span><span class="k">echo</span> <span class="nb">substr</span><span class="p">(</span><span class="nv">$str</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="s1">'&lt;br/&gt;'</span><span class="p">;</span> <span class="c1">//llo 从2位置，长度为3
+</span><span class="k">echo</span> <span class="nb">substr</span><span class="p">(</span><span class="nv">$str</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="s1">'&lt;br/&gt;'</span><span class="p">;</span> <span class="c1">//llo PHP! 从2位置，到结尾
+</span>
+<span class="c1">//等分割
+</span><span class="nv">$result</span> <span class="o">=</span> <span class="nb">str_split</span><span class="p">(</span><span class="nv">$str</span><span class="p">);</span>
+<span class="nb">print_r</span><span class="p">(</span><span class="nv">$result</span><span class="p">);</span> <span class="c1">//打印数组 Array ( [0] =&gt; H [1] =&gt; e [2] =&gt; l [3] =&gt; l [4] =&gt; o [5] =&gt; [6] =&gt; P [7] =&gt; H [8] =&gt; P [9] =&gt; ! )
+</span><span class="k">echo</span> <span class="s1">'&lt;br/&gt;'</span><span class="p">;</span>
+<span class="nv">$result</span> <span class="o">=</span> <span class="nb">str_split</span><span class="p">(</span><span class="nv">$str</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+<span class="nb">print_r</span><span class="p">(</span><span class="nv">$result</span><span class="p">);</span> <span class="c1">//Array ( [0] =&gt; Hel [1] =&gt; lo [2] =&gt; PHP [3] =&gt; ! )
+</span><span class="k">echo</span> <span class="s1">'&lt;br/&gt;'</span><span class="p">;</span>
+
+<span class="c1">//不等分割
+</span><span class="nv">$result</span> <span class="o">=</span> <span class="nb">explode</span><span class="p">(</span><span class="s1">' '</span><span class="p">,</span> <span class="nv">$str</span><span class="p">);</span>
+<span class="nb">print_r</span><span class="p">(</span><span class="nv">$result</span><span class="p">);</span> <span class="c1">//Array ( [0] =&gt; Hello [1] =&gt; PHP! )
+</span><span class="k">echo</span> <span class="s1">'&lt;br/&gt;'</span><span class="p">;</span>
+
+<span class="c1">//连接
+</span><span class="nv">$str</span> <span class="o">=</span> <span class="s1">'窗前明月光'</span><span class="o">.</span><span class="s1">'&lt;br/&gt;'</span><span class="o">.</span><span class="s1">'疑是地上霜'</span><span class="o">.</span><span class="s1">'&lt;br/&gt;'</span><span class="p">;</span>
+<span class="k">echo</span> <span class="nv">$str</span><span class="o">.</span><span class="s1">'&lt;br/&gt;'</span><span class="p">;</span>
+<span class="nv">$str</span> <span class="o">=</span> <span class="s2">"</span><span class="nv">$str</span><span class="s2"> 举头望明月&lt;br/&gt;低头思故乡&lt;br/&gt;"</span><span class="p">;</span>
+<span class="k">echo</span> <span class="nv">$str</span><span class="p">;</span>
+<span class="cp">?&gt;</span>
+</code></pre>
+</div>
+<p><br /></p>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+<span class="c1">//基本
+</span><span class="nv">$array</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span> <span class="c1">//array可以存放所有类型的数据
+</span><span class="nv">$array</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"hello"</span><span class="p">;</span>
+<span class="nv">$array</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"world"</span><span class="p">;</span>
+<span class="nv">$array</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+<span class="nv">$array</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mf">3.14</span><span class="p">;</span>
+<span class="nb">print_r</span><span class="p">(</span><span class="nv">$array</span><span class="p">);</span> <span class="c1">//Array ( [0] =&gt; hello [1] =&gt; world [2] =&gt; 2 [3] =&gt; 3.14 )
+</span><span class="k">echo</span> <span class="s2">"&lt;hr/&gt;"</span><span class="p">;</span>
+
+<span class="c1">//初始化
+</span><span class="nv">$array</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">'a'</span><span class="o">=&gt;</span><span class="s1">'hehe'</span><span class="p">,</span> <span class="s1">'b'</span><span class="o">=&gt;</span><span class="s1">'haha'</span><span class="p">);</span>
+<span class="nb">print_r</span><span class="p">(</span><span class="nv">$array</span><span class="p">);</span> <span class="c1">//Array ( [a] =&gt; hehe [b] =&gt; haha )
+</span><span class="k">echo</span> <span class="s2">"&lt;hr/&gt;"</span><span class="p">;</span>
+
+<span class="c1">//push
+</span><span class="k">for</span><span class="p">(</span><span class="nv">$i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nv">$i</span><span class="o">&lt;</span><span class="mi">5</span><span class="p">;</span> <span class="nv">$i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+<span class="nb">array_push</span><span class="p">(</span><span class="nv">$array</span><span class="p">,</span> <span class="s2">"item_</span><span class="nv">$i</span><span class="s2">"</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="nb">print_r</span><span class="p">(</span><span class="nv">$array</span><span class="p">);</span> <span class="c1">//Array ( [a] =&gt; hehe [b] =&gt; haha [0] =&gt; item_0 [1] =&gt; item_1 [2] =&gt; item_2 [3] =&gt; item_3 [4] =&gt; item_4 )
+</span><span class="k">echo</span> <span class="s2">"&lt;hr/&gt;"</span><span class="p">;</span>
+
+<span class="c1">//以key-value形式存放数据
+</span><span class="nv">$array</span><span class="p">[</span><span class="s1">'a'</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"aaaa"</span><span class="p">;</span>
+<span class="nv">$array</span><span class="p">[</span><span class="s1">'a'</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"aaaaaaaaa"</span><span class="p">;</span>
+<span class="nv">$array</span><span class="p">[</span><span class="s1">'b'</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"bbbb"</span><span class="p">;</span>
+<span class="k">echo</span> <span class="nv">$array</span><span class="p">[</span><span class="s1">'a'</span><span class="p">]</span><span class="o">.</span><span class="s2">"&lt;br/&gt;"</span><span class="p">;</span> <span class="c1">//aaaaaaaaa
+</span><span class="k">echo</span> <span class="nv">$array</span><span class="p">[</span><span class="s1">'b'</span><span class="p">]</span><span class="o">.</span><span class="s2">"&lt;br/&gt;"</span><span class="p">;</span> <span class="c1">//bbbb
+</span><span class="k">echo</span> <span class="s2">"&lt;hr/&gt;"</span><span class="p">;</span>
+
+<span class="c1">//遍历
+</span><span class="k">foreach</span><span class="p">(</span><span class="nv">$array</span> <span class="k">as</span> <span class="nv">$key</span><span class="o">=&gt;</span><span class="nv">$value</span><span class="p">)</span> <span class="p">{</span>
+<span class="k">echo</span> <span class="s2">"</span><span class="nv">$key</span><span class="s2">=</span><span class="nv">$value</span><span class="s2">&lt;br/&gt;"</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">echo</span> <span class="s2">"&lt;hr/&gt;"</span><span class="p">;</span>
+<span class="cp">?&gt;</span>
+</code></pre>
+</div>
+<p><br /></p>
+
+<h3 id="时间日期数组json">时间、日期、数组、JSON</h3>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+<span class="c1">//时间戳
+</span><span class="k">echo</span> <span class="nb">time</span><span class="p">()</span> <span class="o">.</span><span class="s2">"&lt;br/&gt;"</span><span class="p">;</span>
+
+<span class="c1">//时区
+</span><span class="k">echo</span> <span class="nb">date_default_timezone_get</span><span class="p">()</span> <span class="o">.</span><span class="s2">"&lt;br/&gt;"</span><span class="p">;</span> <span class="c1">//默认为Europe/Berlin
+</span>
+<span class="c1">//日期
+</span><span class="nb">date_default_timezone_set</span><span class="p">(</span><span class="s2">"Asia/Shanghai"</span><span class="p">);</span> <span class="c1">//改时区为上海时间 [参考]http://php.net/manual/en/timezones.asia.php
+</span><span class="k">echo</span> <span class="nb">date</span><span class="p">(</span><span class="s1">'Y-m-d H:i:s'</span><span class="p">)</span> <span class="o">.</span> <span class="s2">"&lt;br/&gt;"</span><span class="p">;</span> <span class="c1">//F2为文档提示键 2015-11-20 15:11:59
+</span>
+<span class="c1">//时间戳和日期的互转
+</span><span class="nv">$date</span> <span class="o">=</span> <span class="nb">date</span><span class="p">(</span><span class="s1">'Y-m-d H:i:s'</span><span class="p">,</span> <span class="mi">1448003519</span><span class="p">);</span>
+<span class="k">echo</span> <span class="nv">$date</span> <span class="o">.</span> <span class="s2">"&lt;br/&gt;"</span><span class="p">;</span> <span class="c1">//2015-11-20 15:11:59
+</span><span class="k">echo</span> <span class="nb">strtotime</span><span class="p">(</span><span class="nv">$date</span><span class="p">)</span> <span class="o">.</span><span class="s2">"&lt;br/&gt;"</span><span class="p">;</span> <span class="c1">//1448003519
+</span>
+
+<span class="c1">//数组转json
+</span><span class="nv">$array</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="s2">"hello"</span><span class="p">,</span> <span class="s2">"zhangsan"</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s2">"lover"</span><span class="o">=&gt;</span><span class="s2">"xiaojuan"</span><span class="p">,</span> <span class="s2">"lover_age"</span><span class="o">=&gt;</span><span class="mi">23</span><span class="p">));</span>
+<span class="nv">$obj</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s2">"lover"</span><span class="o">=&gt;</span><span class="s2">"xiaojuan"</span><span class="p">,</span> <span class="s2">"lover_age"</span><span class="o">=&gt;</span><span class="mi">23</span><span class="p">);</span>
+<span class="k">echo</span> <span class="nb">json_encode</span><span class="p">(</span><span class="nv">$array</span><span class="p">)</span> <span class="o">.</span><span class="s2">"&lt;br/&gt;"</span><span class="p">;</span> <span class="c1">//[1,2,5,8,0,"hello","zhangsan",{"lover":"xiaojuan","lover_age":23}]
+</span><span class="k">echo</span> <span class="nb">json_encode</span><span class="p">(</span><span class="nv">$obj</span><span class="p">)</span> <span class="o">.</span><span class="s2">"&lt;br/&gt;"</span><span class="p">;</span> <span class="c1">//{"lover":"xiaojuan","lover_age":23}
+</span>
+<span class="c1">//json转数组
+</span><span class="nv">$jsonStr</span> <span class="o">=</span> <span class="s1">'{"lover":"xiaojuan","lover_age":23}'</span><span class="p">;</span>
+<span class="nv">$obj</span> <span class="o">=</span> <span class="nb">json_decode</span><span class="p">(</span><span class="nv">$jsonStr</span><span class="p">);</span>
+<span class="k">echo</span> <span class="nv">$obj</span><span class="o">-&gt;</span><span class="na">lover</span> <span class="o">.</span><span class="s2">" "</span> <span class="o">.</span><span class="nv">$obj</span><span class="o">-&gt;</span><span class="na">lover_age</span> <span class="o">.</span><span class="s2">"&lt;br/&gt;"</span><span class="p">;</span>
+<span class="cp">?&gt;</span>
+</code></pre>
+</div>
+<p><br /></p>
+
+<h3 id="includerequire">include&amp;require</h3>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+<span class="cm">/*
+* 在一个php文件中引入另一个php文件有如下四种方式：
+* 1.include xxx.php 包含（包含一次，被包含文件的代码执行一次，[注]若文件被包含两次以上，则可能导致被包含文件的函数重复定义）
+* 2.include_once xxx.php 包含一次（被包含文件的代码只执行第一次，不会造成函数的重复定义）
+* 3.require xxx.php 依赖（与include的区别是错误提示级别不同，即：若被包含或依赖的文件找不到或出错，则require会报错,程序终止，而include则只是警告，程序继续执行）
+* 4.require_once xxx.php 依赖一次
+*/</span>
+<span class="k">include</span> <span class="s2">"include-require-lib.php"</span><span class="p">;</span>
+<span class="nx">sayHello</span><span class="p">();</span>
+<span class="k">include_once</span> <span class="s2">"include-require-lib.php"</span><span class="p">;</span> <span class="c1">//
+</span>
+<span class="c1">//include-require-lib.php
+</span><span class="o">&lt;?</span><span class="nx">php</span>
+<span class="k">echo</span> <span class="s2">"----include-require-lib.php----&lt;br/&gt;"</span><span class="p">;</span>
+<span class="k">function</span> <span class="nf">sayHello</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">echo</span> <span class="s2">"hello world!&lt;br/&gt;"</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="sd">/**
+* 运行结果：
+* ----include-require-lib.php----
+* hello world!
+*/</span>
+<span class="cp">?&gt;</span>
+</code></pre>
+</div>
+<p><br /></p>
+
+<h3 id="类的命名空间属性方法静态xx成员xx常量构造方法">类的命名空间、属性、方法（静态xx、成员xx、常量、构造方法…）</h3>
+
+<p><img src="http://img.blog.csdn.net/20161229150046634?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:25%" /><br /></p>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code>//index.php
+<span class="cp">&lt;?php</span>
+<span class="k">require_once</span> <span class="s2">"namespace01/Student.php"</span><span class="p">;</span>
+<span class="k">require_once</span> <span class="s2">"namespace02/Student.php"</span><span class="p">;</span>
+
+<span class="nv">$student</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">\namespace01\Student</span><span class="p">();</span>
+<span class="nv">$student</span><span class="o">-&gt;</span><span class="na">setName</span><span class="p">(</span><span class="s2">"张三"</span><span class="p">);</span>
+<span class="nv">$student</span><span class="o">-&gt;</span><span class="na">setAge</span><span class="p">(</span><span class="mi">23</span><span class="p">);</span>
+<span class="k">echo</span> <span class="nv">$student</span><span class="o">-&gt;</span><span class="na">__toString</span><span class="p">();</span>
+
+<span class="k">new</span> <span class="nx">\namespace01\Student</span><span class="p">();</span>
+<span class="c1">//new \namespace01\Student(); //抛出异常，程序终止！
+</span><span class="k">echo</span> <span class="s2">"&lt;hr/&gt;"</span><span class="p">;</span>
+
+<span class="nv">$student</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">\namespace02\Student</span><span class="p">(</span><span class="s2">"小娟"</span><span class="p">,</span> <span class="mi">22</span><span class="p">);</span>
+<span class="k">echo</span> <span class="nv">$student</span><span class="o">-&gt;</span><span class="na">__toString</span><span class="p">();</span>
+<span class="k">echo</span> <span class="s2">"&lt;hr/&gt;"</span><span class="p">;</span>
+<span class="cp">?&gt;</span>
+
+
+//namespace01/Student.php
+<span class="cp">&lt;?php</span>
+<span class="sd">/**
+* Created by PhpStorm.
+* User: kignglyjn
+* Date: 2015/11/3
+* Time: 22:05
+*/</span>
+<span class="k">namespace</span> <span class="nx">namespace01</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">Student</span> <span class="p">{</span>
+	<span class="c1">//成员属性
+</span>	<span class="k">private</span> <span class="nv">$name</span><span class="p">,</span> <span class="nv">$age</span><span class="p">;</span>
+
+	<span class="c1">//静态属性
+</span>	<span class="k">public</span> <span class="k">static</span> <span class="nv">$NUM</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+	<span class="c1">//常量
+</span>	<span class="k">const</span> <span class="no">MAX_STUDENT_NUM</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+
+	<span class="cm">/*============================构造方法====================================*/</span>
+	<span class="k">public</span> <span class="k">function</span> <span class="nf">__construct</span><span class="p">()</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="nx">Student</span><span class="o">::</span><span class="nv">$NUM</span> <span class="o">&gt;=</span> <span class="nx">Student</span><span class="o">::</span><span class="na">MAX_STUDENT_NUM</span><span class="p">)</span> <span class="p">{</span>
+			<span class="k">throw</span> <span class="k">new</span> <span class="nx">\Exception</span><span class="p">(</span><span class="s2">"不能创建2个以上的学生！！！"</span><span class="p">);</span>
+		<span class="p">}</span>
+		<span class="k">echo</span> <span class="s2">"&lt;span style='color:red;'&gt;The constructor of namespace01's Student&lt;/span&gt;&lt;br/&gt;"</span><span class="p">;</span>
+		<span class="nx">Student</span><span class="o">::</span><span class="nv">$NUM</span><span class="o">++</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="cm">/*public function __construct($name, $age)
+	{
+	$this-&gt;name = $name;
+	$this-&gt;age = $age;
+	}*/</span>
+
+
+	<span class="cm">/*=============================静态方法===================================*/</span>
+	<span class="k">public</span> <span class="k">static</span> <span class="k">function</span> <span class="nf">study</span><span class="p">()</span> <span class="p">{</span>
+		<span class="k">echo</span> <span class="s2">"study...&lt;br/&gt;"</span><span class="p">;</span>
+	<span class="p">}</span>
+
+
+	<span class="cm">/*=============================成员方法===================================*/</span>
+	<span class="sd">/**
+	* @return mixed
+	*/</span>
+	<span class="k">public</span> <span class="k">function</span> <span class="nf">getName</span><span class="p">()</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="sd">/**
+	* @param mixed $name
+	*/</span>
+	<span class="k">public</span> <span class="k">function</span> <span class="nf">setName</span><span class="p">(</span><span class="nv">$name</span><span class="p">)</span> <span class="p">{</span>
+		<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">name</span> <span class="o">=</span> <span class="nv">$name</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="sd">/**
+	* @return mixed
+	*/</span>
+	<span class="k">public</span> <span class="k">function</span> <span class="nf">getAge</span><span class="p">()</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">age</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="sd">/**
+	* @param mixed $age
+	*/</span>
+	<span class="k">public</span> <span class="k">function</span> <span class="nf">setAge</span><span class="p">(</span><span class="nv">$age</span><span class="p">)</span> <span class="p">{</span>
+		<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">age</span> <span class="o">=</span> <span class="nv">$age</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">function</span> <span class="nf">__toString</span><span class="p">()</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="s2">"name=</span><span class="nv">$this-&gt;name</span><span class="s2"> age=</span><span class="nv">$this-&gt;age</span><span class="s2">&lt;br/&gt;"</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">public</span> <span class="k">function</span> <span class="nf">sayHello</span><span class="p">()</span> <span class="p">{</span>
+		<span class="k">echo</span> <span class="s2">"hello namespace01!&lt;br/&gt;"</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">}</span> 
+<span class="cp">?&gt;</span>
+
+
+//namespace02/Student.php
+<span class="cp">&lt;?php</span>
+<span class="k">namespace</span> <span class="nx">namespace02</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">Student</span> <span class="p">{</span>
+	<span class="c1">//属性
+</span>	<span class="k">private</span> <span class="nv">$name</span><span class="p">,</span> <span class="nv">$age</span><span class="p">;</span>
+
+	<span class="sd">/**
+	* @param $name 姓名
+	* @param $age 年龄
+	*/</span>
+	<span class="k">public</span> <span class="k">function</span> <span class="nf">__construct</span><span class="p">(</span><span class="nv">$name</span><span class="p">,</span> <span class="nv">$age</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="k">echo</span> <span class="s2">"&lt;span style='color:red;'&gt;The constructor of namespace02's Student&lt;/span&gt;&lt;br/&gt;"</span><span class="p">;</span>
+		<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">name</span> <span class="o">=</span> <span class="nv">$name</span><span class="p">;</span>
+		<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">age</span> <span class="o">=</span> <span class="nv">$age</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="sd">/**
+	* @return mixed
+	*/</span>
+	<span class="k">public</span> <span class="k">function</span> <span class="nf">getName</span><span class="p">()</span>
+	<span class="p">{</span>
+		<span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="sd">/**
+	* @param mixed $name
+	*/</span>
+	<span class="k">public</span> <span class="k">function</span> <span class="nf">setName</span><span class="p">(</span><span class="nv">$name</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">name</span> <span class="o">=</span> <span class="nv">$name</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="sd">/**
+	* @return mixed
+	*/</span>
+	<span class="k">public</span> <span class="k">function</span> <span class="nf">getAge</span><span class="p">()</span>
+	<span class="p">{</span>
+		<span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">age</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="sd">/**
+	* @param mixed $age
+	*/</span>
+	<span class="k">public</span> <span class="k">function</span> <span class="nf">setAge</span><span class="p">(</span><span class="nv">$age</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">age</span> <span class="o">=</span> <span class="nv">$age</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">function</span> <span class="nf">__toString</span><span class="p">()</span>
+	<span class="p">{</span>
+		<span class="k">return</span> <span class="s2">"name=</span><span class="nv">$this-&gt;name</span><span class="s2"> age=</span><span class="nv">$this-&gt;age</span><span class="s2">&lt;br/&gt;"</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">public</span> <span class="k">function</span> <span class="nf">sayHello</span><span class="p">()</span>
+	<span class="p">{</span>
+		<span class="k">echo</span> <span class="s2">"hello namespace02!&lt;br/&gt;"</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">}</span> 
+<span class="cp">?&gt;</span>
+</code></pre>
+</div>
+
+<p>运行结果：<br /></p>
+
+<p><img src="http://img.blog.csdn.net/20161229150346712?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:50%" /><br /><br /></p>
+
+<h3 id="类的继承与方法重写">类的继承与方法重写</h3>
+
+<p><img src="http://img.blog.csdn.net/20161229150623559?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:25%" /><br /></p>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code>//index.php
+<span class="cp">&lt;?php</span>
+<span class="k">require_once</span> <span class="s2">"namespace01\Student.php"</span><span class="p">;</span>
+
+<span class="nv">$student</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">\namespace01\Student</span><span class="p">(</span><span class="s2">"xx小学"</span><span class="p">);</span>
+<span class="k">echo</span> <span class="nv">$student</span><span class="o">-&gt;</span><span class="na">__toString</span><span class="p">();</span>
+<span class="k">echo</span> <span class="s2">"&lt;hr/&gt;"</span><span class="p">;</span>
+
+<span class="nv">$student</span><span class="o">-&gt;</span><span class="na">sayHello</span><span class="p">();</span>
+<span class="k">echo</span> <span class="s2">"&lt;hr/&gt;"</span><span class="p">;</span>
+<span class="cp">?&gt;</span>
+
+
+//namespace01/Person.php
+<span class="cp">&lt;?php</span>
+<span class="k">namespace</span> <span class="nx">namespace01</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">Person</span> <span class="p">{</span>
+	<span class="k">private</span> <span class="nv">$name</span><span class="p">,</span> <span class="nv">$age</span><span class="p">,</span> <span class="nv">$sex</span><span class="p">;</span>
+
+	<span class="sd">/**
+	* Person constructor.
+	* @param $name
+	* @param $age
+	* @param $sex
+	*/</span>
+	<span class="k">public</span> <span class="k">function</span> <span class="nf">__construct</span><span class="p">(</span><span class="nv">$name</span><span class="p">,</span> <span class="nv">$age</span><span class="p">,</span> <span class="nv">$sex</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">name</span> <span class="o">=</span> <span class="nv">$name</span><span class="p">;</span>
+		<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">age</span> <span class="o">=</span> <span class="nv">$age</span><span class="p">;</span>
+		<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">sex</span> <span class="o">=</span> <span class="nv">$sex</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="sd">/**
+	* @return mixed
+	*/</span>
+	<span class="k">public</span> <span class="k">function</span> <span class="nf">getName</span><span class="p">()</span>
+	<span class="p">{</span>
+		<span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="sd">/**
+	* @param mixed $name
+	*/</span>
+	<span class="k">public</span> <span class="k">function</span> <span class="nf">setName</span><span class="p">(</span><span class="nv">$name</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">name</span> <span class="o">=</span> <span class="nv">$name</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="sd">/**
+	* @return mixed
+	*/</span>
+	<span class="k">public</span> <span class="k">function</span> <span class="nf">getAge</span><span class="p">()</span>
+	<span class="p">{</span>
+		<span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">age</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="sd">/**
+	* @param mixed $age
+	*/</span>
+	<span class="k">public</span> <span class="k">function</span> <span class="nf">setAge</span><span class="p">(</span><span class="nv">$age</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">age</span> <span class="o">=</span> <span class="nv">$age</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="sd">/**
+	* @return mixed
+	*/</span>
+	<span class="k">public</span> <span class="k">function</span> <span class="nf">getSex</span><span class="p">()</span>
+	<span class="p">{</span>
+		<span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">sex</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="sd">/**
+	* @param mixed $sex
+	*/</span>
+	<span class="k">public</span> <span class="k">function</span> <span class="nf">setSex</span><span class="p">(</span><span class="nv">$sex</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">sex</span> <span class="o">=</span> <span class="nv">$sex</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">function</span> <span class="nf">__toString</span><span class="p">()</span>
+	<span class="p">{</span>
+		<span class="k">return</span> <span class="s2">"</span><span class="nv">$this-&gt;name</span><span class="s2"> </span><span class="nv">$this-&gt;age</span><span class="s2"> </span><span class="nv">$this-&gt;sex</span><span class="s2">"</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">function</span> <span class="nf">sayHello</span><span class="p">()</span> <span class="p">{</span>
+		<span class="k">echo</span> <span class="s2">"hello person!&lt;br/&gt;"</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+<span class="cp">?&gt;</span>
+
+
+//namespace01/Sudent.php
+<span class="cp">&lt;?php</span>
+<span class="k">namespace</span> <span class="nx">namespace01</span><span class="p">;</span>
+
+<span class="k">require_once</span> <span class="s2">"namespace01\Person.php"</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">Student</span> <span class="k">extends</span> <span class="nx">Person</span> <span class="p">{</span>
+	<span class="k">private</span> <span class="nv">$school</span><span class="p">;</span>
+
+	<span class="sd">/**
+	* Student constructor.
+	* @param $school
+	*/</span>
+	<span class="k">public</span> <span class="k">function</span> <span class="nf">__construct</span><span class="p">(</span><span class="nv">$school</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="k">parent</span><span class="o">::</span><span class="na">__construct</span><span class="p">(</span><span class="s2">"张三"</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="s2">"男"</span><span class="p">);</span>
+		<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">school</span> <span class="o">=</span> <span class="nv">$school</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="sd">/**
+	* @return mixed
+	*/</span>
+	<span class="k">public</span> <span class="k">function</span> <span class="nf">getSchool</span><span class="p">()</span>
+	<span class="p">{</span>
+		<span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">school</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="sd">/**
+	* @param mixed $school
+	*/</span>
+	<span class="k">public</span> <span class="k">function</span> <span class="nf">setSchool</span><span class="p">(</span><span class="nv">$school</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">school</span> <span class="o">=</span> <span class="nv">$school</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="cm">/*============================方法重写====================================*/</span>
+	<span class="k">function</span> <span class="nf">__toString</span><span class="p">()</span>
+	<span class="p">{</span>
+		<span class="k">return</span> <span class="k">parent</span><span class="o">::</span><span class="na">__toString</span><span class="p">()</span><span class="o">.</span><span class="s2">" "</span><span class="o">.</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">school</span><span class="p">;</span> <span class="c1">// TODO: Change the autogenerated stub
+</span>	<span class="p">}</span>
+
+	<span class="k">function</span> <span class="nf">sayHello</span><span class="p">()</span>
+	<span class="p">{</span>
+		<span class="k">echo</span> <span class="s2">"hello student!"</span><span class="p">;</span> <span class="c1">// TODO: Change the autogenerated stub
+</span>	<span class="p">}</span>
+<span class="p">}</span>
+<span class="cp">?&gt;</span>
+</code></pre>
+</div>
+
+<p>运行结果:<br /></p>
+
+<p><img src="http://img.blog.csdn.net/20161229151034497?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:40%" /><br /><br /></p>
+
+<h3 id="文件的读写">文件的读写</h3>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+<span class="c1">//w
+</span><span class="nv">$f</span> <span class="o">=</span> <span class="o">@</span><span class="nb">fopen</span><span class="p">(</span><span class="s2">"data.txt"</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">);</span> <span class="c1">//@符号 表示忽略警告
+</span><span class="k">if</span><span class="p">(</span><span class="nv">$f</span><span class="p">)</span> <span class="p">{</span>
+<span class="c1">//default codeStyle is current file's //如果出现权限问题，chmod 777 tools //更改tools目录的权限
+</span><span class="nb">fwrite</span><span class="p">(</span><span class="nv">$f</span><span class="p">,</span> <span class="s2">"床前明月光！</span><span class="se">\n</span><span class="s2">疑是地上霜！"</span><span class="p">);</span>
+<span class="nb">fclose</span><span class="p">(</span><span class="nv">$f</span><span class="p">);</span>
+<span class="k">echo</span> <span class="s2">"write ok!&lt;br/&gt;"</span><span class="p">;</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+<span class="k">echo</span> <span class="s2">"创建文件失败！&lt;br/&gt;"</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">//r
+</span><span class="nv">$f</span> <span class="o">=</span> <span class="o">@</span><span class="nb">fopen</span><span class="p">(</span><span class="s2">"data.txt"</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">);</span>
+<span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="nb">feof</span><span class="p">(</span><span class="nv">$f</span><span class="p">))</span> <span class="p">{</span>
+<span class="nv">$content</span> <span class="o">=</span> <span class="nb">fgets</span><span class="p">(</span><span class="nv">$f</span><span class="p">);</span> <span class="c1">//read a line
+</span><span class="k">echo</span> <span class="nv">$content</span> <span class="o">.</span><span class="s2">"&lt;br/&gt;"</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nb">fclose</span><span class="p">(</span><span class="nv">$f</span><span class="p">);</span>
+
+<span class="c1">//get content
+</span><span class="k">echo</span> <span class="nb">file_get_contents</span><span class="p">(</span><span class="s2">"data.txt"</span><span class="p">);</span> <span class="c1">//床前明月光！ 疑是地上霜！
+</span><span class="cp">?&gt;</span>
+</code></pre>
+</div>
+<p><br /><br /></p>
+
+<h3 id="图片及图片文件的操作">图片及图片文件的操作</h3>
+
+<p>画一张图片<br /></p>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+<span class="nv">$img</span> <span class="o">=</span> <span class="nb">imagecreate</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="mi">300</span><span class="p">);</span>
+<span class="nb">imagecolorallocate</span><span class="p">(</span><span class="nv">$img</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">);</span> <span class="c1">//background-color
+</span>
+<span class="nb">imageellipse</span><span class="p">(</span><span class="nv">$img</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="nb">imagecolorallocate</span><span class="p">(</span><span class="nv">$img</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">));</span> <span class="c1">//draw an red ellipse
+</span>
+<span class="nb">header</span><span class="p">(</span><span class="s2">"Content-type: image/png"</span><span class="p">);</span> <span class="c1">//set Content-type
+</span><span class="nb">imagepng</span><span class="p">(</span><span class="nv">$img</span><span class="p">);</span>
+<span class="cp">?&gt;</span>
+</code></pre>
+</div>
+
+<p>运行结果：<br />
+<img src="http://img.blog.csdn.net/20161229180503755?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:50%" /><br /></p>
+
+<p>给图片设置水印<br /></p>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+<span class="nv">$img</span> <span class="o">=</span> <span class="nb">imagecreatefrompng</span><span class="p">(</span><span class="s2">"005.png"</span><span class="p">);</span>
+<span class="nb">header</span><span class="p">(</span><span class="s2">"Content-type: image/png"</span><span class="p">);</span>
+<span class="nb">imagestring</span><span class="p">(</span><span class="nv">$img</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="s2">"this is a water mark! --kinglyjn"</span><span class="p">,</span> <span class="nb">imagecolorallocate</span><span class="p">(</span><span class="nv">$img</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">));</span>
+<span class="nb">imagepng</span><span class="p">(</span><span class="nv">$img</span><span class="p">);</span>
+<span class="cp">?&gt;</span>
+</code></pre>
+</div>
+
+<p>运行结果：<br />
+<img src="http://img.blog.csdn.net/20161229180720967?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:50%" /><br /></p>
+
+
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-6">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">PHP</button>
+                                
+                        </div>
+                        
+                        <!--
+                        <div class="col-md-6">
+                            <div class="small text-right">
+                                <div>    
+                                    <i class="fa fa-comments-o"> </i> 
+                                    <span class="ds-comments">0</span>条评论
+                                </div>
+                                <div>
+                                    <i class="fa fa-share-alt"> </i> 
+                                    <span class="ds-shares">0</span>条转发
+                                </div>  
+                            </div>
+                        </div>
+                        -->
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <!-- donate -->
+                            
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal2">
+    Donate
+</button>
+<div class="modal inmodal" id="myModal2" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated flipInY">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Donate Me</h4>
+                <small class="font-bold">Thanks for your support!</small>
+            </div>
+            <div class="modal-body">
+                <div class="tabbable" id="tabs-960227">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#panel-405278" data-toggle="tab">Alipay</a>
+                        </li>
+                        <li>
+                            <a href="#panel-874705" data-toggle="tab">Wechat</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="panel-405278">
+                            <div class="text-center">
+                                <img src="/static/img/pay/alipay.png"" height="250" width="250">
+                            </div>    
+                        </div>
+                        <div class="tab-pane" id="panel-874705">
+                            <div class="text-center">
+                                <img src="/static/img/pay/wechat.png"" height="250" width="250">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+                            
+                            <br>
+                            <!-- share -->
+                            
+                                
+<!--分享-->
+<div class="row" style="margin-top:30px;">
+	<h2>Share:</h2>
+    <div class="social-share" style="margin-left:-5px;"data-sites="wechat,qq,qzone,weibo"></div> 
+</div>
+<link rel="stylesheet" href="/static/css/share.min.css">
+<script src="/static/js/jquery.share.min.js"></script>
+<script src="/static/js/embed.js"></script>
+
+<script>
+  var url = 'http://localhost:4000/php/2013/01/11/php-base-01.html';
+  var source = 'http://localhost:4000/php/2013/01/11/php-base-01.html';
+  var title = 'php语法基础（一）- 变量、常变量、函数、分支和循环、字符串、数组、类、时间、日期、包含文件、文件及图片读写等';
+  var excerpt = $("p:eq(0)").text();
+  
+  var imageUrl = 'http://localhost:4000/static/img/landing/header_one.jpg';
+  var imgEle = $(".content_img:eq(0)");
+  if (imgEle) {
+    imageUrl = imgEle.attr("src");
+  }
+
+  var $config = {
+      url: url, // 网址，默认使用 window.location.href
+      source: source, // 来源（QQ空间会用到）, 默认读取head标签：<meta name="site" content="http://overtrue" />
+      title: title, // 标题，默认读取 document.title 或者 <meta name="title" content="share.js" />
+      description: excerpt, // 描述, 默认读取head标签：<meta name="description" content="PHP弱类型的实现原理分析" />
+      image: imageUrl, // 图片, 默认取网页中第一个img标签
+      sites: ['qzone', 'qq', 'weibo','wechat','douban'], // 启用的站点
+      //disabled: ['google', 'facebook', 'twitter'], // 禁用的站点
+      wechatQrcodeTitle: "微信扫一扫：分享", // 微信二维码提示文字
+      wechatQrcodeHelper: '<p style="font-size:10px;">微信里点“发现”，扫一下</p><p style="font-size:10px;">二维码便可将本文分享至朋友圈。</p>',
+   };
+  $('.social-share').share($config);
+</script>
+
+
+
+
+                            
+                            <br>
+                            <!-- comment -->
+                            <!--
+
+
+
+-->
+
+<!-- 多说评论框 start -->
+<div class="row" style="margin-top:25px;"></div>
+<div class="ds-thread" data-thread-key="/php/2013/01/11/php-base-01.html" data-title="php语法基础（一）- 变量、常变量、函数、分支和循环、字符串、数组、类、时间、日期、包含文件、文件及图片读写等" data-url="http://localhost:4000/php/2013/01/11/php-base-01.html"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+	var duoshuoQuery = {short_name:"kinglyjn"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+<!-- 多说公共JS代码 end -->
+
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+	
+	    <script src="/static/js/scroll.js"></script>
+
+<!-- Baidu analytics -->
+
+
+<!-- Google analytics -->
+
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-73784599-1', 'auto');
+    ga('send', 'pageview');
+
+  </script>
+
+
+<!--
+
+-->
+
+<!--
+
+-->
+
+<script async src="/static/js/count_page.js"></script>
+
+	
+
+</body>
+</html>

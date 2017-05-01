@@ -1,0 +1,1623 @@
+<!DOCTYPE html>
+<html>
+	
+	    <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  
+  <meta name="author" content="KinglyJn">
+
+  <title>
+    
+        KinglyJn|Java
+    
+  </title>
+  <!-- favicon -->
+  <link rel="shortcut icon" href="/static/img/favicon.ico">
+
+  <!-- Third-party CSS -->
+  <link href="/bower_components/normalize-css/normalize.min.css" rel="stylesheet">
+  <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/bower_components/animate.css/animate.min.css" rel="stylesheet">
+  <link href="/bower_components/components-font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="/static/font-mfizz/font-mfizz.css" rel="stylesheet">
+  <!-- <link href="/bower_components/toastr/toastr.min.css" rel="stylesheet"> -->
+  <link href="/bower_components/jquery.gritter/css/jquery.gritter.css" rel="stylesheet">
+  <link rel="stylesheet" href="/search/css/cb-search.css">
+
+  <!-- Custom styles for this template -->
+  <link href="/static/css/style.min.css" rel="stylesheet">
+  <link href="/static/css/pygments.css" rel="stylesheet">
+
+  <!-- Scripts -->
+  <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="/search/js/bootstrap3-typeahead.min.js"></script>
+
+  <!-- cb-search -->
+  <script src="/search/js/cb-search.js"></script>
+  <script>
+    $(function(){
+        $("pre").css('display','block');
+    });
+  </script>
+  <!-- Mainly scripts -->
+  <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="/bower_components/metisMenu/dist/metisMenu.min.js"></script>
+  <script src="/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+
+  <!-- Peity -->
+  <script src="/bower_components/peity/jquery.peity.min.js"></script>
+
+  <script src="/bower_components/PACE/pace.min.js"></script>
+  <script src="/bower_components/wow/dist/wow.min.js"></script>
+  <!-- Custom and plugin javascript -->
+  <script src="/static/js/inspinia.js"></script>
+
+  <!-- Rickshaw -->
+  <script src="/bower_components/rickshaw/vendor/d3.v3.js"></script>
+  <script src="/bower_components/rickshaw/rickshaw.min.js"></script>
+
+
+  <!-- jPages -->
+  <script src="/static/js/jPages.js"></script>
+  <script src="/static/js/js.js"></script>
+  <script type="text/javascript">
+        $(function(){
+          /* initiate the plugin */
+          $("div.pag-holder").jPages({
+              containerID  : "pag-itemContainer",
+              perPage      : 10,  /* num of items per page */
+              startPage    : 1,
+              startRange   : 1,
+              midRange     : 3,
+              endRange     : 1
+          });
+
+          $("div.pag-jump button").click(function(){
+            var page = parseInt($("div.pag-jump input").val());
+            $("div.pag-holder").jPages(page);
+          });
+
+          $("div.pag-jump input").on("keypress", function(){
+            var e=e||window.event;
+            if (e.keyCode == 13) {
+                var page = parseInt($("div.pag-jump input").val());
+                $("div.pag-holder").jPages(page);
+            } 
+          });
+      });
+  </script>
+
+<!-- GrowingIO -->
+
+  <script>
+    var _vds = _vds || [];
+    window._vds = _vds;
+    (function(){
+      _vds.push(['setAccountId', 'a49d4901c7853da9']);
+      (function() {
+        var vds = document.createElement('script');
+        vds.type='text/javascript';
+        vds.async = true;
+        vds.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'dn-growing.qbox.me/vds.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(vds, s);
+      })();
+    })();
+  </script>
+
+
+</head>
+
+	
+
+
+<body id="page-top" class="landing-page">
+
+	
+	    
+
+<!--修复手机端横轴方向左右滑动BUG-->
+<style type="text/css">
+    .landing-page .row {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+</style>
+
+<div class="search-tool"
+      style="position: fixed; top: 0px ; bottom: 0px; left: 0px; right:  0px; opacity: 0.95; background-color: #111111; z-index: 9999; display: none;">
+    <input type="text" class="form-control search-content" id="search-content" style="position: fixed; top: 60px" placeholder="Search Blog">
+
+    <div style="position: fixed; top: 16px; right: 16px; z-index: 9999;">
+        <img src="/search/img/cb-close.png" id="close-btn"/>
+    </div>
+</div>
+
+<div style="position: fixed; right: 16px; bottom: 20px; z-index: 9999;">
+    <img src="/search/img/cb-search.png"  id="search-btn"  title="Double click Ctrl"/>
+</div>
+
+<div class="navbar-wrapper">
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header page-scroll">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/">KinglyJn</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a class="page-scroll" href="/blog/"></a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/blog/">Blog</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/linux/">Linux</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/cloud/">Cloud</a></li>
+                        
+                            
+                            <li class="active">
+                            
+                            <a class="page-scroll" href="/java/">Java</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/c/">C</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/php/">PHP</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/db/">DB</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/htmlx/">HTMLX</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/life/">Life</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/art/">Art</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/other/">Other</a></li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </nav>
+</div>
+<div id="inSlider" class="carousel carousel-fade" data-ride="carousel">
+    <div style="position:absolute;float:left;left:25%;z-index:15;width:50%;margin-bottom:18%;bottom:0;text-align:center;list-style:none;">
+        <span style="color:white;font-size:24px;">以平实之心写作</span><br>
+        <span style="color:white;font-size:13px;">writing with simple heart ♬. </span>
+    </div>
+    <!--
+    <ol class="carousel-indicators">
+        <li data-target="#inSlider" data-slide-to="0" class="active"></li>
+        <li data-target="#inSlider" data-slide-to="1"></li>
+    </ol>
+    -->
+    <div class="carousel-inner" role="listbox">
+        <div class="item active">
+            <div class="container">
+                <div class="carousel-caption">
+                </div>
+                <div class="carousel-image wow zoomIn">
+                    <!-- <img src="static/img/landing/laptop.png" alt="laptop"/> -->
+                </div>
+            </div>
+            <!-- Set background for slide in css -->
+            <div class="header-back blog-one"></div>
+        </div>
+        <!--
+        <div class="item">
+            <div class="container">
+                <div class="carousel-caption blank">
+                </div>
+            </div>
+            Set background for slide in css
+            <div class="header-back two"></div>
+        </div>
+        -->
+    </div>
+    <!--
+    <a class="left carousel-control" href="#inSlider" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#inSlider" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+    -->
+</div>
+
+
+	
+
+        <div class="row">
+    <div class="col-lg-12 text-center">
+        <div class="navy-line"></div>
+        <h1>Java</h1>
+    </div>
+</div>
+
+<div class="wrapper wrapper-content  animated fadeInRight blog">
+    <div class="row">
+		<ul id="pag-itemContainer" style="list-style:none;">
+    
+		
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/java/2017/04/15/java-springmvc-src-core.html" class="btn-link">
+                        <h2>
+                            springmvc-4.3.7.RELEASE 核心源码断点分析 &nbsp;
+                            <i class="fa fa-coffee"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2017-04-15</span>
+                    </div>
+                    <p>
+                    	springmvc请求执行流程
+
+
+
+springmvc核心源码
+
+核心方法：DispatcherServlet.doDispatcher
+
+该方法控制着springmvc处理和响应请求的核心流...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">java</button>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">springmvc</button>
+                                
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/java/2017/04/15/java-design-executionChain.html" class="btn-link">
+                        <h2>
+                            springmvc 的 handler 和 interceptor 责任链设计模式 &nbsp;
+                            <i class="fa fa-coffee"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2017-04-15</span>
+                    </div>
+                    <p>
+                    	责任链模式代码执行过程
+
+
+
+
+相关测试源码：
+
+/**
+* 封装请求体
+*/
+public class Request {
+	private String content;
+
+	public ...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">java</button>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">springnvc</button>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">design</button>
+                                
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/java/2012/12/16/java-spring-value-properties.html" class="btn-link">
+                        <h2>
+                            通过@Value注解读取properties配置内容 &nbsp;
+                            <i class="fa fa-coffee"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2012-12-16</span>
+                    </div>
+                    <p>
+                    	java 
+
+@Controller  
+@RequestMapping("/value")  
+public class ValuePropertyController extends App...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">java</button>
+                                
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/java/2012/12/16/java-spring-config-scan-driven.html" class="btn-link">
+                        <h2>
+                            Spring MVC 配置文件的三个常用配置详解 &nbsp;
+                            <i class="fa fa-coffee"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2012-12-16</span>
+                    </div>
+                    <p>
+                    	Spring MVC项目中通常会有 sprng-servlet.xml 和 applicationContext.xml 二个配置文件，通常会出现以下几个配置
+
+1、&lt;context:an...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">java</button>
+                                
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/java/2012/12/16/java-quartz-cron-expression.html" class="btn-link">
+                        <h2>
+                            quartz cron 表达式 &nbsp;
+                            <i class="fa fa-coffee"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2012-12-16</span>
+                    </div>
+                    <p>
+                    	Quartz使用类似于Linux下的Cron表达式定义时间规则，Cron表达式由6或7个由空格分隔的时间字段组成，如表1所示：
+
+表1 Cron表达式时间字段
+
+位置    时间域名    允许...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">java</button>
+                                
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/java/2012/12/16/java-java-crawler-jsoup-htmlunit.html" class="btn-link">
+                        <h2>
+                            工具 - 使用jsoup和htmlunit抓取和解析网页 &nbsp;
+                            <i class="fa fa-coffee"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2012-12-16</span>
+                    </div>
+                    <p>
+                    	Jsoup的不足之处：
+
+说到网页信息抓取，相信 Jsoup 基本是首选的工具，完全的类JQuery操作，让人感觉很舒服。但java爬虫的一般思路是使用 HtmlUnit 等第三方工具抓取原网页...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">java</button>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">jsoup</button>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">htmlunit</button>
+                                
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/java/2012/12/16/java-hibernate-unique.html" class="btn-link">
+                        <h2>
+                            Hibernate唯一约束 &nbsp;
+                            <i class="fa fa-coffee"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2012-12-16</span>
+                    </div>
+                    <p>
+                    	
+  UNIQUE约束可以防止两个记录在一个特定的列具有相同的值。 Customers表中，例如，你可能要防止两个或两个以上的人具有相同的年龄。
+
+
+例子:
+例如，下面的SQL语句创建一个新的表...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">java</button>
+                                
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/java/2012/12/16/java-hibernate-set-cascade-example.html" class="btn-link">
+                        <h2>
+                            Hibernate Set Cascade Example (save, update, delete and delete-orphan) &nbsp;
+                            <i class="fa fa-coffee"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2012-12-16</span>
+                    </div>
+                    <p>
+                    	Cascade is a convenient feature to save the lines of code needed to manage the state of the other...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">java</button>
+                                
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/java/2012/12/16/java-hibernate-jpa-hibernate-cache.html" class="btn-link">
+                        <h2>
+                            JPA+Hibernate各种缓存的配置演示 &nbsp;
+                            <i class="fa fa-coffee"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2012-12-16</span>
+                    </div>
+                    <p>
+                    	
+  JPA itself is just a specification, not a product; it cannot perform persistence or anything e...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">java</button>
+                                
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/java/2012/12/16/java-hibernate-jpa-annotation.html" class="btn-link">
+                        <h2>
+                            JPA常见注解 &nbsp;
+                            <i class="fa fa-coffee"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2012-12-16</span>
+                    </div>
+                    <p>
+                    	@Entity 
+
+注册在类头上，将一个类声明为一个实体bean(即一个持久化POJO类) 。
+
+@Table 
+
+注册在类头上，注解声明了该实体bean映射指定的表（table）。
+
+@Id ...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">java</button>
+                                
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/java/2012/12/16/java-hibernate-id-generate.html" class="btn-link">
+                        <h2>
+                            Hibernate主键生成策略小结 &nbsp;
+                            <i class="fa fa-coffee"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2012-12-16</span>
+                    </div>
+                    <p>
+                    	assigned
+
+主键由外部程序负责生成，在 save() 之前必须指定一个。Hibernate不负责维护主键生成。与Hibernate和底层数据库都无关，可以跨数据库。在存储对象前，必须要使...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">java</button>
+                                
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/java/2012/12/16/java-hibernate-data-type-conf.html" class="btn-link">
+                        <h2>
+                            Hibernate data type conf &nbsp;
+                            <i class="fa fa-coffee"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2012-12-16</span>
+                    </div>
+                    <p>
+                    	实体类
+
+public class MultiTypeDemo {
+	private String id;
+	private Integer ii;
+	private Short sht;
+	p...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">java</button>
+                                
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/java/2012/12/16/java-hibernate-calendar-api.html" class="btn-link">
+                        <h2>
+                            Hibernate Calendar API &nbsp;
+                            <i class="fa fa-coffee"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2012-12-16</span>
+                    </div>
+                    <p>
+                    	java.util.Calendar
+
+Calendar 的 month 从 0 开始，也就是全年 12 个月由 0 ~ 11 进行表示。
+Calendar.DAY_OF_WEEK 定义和值如下...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">java</button>
+                                
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/java/2012/12/16/java-design-pattern.html" class="btn-link">
+                        <h2>
+                            java开发常见设计模式 &nbsp;
+                            <i class="fa fa-coffee"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2012-12-16</span>
+                    </div>
+                    <p>
+                    	责任链模式
+
+/**
+* 封装请求体
+*/
+public class Request {
+	private String content;
+
+	public Request(String con...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">java</button>
+                                
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/java/2012/12/16/java-callback-func.html" class="btn-link">
+                        <h2>
+                            java回调函数 &nbsp;
+                            <i class="fa fa-coffee"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2012-12-16</span>
+                    </div>
+                    <p>
+                    	概述
+
+回调通常的实现方式：匿名类。
+
+回调模式的优点：
+
+
+  封装隐藏细节
+  开发者可以自定义回调函数（new interface(){…}实现）
+  可以同步，也可以异步回调
+
+
+
+
+同...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">java</button>
+                                
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/java/2012/12/15/frame-singleton-prototype-thread-security.html" class="btn-link">
+                        <h2>
+                            常见框架单例、多例与线程安全性总结 &nbsp;
+                            <i class="fa fa-coffee"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2012-12-15</span>
+                    </div>
+                    <p>
+                    	单例与多例问题是指，当多个用户访问某个类时，系统是为每个用户创建一个该类实例，还是整个系统无论多少用户访问，只创建一个该类实例。
+
+线程安全问题是指，多个用户同时在访问同一个程序时，其对于某一数...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">frame</button>
+                                
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/java/2012/11/19/java-rmi-base.html" class="btn-link">
+                        <h2>
+                            java RMI &nbsp;
+                            <i class="fa fa-coffee"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2012-11-19</span>
+                    </div>
+                    <p>
+                    	简介
+
+RMI（即Remote Method Invoke 远程方法调用）。在Java中，只要一个类extends了java.rmi.Remote接口，即可成为存在于服务器端的远程对象，供客户端...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">java</button>
+                                
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/java/2012/11/18/java-spring-aspect.html" class="btn-link">
+                        <h2>
+                            Spring Aspect Demo（spring切面示例） &nbsp;
+                            <i class="fa fa-leaf"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2012-11-18</span>
+                    </div>
+                    <p>
+                    	applicationContext.xml
+
+&lt;!-- 配置扫描组件包 【com.sprdatajpa**】,通过注解定义bean, 默认同时也通过注解自动注入 --&gt; 
+&lt;...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">spring</button>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">aspect</button>
+                                
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/java/2012/11/18/java-gson-base.html" class="btn-link">
+                        <h2>
+                            工具 - gson解析json &nbsp;
+                            <i class="fa fa-coffee"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2012-11-18</span>
+                    </div>
+                    <p>
+                    	
+  gson是google解析json的一个开源框架,同类的框架fastJson,JackJson等。
+
+
+
+
+使用gson处理html特殊字符
+
+public static void mai...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">java</button>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">gson</button>
+                                
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/java/2012/11/17/java-tcp-ip-base.html" class="btn-link">
+                        <h2>
+                            java网络编程基础 &nbsp;
+                            <i class="fa fa-coffee"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2012-11-17</span>
+                    </div>
+                    <p>
+                    	网络协议的概念
+
+所谓协议，可以理解为一些规则，这些规则规定了两个需要连通的两点之间应当如何进行数据交互（可以用人类的语言作比较）。
+
+OSI七层模型和TCP/IP模型
+
+对于网络来说，有两种模...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">java</button>
+                                
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/java/2012/11/17/java-string-regex.html" class="btn-link">
+                        <h2>
+                            字符串操作及正则表达式（regex） &nbsp;
+                            <i class="fa fa-coffee"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2012-11-17</span>
+                    </div>
+                    <p>
+                    	java常见字符串操作
+
+代码示例：
+
+package regex;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">java</button>
+                                
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/java/2012/11/17/java-reflect-base.html" class="btn-link">
+                        <h2>
+                            java反射基础 &nbsp;
+                            <i class="fa fa-coffee"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2012-11-17</span>
+                    </div>
+                    <p>
+                    	概述
+
+反射是Java中非常重要的一个语言特性，反射的强大和完善，让Java语言在工程实践中的灵活性大大的增强，使得Java程序在运行时可以探查类的信息，动态的创建类的对象，获知对象的属性，调用...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">java</button>
+                                
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/java/2012/11/17/java-proxy-base.html" class="btn-link">
+                        <h2>
+                            java动态代理（类加载、asm、cglib、javassist） &nbsp;
+                            <i class="fa fa-coffee"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2012-11-17</span>
+                    </div>
+                    <p>
+                    	class文件简介及加载
+
+Java编译器编译好Java文件之后，产生.class 文件在磁盘中。这种class文件是二进制文件，内容是只有JVM虚拟机能够识别的机器码。JVM虚拟机读取字节码文...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">java</button>
+                                
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/java/2012/11/17/java-mvc-base.html" class="btn-link">
+                        <h2>
+                            javaee软件设计的基本原则 &nbsp;
+                            <i class="fa fa-coffee"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2012-11-17</span>
+                    </div>
+                    <p>
+                    	开闭原则
+
+对于程序员来说，一方面，由于需求是由客户提出的，无法控制需求的变化；另一方面，随着技术的进步和时代的发展，技术和商业一定会有着非常巨大的变化。这些变化，都会使得人们对软件的要求有变化...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">java</button>
+                                
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/java/2012/11/17/java-io-base.html" class="btn-link">
+                        <h2>
+                            java I/O 基础 &nbsp;
+                            <i class="fa fa-coffee"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2012-11-17</span>
+                    </div>
+                    <p>
+                    	概述
+
+在程序运行的过程当中，JVM的内存中必然会存放很多数据，包括基本类型和对象类型。但是当程序结束，JVM关闭的时候，这些数据必然会随之消失。我们可能希望通过某种方式，让这些数据能够保存下来...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">java</button>
+                                
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/java/2012/11/17/java-thread-test.html" class="btn-link">
+                        <h2>
+                            java线程相关测试 &nbsp;
+                            <i class="fa fa-coffee"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2012-11-17</span>
+                    </div>
+                    <p>
+                    	基本线程
+
+package threadtest;
+
+/**
+ * 基本线程
+ * @author zhangqingli
+ *
+ */
+public class BaseThread01 {
+...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">java</button>
+                                
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/java/2012/11/16/java-download-filename-messy-code.html" class="btn-link">
+                        <h2>
+                            下载文件名乱码问题的解决示例 &nbsp;
+                            <i class="fa fa-coffee"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2012-11-16</span>
+                    </div>
+                    <p>
+                    	代码示例：
+
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
+import javax...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">java</button>
+                                
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/java/2012/11/16/java-threadlocal.html" class="btn-link">
+                        <h2>
+                            Java ThreadLocal &nbsp;
+                            <i class="fa fa-coffee"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2012-11-16</span>
+                    </div>
+                    <p>
+                    	ThreadLocal是什么
+
+早在JDK 1.2的版本中就提供Java.lang.ThreadLocal，ThreadLocal为解决多线程程序的并发问题提供了一种新的思路。使用这个工具类可以...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">java</button>
+                                
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/java/2012/11/16/java-thread-base.html" class="btn-link">
+                        <h2>
+                            java多线程基础 &nbsp;
+                            <i class="fa fa-coffee"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2012-11-16</span>
+                    </div>
+                    <p>
+                    	多线程与并发的概念
+
+首先，我们来介绍一下并发的基本概念和原理。对于现代操作系统来说，大部分操作系统都是多任务操作系统。什么是“多任务”呢？指的是每个系统在同时能够运行多个进程。例如，在wind...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">java</button>
+                                
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/java/2012/11/16/java-java-run-js.html" class="btn-link">
+                        <h2>
+                            Java run Js &nbsp;
+                            <i class="fa fa-coffee"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2012-11-16</span>
+                    </div>
+                    <p>
+                    	示例一
+
+import java.io.File;
+import java.io.FileReader;
+import javax.script.ScriptEngine;
+import jav...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">java</button>
+                                
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/java/2012/11/16/java-java-inner-class.html" class="btn-link">
+                        <h2>
+                            java内部类使用小结 &nbsp;
+                            <i class="fa fa-coffee"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2012-11-16</span>
+                    </div>
+                    <p>
+                    	概述
+
+
+  内部类是指在一个外部类的内部再定义一个类。类名不需要和文件夹相同。
+  内部类可以是静态static的，也可用public，default，protected和private修饰，...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">java</button>
+                                
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/java/2012/11/16/java-html-data-img.html" class="btn-link">
+                        <h2>
+                            浏览器中的data类型的Url格式 data:image/png,data:image/jpeg &nbsp;
+                            <i class="fa fa-coffee"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2012-11-16</span>
+                    </div>
+                    <p>
+                    	所谓”data”类型的Url格式，是在RFC2397中 提出的，目的对于一些“小”的数据，可以在网页中直接嵌入，而不是从外部文件载入。例如对于img这个Tag，哪怕这个图片非常非常的小，小到只有...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">java</button>
+                                
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/java/2012/11/16/java-generics-base.html" class="btn-link">
+                        <h2>
+                            java泛型小结 &nbsp;
+                            <i class="fa fa-coffee"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2012-11-16</span>
+                    </div>
+                    <p>
+                    	泛型类
+
+public class Fanxinglei&lt;T&gt; {
+	private T obj;
+
+	public T getObj() {
+		return obj;
+	}
+
+	...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">java</button>
+                                
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/java/2012/11/16/java-annotation-base.html" class="btn-link">
+                        <h2>
+                            Java注解初步 &nbsp;
+                            <i class="fa fa-coffee"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2012-11-16</span>
+                    </div>
+                    <p>
+                    	要深入学习注解，我们就必须能定义自己的注解，并使用注解，在定义自己的注解之前，我们就必须要了解Java为我们提供的元注解和相关定义注解的语法。
+
+元注解
+
+元注解的作用就是负责注解其他注解。Ja...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">java</button>
+                                
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/java/2012/11/16/java-TreeSet-order.html" class="btn-link">
+                        <h2>
+                            从Set里面取出有序的记录 &nbsp;
+                            <i class="fa fa-coffee"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2012-11-16</span>
+                    </div>
+                    <p>
+                    	
+  Set里面的记录是无序的，如果想使用Set，然后又想里面的记录是有序的，就可以使用TreeSet，而不是HashSet，在使用TreeSet的时候，里面的元素必须是实现了Comparabl...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">java</button>
+                                
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/java/2012/11/15/java-path-classpath.html" class="btn-link">
+                        <h2>
+                            java path and classpath &nbsp;
+                            <i class="fa fa-coffee"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2012-11-15</span>
+                    </div>
+                    <p>
+                    	PATH 与CLASSPATH 根本就是不同层次的环境变量，
+
+  实际操作系统搜索可执行文件是看PATH（javac Test.java）
+  JVM 搜索可执行文件(.class)只看CLA...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">java</button>
+                                
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+        </ul>
+        <!--在head.html中配置的是煤业显示10条-->
+<!--如果大于10条就显示分页-->
+
+    <div class="col-lg-6 col-lg-offset-5">
+		<div class="pag-holder" style="float:left; display:inline;"></div>
+		<div class="pag-jump" style="float:left;margin:22px 10px">
+			转到
+			<input type="text" value="1" style="width:30px;"/>&nbsp;页
+			<button type="button" class="btn btn-default btn-xs" style="margin-left:10px;">确定</button>
+		</div>
+	</div>
+
+
+
+
+    </div>
+</div>
+
+
+	
+	    <script src="/static/js/scroll.js"></script>
+
+<!-- Baidu analytics -->
+
+
+<!-- Google analytics -->
+
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-73784599-1', 'auto');
+    ga('send', 'pageview');
+
+  </script>
+
+
+<!--
+
+-->
+
+<!--
+
+-->
+
+<script async src="/static/js/count_page.js"></script>
+
+	
+
+</body>
+</html>

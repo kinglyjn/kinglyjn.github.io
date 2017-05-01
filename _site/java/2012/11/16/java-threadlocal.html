@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html>
+	
+	    <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+    <meta content="Java ThreadLocal" name="description">
+  
+  
+    <meta name="keywords" content="Java ThreadLocal,ThreadLocal,thread,java,kinglyjn">
+  
+  <meta name="author" content="KinglyJn">
+
+  <title>
+    
+        KinglyJn|Java ThreadLocal
+    
+  </title>
+  <!-- favicon -->
+  <link rel="shortcut icon" href="/static/img/favicon.ico">
+
+  <!-- Third-party CSS -->
+  <link href="/bower_components/normalize-css/normalize.min.css" rel="stylesheet">
+  <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/bower_components/animate.css/animate.min.css" rel="stylesheet">
+  <link href="/bower_components/components-font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="/static/font-mfizz/font-mfizz.css" rel="stylesheet">
+  <!-- <link href="/bower_components/toastr/toastr.min.css" rel="stylesheet"> -->
+  <link href="/bower_components/jquery.gritter/css/jquery.gritter.css" rel="stylesheet">
+  <link rel="stylesheet" href="/search/css/cb-search.css">
+
+  <!-- Custom styles for this template -->
+  <link href="/static/css/style.min.css" rel="stylesheet">
+  <link href="/static/css/pygments.css" rel="stylesheet">
+
+  <!-- Scripts -->
+  <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="/search/js/bootstrap3-typeahead.min.js"></script>
+
+  <!-- cb-search -->
+  <script src="/search/js/cb-search.js"></script>
+  <script>
+    $(function(){
+        $("pre").css('display','block');
+    });
+  </script>
+  <!-- Mainly scripts -->
+  <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="/bower_components/metisMenu/dist/metisMenu.min.js"></script>
+  <script src="/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+
+  <!-- Peity -->
+  <script src="/bower_components/peity/jquery.peity.min.js"></script>
+
+  <script src="/bower_components/PACE/pace.min.js"></script>
+  <script src="/bower_components/wow/dist/wow.min.js"></script>
+  <!-- Custom and plugin javascript -->
+  <script src="/static/js/inspinia.js"></script>
+
+  <!-- Rickshaw -->
+  <script src="/bower_components/rickshaw/vendor/d3.v3.js"></script>
+  <script src="/bower_components/rickshaw/rickshaw.min.js"></script>
+
+
+  <!-- jPages -->
+  <script src="/static/js/jPages.js"></script>
+  <script src="/static/js/js.js"></script>
+  <script type="text/javascript">
+        $(function(){
+          /* initiate the plugin */
+          $("div.pag-holder").jPages({
+              containerID  : "pag-itemContainer",
+              perPage      : 10,  /* num of items per page */
+              startPage    : 1,
+              startRange   : 1,
+              midRange     : 3,
+              endRange     : 1
+          });
+
+          $("div.pag-jump button").click(function(){
+            var page = parseInt($("div.pag-jump input").val());
+            $("div.pag-holder").jPages(page);
+          });
+
+          $("div.pag-jump input").on("keypress", function(){
+            var e=e||window.event;
+            if (e.keyCode == 13) {
+                var page = parseInt($("div.pag-jump input").val());
+                $("div.pag-holder").jPages(page);
+            } 
+          });
+      });
+  </script>
+
+<!-- GrowingIO -->
+
+  <script>
+    var _vds = _vds || [];
+    window._vds = _vds;
+    (function(){
+      _vds.push(['setAccountId', 'a49d4901c7853da9']);
+      (function() {
+        var vds = document.createElement('script');
+        vds.type='text/javascript';
+        vds.async = true;
+        vds.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'dn-growing.qbox.me/vds.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(vds, s);
+      })();
+    })();
+  </script>
+
+
+</head>
+
+	
+
+
+<body id="page-top" class="landing-page">
+
+	
+	    
+
+<!--修复手机端横轴方向左右滑动BUG-->
+<style type="text/css">
+    .landing-page .row {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+</style>
+
+<div class="search-tool"
+      style="position: fixed; top: 0px ; bottom: 0px; left: 0px; right:  0px; opacity: 0.95; background-color: #111111; z-index: 9999; display: none;">
+    <input type="text" class="form-control search-content" id="search-content" style="position: fixed; top: 60px" placeholder="Search Blog">
+
+    <div style="position: fixed; top: 16px; right: 16px; z-index: 9999;">
+        <img src="/search/img/cb-close.png" id="close-btn"/>
+    </div>
+</div>
+
+<div style="position: fixed; right: 16px; bottom: 20px; z-index: 9999;">
+    <img src="/search/img/cb-search.png"  id="search-btn"  title="Double click Ctrl"/>
+</div>
+
+<div class="navbar-wrapper">
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header page-scroll">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/">KinglyJn</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a class="page-scroll" href="/blog/"></a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/blog/">Blog</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/linux/">Linux</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/cloud/">Cloud</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/java/">Java</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/c/">C</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/php/">PHP</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/db/">DB</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/htmlx/">HTMLX</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/life/">Life</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/art/">Art</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/other/">Other</a></li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </nav>
+</div>
+<div id="inSlider" class="carousel carousel-fade" data-ride="carousel">
+    <div style="position:absolute;float:left;left:25%;z-index:15;width:50%;margin-bottom:18%;bottom:0;text-align:center;list-style:none;">
+        <span style="color:white;font-size:24px;">以平实之心写作</span><br>
+        <span style="color:white;font-size:13px;">writing with simple heart ♬. </span>
+    </div>
+    <!--
+    <ol class="carousel-indicators">
+        <li data-target="#inSlider" data-slide-to="0" class="active"></li>
+        <li data-target="#inSlider" data-slide-to="1"></li>
+    </ol>
+    -->
+    <div class="carousel-inner" role="listbox">
+        <div class="item active">
+            <div class="container">
+                <div class="carousel-caption">
+                </div>
+                <div class="carousel-image wow zoomIn">
+                    <!-- <img src="static/img/landing/laptop.png" alt="laptop"/> -->
+                </div>
+            </div>
+            <!-- Set background for slide in css -->
+            <div class="header-back blog-one"></div>
+        </div>
+        <!--
+        <div class="item">
+            <div class="container">
+                <div class="carousel-caption blank">
+                </div>
+            </div>
+            Set background for slide in css
+            <div class="header-back two"></div>
+        </div>
+        -->
+    </div>
+    <!--
+    <a class="left carousel-control" href="#inSlider" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#inSlider" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+    -->
+</div>
+
+
+	
+
+    <div class="wrapper wrapper-content  animated fadeInRight article">
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <div class="pull-right">
+                    	
+                        	<button class="btn btn-white btn-xs" type="button">Java</button>
+                        
+                    </div>
+                    <div class="text-center article-title" style="margin-bottom:50px;">
+                        <h1>
+                            Java ThreadLocal
+                        </h1>
+                        <a href="http://www.keyllo.com/studio/">
+                            <span class="text-muted"><i class="fa fa-user"></i> KinglyJn</span>
+                        </a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <span class="text-muted"><i class="fa fa-clock-o"></i> 2012-11-16</span>
+                    </div>
+                    	<h3 id="threadlocal是什么">ThreadLocal是什么</h3>
+
+<p>早在JDK 1.2的版本中就提供Java.lang.ThreadLocal，ThreadLocal为解决多线程程序的并发问题提供了一种新的思路。使用这个工具类可以很简洁地编写出优美的多线程程序。<br /></p>
+
+<p>当使用ThreadLocal维护变量时，ThreadLocal为每个使用该变量的线程提供独立的变量副本，所以每一个线程都可以独立地改变自己的副本，而不会影响其它线程所对应的副本。<br /></p>
+
+<p>从线程的角度看，目标变量就象是线程的本地变量，这也是类名中“Local”所要表达的意思。所以，在Java中编写线程局部变量的代码相对来说要笨拙一些，因此造成线程局部变量没有在Java开发者中得到很好的普及。<br /><br /></p>
+
+<h3 id="threadlocal的接口方法">ThreadLocal的接口方法</h3>
+
+<p>ThreadLocal类接口很简单，只有4个方法，我们先来了解一下：<br /></p>
+
+<ul>
+  <li>void set(Object value)设置当前线程的线程局部变量的值。</li>
+  <li>public Object get()该方法返回当前线程所对应的线程局部变量。</li>
+  <li>public void remove()将当前线程局部变量的值删除，目的是为了减少内存的占用，该方法是JDK 5.0新增的方法。需要指出的是，当线程结束后，对应该线程的局部变量将自动被垃圾回收，所以显式调用该方法清除线程的局部变量并不是必须的操作，但它可以加快内存回收的速度。</li>
+  <li>protected Object initialValue()返回该线程局部变量的初始值，该方法是一个protected的方法，显然是为了让子类覆盖而设计的。这个方法是一个延迟调用方法，在线程第1次调用get()或set(Object)时才执行，并且仅执行1次。ThreadLocal中的缺省实现直接返回一个null。</li>
+</ul>
+
+<p>值得一提的是，在JDK5.0中，ThreadLocal已经支持泛型，该类的类名已经变为ThreadLocal<T>。API方法也相应进行了调整，新版本的API方法分别是void set(T value)、T get()以及T initialValue()。<br /><br /></T></p>
+
+<h3 id="threadlocal的实现原理">ThreadLocal的实现原理</h3>
+
+<p>ThreadLocal是如何做到为每一个线程维护变量的副本的呢？其实实现的思路很简单：在ThreadLocal类中有一个Map，用于存储每一个线程的变量副本，Map中元素的键为线程对象，而值对应线程的变量副本。我们自己就可以提供一个简单的实现版本：<br /></p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TestNum</span> <span class="o">{</span>
+	
+	<span class="c1">// ①通过匿名内部类覆盖ThreadLocal的initialValue()方法，指定初</span>
+	<span class="kd">public</span> <span class="kd">static</span> <span class="n">ThreadLocal</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">seqNum</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ThreadLocal</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;()</span> <span class="o">{</span>
+		<span class="nd">@Override</span>
+		<span class="kd">protected</span> <span class="n">Integer</span> <span class="nf">initialValue</span><span class="o">()</span> <span class="o">{</span>
+			<span class="k">return</span> <span class="mi">0</span><span class="o">;</span>
+		<span class="o">}</span>
+	<span class="o">};</span>
+	
+	<span class="c1">// ②获取下一个序列值</span>
+	<span class="kd">public</span> <span class="kt">int</span> <span class="nf">getNextInt</span><span class="o">()</span> <span class="o">{</span>
+		<span class="n">seqNum</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="n">seqNum</span><span class="o">.</span><span class="na">get</span><span class="o">()</span> <span class="o">+</span> <span class="mi">1</span><span class="o">);</span>
+		<span class="k">return</span> <span class="n">seqNum</span><span class="o">.</span><span class="na">get</span><span class="o">();</span>
+	<span class="o">}</span>
+	
+	<span class="c1">// ③3个线程共享sn，各自产生序列号测试  </span>
+	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+		<span class="n">TestNum</span> <span class="n">sn</span> <span class="o">=</span> <span class="k">new</span> <span class="n">TestNum</span><span class="o">();</span>
+		<span class="n">TestClient</span> <span class="n">t1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">TestClient</span><span class="o">(</span><span class="n">sn</span><span class="o">);</span>
+		<span class="n">TestClient</span> <span class="n">t2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">TestClient</span><span class="o">(</span><span class="n">sn</span><span class="o">);</span>
+		<span class="n">TestClient</span> <span class="n">t3</span> <span class="o">=</span> <span class="k">new</span> <span class="n">TestClient</span><span class="o">(</span><span class="n">sn</span><span class="o">);</span>
+		<span class="n">t1</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+		<span class="n">t2</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+		<span class="n">t3</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">class</span> <span class="nc">TestClient</span> <span class="kd">extends</span> <span class="n">Thread</span> <span class="o">{</span>
+	<span class="kd">private</span> <span class="n">TestNum</span> <span class="n">sn</span><span class="o">;</span>
+	
+	<span class="kd">public</span> <span class="nf">TestClient</span><span class="o">(</span><span class="n">TestNum</span> <span class="n">sn</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">sn</span> <span class="o">=</span> <span class="n">sn</span><span class="o">;</span>
+	<span class="o">}</span>
+	
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="mi">3</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+			<span class="c1">// ④每个线程打出3个序列值</span>
+			<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">"----&gt; sn:"</span> <span class="o">+</span> <span class="n">sn</span><span class="o">.</span><span class="na">getNextInt</span><span class="o">());</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+
+<span class="c1">//运行结果</span>
+<span class="n">Thread</span><span class="o">-</span><span class="mi">0</span><span class="o">----&gt;</span> <span class="nl">sn:</span><span class="mi">1</span>
+<span class="n">Thread</span><span class="o">-</span><span class="mi">2</span><span class="o">----&gt;</span> <span class="nl">sn:</span><span class="mi">1</span>
+<span class="n">Thread</span><span class="o">-</span><span class="mi">1</span><span class="o">----&gt;</span> <span class="nl">sn:</span><span class="mi">1</span>
+<span class="n">Thread</span><span class="o">-</span><span class="mi">2</span><span class="o">----&gt;</span> <span class="nl">sn:</span><span class="mi">2</span>
+<span class="n">Thread</span><span class="o">-</span><span class="mi">0</span><span class="o">----&gt;</span> <span class="nl">sn:</span><span class="mi">2</span>
+<span class="n">Thread</span><span class="o">-</span><span class="mi">2</span><span class="o">----&gt;</span> <span class="nl">sn:</span><span class="mi">3</span>
+<span class="n">Thread</span><span class="o">-</span><span class="mi">1</span><span class="o">----&gt;</span> <span class="nl">sn:</span><span class="mi">2</span>
+<span class="n">Thread</span><span class="o">-</span><span class="mi">0</span><span class="o">----&gt;</span> <span class="nl">sn:</span><span class="mi">3</span>
+<span class="n">Thread</span><span class="o">-</span><span class="mi">1</span><span class="o">----&gt;</span> <span class="nl">sn:</span><span class="mi">3</span>
+</code></pre>
+</div>
+
+<p>我们发现每个线程所产生的序号虽然都共享同一个TestNum实例，但它们并没有发生相互干扰的情况，而是各自产生独立的序列号，这是因为我们通过ThreadLocal为每一个线程提供了单独的副本。<br /><br /></p>
+
+<h3 id="threadlocal和线程同步机制的比较">ThreadLocal和线程同步机制的比较</h3>
+
+<p>ThreadLocal和线程同步机制都是为了解决多线程中相同变量的访问冲突问题。<br /></p>
+
+<p>在线程同步机制中，通过对象的锁机制保证同一时间只有一个线程访问变量。这时该变量是多个线程共享的，使用同步机制要求程序慎密地分析什么时候对变量进行读写，什么时候需要锁定某个对象，什么时候释放对象锁等繁杂的问题，程序设计和编写难度相对较大。而ThreadLocal则从另一个角度来解决多线程的并发访问。ThreadLocal会为每一个线程提供一个独立的变量副本，从而隔离了多个线程对数据的访问冲突。因为每一个线程都拥有自己的变量副本，从而也就没有必要对该变量进行同步了。ThreadLocal提供了线程安全的共享对象，在编写多线程代码时，可以把不安全的变量封装进ThreadLocal。<br /></p>
+
+<p>概括起来说，对于多线程资源共享的问题，同步机制采用了“以时间换空间”的方式，而ThreadLocal采用了“以空间换时间”的方式。前者仅提供一份变量，让不同的线程排队访问，而后者为每一个线程都提供了一份变量，因此可以同时访问而互不影响。<br /></p>
+
+<p>Spring使用ThreadLocal解决线程安全问题。我们知道在一般情况下，只有无状态的Bean才可以在多线程环境下共享，在Spring中，绝大部分Bean都可以声明为singleton作用域。就是因为Spring对一些Bean（如RequestContextHolder、TransactionSynchronizationManager、LocaleContextHolder等）中非线程安全状态采用ThreadLocal进行处理，让它们也成为线程安全的状态，所以有状态的Bean就可以在多线程中共享了。<br /></p>
+
+<p>一般的Web应用划分为展现层、服务层和持久层三个层次，在不同的层中编写对应的逻辑，下层通过接口向上层开放功能调用。在一般情况下，从接收请求到返回响应所经过的所有程序调用都同属于一个线程，如下所示：<br /></p>
+
+<p><img src="http://img.blog.csdn.net/20170112111955252?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:70%" /><br /></p>
+
+<p>同一线程贯通三层这样你就可以根据需要，将一些非线程安全的变量以ThreadLocal存放，在同一次请求响应的调用线程中，所有关联的对象引用到的都是同一个变量。<br /></p>
+
+<p>下面的实例能够体现Spring对有状态Bean的改造思路：<br /></p>
+
+<p>非线程安全conn：<br /></p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.sql.Connection</span><span class="o">;</span>  
+<span class="kn">import</span> <span class="nn">java.sql.SQLException</span><span class="o">;</span>  
+<span class="kn">import</span> <span class="nn">java.sql.Statement</span><span class="o">;</span>  
+  
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">TestDao</span> <span class="o">{</span>  
+    <span class="kd">private</span> <span class="n">Connection</span> <span class="n">conn</span><span class="o">;</span><span class="c1">// ①一个非线程安全的变量  </span>
+  
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addTopic</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">SQLException</span> <span class="o">{</span>  
+        <span class="n">Statement</span> <span class="n">stat</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="na">createStatement</span><span class="o">();</span><span class="c1">// ②引用非线程安全变量  </span>
+        <span class="c1">// …  </span>
+    <span class="o">}</span>  
+<span class="o">}</span> 
+</code></pre>
+</div>
+
+<p>线程安全conn：<br /></p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.sql.Connection</span><span class="o">;</span>  
+<span class="kn">import</span> <span class="nn">java.sql.SQLException</span><span class="o">;</span>  
+<span class="kn">import</span> <span class="nn">java.sql.Statement</span><span class="o">;</span>  
+  
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">TestDaoNew</span> <span class="o">{</span>  
+    <span class="c1">// ①使用ThreadLocal保存Connection变量  </span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="n">ThreadLocal</span><span class="o">&lt;</span><span class="n">Connection</span><span class="o">&gt;</span> <span class="n">connThreadLocal</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ThreadLocal</span><span class="o">&lt;</span><span class="n">Connection</span><span class="o">&gt;();</span>  
+  
+    <span class="kd">public</span> <span class="kd">static</span> <span class="n">Connection</span> <span class="nf">getConnection</span><span class="o">()</span> <span class="o">{</span>  
+        <span class="c1">// ②如果connThreadLocal没有本线程对应的Connection创建一个新的Connection，  </span>
+        <span class="c1">// 并将其保存到线程本地变量中。  </span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">connThreadLocal</span><span class="o">.</span><span class="na">get</span><span class="o">()</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>  
+            <span class="n">Connection</span> <span class="n">conn</span> <span class="o">=</span> <span class="n">Conn</span><span class="o">.</span><span class="na">getNewConnection</span><span class="o">();</span>  
+            <span class="n">connThreadLocal</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="n">conn</span><span class="o">);</span>  
+            <span class="k">return</span> <span class="n">conn</span><span class="o">;</span>  
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>  
+            <span class="k">return</span> <span class="n">connThreadLocal</span><span class="o">.</span><span class="na">get</span><span class="o">();</span><span class="c1">// ③直接返回线程本地变量  </span>
+        <span class="o">}</span>  
+    <span class="o">}</span>  
+  
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addTopic</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">SQLException</span> <span class="o">{</span>  
+        <span class="c1">// ④从ThreadLocal中获取线程对应的Connection  </span>
+        <span class="n">Statement</span> <span class="n">stat</span> <span class="o">=</span> <span class="n">getConnection</span><span class="o">().</span><span class="na">createStatement</span><span class="o">();</span>  
+    <span class="o">}</span>  
+<span class="o">}</span>  
+</code></pre>
+</div>
+
+<p>不同的线程在使用TopicDao时，先判断connThreadLocal.get()是否是null，如果是null，则说明当前线程还没有对应的Connection对象，这时创建一个Connection对象并添加到本地线程变量中；如果不为null，则说明当前的线程已经拥有了Connection对象，直接使用就可以了。这样，就保证了不同的线程使用线程相关的Connection，而不会使用其它线程的Connection。因此，这个TopicDao就可以做到singleton共享了。<br /></p>
+
+<p>当然，这个例子本身很粗糙，将Connection的ThreadLocal直接放在DAO只能做到本DAO的多个方法共享Connection时不发生线程安全问题，但无法和其它DAO共用同一个Connection，要做到同一事务多DAO共享同一Connection，必须在一个共同的外部类使用ThreadLocal保存Connection。<br /></p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.sql.Connection</span><span class="o">;</span>  
+<span class="kn">import</span> <span class="nn">java.sql.DriverManager</span><span class="o">;</span>  
+<span class="kn">import</span> <span class="nn">java.sql.SQLException</span><span class="o">;</span>  
+  
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ConnectionManager</span> <span class="o">{</span>  
+
+    <span class="c1">//初始化</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="n">ThreadLocal</span><span class="o">&lt;</span><span class="n">Connection</span><span class="o">&gt;</span> <span class="n">connectionHolder</span> <span class="o">=</span> 
+    <span class="k">new</span> <span class="n">ThreadLocal</span><span class="o">&lt;</span><span class="n">Connection</span><span class="o">&gt;()</span> <span class="o">{</span>  
+        <span class="nd">@Override</span>  
+        <span class="kd">protected</span> <span class="n">Connection</span> <span class="nf">initialValue</span><span class="o">()</span> <span class="o">{</span>  
+            <span class="n">Connection</span> <span class="n">conn</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>  
+            <span class="k">try</span> <span class="o">{</span>  
+                <span class="n">JdbcConfig</span> <span class="n">jdbcConfig</span><span class="o">=</span><span class="n">XmlConfigReader</span><span class="o">.</span><span class="na">GetInstance</span><span class="o">().</span><span class="na">getJdbcConfig</span><span class="o">();</span>  
+                <span class="n">Class</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="n">jdbcConfig</span><span class="o">.</span><span class="na">getDriverName</span><span class="o">());</span>  
+                <span class="n">conn</span><span class="o">=</span><span class="n">DriverManager</span><span class="o">.</span><span class="na">jdbcConfig</span><span class="o">.</span><span class="na">getUserName</span><span class="o">(),</span><span class="n">jdbcConfig</span><span class="o">.</span><span class="na">getPassword</span><span class="o">());</span>    
+            <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">SQLException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>  
+                <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>  
+            <span class="o">}</span>  
+            <span class="k">return</span> <span class="n">conn</span><span class="o">;</span>  
+        <span class="o">}</span>  
+    <span class="o">};</span>  
+  
+    <span class="c1">//获取连接</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="n">Connection</span> <span class="nf">getConnection</span><span class="o">()</span> <span class="o">{</span>  
+        <span class="k">return</span> <span class="n">connectionHolder</span><span class="o">.</span><span class="na">get</span><span class="o">();</span>  
+    <span class="o">}</span>  
+  
+    <span class="c1">//将连接放入局部线程变量</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">setConnection</span><span class="o">(</span><span class="n">Connection</span> <span class="n">conn</span><span class="o">)</span> <span class="o">{</span>  
+        <span class="n">connectionHolder</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="n">conn</span><span class="o">);</span>  
+    <span class="o">}</span>
+    
+    <span class="c1">//关闭连接   </span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">closeConnection</span><span class="o">()</span> <span class="o">{</span>  
+        <span class="n">Connection</span> <span class="n">conn</span> <span class="o">=</span> <span class="n">connectionHolder</span><span class="o">.</span><span class="na">get</span><span class="o">();</span>  
+        <span class="k">if</span> <span class="o">(</span><span class="n">conn</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>  
+            <span class="k">try</span> <span class="o">{</span>  
+                <span class="n">conn</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>  
+                <span class="c1">//从ThreadLocal中清除Connection   </span>
+                <span class="n">connectionHolder</span><span class="o">.</span><span class="na">remove</span><span class="o">();</span>  
+            <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">SQLException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>  
+                <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>  
+            <span class="o">}</span>     
+        <span class="o">}</span>  
+    <span class="o">}</span> 
+    
+    <span class="c1">//关闭Statement（用于执行静态 SQL 语句并返回它所生成结果的对象。）   </span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">close</span><span class="o">(</span><span class="n">Statement</span> <span class="n">pstmt</span><span class="o">)</span> <span class="o">{</span>  
+        <span class="k">if</span> <span class="o">(</span><span class="n">pstmt</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>  
+            <span class="k">try</span> <span class="o">{</span>  
+                <span class="n">pstmt</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>  
+            <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">SQLException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>  
+                <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>  
+            <span class="o">}</span>  
+        <span class="o">}</span>  
+    <span class="o">}</span>
+    
+    <span class="c1">//关闭结果集   </span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">close</span><span class="o">(</span><span class="n">ResultSet</span> <span class="n">rs</span> <span class="o">)</span> <span class="o">{</span>  
+        <span class="k">if</span> <span class="o">(</span><span class="n">rs</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>  
+            <span class="k">try</span> <span class="o">{</span>  
+                <span class="n">rs</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>  
+            <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">SQLException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>  
+                <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>  
+            <span class="o">}</span>  
+        <span class="o">}</span>  
+    <span class="o">}</span> 
+    
+    <span class="c1">//开启事务   </span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">beginTransaction</span><span class="o">(</span><span class="n">Connection</span> <span class="n">conn</span><span class="o">)</span> <span class="o">{</span>  
+        <span class="k">try</span> <span class="o">{</span>  
+            <span class="k">if</span> <span class="o">(</span><span class="n">conn</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>  
+                <span class="k">if</span> <span class="o">(</span><span class="n">conn</span><span class="o">.</span><span class="na">getAutoCommit</span><span class="o">())</span> <span class="o">{</span>  
+                    <span class="n">conn</span><span class="o">.</span><span class="na">setAutoCommit</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span> <span class="c1">//手动提交   </span>
+                <span class="o">}</span>  
+            <span class="o">}</span>  
+        <span class="o">}</span><span class="k">catch</span><span class="o">(</span><span class="n">SQLException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{}</span>  
+    <span class="o">}</span> 
+    
+    <span class="c1">//提交事务   </span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">commitTransaction</span><span class="o">(</span><span class="n">Connection</span> <span class="n">conn</span><span class="o">)</span> <span class="o">{</span>  
+        <span class="k">try</span> <span class="o">{</span>  
+            <span class="k">if</span> <span class="o">(</span><span class="n">conn</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>  
+                <span class="k">if</span> <span class="o">(!</span><span class="n">conn</span><span class="o">.</span><span class="na">getAutoCommit</span><span class="o">())</span> <span class="o">{</span>  
+                    <span class="n">conn</span><span class="o">.</span><span class="na">commit</span><span class="o">();</span>  
+                <span class="o">}</span>  
+            <span class="o">}</span>  
+        <span class="o">}</span><span class="k">catch</span><span class="o">(</span><span class="n">SQLException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{}</span>  
+    <span class="o">}</span> 
+    
+    <span class="c1">//回滚事务   </span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">rollbackTransaction</span><span class="o">(</span><span class="n">Connection</span> <span class="n">conn</span><span class="o">)</span> <span class="o">{</span>  
+        <span class="k">try</span> <span class="o">{</span>  
+            <span class="k">if</span> <span class="o">(</span><span class="n">conn</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>  
+                <span class="k">if</span> <span class="o">(!</span><span class="n">conn</span><span class="o">.</span><span class="na">getAutoCommit</span><span class="o">())</span> <span class="o">{</span>  
+                    <span class="n">conn</span><span class="o">.</span><span class="na">rollback</span><span class="o">();</span>  
+                <span class="o">}</span>  
+            <span class="o">}</span>  
+        <span class="o">}</span><span class="k">catch</span><span class="o">(</span><span class="n">SQLException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{}</span>  
+    <span class="o">}</span> 
+           
+<span class="o">}</span>
+</code></pre>
+</div>
+<p><br /></p>
+
+<h3 id="threadlocal的具体实现">ThreadLocal的具体实现</h3>
+
+<p>那么到底ThreadLocal类是如何实现这种“为每个线程提供不同的变量拷贝”的呢？先来看一下ThreadLocal的set()方法的源码是如何实现的：<br /></p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="cm">/** 
+    * Sets the current thread's copy of this thread-local variable 
+    * to the specified value.  Most subclasses will have no need to 
+    * override this method, relying solely on the {@link #initialValue} 
+    * method to set the values of thread-locals. 
+    * 
+    * @param value the value to be stored in the current thread's copy of 
+    *        this thread-local. 
+    */</span>  
+   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">set</span><span class="o">(</span><span class="n">T</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>  
+       <span class="n">Thread</span> <span class="n">t</span> <span class="o">=</span> <span class="n">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">();</span>  
+       <span class="n">ThreadLocalMap</span> <span class="n">map</span> <span class="o">=</span> <span class="n">getMap</span><span class="o">(</span><span class="n">t</span><span class="o">);</span>  
+       <span class="k">if</span> <span class="o">(</span><span class="n">map</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span>  
+           <span class="n">map</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">value</span><span class="o">);</span>  
+       <span class="k">else</span>  
+           <span class="nf">createMap</span><span class="o">(</span><span class="n">t</span><span class="o">,</span> <span class="n">value</span><span class="o">);</span>  
+   <span class="o">}</span> 
+</code></pre>
+</div>
+<p>在这个方法内部我们看到，首先通过getMap(Thread t)方法获取一个和当前线程相关的ThreadLocalMap，然后将变量的值设置到这个ThreadLocalMap对象中，当然如果获取到的ThreadLocalMap对象为空，就通过createMap方法创建。<br /></p>
+
+<p>线程隔离的秘密，就在于ThreadLocalMap这个类。ThreadLocalMap是ThreadLocal类的一个静态内部类，它实现了键值对的设置和获取（对比Map对象来理解），每个线程中都有一个独立的ThreadLocalMap副本，它所存储的值，只能被当前线程读取和修改。ThreadLocal类通过操作每一个线程特有的ThreadLocalMap副本，从而实现了变量访问在不同线程中的隔离。因为每个线程的变量都是自己特有的，完全不会有并发错误。还有一点就是，ThreadLocalMap存储的键值对中的键是this对象指向的ThreadLocal对象，而值就是你所设置的对象了。<br /></p>
+
+<p>为了加深理解，我们接着看上面代码中出现的getMap和createMap方法的实现：<br /></p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="cm">/** 
+ * Get the map associated with a ThreadLocal. Overridden in 
+ * InheritableThreadLocal. 
+ * 
+ * @param  t the current thread 
+ * @return the map 
+ */</span>  
+<span class="n">ThreadLocalMap</span> <span class="nf">getMap</span><span class="o">(</span><span class="n">Thread</span> <span class="n">t</span><span class="o">)</span> <span class="o">{</span>  
+    <span class="k">return</span> <span class="n">t</span><span class="o">.</span><span class="na">threadLocals</span><span class="o">;</span>  
+<span class="o">}</span>  
+  
+<span class="cm">/** 
+ * Create the map associated with a ThreadLocal. Overridden in 
+ * InheritableThreadLocal. 
+ * 
+ * @param t the current thread 
+ * @param firstValue value for the initial entry of the map 
+ * @param map the map to store. 
+ */</span>  
+<span class="kt">void</span> <span class="nf">createMap</span><span class="o">(</span><span class="n">Thread</span> <span class="n">t</span><span class="o">,</span> <span class="n">T</span> <span class="n">firstValue</span><span class="o">)</span> <span class="o">{</span>  
+    <span class="n">t</span><span class="o">.</span><span class="na">threadLocals</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ThreadLocalMap</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">firstValue</span><span class="o">);</span>  
+<span class="o">}</span>  
+</code></pre>
+</div>
+
+<p>接下来再看一下ThreadLocal类中的get()方法:<br /></p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="cm">/** 
+ * Returns the value in the current thread's copy of this 
+ * thread-local variable.  If the variable has no value for the 
+ * current thread, it is first initialized to the value returned 
+ * by an invocation of the {@link #initialValue} method. 
+ * 
+ * @return the current thread's value of this thread-local 
+ */</span>  
+<span class="kd">public</span> <span class="n">T</span> <span class="nf">get</span><span class="o">()</span> <span class="o">{</span>  
+    <span class="n">Thread</span> <span class="n">t</span> <span class="o">=</span> <span class="n">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">();</span>  
+    <span class="n">ThreadLocalMap</span> <span class="n">map</span> <span class="o">=</span> <span class="n">getMap</span><span class="o">(</span><span class="n">t</span><span class="o">);</span>  
+    <span class="k">if</span> <span class="o">(</span><span class="n">map</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>  
+        <span class="n">ThreadLocalMap</span><span class="o">.</span><span class="na">Entry</span> <span class="n">e</span> <span class="o">=</span> <span class="n">map</span><span class="o">.</span><span class="na">getEntry</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>  
+        <span class="k">if</span> <span class="o">(</span><span class="n">e</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span>  
+            <span class="k">return</span> <span class="o">(</span><span class="n">T</span><span class="o">)</span><span class="n">e</span><span class="o">.</span><span class="na">value</span><span class="o">;</span>  
+    <span class="o">}</span>  
+    <span class="k">return</span> <span class="nf">setInitialValue</span><span class="o">();</span>  
+<span class="o">}</span>  
+</code></pre>
+</div>
+
+<p>再来看setInitialValue()方法:<br /></p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="cm">/** 
+    * Variant of set() to establish initialValue. Used instead 
+    * of set() in case user has overridden the set() method. 
+    * 
+    * @return the initial value 
+    */</span>  
+   <span class="kd">private</span> <span class="n">T</span> <span class="nf">setInitialValue</span><span class="o">()</span> <span class="o">{</span>  
+       <span class="n">T</span> <span class="n">value</span> <span class="o">=</span> <span class="n">initialValue</span><span class="o">();</span>  
+       <span class="n">Thread</span> <span class="n">t</span> <span class="o">=</span> <span class="n">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">();</span>  
+       <span class="n">ThreadLocalMap</span> <span class="n">map</span> <span class="o">=</span> <span class="n">getMap</span><span class="o">(</span><span class="n">t</span><span class="o">);</span>  
+       <span class="k">if</span> <span class="o">(</span><span class="n">map</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span>  
+           <span class="n">map</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">value</span><span class="o">);</span>  
+       <span class="k">else</span>  
+           <span class="nf">createMap</span><span class="o">(</span><span class="n">t</span><span class="o">,</span> <span class="n">value</span><span class="o">);</span>  
+       <span class="k">return</span> <span class="n">value</span><span class="o">;</span>  
+   <span class="o">}</span>  
+</code></pre>
+</div>
+
+<p>获取和当前线程绑定的值时，ThreadLocalMap对象是以this指向的ThreadLocal对象为键进行查找的，这当然和前面set()方法的代码是相呼应的。<br /></p>
+
+<p>进一步地，我们可以创建不同的ThreadLocal实例来实现多个变量在不同线程间的访问隔离，为什么可以这么做？因为不同的ThreadLocal对象作为不同键，当然也可以在线程的ThreadLocalMap对象中设置不同的值了。通过ThreadLocal对象，在多线程中共享一个值和多个值的区别，就像你在一个HashMap对象中存储一个键值对和多个键值对一样，仅此而已。<br /></p>
+
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-6">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">java</button>
+                                
+                        </div>
+                        
+                        <!--
+                        <div class="col-md-6">
+                            <div class="small text-right">
+                                <div>    
+                                    <i class="fa fa-comments-o"> </i> 
+                                    <span class="ds-comments">0</span>条评论
+                                </div>
+                                <div>
+                                    <i class="fa fa-share-alt"> </i> 
+                                    <span class="ds-shares">0</span>条转发
+                                </div>  
+                            </div>
+                        </div>
+                        -->
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <!-- donate -->
+                            
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal2">
+    Donate
+</button>
+<div class="modal inmodal" id="myModal2" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated flipInY">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Donate Me</h4>
+                <small class="font-bold">Thanks for your support!</small>
+            </div>
+            <div class="modal-body">
+                <div class="tabbable" id="tabs-960227">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#panel-405278" data-toggle="tab">Alipay</a>
+                        </li>
+                        <li>
+                            <a href="#panel-874705" data-toggle="tab">Wechat</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="panel-405278">
+                            <div class="text-center">
+                                <img src="/static/img/pay/alipay.png"" height="250" width="250">
+                            </div>    
+                        </div>
+                        <div class="tab-pane" id="panel-874705">
+                            <div class="text-center">
+                                <img src="/static/img/pay/wechat.png"" height="250" width="250">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+                            
+                            <br>
+                            <!-- share -->
+                            
+                                
+<!--分享-->
+<div class="row" style="margin-top:30px;">
+	<h2>Share:</h2>
+    <div class="social-share" style="margin-left:-5px;"data-sites="wechat,qq,qzone,weibo"></div> 
+</div>
+<link rel="stylesheet" href="/static/css/share.min.css">
+<script src="/static/js/jquery.share.min.js"></script>
+<script src="/static/js/embed.js"></script>
+
+<script>
+  var url = 'http://localhost:4000/java/2012/11/16/java-threadlocal.html';
+  var source = 'http://localhost:4000/java/2012/11/16/java-threadlocal.html';
+  var title = 'Java ThreadLocal';
+  var excerpt = $("p:eq(0)").text();
+  
+  var imageUrl = 'http://localhost:4000/static/img/landing/header_one.jpg';
+  var imgEle = $(".content_img:eq(0)");
+  if (imgEle) {
+    imageUrl = imgEle.attr("src");
+  }
+
+  var $config = {
+      url: url, // 网址，默认使用 window.location.href
+      source: source, // 来源（QQ空间会用到）, 默认读取head标签：<meta name="site" content="http://overtrue" />
+      title: title, // 标题，默认读取 document.title 或者 <meta name="title" content="share.js" />
+      description: excerpt, // 描述, 默认读取head标签：<meta name="description" content="PHP弱类型的实现原理分析" />
+      image: imageUrl, // 图片, 默认取网页中第一个img标签
+      sites: ['qzone', 'qq', 'weibo','wechat','douban'], // 启用的站点
+      //disabled: ['google', 'facebook', 'twitter'], // 禁用的站点
+      wechatQrcodeTitle: "微信扫一扫：分享", // 微信二维码提示文字
+      wechatQrcodeHelper: '<p style="font-size:10px;">微信里点“发现”，扫一下</p><p style="font-size:10px;">二维码便可将本文分享至朋友圈。</p>',
+   };
+  $('.social-share').share($config);
+</script>
+
+
+
+
+                            
+                            <br>
+                            <!-- comment -->
+                            <!--
+
+
+
+-->
+
+<!-- 多说评论框 start -->
+<div class="row" style="margin-top:25px;"></div>
+<div class="ds-thread" data-thread-key="/java/2012/11/16/java-threadlocal.html" data-title="Java ThreadLocal" data-url="http://localhost:4000/java/2012/11/16/java-threadlocal.html"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+	var duoshuoQuery = {short_name:"kinglyjn"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+<!-- 多说公共JS代码 end -->
+
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+	
+	    <script src="/static/js/scroll.js"></script>
+
+<!-- Baidu analytics -->
+
+
+<!-- Google analytics -->
+
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-73784599-1', 'auto');
+    ga('send', 'pageview');
+
+  </script>
+
+
+<!--
+
+-->
+
+<!--
+
+-->
+
+<script async src="/static/js/count_page.js"></script>
+
+	
+
+</body>
+</html>

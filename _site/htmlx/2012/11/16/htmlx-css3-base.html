@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html>
+	
+	    <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+    <meta content="css3基本样式汇总" name="description">
+  
+  
+    <meta name="keywords" content="css3基本样式汇总,css3,css,kinglyjn">
+  
+  <meta name="author" content="KinglyJn">
+
+  <title>
+    
+        KinglyJn|css3基本样式汇总
+    
+  </title>
+  <!-- favicon -->
+  <link rel="shortcut icon" href="/static/img/favicon.ico">
+
+  <!-- Third-party CSS -->
+  <link href="/bower_components/normalize-css/normalize.min.css" rel="stylesheet">
+  <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/bower_components/animate.css/animate.min.css" rel="stylesheet">
+  <link href="/bower_components/components-font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="/static/font-mfizz/font-mfizz.css" rel="stylesheet">
+  <!-- <link href="/bower_components/toastr/toastr.min.css" rel="stylesheet"> -->
+  <link href="/bower_components/jquery.gritter/css/jquery.gritter.css" rel="stylesheet">
+  <link rel="stylesheet" href="/search/css/cb-search.css">
+
+  <!-- Custom styles for this template -->
+  <link href="/static/css/style.min.css" rel="stylesheet">
+  <link href="/static/css/pygments.css" rel="stylesheet">
+
+  <!-- Scripts -->
+  <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="/search/js/bootstrap3-typeahead.min.js"></script>
+
+  <!-- cb-search -->
+  <script src="/search/js/cb-search.js"></script>
+  <script>
+    $(function(){
+        $("pre").css('display','block');
+    });
+  </script>
+  <!-- Mainly scripts -->
+  <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="/bower_components/metisMenu/dist/metisMenu.min.js"></script>
+  <script src="/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+
+  <!-- Peity -->
+  <script src="/bower_components/peity/jquery.peity.min.js"></script>
+
+  <script src="/bower_components/PACE/pace.min.js"></script>
+  <script src="/bower_components/wow/dist/wow.min.js"></script>
+  <!-- Custom and plugin javascript -->
+  <script src="/static/js/inspinia.js"></script>
+
+  <!-- Rickshaw -->
+  <script src="/bower_components/rickshaw/vendor/d3.v3.js"></script>
+  <script src="/bower_components/rickshaw/rickshaw.min.js"></script>
+
+
+  <!-- jPages -->
+  <script src="/static/js/jPages.js"></script>
+  <script src="/static/js/js.js"></script>
+  <script type="text/javascript">
+        $(function(){
+          /* initiate the plugin */
+          $("div.pag-holder").jPages({
+              containerID  : "pag-itemContainer",
+              perPage      : 10,  /* num of items per page */
+              startPage    : 1,
+              startRange   : 1,
+              midRange     : 3,
+              endRange     : 1
+          });
+
+          $("div.pag-jump button").click(function(){
+            var page = parseInt($("div.pag-jump input").val());
+            $("div.pag-holder").jPages(page);
+          });
+
+          $("div.pag-jump input").on("keypress", function(){
+            var e=e||window.event;
+            if (e.keyCode == 13) {
+                var page = parseInt($("div.pag-jump input").val());
+                $("div.pag-holder").jPages(page);
+            } 
+          });
+      });
+  </script>
+
+<!-- GrowingIO -->
+
+  <script>
+    var _vds = _vds || [];
+    window._vds = _vds;
+    (function(){
+      _vds.push(['setAccountId', 'a49d4901c7853da9']);
+      (function() {
+        var vds = document.createElement('script');
+        vds.type='text/javascript';
+        vds.async = true;
+        vds.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'dn-growing.qbox.me/vds.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(vds, s);
+      })();
+    })();
+  </script>
+
+
+</head>
+
+	
+
+
+<body id="page-top" class="landing-page">
+
+	
+	    
+
+<!--修复手机端横轴方向左右滑动BUG-->
+<style type="text/css">
+    .landing-page .row {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+</style>
+
+<div class="search-tool"
+      style="position: fixed; top: 0px ; bottom: 0px; left: 0px; right:  0px; opacity: 0.95; background-color: #111111; z-index: 9999; display: none;">
+    <input type="text" class="form-control search-content" id="search-content" style="position: fixed; top: 60px" placeholder="Search Blog">
+
+    <div style="position: fixed; top: 16px; right: 16px; z-index: 9999;">
+        <img src="/search/img/cb-close.png" id="close-btn"/>
+    </div>
+</div>
+
+<div style="position: fixed; right: 16px; bottom: 20px; z-index: 9999;">
+    <img src="/search/img/cb-search.png"  id="search-btn"  title="Double click Ctrl"/>
+</div>
+
+<div class="navbar-wrapper">
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header page-scroll">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/">KinglyJn</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a class="page-scroll" href="/blog/"></a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/blog/">Blog</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/linux/">Linux</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/cloud/">Cloud</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/java/">Java</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/c/">C</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/php/">PHP</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/db/">DB</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/htmlx/">HTMLX</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/life/">Life</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/art/">Art</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/other/">Other</a></li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </nav>
+</div>
+<div id="inSlider" class="carousel carousel-fade" data-ride="carousel">
+    <div style="position:absolute;float:left;left:25%;z-index:15;width:50%;margin-bottom:18%;bottom:0;text-align:center;list-style:none;">
+        <span style="color:white;font-size:24px;">以平实之心写作</span><br>
+        <span style="color:white;font-size:13px;">writing with simple heart ♬. </span>
+    </div>
+    <!--
+    <ol class="carousel-indicators">
+        <li data-target="#inSlider" data-slide-to="0" class="active"></li>
+        <li data-target="#inSlider" data-slide-to="1"></li>
+    </ol>
+    -->
+    <div class="carousel-inner" role="listbox">
+        <div class="item active">
+            <div class="container">
+                <div class="carousel-caption">
+                </div>
+                <div class="carousel-image wow zoomIn">
+                    <!-- <img src="static/img/landing/laptop.png" alt="laptop"/> -->
+                </div>
+            </div>
+            <!-- Set background for slide in css -->
+            <div class="header-back blog-one"></div>
+        </div>
+        <!--
+        <div class="item">
+            <div class="container">
+                <div class="carousel-caption blank">
+                </div>
+            </div>
+            Set background for slide in css
+            <div class="header-back two"></div>
+        </div>
+        -->
+    </div>
+    <!--
+    <a class="left carousel-control" href="#inSlider" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#inSlider" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+    -->
+</div>
+
+
+	
+
+    <div class="wrapper wrapper-content  animated fadeInRight article">
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <div class="pull-right">
+                    	
+                        	<button class="btn btn-white btn-xs" type="button">HTMLX</button>
+                        
+                    </div>
+                    <div class="text-center article-title" style="margin-bottom:50px;">
+                        <h1>
+                            css3基本样式汇总
+                        </h1>
+                        <a href="http://www.keyllo.com/studio/">
+                            <span class="text-muted"><i class="fa fa-user"></i> KinglyJn</span>
+                        </a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <span class="text-muted"><i class="fa fa-clock-o"></i> 2012-11-16</span>
+                    </div>
+                    	<p>背景</p>
+
+<div class="language-css highlighter-rouge"><pre class="highlight"><code><span class="nt">background-attachment</span> <span class="c">/*背景图像是否固定或随着页面的奇遇部分滚动 fixed*/</span>
+<span class="nt">background-color</span>
+<span class="nt">background-image</span>      <span class="c">/*url("xxx.jpg")*/</span>
+<span class="nt">background-repeat</span>     <span class="c">/*设置背景图片是否及如何重复 repeat no-repeat repeat-x repat-y*/</span>
+<span class="nt">background-position</span>   <span class="c">/*center center   50% 50%   100px 100px*/</span>
+</code></pre>
+</div>
+
+<p>文本</p>
+
+<div class="language-css highlighter-rouge"><pre class="highlight"><code><span class="nt">color</span>            <span class="c">/*颜色*/</span>
+<span class="nt">derection</span>        <span class="c">/*文本方向*/</span>
+<span class="nt">line-height</span>      <span class="c">/*行高*/</span>
+<span class="nt">letter-spacing</span>   <span class="c">/*字符间距*/</span>
+<span class="nt">text-align</span>       <span class="c">/*对齐元素中的文本  center left right	*/</span>
+<span class="nt">text-decoration</span>  <span class="c">/*向文本添加修饰*/</span>
+<span class="nt">text-indent</span>      <span class="c">/*缩进元素中文本的首行 2em  -2em  16px  -16px*/</span>
+<span class="nt">text-transform</span>   <span class="c">/*元素中的字符  单词首字母大写capitalize 全小写lowercase 全大写uppercase*/</span>
+<span class="nt">white-space</span>      <span class="c">/*元素中空白的处理方式*/</span>
+<span class="nt">word-spacing</span>     <span class="c">/*字间距*/</span>
+<span class="nt">text-shadow</span>      <span class="c">/*文本阴影  2px 2px 5px green  阴影距左位置 阴影距上位置 阴影清晰度的设置[模糊半径blur] 背景颜色*/</span>
+<span class="nt">text-wrap</span>        <span class="c">/*需配合长宽使用  正常换行normal*/</span> 
+</code></pre>
+</div>
+
+<p>字体</p>
+
+<div class="language-css highlighter-rouge"><pre class="highlight"><code><span class="nt">font-family</span>
+<span class="nt">font-size</span>     <span class="c">/*20px*/</span>
+<span class="nt">font-style</span>    <span class="c">/*字体风格*/</span>
+<span class="nt">font-variant</span>  <span class="c">/*以小型大写字体或正常字体显示文本*/</span>
+<span class="nt">font-weight</span>   <span class="c">/*设置字体的粗细 */</span>
+</code></pre>
+</div>
+
+<p>引用自定义字体文件</p>
+
+<div class="language-css highlighter-rouge"><pre class="highlight"><code><span class="k">@font-face</span> <span class="p">{</span>
+    <span class="nl">font-family</span><span class="p">:</span> <span class="n">myfont</span><span class="p">;</span>
+    <span class="nl">src</span><span class="p">:</span><span class="sx">url("字体文件的路径")</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nt">p</span> <span class="p">{</span>
+    <span class="nl">font-family</span><span class="p">:</span> <span class="n">myfont</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>a标记的四种状态</p>
+
+<div class="language-css highlighter-rouge"><pre class="highlight"><code><span class="nt">a</span><span class="nd">:link</span> <span class="p">{</span><span class="nl">text-decoration</span><span class="p">:</span><span class="nb">none</span><span class="p">;</span><span class="err">...</span><span class="p">}</span>
+<span class="nt">a</span><span class="nd">:hover</span> <span class="p">{}</span>
+<span class="nt">a</span><span class="nd">:active</span> <span class="p">{}</span>
+<span class="nt">a</span><span class="nd">:visited</span> <span class="p">{}</span>
+</code></pre>
+</div>
+
+<p>列表</p>
+
+<div class="language-css highlighter-rouge"><pre class="highlight"><code><span class="nt">ul</span> <span class="nt">li</span><span class="p">{</span>
+	<span class="nl">list-style</span><span class="p">:</span><span class="nb">circle</span><span class="p">;</span>   <span class="c">/*简写列表项设置 */</span>
+	<span class="c">/*list-style-type: circle;  列表类型  空心圆效果 */</span>
+	<span class="c">/*list-style-image:url("image1.jpg");  列表项图片位置 */</span>
+	<span class="c">/*list-style-position:inherit; /*inherit inside outside */</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>表格</p>
+
+<div class="language-css highlighter-rouge"><pre class="highlight"><code><span class="nt">border</span><span class="nd">:1px</span> <span class="nt">solid</span> <span class="nt">blue</span><span class="o">;</span>    <span class="c">/*边框*/</span>
+<span class="nt">border-left</span><span class="nd">:0</span><span class="o">;</span>
+<span class="nt">border-collapse</span><span class="nd">:collapse</span><span class="o">;</span> <span class="c">/*单线折叠边框*/</span>
+<span class="nt">width</span><span class="nd">:400px</span><span class="o">;</span>
+<span class="nt">background-color</span><span class="nd">:brown</span><span class="o">;</span>
+</code></pre>
+</div>
+
+<p>轮廓</p>
+
+<div class="language-css highlighter-rouge"><pre class="highlight"><code><span class="nt">outline</span>        <span class="c">/*设置轮廓属性*/</span>
+<span class="nt">outline-color</span>  <span class="c">/*轮廓颜色*/</span>
+<span class="nt">outline-style</span>  <span class="c">/*轮廓样式*/</span>
+<span class="nt">outline-width</span>  <span class="c">/*轮廓宽度*/</span>
+</code></pre>
+</div>
+
+<p>属性选择器模糊匹配</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>根据部分属性值选择：
+如果需要根据属性值中的词列表的某个词进行选择，则需要使用波浪号（~）。
+假设您想选择 class 属性中包含 important 的元素，可以用下面这个选择器做到这一点：
+p[class~="important"] {color: red;} 
+如果忽略了波浪号，则说明需要完成完全值匹配。
+
+
+部分值属性选择器与点号类名记法的区别：
+该选择器等价于我们在类选择器中讨论过的点号类名记法。
+也就是说，p.important 和 p["important"] 应用到 HTML 文档时是等价的。
+那么，为什么还要有 "~=" 属性选择器呢？因为它能用于任何属性，而不只是 class。
+例如，可以有一个包含大量图像的文档，其中只有一部分是图片。对此，可以使用一个基于 title 文档的部分属性选择器，只选择这些图片：
+img[title~="Figure"] {border: 1px solid gray;}
+这个规则会选择 title 文本包含 "Figure" 的所有图像。没有 title 属性或者 title 属性中不包含 "Figure" 的图像都不会匹配。
+
+
+子串匹配属性选择器
+下面为您介绍一个更高级的选择器模块，它是 CSS2 完成之后发布的，其中包含了更多的部分值属性选择器。
+按照规范的说法，应该称之为“子串匹配属性选择器”。很多现代浏览器都支持这些选择器，包括 IE7。
+下表是对这些选择器的简单总结：
+类型	            描述
+------------------------------------------------------
+[abc^="def"]	选择 abc 属性值以 "def" 开头的所有元素
+[abc$="def"]	选择 abc 属性值以 "def" 结尾的所有元素
+[abc*="def"]	选择 abc 属性值中包含子串 "def" 的所有元素
+------------------------------------------------------
+可以想到，这些选择有很多用途。
+举例来说，如果希望对指向 W3School 的所有链接应用样式，不必为所有这些链接指定 class，再根据这个类编写样式，而只需编写以下规则：
+a[href*="w3school.com.cn"] {color: red;}
+</code></pre>
+</div>
+<p><br /></p>
+
+
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-6">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">css</button>
+                                
+                        </div>
+                        
+                        <!--
+                        <div class="col-md-6">
+                            <div class="small text-right">
+                                <div>    
+                                    <i class="fa fa-comments-o"> </i> 
+                                    <span class="ds-comments">0</span>条评论
+                                </div>
+                                <div>
+                                    <i class="fa fa-share-alt"> </i> 
+                                    <span class="ds-shares">0</span>条转发
+                                </div>  
+                            </div>
+                        </div>
+                        -->
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <!-- donate -->
+                            
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal2">
+    Donate
+</button>
+<div class="modal inmodal" id="myModal2" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated flipInY">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Donate Me</h4>
+                <small class="font-bold">Thanks for your support!</small>
+            </div>
+            <div class="modal-body">
+                <div class="tabbable" id="tabs-960227">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#panel-405278" data-toggle="tab">Alipay</a>
+                        </li>
+                        <li>
+                            <a href="#panel-874705" data-toggle="tab">Wechat</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="panel-405278">
+                            <div class="text-center">
+                                <img src="/static/img/pay/alipay.png"" height="250" width="250">
+                            </div>    
+                        </div>
+                        <div class="tab-pane" id="panel-874705">
+                            <div class="text-center">
+                                <img src="/static/img/pay/wechat.png"" height="250" width="250">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+                            
+                            <br>
+                            <!-- share -->
+                            
+                                
+<!--分享-->
+<div class="row" style="margin-top:30px;">
+	<h2>Share:</h2>
+    <div class="social-share" style="margin-left:-5px;"data-sites="wechat,qq,qzone,weibo"></div> 
+</div>
+<link rel="stylesheet" href="/static/css/share.min.css">
+<script src="/static/js/jquery.share.min.js"></script>
+<script src="/static/js/embed.js"></script>
+
+<script>
+  var url = 'http://localhost:4000/htmlx/2012/11/16/htmlx-css3-base.html';
+  var source = 'http://localhost:4000/htmlx/2012/11/16/htmlx-css3-base.html';
+  var title = 'css3基本样式汇总';
+  var excerpt = $("p:eq(0)").text();
+  
+  var imageUrl = 'http://localhost:4000/static/img/landing/header_one.jpg';
+  var imgEle = $(".content_img:eq(0)");
+  if (imgEle) {
+    imageUrl = imgEle.attr("src");
+  }
+
+  var $config = {
+      url: url, // 网址，默认使用 window.location.href
+      source: source, // 来源（QQ空间会用到）, 默认读取head标签：<meta name="site" content="http://overtrue" />
+      title: title, // 标题，默认读取 document.title 或者 <meta name="title" content="share.js" />
+      description: excerpt, // 描述, 默认读取head标签：<meta name="description" content="PHP弱类型的实现原理分析" />
+      image: imageUrl, // 图片, 默认取网页中第一个img标签
+      sites: ['qzone', 'qq', 'weibo','wechat','douban'], // 启用的站点
+      //disabled: ['google', 'facebook', 'twitter'], // 禁用的站点
+      wechatQrcodeTitle: "微信扫一扫：分享", // 微信二维码提示文字
+      wechatQrcodeHelper: '<p style="font-size:10px;">微信里点“发现”，扫一下</p><p style="font-size:10px;">二维码便可将本文分享至朋友圈。</p>',
+   };
+  $('.social-share').share($config);
+</script>
+
+
+
+
+                            
+                            <br>
+                            <!-- comment -->
+                            <!--
+
+
+
+-->
+
+<!-- 多说评论框 start -->
+<div class="row" style="margin-top:25px;"></div>
+<div class="ds-thread" data-thread-key="/htmlx/2012/11/16/htmlx-css3-base.html" data-title="css3基本样式汇总" data-url="http://localhost:4000/htmlx/2012/11/16/htmlx-css3-base.html"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+	var duoshuoQuery = {short_name:"kinglyjn"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+<!-- 多说公共JS代码 end -->
+
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+	
+	    <script src="/static/js/scroll.js"></script>
+
+<!-- Baidu analytics -->
+
+
+<!-- Google analytics -->
+
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-73784599-1', 'auto');
+    ga('send', 'pageview');
+
+  </script>
+
+
+<!--
+
+-->
+
+<!--
+
+-->
+
+<script async src="/static/js/count_page.js"></script>
+
+	
+
+</body>
+</html>

@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html>
+	
+	    <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+    <meta content="nexus（Maven仓库私服）的安装、配置、使用和仓库迁移" name="description">
+  
+  
+    <meta name="keywords" content="nexus,maven,linux,kinglyjn,张庆力">
+  
+  <meta name="author" content="KinglyJn">
+
+  <title>
+    
+        KinglyJn|nexus（Maven仓库私服）的安装、配置、使用和仓库迁移
+    
+  </title>
+  <!-- favicon -->
+  <link rel="shortcut icon" href="/static/img/favicon.ico">
+
+  <!-- Third-party CSS -->
+  <link href="/bower_components/normalize-css/normalize.min.css" rel="stylesheet">
+  <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/bower_components/animate.css/animate.min.css" rel="stylesheet">
+  <link href="/bower_components/components-font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="/static/font-mfizz/font-mfizz.css" rel="stylesheet">
+  <!-- <link href="/bower_components/toastr/toastr.min.css" rel="stylesheet"> -->
+  <link href="/bower_components/jquery.gritter/css/jquery.gritter.css" rel="stylesheet">
+  <link rel="stylesheet" href="/search/css/cb-search.css">
+
+  <!-- Custom styles for this template -->
+  <link href="/static/css/style.min.css" rel="stylesheet">
+  <link href="/static/css/pygments.css" rel="stylesheet">
+
+  <!-- Scripts -->
+  <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="/search/js/bootstrap3-typeahead.min.js"></script>
+
+  <!-- cb-search -->
+  <script src="/search/js/cb-search.js"></script>
+  <script>
+    $(function(){
+        $("pre").css('display','block');
+    });
+  </script>
+  <!-- Mainly scripts -->
+  <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="/bower_components/metisMenu/dist/metisMenu.min.js"></script>
+  <script src="/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+
+  <!-- Peity -->
+  <script src="/bower_components/peity/jquery.peity.min.js"></script>
+
+  <script src="/bower_components/PACE/pace.min.js"></script>
+  <script src="/bower_components/wow/dist/wow.min.js"></script>
+  <!-- Custom and plugin javascript -->
+  <script src="/static/js/inspinia.js"></script>
+
+  <!-- Rickshaw -->
+  <script src="/bower_components/rickshaw/vendor/d3.v3.js"></script>
+  <script src="/bower_components/rickshaw/rickshaw.min.js"></script>
+
+
+  <!-- jPages -->
+  <script src="/static/js/jPages.js"></script>
+  <script src="/static/js/js.js"></script>
+  <script type="text/javascript">
+        $(function(){
+          /* initiate the plugin */
+          $("div.pag-holder").jPages({
+              containerID  : "pag-itemContainer",
+              perPage      : 10,  /* num of items per page */
+              startPage    : 1,
+              startRange   : 1,
+              midRange     : 3,
+              endRange     : 1
+          });
+
+          $("div.pag-jump button").click(function(){
+            var page = parseInt($("div.pag-jump input").val());
+            $("div.pag-holder").jPages(page);
+          });
+
+          $("div.pag-jump input").on("keypress", function(){
+            var e=e||window.event;
+            if (e.keyCode == 13) {
+                var page = parseInt($("div.pag-jump input").val());
+                $("div.pag-holder").jPages(page);
+            } 
+          });
+      });
+  </script>
+
+<!-- GrowingIO -->
+
+  <script>
+    var _vds = _vds || [];
+    window._vds = _vds;
+    (function(){
+      _vds.push(['setAccountId', 'a49d4901c7853da9']);
+      (function() {
+        var vds = document.createElement('script');
+        vds.type='text/javascript';
+        vds.async = true;
+        vds.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'dn-growing.qbox.me/vds.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(vds, s);
+      })();
+    })();
+  </script>
+
+
+</head>
+
+	
+
+
+<body id="page-top" class="landing-page">
+
+	
+	    
+
+<!--修复手机端横轴方向左右滑动BUG-->
+<style type="text/css">
+    .landing-page .row {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+</style>
+
+<div class="search-tool"
+      style="position: fixed; top: 0px ; bottom: 0px; left: 0px; right:  0px; opacity: 0.95; background-color: #111111; z-index: 9999; display: none;">
+    <input type="text" class="form-control search-content" id="search-content" style="position: fixed; top: 60px" placeholder="Search Blog">
+
+    <div style="position: fixed; top: 16px; right: 16px; z-index: 9999;">
+        <img src="/search/img/cb-close.png" id="close-btn"/>
+    </div>
+</div>
+
+<div style="position: fixed; right: 16px; bottom: 20px; z-index: 9999;">
+    <img src="/search/img/cb-search.png"  id="search-btn"  title="Double click Ctrl"/>
+</div>
+
+<div class="navbar-wrapper">
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header page-scroll">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/">KinglyJn</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a class="page-scroll" href="/blog/"></a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/blog/">Blog</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/linux/">Linux</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/cloud/">Cloud</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/java/">Java</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/c/">C</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/php/">PHP</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/db/">DB</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/htmlx/">HTMLX</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/life/">Life</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/art/">Art</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/other/">Other</a></li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </nav>
+</div>
+<div id="inSlider" class="carousel carousel-fade" data-ride="carousel">
+    <div style="position:absolute;float:left;left:25%;z-index:15;width:50%;margin-bottom:18%;bottom:0;text-align:center;list-style:none;">
+        <span style="color:white;font-size:24px;">以平实之心写作</span><br>
+        <span style="color:white;font-size:13px;">writing with simple heart ♬. </span>
+    </div>
+    <!--
+    <ol class="carousel-indicators">
+        <li data-target="#inSlider" data-slide-to="0" class="active"></li>
+        <li data-target="#inSlider" data-slide-to="1"></li>
+    </ol>
+    -->
+    <div class="carousel-inner" role="listbox">
+        <div class="item active">
+            <div class="container">
+                <div class="carousel-caption">
+                </div>
+                <div class="carousel-image wow zoomIn">
+                    <!-- <img src="static/img/landing/laptop.png" alt="laptop"/> -->
+                </div>
+            </div>
+            <!-- Set background for slide in css -->
+            <div class="header-back blog-one"></div>
+        </div>
+        <!--
+        <div class="item">
+            <div class="container">
+                <div class="carousel-caption blank">
+                </div>
+            </div>
+            Set background for slide in css
+            <div class="header-back two"></div>
+        </div>
+        -->
+    </div>
+    <!--
+    <a class="left carousel-control" href="#inSlider" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#inSlider" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+    -->
+</div>
+
+
+	
+
+    <div class="wrapper wrapper-content  animated fadeInRight article">
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <div class="pull-right">
+                    	
+                        	<button class="btn btn-white btn-xs" type="button">Linux</button>
+                        
+                    </div>
+                    <div class="text-center article-title" style="margin-bottom:50px;">
+                        <h1>
+                            nexus（Maven仓库私服）的安装、配置、使用和仓库迁移
+                        </h1>
+                        <a href="http://www.keyllo.com/studio/">
+                            <span class="text-muted"><i class="fa fa-user"></i> KinglyJn</span>
+                        </a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <span class="text-muted"><i class="fa fa-clock-o"></i> 2016-12-12</span>
+                    </div>
+                    	<h3 id="简介">简介</h3>
+<p>Nexus下载：<a href="http://www.sonatype.org/nexus/">点击进入</a><br />
+Nexus 是Maven仓库管理器，如果你使用Maven，你可以从Maven中央仓库 下载所需要的构件（artifact），但这通常不是一个好的做法，你应该在本地架设一个Maven仓库服务器，在代理远程仓库的同时维护本地仓库，以节省带宽和时间，Nexus就可以满足这样的需要。此外，他还提供了强大的仓库管理功能，构件搜索功能，它基于REST，友好的UI是一个extjs的REST客户端，它占用较少的内存，基于简单文件系统而非数据库。这些优点使其日趋成为最流行的Maven仓库管理器。<br /><br /></p>
+
+<h3 id="nexus安装">Nexus安装</h3>
+<p>安装环境：操作系统：Linux（以CentOS为例）<br />
+将压缩包解压到/usr目录下，nexus里面有2个文件夹，第一个文件夹是核心文件，第二个文件夹用来存储下载下来的jar：
+<img src="http://img.blog.csdn.net/20161212173300431?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:80%;" /><br /><br />
+<img src="http://img.blog.csdn.net/20161212173321880?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:40%;" /><br />
+修改端口，进入nexus/nexubs-2.13.0-01/conf目录下，编辑nexus.properties文件，命令：vim nexus.properties
+<img src="http://img.blog.csdn.net/20161212173405698?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:80%;" /><br /><br />
+<img src="http://img.blog.csdn.net/20161212173422553?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:80%;" /><br />
+启动nexus，进入nexus/nexubs-2.13.0-01/bin目录<br />
+<img src="http://img.blog.csdn.net/20161212173450085?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:40%;" /><br />
+运行命令：./nexus     //可以查看有那些运行命令<br />
+<img src="http://img.blog.csdn.net/20161212173515351?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:80%;" /><br />
+运行命令：./nexus start      //启动nexus<br />
+<img src="http://img.blog.csdn.net/20161212173540558?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:80%;" /><br />
+注意：可能会报错，报上面错误时：需要修改运行的用户，修改运行文件 nexus，命令：vim nexus，将RUN_AS_USER修改为root；
+<img src="http://img.blog.csdn.net/20161212173616761?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:40%;" /><br /><br />
+<img src="http://img.blog.csdn.net/20161212173632887?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:40%;" /><br />
+保存之后，再次启动nexus，运行命令：./nexus start <br />
+<img src="http://img.blog.csdn.net/20161212173711775?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:40%;" /><br />
+查看nexus 控制台，命令：./nexus console<br />
+<img src="http://img.blog.csdn.net/20161212173746776?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:40%;" /><br />
+在浏览器进行访问。地址：http://ip:端口/nexus<br />
+<img src="http://img.blog.csdn.net/20161212173815964?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:80%;" /><br />
+在网页上的右上角进行登录，默认用户名：admin，密码：admin123
+<br /><br /></p>
+
+<h3 id="nexus的使用">nexus的使用</h3>
+<p><strong>常用功能：</strong><br />
+Nexus常用功能就是：指定私服的中央地址、将自己的Maven项目指定到私服地址、从私服下载中央库的项目索引、从私服仓库下载依赖组件、将第三方项目jar上传到私服供其他项目组使用。
+开启Nexus服务后访问url地址http://localhost:8081/nexus/(推荐使用自己的ip地址)，之后登录系统，用户名密码分别是：admin/admin123.
+最频繁的就是点击左侧菜单栏的Repositories按钮
+<img src="http://img.blog.csdn.net/20161212174241968?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:80%;" /><br />
+一般用到的仓库种类是hosted、proxy。Hosted代表宿主仓库，用来发布一些第三方不允许的组件，比如Oracle驱动、比如商业软件jar包。Proxy代表代理远程的仓库，最典型的就是Maven官方中央仓库、JBoss仓库等等。如果构建的Maven项目本地仓库没有依赖包，那么就会去这个代理站点去下载，那么如果代理站点也没有此依赖包，就回去远程中央仓库下载依赖，这些中央仓库就是proxy。代理站点下载成功后再下载至本机。笔者认为，其实Maven这个自带的默认仓库一般情况下已经够大多数项目使用了。特殊情况时在配置新的仓库，指定url即可，一般熟悉ExtJS的人操作这个Nexus都没什么问题，单词不是很难，不明白的查查单词基本差不多。就是如果Sonatype公司对其做了国际化的处理就更好了。</p>
+
+<ul>
+  <li>hosted   类型的仓库，内部项目的发布仓库</li>
+  <li>releases内部的模块中release模块的发布仓库</li>
+  <li>snapshots发布内部的SNAPSHOT模块的仓库</li>
+  <li>3rd party第三方依赖的仓库，这个数据通常是由内部人员自行下载之后发布上去</li>
+  <li>proxy   类型的仓库，从远程中央仓库中寻找数据的仓库</li>
+  <li>group   类型的仓库，组仓库用来方便我们开发人员进行设置的仓库</li>
+</ul>
+
+<p><strong>maven项目索引</strong>
+下载Maven项目索引，项目索引是为了使用者能够在私服站点查找依赖使用的功能
+<img src="http://img.blog.csdn.net/20161212174529787?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:80%;" /><br />
+保存后后台会运行一个任务，点击菜单栏的Scheduled Tasks选项即可看到有个任务在RUNNING。 下载完成后，Maven索引就可以使用了，在搜索栏输入要搜索的项，就可以查到相关的信息。例如spring-core
+<img src="http://img.blog.csdn.net/20161212174639955?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:80%;" /><br />
+就可以检索出它的相关信息，包括怎么配置依赖信息。我们要想使用这个私服仓库，先在项目pom中配置相关私服信息指定仓库</p>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;repositories&gt;</span>  
+    <span class="nt">&lt;repository&gt;</span>  
+        <span class="nt">&lt;id&gt;</span>nexus<span class="nt">&lt;/id&gt;</span>  
+        <span class="nt">&lt;name&gt;</span>nexus<span class="nt">&lt;/name&gt;</span>             
+        <span class="nt">&lt;url&gt;</span>http://xxx:8081/nexus/content/groups/public/<span class="nt">&lt;/url&gt;</span>  
+        <span class="nt">&lt;releases&gt;</span>  
+            <span class="nt">&lt;enabled&gt;</span>true<span class="nt">&lt;/enabled&gt;</span>  
+        <span class="nt">&lt;/releases&gt;</span>  
+        <span class="nt">&lt;snapshots&gt;</span>  
+            <span class="nt">&lt;enabled&gt;</span>true<span class="nt">&lt;/enabled&gt;</span>  
+        <span class="nt">&lt;/snapshots&gt;</span>  
+    <span class="nt">&lt;/repository&gt;</span>  
+<span class="nt">&lt;/repositories&gt;</span> 
+</code></pre>
+</div>
+
+<p>指定插件仓库</p>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;pluginRepositories&gt;</span>  
+    <span class="nt">&lt;pluginRepository&gt;</span>  
+        <span class="nt">&lt;id&gt;</span>nexus<span class="nt">&lt;/id&gt;</span>  
+        <span class="nt">&lt;name&gt;</span>nexus<span class="nt">&lt;/name&gt;</span>        
+        <span class="nt">&lt;url&gt;</span>http://192.168.1.103:8081/nexus/content/groups/public/<span class="nt">&lt;/url&gt;</span>  
+        <span class="nt">&lt;releases&gt;</span>  
+            <span class="nt">&lt;enabled&gt;</span>true<span class="nt">&lt;/enabled&gt;</span>  
+        <span class="nt">&lt;/releases&gt;</span>  
+        <span class="nt">&lt;snapshots&gt;</span>  
+            <span class="nt">&lt;enabled&gt;</span>true<span class="nt">&lt;/enabled&gt;</span>  
+        <span class="nt">&lt;/snapshots&gt;</span>  
+    <span class="nt">&lt;/pluginRepository&gt;</span>  
+<span class="nt">&lt;/pluginRepositories&gt;</span> 
+</code></pre>
+</div>
+<p>这样只有本项目才在私服下载组件
+这样这个Maven项目构建的时候会从私服下载相关依赖。当然这个配置仅仅是在此项目中生效，对于其他项目还是不起作用。如果相对Maven的其他项目也生效的话。需要修改全局的settings.xml文件。</p>
+
+<p>修改settings.xml为<br />
+<img src="http://img.blog.csdn.net/20161212175307037?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:80%;" /><br /></p>
+
+<p>追加激活profile</p>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;activeProfiles&gt;</span>  
+    <span class="nt">&lt;activeProfile&gt;</span>central<span class="nt">&lt;/activeProfile&gt;</span>        
+<span class="nt">&lt;/activeProfiles&gt;</span>  
+</code></pre>
+</div>
+<p>之后所有本机的Maven项目就在私服下载组件。（这样比较好）</p>
+
+<p>项目的发布</p>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;distributionManagement&gt;</span>  
+    <span class="nt">&lt;repository&gt;</span>  
+        <span class="nt">&lt;id&gt;</span>user-release<span class="nt">&lt;/id&gt;</span>  
+        <span class="nt">&lt;name&gt;</span>User Project Release<span class="nt">&lt;/name&gt;</span>       
+        <span class="nt">&lt;url&gt;</span>http://192.168.1.103:8081/nexus/content/repositories/releases/<span class="nt">&lt;/url&gt;</span>  
+    <span class="nt">&lt;/repository&gt;</span>  
+    <span class="nt">&lt;snapshotRepository&gt;</span>  
+	    <span class="nt">&lt;id&gt;</span>user-snapshots<span class="nt">&lt;/id&gt;</span>  
+        <span class="nt">&lt;name&gt;</span>User Project SNAPSHOTS<span class="nt">&lt;/name&gt;</span>    
+        <span class="nt">&lt;url&gt;</span>http://192.168.1.103:8081/nexus/content/repositories/snapshots/<span class="nt">&lt;/url&gt;</span>  
+    <span class="nt">&lt;/snapshotRepository&gt;</span>  
+<span class="nt">&lt;/distributionManagement&gt;</span>
+</code></pre>
+</div>
+<p>注意配置了还是发布项目到私服失败，原因为没有权限<br />
+配置权限在settings.xml<br />
+<img src="http://img.blog.csdn.net/20161212175630429?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:80%;" /><br />
+<img src="http://img.blog.csdn.net/20161212175655600?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:80%;" /><br />
+然后运行发布<br />
+clean deploy<br />
+在控制台发布成功<br />
+然后进入到私服上的仓库中，看一下确实存在刚刚发布的项目<br />
+<img src="http://img.blog.csdn.net/20161212175758664?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:80%;" /><br />
+<br />
+宿主库——3rd party<br />
+假如我们下载了Oracle的驱动程序jar包想给其他项目组使用，就需要上传该jar包。选中宿主库——3rd party，之后选择Artifact Upload上传至宿主空间。 <br />
+<img src="http://img.blog.csdn.net/20161212175859822?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:80%;" /><br />
+<img src="http://img.blog.csdn.net/20161212175926680?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:80%;" /><br />
+最后点击上传<br />
+<img src="http://img.blog.csdn.net/20161212180003964?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:80%;" />
+<br /><br /></p>
+
+<h3 id="索引更新和仓库迁移">索引更新和仓库迁移</h3>
+<p>索引好比目录，只有有了索引，才能根据索引去仓库下载需要的构件jar包。由于中央仓库向全世界提供下载服务，有很多构件，其索引文件也很大，大概1G左右。 <br /></p>
+
+<p><strong>更新索引方式有两种</strong></p>
+
+<ol>
+  <li>在线更新索引
+安装配置完成Nexus后，电脑联网状态下，Nexus会自动下载索引文件。下载好的索引文件存放在目录：sonatype-work\nexus\indexer</li>
+  <li>手动更新索引
+网络环境不佳，或者在线更新有问题时，可以选择手动添加索引方式。
+首先准备这几个文件:
+<img src="http://img.blog.csdn.net/20161212180248088?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:80%;" /><br />
+到http://repo.maven.apache.org/maven2/.index/页面下载下面这两个文件，如图所示文件:
+<img src="http://img.blog.csdn.net/20161212180322182?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:80%;" /><br />
+到http://search.maven.org，搜索g:”org.apache.maven.indexer” AND a:”indexer-cli”下载特定解压文<br />
+indexer-cli-5.1.1.jar，如下图：<br />
+<img src="http://img.blog.csdn.net/20161212180400001?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:80%;" /><br />
+把这几个文件放在同一个文件路径下面，从cmd进入到这个路径里，输入命令：<br /></li>
+</ol>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>java -jar indexer-cli-5.1.1.jar -u nexus-maven-repository-index.gz -d indexer 
+</code></pre>
+</div>
+
+<p>执行完之后，把indexer文件夹下的所有内容都复制到%nexus-home%\sonatype-work\nexus\indexer\central-ctx下面。<br />
+重新启动nexus，进入管理界面，选择central-&gt;Browse Index，就看到更新的索引了。<br />
+注意：nexus是需要重新启动的，我是在做上面的所有步骤之前，先停掉nexus，等上面四个步骤完成之后，再启动nexus的。<br />
+<br /></p>
+
+<p><strong>仓库迁移</strong><br />
+Nexus的构件仓库都保存在sonatype-work目录中，该目录的位置由nexus/conf/nexus.properties配置文件指定。<br />
+仓库迁移需要两个过程：备份和还原<br /></p>
+
+<ul>
+  <li>
+    <p>备份仓库：将sonatype-work文件夹整体备份即可，也可以选择只备份最重要的两个文件夹索引（indexer）和仓库（storage）</p>
+  </li>
+  <li>
+    <p>还原仓库：将备份好的sonatype-work文件拷贝到新的服务器中。然后修改nexus/conf/nexus.properties配置文件，重新指定仓库的目录。</p>
+  </li>
+</ul>
+
+
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-6">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">Linux</button>
+                                
+                        </div>
+                        
+                        <!--
+                        <div class="col-md-6">
+                            <div class="small text-right">
+                                <div>    
+                                    <i class="fa fa-comments-o"> </i> 
+                                    <span class="ds-comments">0</span>条评论
+                                </div>
+                                <div>
+                                    <i class="fa fa-share-alt"> </i> 
+                                    <span class="ds-shares">0</span>条转发
+                                </div>  
+                            </div>
+                        </div>
+                        -->
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <!-- donate -->
+                            
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal2">
+    Donate
+</button>
+<div class="modal inmodal" id="myModal2" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated flipInY">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Donate Me</h4>
+                <small class="font-bold">Thanks for your support!</small>
+            </div>
+            <div class="modal-body">
+                <div class="tabbable" id="tabs-960227">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#panel-405278" data-toggle="tab">Alipay</a>
+                        </li>
+                        <li>
+                            <a href="#panel-874705" data-toggle="tab">Wechat</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="panel-405278">
+                            <div class="text-center">
+                                <img src="/static/img/pay/alipay.png"" height="250" width="250">
+                            </div>    
+                        </div>
+                        <div class="tab-pane" id="panel-874705">
+                            <div class="text-center">
+                                <img src="/static/img/pay/wechat.png"" height="250" width="250">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+                            
+                            <br>
+                            <!-- share -->
+                            
+                                
+<!--分享-->
+<div class="row" style="margin-top:30px;">
+	<h2>Share:</h2>
+    <div class="social-share" style="margin-left:-5px;"data-sites="wechat,qq,qzone,weibo"></div> 
+</div>
+<link rel="stylesheet" href="/static/css/share.min.css">
+<script src="/static/js/jquery.share.min.js"></script>
+<script src="/static/js/embed.js"></script>
+
+<script>
+  var url = 'http://localhost:4000/linux/2016/12/12/nexus.html';
+  var source = 'http://localhost:4000/linux/2016/12/12/nexus.html';
+  var title = 'nexus（Maven仓库私服）的安装、配置、使用和仓库迁移';
+  var excerpt = $("p:eq(0)").text();
+  
+  var imageUrl = 'http://localhost:4000/static/img/landing/header_one.jpg';
+  var imgEle = $(".content_img:eq(0)");
+  if (imgEle) {
+    imageUrl = imgEle.attr("src");
+  }
+
+  var $config = {
+      url: url, // 网址，默认使用 window.location.href
+      source: source, // 来源（QQ空间会用到）, 默认读取head标签：<meta name="site" content="http://overtrue" />
+      title: title, // 标题，默认读取 document.title 或者 <meta name="title" content="share.js" />
+      description: excerpt, // 描述, 默认读取head标签：<meta name="description" content="PHP弱类型的实现原理分析" />
+      image: imageUrl, // 图片, 默认取网页中第一个img标签
+      sites: ['qzone', 'qq', 'weibo','wechat','douban'], // 启用的站点
+      //disabled: ['google', 'facebook', 'twitter'], // 禁用的站点
+      wechatQrcodeTitle: "微信扫一扫：分享", // 微信二维码提示文字
+      wechatQrcodeHelper: '<p style="font-size:10px;">微信里点“发现”，扫一下</p><p style="font-size:10px;">二维码便可将本文分享至朋友圈。</p>',
+   };
+  $('.social-share').share($config);
+</script>
+
+
+
+
+                            
+                            <br>
+                            <!-- comment -->
+                            <!--
+
+
+
+-->
+
+<!-- 多说评论框 start -->
+<div class="row" style="margin-top:25px;"></div>
+<div class="ds-thread" data-thread-key="/linux/2016/12/12/nexus.html" data-title="nexus（Maven仓库私服）的安装、配置、使用和仓库迁移" data-url="http://localhost:4000/linux/2016/12/12/nexus.html"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+	var duoshuoQuery = {short_name:"kinglyjn"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+<!-- 多说公共JS代码 end -->
+
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+	
+	    <script src="/static/js/scroll.js"></script>
+
+<!-- Baidu analytics -->
+
+
+<!-- Google analytics -->
+
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-73784599-1', 'auto');
+    ga('send', 'pageview');
+
+  </script>
+
+
+<!--
+
+-->
+
+<!--
+
+-->
+
+<script async src="/static/js/count_page.js"></script>
+
+	
+
+</body>
+</html>

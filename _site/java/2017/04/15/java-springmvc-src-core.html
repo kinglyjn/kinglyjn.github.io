@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html>
+	
+	    <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+    <meta content="springmvc-4.3.7.RELEASE 核心源码断点分析" name="description">
+  
+  
+    <meta name="keywords" content="springmvc-4.3.7.RELEASE 核心源码断点分析,springmvc,java,kinglyjn">
+  
+  <meta name="author" content="KinglyJn">
+
+  <title>
+    
+        KinglyJn|springmvc-4.3.7.RELEASE 核心源码断点分析
+    
+  </title>
+  <!-- favicon -->
+  <link rel="shortcut icon" href="/static/img/favicon.ico">
+
+  <!-- Third-party CSS -->
+  <link href="/bower_components/normalize-css/normalize.min.css" rel="stylesheet">
+  <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/bower_components/animate.css/animate.min.css" rel="stylesheet">
+  <link href="/bower_components/components-font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="/static/font-mfizz/font-mfizz.css" rel="stylesheet">
+  <!-- <link href="/bower_components/toastr/toastr.min.css" rel="stylesheet"> -->
+  <link href="/bower_components/jquery.gritter/css/jquery.gritter.css" rel="stylesheet">
+  <link rel="stylesheet" href="/search/css/cb-search.css">
+
+  <!-- Custom styles for this template -->
+  <link href="/static/css/style.min.css" rel="stylesheet">
+  <link href="/static/css/pygments.css" rel="stylesheet">
+
+  <!-- Scripts -->
+  <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="/search/js/bootstrap3-typeahead.min.js"></script>
+
+  <!-- cb-search -->
+  <script src="/search/js/cb-search.js"></script>
+  <script>
+    $(function(){
+        $("pre").css('display','block');
+    });
+  </script>
+  <!-- Mainly scripts -->
+  <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="/bower_components/metisMenu/dist/metisMenu.min.js"></script>
+  <script src="/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+
+  <!-- Peity -->
+  <script src="/bower_components/peity/jquery.peity.min.js"></script>
+
+  <script src="/bower_components/PACE/pace.min.js"></script>
+  <script src="/bower_components/wow/dist/wow.min.js"></script>
+  <!-- Custom and plugin javascript -->
+  <script src="/static/js/inspinia.js"></script>
+
+  <!-- Rickshaw -->
+  <script src="/bower_components/rickshaw/vendor/d3.v3.js"></script>
+  <script src="/bower_components/rickshaw/rickshaw.min.js"></script>
+
+
+  <!-- jPages -->
+  <script src="/static/js/jPages.js"></script>
+  <script src="/static/js/js.js"></script>
+  <script type="text/javascript">
+        $(function(){
+          /* initiate the plugin */
+          $("div.pag-holder").jPages({
+              containerID  : "pag-itemContainer",
+              perPage      : 10,  /* num of items per page */
+              startPage    : 1,
+              startRange   : 1,
+              midRange     : 3,
+              endRange     : 1
+          });
+
+          $("div.pag-jump button").click(function(){
+            var page = parseInt($("div.pag-jump input").val());
+            $("div.pag-holder").jPages(page);
+          });
+
+          $("div.pag-jump input").on("keypress", function(){
+            var e=e||window.event;
+            if (e.keyCode == 13) {
+                var page = parseInt($("div.pag-jump input").val());
+                $("div.pag-holder").jPages(page);
+            } 
+          });
+      });
+  </script>
+
+<!-- GrowingIO -->
+
+  <script>
+    var _vds = _vds || [];
+    window._vds = _vds;
+    (function(){
+      _vds.push(['setAccountId', 'a49d4901c7853da9']);
+      (function() {
+        var vds = document.createElement('script');
+        vds.type='text/javascript';
+        vds.async = true;
+        vds.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'dn-growing.qbox.me/vds.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(vds, s);
+      })();
+    })();
+  </script>
+
+
+</head>
+
+	
+
+
+<body id="page-top" class="landing-page">
+
+	
+	    
+
+<!--修复手机端横轴方向左右滑动BUG-->
+<style type="text/css">
+    .landing-page .row {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+</style>
+
+<div class="search-tool"
+      style="position: fixed; top: 0px ; bottom: 0px; left: 0px; right:  0px; opacity: 0.95; background-color: #111111; z-index: 9999; display: none;">
+    <input type="text" class="form-control search-content" id="search-content" style="position: fixed; top: 60px" placeholder="Search Blog">
+
+    <div style="position: fixed; top: 16px; right: 16px; z-index: 9999;">
+        <img src="/search/img/cb-close.png" id="close-btn"/>
+    </div>
+</div>
+
+<div style="position: fixed; right: 16px; bottom: 20px; z-index: 9999;">
+    <img src="/search/img/cb-search.png"  id="search-btn"  title="Double click Ctrl"/>
+</div>
+
+<div class="navbar-wrapper">
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header page-scroll">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/">KinglyJn</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a class="page-scroll" href="/blog/"></a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/blog/">Blog</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/linux/">Linux</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/cloud/">Cloud</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/java/">Java</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/c/">C</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/php/">PHP</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/db/">DB</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/htmlx/">HTMLX</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/life/">Life</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/art/">Art</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/other/">Other</a></li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </nav>
+</div>
+<div id="inSlider" class="carousel carousel-fade" data-ride="carousel">
+    <div style="position:absolute;float:left;left:25%;z-index:15;width:50%;margin-bottom:18%;bottom:0;text-align:center;list-style:none;">
+        <span style="color:white;font-size:24px;">以平实之心写作</span><br>
+        <span style="color:white;font-size:13px;">writing with simple heart ♬. </span>
+    </div>
+    <!--
+    <ol class="carousel-indicators">
+        <li data-target="#inSlider" data-slide-to="0" class="active"></li>
+        <li data-target="#inSlider" data-slide-to="1"></li>
+    </ol>
+    -->
+    <div class="carousel-inner" role="listbox">
+        <div class="item active">
+            <div class="container">
+                <div class="carousel-caption">
+                </div>
+                <div class="carousel-image wow zoomIn">
+                    <!-- <img src="static/img/landing/laptop.png" alt="laptop"/> -->
+                </div>
+            </div>
+            <!-- Set background for slide in css -->
+            <div class="header-back blog-one"></div>
+        </div>
+        <!--
+        <div class="item">
+            <div class="container">
+                <div class="carousel-caption blank">
+                </div>
+            </div>
+            Set background for slide in css
+            <div class="header-back two"></div>
+        </div>
+        -->
+    </div>
+    <!--
+    <a class="left carousel-control" href="#inSlider" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#inSlider" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+    -->
+</div>
+
+
+	
+
+    <div class="wrapper wrapper-content  animated fadeInRight article">
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <div class="pull-right">
+                    	
+                        	<button class="btn btn-white btn-xs" type="button">Java</button>
+                        
+                    </div>
+                    <div class="text-center article-title" style="margin-bottom:50px;">
+                        <h1>
+                            springmvc-4.3.7.RELEASE 核心源码断点分析
+                        </h1>
+                        <a href="http://www.keyllo.com/studio/">
+                            <span class="text-muted"><i class="fa fa-user"></i> KinglyJn</span>
+                        </a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <span class="text-muted"><i class="fa fa-clock-o"></i> 2017-04-15</span>
+                    </div>
+                    	<h3 id="springmvc请求执行流程">springmvc请求执行流程</h3>
+
+<p><img src="http://img.blog.csdn.net/20170415210640025?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" width="100%" /><br /><br /></p>
+
+<h3 id="springmvc核心源码">springmvc核心源码</h3>
+
+<h4 id="核心方法dispatcherservletdodispatcher">核心方法：DispatcherServlet.doDispatcher</h4>
+
+<p>该方法控制着springmvc处理和响应请求的核心流程，源码和注释如下：</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">protected</span> <span class="kt">void</span> <span class="nf">doDispatch</span><span class="o">(</span><span class="n">HttpServletRequest</span> <span class="n">request</span><span class="o">,</span> <span class="n">HttpServletResponse</span> <span class="n">response</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+	<span class="n">HttpServletRequest</span> <span class="n">processedRequest</span> <span class="o">=</span> <span class="n">request</span><span class="o">;</span>
+	<span class="n">HandlerExecutionChain</span> <span class="n">mappedHandler</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+	<span class="kt">boolean</span> <span class="n">multipartRequestParsed</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+
+	<span class="n">WebAsyncManager</span> <span class="n">asyncManager</span> <span class="o">=</span> <span class="n">WebAsyncUtils</span><span class="o">.</span><span class="na">getAsyncManager</span><span class="o">(</span><span class="n">request</span><span class="o">);</span>
+
+	<span class="k">try</span> <span class="o">{</span>
+		<span class="n">ModelAndView</span> <span class="n">mv</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+		<span class="n">Exception</span> <span class="n">dispatchException</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+
+		<span class="k">try</span> <span class="o">{</span>
+			<span class="n">processedRequest</span> <span class="o">=</span> <span class="n">checkMultipart</span><span class="o">(</span><span class="n">request</span><span class="o">);</span>
+			<span class="n">multipartRequestParsed</span> <span class="o">=</span> <span class="o">(</span><span class="n">processedRequest</span> <span class="o">!=</span> <span class="n">request</span><span class="o">);</span>
+
+
+			<span class="c1">// 由 dispatcherServlet.handlerMappings 获取 HandlerExecutionChain 对象</span>
+			<span class="n">mappedHandler</span> <span class="o">=</span> <span class="n">getHandler</span><span class="o">(</span><span class="n">processedRequest</span><span class="o">);</span>
+			<span class="k">if</span> <span class="o">(</span><span class="n">mappedHandler</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="n">mappedHandler</span><span class="o">.</span><span class="na">getHandler</span><span class="o">()</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+				<span class="n">noHandlerFound</span><span class="o">(</span><span class="n">processedRequest</span><span class="o">,</span> <span class="n">response</span><span class="o">);</span>
+				<span class="k">return</span><span class="o">;</span>
+			<span class="o">}</span>
+
+			<span class="c1">// 通过 HandlerExecutionChain 获取 HandlerAdaptor 对象</span>
+			<span class="n">HandlerAdapter</span> <span class="n">ha</span> <span class="o">=</span> <span class="n">getHandlerAdapter</span><span class="o">(</span><span class="n">mappedHandler</span><span class="o">.</span><span class="na">getHandler</span><span class="o">());</span>
+
+			<span class="c1">// Process last-modified header, if supported by the handler.</span>
+			<span class="n">String</span> <span class="n">method</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getMethod</span><span class="o">();</span>
+			<span class="kt">boolean</span> <span class="n">isGet</span> <span class="o">=</span> <span class="s">"GET"</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">method</span><span class="o">);</span>
+			<span class="k">if</span> <span class="o">(</span><span class="n">isGet</span> <span class="o">||</span> <span class="s">"HEAD"</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">method</span><span class="o">))</span> <span class="o">{</span>
+				<span class="kt">long</span> <span class="n">lastModified</span> <span class="o">=</span> <span class="n">ha</span><span class="o">.</span><span class="na">getLastModified</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">mappedHandler</span><span class="o">.</span><span class="na">getHandler</span><span class="o">());</span>
+				<span class="k">if</span> <span class="o">(</span><span class="n">logger</span><span class="o">.</span><span class="na">isDebugEnabled</span><span class="o">())</span> <span class="o">{</span>
+					<span class="n">logger</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">"Last-Modified value for ["</span> <span class="o">+</span> <span class="n">getRequestUri</span><span class="o">(</span><span class="n">request</span><span class="o">)</span> <span class="o">+</span> <span class="s">"] is: "</span> <span class="o">+</span> <span class="n">lastModified</span><span class="o">);</span>
+				<span class="o">}</span>
+				<span class="k">if</span> <span class="o">(</span><span class="k">new</span> <span class="n">ServletWebRequest</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">).</span><span class="na">checkNotModified</span><span class="o">(</span><span class="n">lastModified</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="n">isGet</span><span class="o">)</span> <span class="o">{</span>
+					<span class="k">return</span><span class="o">;</span>
+				<span class="o">}</span>
+			<span class="o">}</span>
+
+
+			<span class="c1">// 通过 HandlerExecutionChain 调用拦截器的 preHandle 方法	</span>
+			<span class="k">if</span> <span class="o">(!</span><span class="n">mappedHandler</span><span class="o">.</span><span class="na">applyPreHandle</span><span class="o">(</span><span class="n">processedRequest</span><span class="o">,</span> <span class="n">response</span><span class="o">))</span> <span class="o">{</span>
+				<span class="k">return</span><span class="o">;</span>
+			<span class="o">}</span>
+
+			<span class="c1">// 通过 HandlerAdaptor 对象调用目标handler的目标方法得到ModelAndView</span>
+			<span class="n">mv</span> <span class="o">=</span> <span class="n">ha</span><span class="o">.</span><span class="na">handle</span><span class="o">(</span><span class="n">processedRequest</span><span class="o">,</span> <span class="n">response</span><span class="o">,</span> <span class="n">mappedHandler</span><span class="o">.</span><span class="na">getHandler</span><span class="o">());</span>
+
+			<span class="k">if</span> <span class="o">(</span><span class="n">asyncManager</span><span class="o">.</span><span class="na">isConcurrentHandlingStarted</span><span class="o">())</span> <span class="o">{</span>
+				<span class="k">return</span><span class="o">;</span>
+			<span class="o">}</span>
+
+			<span class="n">applyDefaultViewName</span><span class="o">(</span><span class="n">processedRequest</span><span class="o">,</span> <span class="n">mv</span><span class="o">);</span>
+
+			<span class="c1">//通过 HandlerExecutionChain 调用拦截器的postHandle方法</span>
+			<span class="n">mappedHandler</span><span class="o">.</span><span class="na">applyPostHandle</span><span class="o">(</span><span class="n">processedRequest</span><span class="o">,</span> <span class="n">response</span><span class="o">,</span> <span class="n">mv</span><span class="o">);</span>
+		<span class="o">}</span>
+		<span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">ex</span><span class="o">)</span> <span class="o">{</span> <span class="c1">//上述调用的过程中如果发生异常</span>
+			<span class="n">dispatchException</span> <span class="o">=</span> <span class="n">ex</span><span class="o">;</span>
+		<span class="o">}</span>
+		<span class="k">catch</span> <span class="o">(</span><span class="n">Throwable</span> <span class="n">err</span><span class="o">)</span> <span class="o">{</span> <span class="c1">//上述调用的过程中如果发生异常</span>
+			<span class="n">dispatchException</span> <span class="o">=</span> <span class="k">new</span> <span class="n">NestedServletException</span><span class="o">(</span><span class="s">"Handler dispatch failed"</span><span class="o">,</span> <span class="n">err</span><span class="o">);</span>
+		<span class="o">}</span>
+
+		<span class="c1">// 由ViewResolver组件根据ModelAndView对象得到实际的View</span>
+		<span class="n">processDispatchResult</span><span class="o">(</span><span class="n">processedRequest</span><span class="o">,</span> <span class="n">response</span><span class="o">,</span> <span class="n">mappedHandler</span><span class="o">,</span> <span class="n">mv</span><span class="o">,</span> <span class="n">dispatchException</span><span class="o">);</span>
+	<span class="o">}</span>
+	<span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">ex</span><span class="o">)</span> <span class="o">{</span>
+		<span class="n">triggerAfterCompletion</span><span class="o">(</span><span class="n">processedRequest</span><span class="o">,</span> <span class="n">response</span><span class="o">,</span> <span class="n">mappedHandler</span><span class="o">,</span> <span class="n">ex</span><span class="o">);</span>
+	<span class="o">}</span>
+	<span class="k">catch</span> <span class="o">(</span><span class="n">Throwable</span> <span class="n">err</span><span class="o">)</span> <span class="o">{</span>
+		<span class="n">triggerAfterCompletion</span><span class="o">(</span><span class="n">processedRequest</span><span class="o">,</span> <span class="n">response</span><span class="o">,</span> <span class="n">mappedHandler</span><span class="o">,</span>
+				<span class="k">new</span> <span class="nf">NestedServletException</span><span class="o">(</span><span class="s">"Handler processing failed"</span><span class="o">,</span> <span class="n">err</span><span class="o">));</span>
+	<span class="o">}</span>
+	<span class="k">finally</span> <span class="o">{</span>
+		<span class="k">if</span> <span class="o">(</span><span class="n">asyncManager</span><span class="o">.</span><span class="na">isConcurrentHandlingStarted</span><span class="o">())</span> <span class="o">{</span>
+			<span class="c1">// Instead of postHandle and afterCompletion</span>
+			<span class="k">if</span> <span class="o">(</span><span class="n">mappedHandler</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+				<span class="n">mappedHandler</span><span class="o">.</span><span class="na">applyAfterConcurrentHandlingStarted</span><span class="o">(</span><span class="n">processedRequest</span><span class="o">,</span> <span class="n">response</span><span class="o">);</span>
+			<span class="o">}</span>
+		<span class="o">}</span>
+		<span class="k">else</span> <span class="o">{</span>
+			<span class="c1">// Clean up any resources used by a multipart request.</span>
+			<span class="k">if</span> <span class="o">(</span><span class="n">multipartRequestParsed</span><span class="o">)</span> <span class="o">{</span>
+				<span class="n">cleanupMultipart</span><span class="o">(</span><span class="n">processedRequest</span><span class="o">);</span>
+			<span class="o">}</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+<p><br /></p>
+
+<h4 id="相关方法">相关方法</h4>
+
+<p>DispatcherServlet.getHandler<br />
+由dispatcherServlet.handlerMappings 获取 HandlerExecutionChain 对象 <br /></p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="cm">/**
+ * Return the HandlerExecutionChain for this request.
+ * &lt;p&gt;Tries all handler mappings in order.
+ * @param request current HTTP request
+ * @return the HandlerExecutionChain, or {@code null} if no handler could be found
+ */</span>
+<span class="kd">protected</span> <span class="n">HandlerExecutionChain</span> <span class="nf">getHandler</span><span class="o">(</span><span class="n">HttpServletRequest</span> <span class="n">request</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+	<span class="k">for</span> <span class="o">(</span><span class="n">HandlerMapping</span> <span class="n">hm</span> <span class="o">:</span> <span class="k">this</span><span class="o">.</span><span class="na">handlerMappings</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">if</span> <span class="o">(</span><span class="n">logger</span><span class="o">.</span><span class="na">isTraceEnabled</span><span class="o">())</span> <span class="o">{</span>
+			<span class="n">logger</span><span class="o">.</span><span class="na">trace</span><span class="o">(</span>
+					<span class="s">"Testing handler map ["</span> <span class="o">+</span> <span class="n">hm</span> <span class="o">+</span> <span class="s">"] in DispatcherServlet with name '"</span> <span class="o">+</span> <span class="n">getServletName</span><span class="o">()</span> <span class="o">+</span> <span class="s">"'"</span><span class="o">);</span>
+		<span class="o">}</span>
+		<span class="n">HandlerExecutionChain</span> <span class="n">handler</span> <span class="o">=</span> <span class="n">hm</span><span class="o">.</span><span class="na">getHandler</span><span class="o">(</span><span class="n">request</span><span class="o">);</span>
+		<span class="k">if</span> <span class="o">(</span><span class="n">handler</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+			<span class="k">return</span> <span class="n">handler</span><span class="o">;</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+	<span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+<p><br /></p>
+
+<p>HandlerExecutionChain.applyPreHandle <br />
+通过 HandlerExecutionChain 调用拦截器的 preHandle 方法<br /></p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="cm">/**
+ * Apply preHandle methods of registered interceptors.
+ * @return {@code true} if the execution chain should proceed with the
+ * next interceptor or the handler itself. Else, DispatcherServlet assumes
+ * that this interceptor has already dealt with the response itself.
+ */</span>
+<span class="kt">boolean</span> <span class="nf">applyPreHandle</span><span class="o">(</span><span class="n">HttpServletRequest</span> <span class="n">request</span><span class="o">,</span> <span class="n">HttpServletResponse</span> <span class="n">response</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+	<span class="n">HandlerInterceptor</span><span class="o">[]</span> <span class="n">interceptors</span> <span class="o">=</span> <span class="n">getInterceptors</span><span class="o">();</span>
+	<span class="k">if</span> <span class="o">(!</span><span class="n">ObjectUtils</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">(</span><span class="n">interceptors</span><span class="o">))</span> <span class="o">{</span>
+		<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">interceptors</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+			<span class="n">HandlerInterceptor</span> <span class="n">interceptor</span> <span class="o">=</span> <span class="n">interceptors</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+			<span class="k">if</span> <span class="o">(!</span><span class="n">interceptor</span><span class="o">.</span><span class="na">preHandle</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="na">handler</span><span class="o">))</span> <span class="o">{</span>
+				<span class="n">triggerAfterCompletion</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+				<span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+			<span class="o">}</span>
+			<span class="k">this</span><span class="o">.</span><span class="na">interceptorIndex</span> <span class="o">=</span> <span class="n">i</span><span class="o">;</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+	<span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+<p><br /></p>
+
+<p>HandlerExecutionChain.applyPostHandle <br />
+通过 HandlerExecutionChain 调用拦截器的postHandle方法 <br /></p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="cm">/**
+ * Apply postHandle methods of registered interceptors.
+ */</span>
+<span class="kt">void</span> <span class="nf">applyPostHandle</span><span class="o">(</span><span class="n">HttpServletRequest</span> <span class="n">request</span><span class="o">,</span> <span class="n">HttpServletResponse</span> <span class="n">response</span><span class="o">,</span> <span class="n">ModelAndView</span> <span class="n">mv</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+	<span class="n">HandlerInterceptor</span><span class="o">[]</span> <span class="n">interceptors</span> <span class="o">=</span> <span class="n">getInterceptors</span><span class="o">();</span>
+	<span class="k">if</span> <span class="o">(!</span><span class="n">ObjectUtils</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">(</span><span class="n">interceptors</span><span class="o">))</span> <span class="o">{</span>
+		<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">interceptors</span><span class="o">.</span><span class="na">length</span> <span class="o">-</span> <span class="mi">1</span><span class="o">;</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">--)</span> <span class="o">{</span>
+			<span class="n">HandlerInterceptor</span> <span class="n">interceptor</span> <span class="o">=</span> <span class="n">interceptors</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+			<span class="n">interceptor</span><span class="o">.</span><span class="na">postHandle</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="na">handler</span><span class="o">,</span> <span class="n">mv</span><span class="o">);</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+<p><br /></p>
+
+<p>HandlerExecutionChain 的 triggerAfterCompletion方法<br />
+通过 HandlerExecutionChain 调用拦截器的afterCompletion方法<br /></p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="cm">/**
+ * Trigger afterCompletion callbacks on the mapped HandlerInterceptors.
+ * Will just invoke afterCompletion for all interceptors whose preHandle invocation
+ * has successfully completed and returned true.
+ */</span>
+<span class="kt">void</span> <span class="nf">triggerAfterCompletion</span><span class="o">(</span><span class="n">HttpServletRequest</span> <span class="n">request</span><span class="o">,</span> <span class="n">HttpServletResponse</span> <span class="n">response</span><span class="o">,</span> <span class="n">Exception</span> <span class="n">ex</span><span class="o">)</span>
+		<span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+
+	<span class="n">HandlerInterceptor</span><span class="o">[]</span> <span class="n">interceptors</span> <span class="o">=</span> <span class="n">getInterceptors</span><span class="o">();</span>
+	<span class="k">if</span> <span class="o">(!</span><span class="n">ObjectUtils</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">(</span><span class="n">interceptors</span><span class="o">))</span> <span class="o">{</span>
+		<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">interceptorIndex</span><span class="o">;</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">--)</span> <span class="o">{</span>
+			<span class="n">HandlerInterceptor</span> <span class="n">interceptor</span> <span class="o">=</span> <span class="n">interceptors</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+			<span class="k">try</span> <span class="o">{</span>
+				<span class="n">interceptor</span><span class="o">.</span><span class="na">afterCompletion</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="na">handler</span><span class="o">,</span> <span class="n">ex</span><span class="o">);</span>
+			<span class="o">}</span>
+			<span class="k">catch</span> <span class="o">(</span><span class="n">Throwable</span> <span class="n">ex2</span><span class="o">)</span> <span class="o">{</span>
+				<span class="n">logger</span><span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="s">"HandlerInterceptor.afterCompletion threw exception"</span><span class="o">,</span> <span class="n">ex2</span><span class="o">);</span>
+			<span class="o">}</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+<p><br /></p>
+
+<p>HandlerExecutionChain的
+applyAfterConcurrentHandlingStarted方法<br /></p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="cm">/**
+ * Apply afterConcurrentHandlerStarted callback on mapped AsyncHandlerInterceptors.
+ */</span>
+<span class="kt">void</span> <span class="nf">applyAfterConcurrentHandlingStarted</span><span class="o">(</span><span class="n">HttpServletRequest</span> <span class="n">request</span><span class="o">,</span> <span class="n">HttpServletResponse</span> <span class="n">response</span><span class="o">)</span> <span class="o">{</span>
+	<span class="n">HandlerInterceptor</span><span class="o">[]</span> <span class="n">interceptors</span> <span class="o">=</span> <span class="n">getInterceptors</span><span class="o">();</span>
+	<span class="k">if</span> <span class="o">(!</span><span class="n">ObjectUtils</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">(</span><span class="n">interceptors</span><span class="o">))</span> <span class="o">{</span>
+		<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">interceptors</span><span class="o">.</span><span class="na">length</span> <span class="o">-</span> <span class="mi">1</span><span class="o">;</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">--)</span> <span class="o">{</span>
+			<span class="k">if</span> <span class="o">(</span><span class="n">interceptors</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="k">instanceof</span> <span class="n">AsyncHandlerInterceptor</span><span class="o">)</span> <span class="o">{</span>
+				<span class="k">try</span> <span class="o">{</span>
+					<span class="n">AsyncHandlerInterceptor</span> <span class="n">asyncInterceptor</span> <span class="o">=</span> <span class="o">(</span><span class="n">AsyncHandlerInterceptor</span><span class="o">)</span> <span class="n">interceptors</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+					<span class="n">asyncInterceptor</span><span class="o">.</span><span class="na">afterConcurrentHandlingStarted</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">,</span> <span class="k">this</span><span class="o">.</span><span class="na">handler</span><span class="o">);</span>
+				<span class="o">}</span>
+				<span class="k">catch</span> <span class="o">(</span><span class="n">Throwable</span> <span class="n">ex</span><span class="o">)</span> <span class="o">{</span>
+					<span class="n">logger</span><span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="s">"Interceptor ["</span> <span class="o">+</span> <span class="n">interceptors</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">+</span> <span class="s">"] failed in afterConcurrentHandlingStarted"</span><span class="o">,</span> <span class="n">ex</span><span class="o">);</span>
+				<span class="o">}</span>
+			<span class="o">}</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+<p><br /></p>
+
+<p>DispatcherServlet的
+processDispatchResult 方法<br />
+渲染视图，最终执行转发操作<br /></p>
+
+<ul>
+  <li>上述调用的过程中是否发生异常，由HandlerExceptionResolver组件处理异常，得到新的ModelAndView对象<br /></li>
+  <li>通过 HandlerExecutionChain 调用拦截器的afterCompletion方法<br /></li>
+</ul>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="cm">/**
+ * Handle the result of handler selection and handler invocation, which is
+ * either a ModelAndView or an Exception to be resolved to a ModelAndView.
+ */</span>
+<span class="kd">private</span> <span class="kt">void</span> <span class="nf">processDispatchResult</span><span class="o">(</span><span class="n">HttpServletRequest</span> <span class="n">request</span><span class="o">,</span> <span class="n">HttpServletResponse</span> <span class="n">response</span><span class="o">,</span>
+		<span class="n">HandlerExecutionChain</span> <span class="n">mappedHandler</span><span class="o">,</span> <span class="n">ModelAndView</span> <span class="n">mv</span><span class="o">,</span> <span class="n">Exception</span> <span class="n">exception</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+
+	<span class="kt">boolean</span> <span class="n">errorView</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+
+	<span class="k">if</span> <span class="o">(</span><span class="n">exception</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">if</span> <span class="o">(</span><span class="n">exception</span> <span class="k">instanceof</span> <span class="n">ModelAndViewDefiningException</span><span class="o">)</span> <span class="o">{</span>
+			<span class="n">logger</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">"ModelAndViewDefiningException encountered"</span><span class="o">,</span> <span class="n">exception</span><span class="o">);</span>
+			<span class="n">mv</span> <span class="o">=</span> <span class="o">((</span><span class="n">ModelAndViewDefiningException</span><span class="o">)</span> <span class="n">exception</span><span class="o">).</span><span class="na">getModelAndView</span><span class="o">();</span>
+		<span class="o">}</span>
+		<span class="k">else</span> <span class="o">{</span>
+			<span class="n">Object</span> <span class="n">handler</span> <span class="o">=</span> <span class="o">(</span><span class="n">mappedHandler</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">?</span> <span class="n">mappedHandler</span><span class="o">.</span><span class="na">getHandler</span><span class="o">()</span> <span class="o">:</span> <span class="kc">null</span><span class="o">);</span>
+
+			<span class="c1">// 上述调用的过程中是否发生异常，由HandlerExceptionResolver组件处理异常，得到新的ModelAndView对象</span>
+			<span class="n">mv</span> <span class="o">=</span> <span class="n">processHandlerException</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">,</span> <span class="n">handler</span><span class="o">,</span> <span class="n">exception</span><span class="o">);</span>
+			<span class="n">errorView</span> <span class="o">=</span> <span class="o">(</span><span class="n">mv</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">);</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+
+	<span class="c1">// Did the handler return a view to render?</span>
+	<span class="c1">// 由ViewResolver组件根据ModelAndView对象得到实际的View</span>
+	<span class="k">if</span> <span class="o">(</span><span class="n">mv</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">mv</span><span class="o">.</span><span class="na">wasCleared</span><span class="o">())</span> <span class="o">{</span>
+		<span class="n">render</span><span class="o">(</span><span class="n">mv</span><span class="o">,</span> <span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">);</span>
+		<span class="k">if</span> <span class="o">(</span><span class="n">errorView</span><span class="o">)</span> <span class="o">{</span>
+			<span class="n">WebUtils</span><span class="o">.</span><span class="na">clearErrorRequestAttributes</span><span class="o">(</span><span class="n">request</span><span class="o">);</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+	<span class="k">else</span> <span class="o">{</span>
+		<span class="k">if</span> <span class="o">(</span><span class="n">logger</span><span class="o">.</span><span class="na">isDebugEnabled</span><span class="o">())</span> <span class="o">{</span>
+			<span class="n">logger</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">"Null ModelAndView returned to DispatcherServlet with name '"</span> <span class="o">+</span> <span class="n">getServletName</span><span class="o">()</span> <span class="o">+</span>
+					<span class="s">"': assuming HandlerAdapter completed request handling"</span><span class="o">);</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+
+	<span class="k">if</span> <span class="o">(</span><span class="n">WebAsyncUtils</span><span class="o">.</span><span class="na">getAsyncManager</span><span class="o">(</span><span class="n">request</span><span class="o">).</span><span class="na">isConcurrentHandlingStarted</span><span class="o">())</span> <span class="o">{</span>
+		<span class="c1">// Concurrent handling started during a forward</span>
+		<span class="k">return</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="k">if</span> <span class="o">(</span><span class="n">mappedHandler</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+		<span class="c1">// 通过 HandlerExecutionChain 调用拦截器的afterCompletion方法</span>
+		<span class="n">mappedHandler</span><span class="o">.</span><span class="na">triggerAfterCompletion</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+<p><br /></p>
+
+<p>DispatcherServlet 的 processHandlerException 方法（由异常解析器处理异常，返回新的异常模型视图对象）</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="cm">/**
+ * Determine an error ModelAndView via the registered HandlerExceptionResolvers.
+ * @param request current HTTP request
+ * @param response current HTTP response
+ * @param handler the executed handler, or {@code null} if none chosen at the time of the exception
+ * (for example, if multipart resolution failed)
+ * @param ex the exception that got thrown during handler execution
+ * @return a corresponding ModelAndView to forward to
+ * @throws Exception if no error ModelAndView found
+ */</span>
+<span class="kd">protected</span> <span class="n">ModelAndView</span> <span class="nf">processHandlerException</span><span class="o">(</span><span class="n">HttpServletRequest</span> <span class="n">request</span><span class="o">,</span> <span class="n">HttpServletResponse</span> <span class="n">response</span><span class="o">,</span>
+		<span class="n">Object</span> <span class="n">handler</span><span class="o">,</span> <span class="n">Exception</span> <span class="n">ex</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+
+	<span class="c1">// Check registered HandlerExceptionResolvers...</span>
+	<span class="c1">// 上述调用的过程中是否发生异常，由HandlerExceptionResolver组件处理异常，得到新的ModelAndView对象</span>
+	<span class="n">ModelAndView</span> <span class="n">exMv</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+	<span class="k">for</span> <span class="o">(</span><span class="n">HandlerExceptionResolver</span> <span class="n">handlerExceptionResolver</span> <span class="o">:</span> <span class="k">this</span><span class="o">.</span><span class="na">handlerExceptionResolvers</span><span class="o">)</span> <span class="o">{</span>
+		<span class="n">exMv</span> <span class="o">=</span> <span class="n">handlerExceptionResolver</span><span class="o">.</span><span class="na">resolveException</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">,</span> <span class="n">handler</span><span class="o">,</span> <span class="n">ex</span><span class="o">);</span>
+		<span class="k">if</span> <span class="o">(</span><span class="n">exMv</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+			<span class="k">break</span><span class="o">;</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+	<span class="k">if</span> <span class="o">(</span><span class="n">exMv</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">if</span> <span class="o">(</span><span class="n">exMv</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span>
+			<span class="n">request</span><span class="o">.</span><span class="na">setAttribute</span><span class="o">(</span><span class="n">EXCEPTION_ATTRIBUTE</span><span class="o">,</span> <span class="n">ex</span><span class="o">);</span>
+			<span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+		<span class="o">}</span>
+		<span class="c1">// We might still need view name translation for a plain error model...</span>
+		<span class="k">if</span> <span class="o">(!</span><span class="n">exMv</span><span class="o">.</span><span class="na">hasView</span><span class="o">())</span> <span class="o">{</span>
+			<span class="n">exMv</span><span class="o">.</span><span class="na">setViewName</span><span class="o">(</span><span class="n">getDefaultViewName</span><span class="o">(</span><span class="n">request</span><span class="o">));</span>
+		<span class="o">}</span>
+		<span class="k">if</span> <span class="o">(</span><span class="n">logger</span><span class="o">.</span><span class="na">isDebugEnabled</span><span class="o">())</span> <span class="o">{</span>
+			<span class="n">logger</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">"Handler execution resulted in exception - forwarding to resolved error view: "</span> <span class="o">+</span> <span class="n">exMv</span><span class="o">,</span> <span class="n">ex</span><span class="o">);</span>
+		<span class="o">}</span>
+		<span class="n">WebUtils</span><span class="o">.</span><span class="na">exposeErrorRequestAttributes</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">ex</span><span class="o">,</span> <span class="n">getServletName</span><span class="o">());</span>
+		<span class="k">return</span> <span class="n">exMv</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="k">throw</span> <span class="n">ex</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+<p><br /></p>
+
+<p>DispatcherServlet.render（渲染视图具体执行方法）</p>
+
+<ul>
+  <li>由ViewResolver组件根据ModelAndView对象得到实际的View<br /></li>
+</ul>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="cm">/**
+ * Render the given ModelAndView.
+ * &lt;p&gt;This is the last stage in handling a request. It may involve resolving the view by name.
+ * @param mv the ModelAndView to render
+ * @param request current HTTP servlet request
+ * @param response current HTTP servlet response
+ * @throws ServletException if view is missing or cannot be resolved
+ * @throws Exception if there's a problem rendering the view
+ */</span>
+<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">render</span><span class="o">(</span><span class="n">ModelAndView</span> <span class="n">mv</span><span class="o">,</span> <span class="n">HttpServletRequest</span> <span class="n">request</span><span class="o">,</span> <span class="n">HttpServletResponse</span> <span class="n">response</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+	<span class="c1">// Determine locale for request and apply it to the response.</span>
+	<span class="n">Locale</span> <span class="n">locale</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">localeResolver</span><span class="o">.</span><span class="na">resolveLocale</span><span class="o">(</span><span class="n">request</span><span class="o">);</span>
+	<span class="n">response</span><span class="o">.</span><span class="na">setLocale</span><span class="o">(</span><span class="n">locale</span><span class="o">);</span>
+
+	<span class="n">View</span> <span class="n">view</span><span class="o">;</span>
+	<span class="k">if</span> <span class="o">(</span><span class="n">mv</span><span class="o">.</span><span class="na">isReference</span><span class="o">())</span> <span class="o">{</span>
+
+		<span class="c1">// We need to resolve the view name.</span>
+		<span class="c1">// 由ViewResolver组件根据ModelAndView对象得到实际的View</span>
+		<span class="n">view</span> <span class="o">=</span> <span class="n">resolveViewName</span><span class="o">(</span><span class="n">mv</span><span class="o">.</span><span class="na">getViewName</span><span class="o">(),</span> <span class="n">mv</span><span class="o">.</span><span class="na">getModelInternal</span><span class="o">(),</span> <span class="n">locale</span><span class="o">,</span> <span class="n">request</span><span class="o">);</span>
+		<span class="k">if</span> <span class="o">(</span><span class="n">view</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+			<span class="k">throw</span> <span class="k">new</span> <span class="nf">ServletException</span><span class="o">(</span><span class="s">"Could not resolve view with name '"</span> <span class="o">+</span> <span class="n">mv</span><span class="o">.</span><span class="na">getViewName</span><span class="o">()</span> <span class="o">+</span>
+					<span class="s">"' in servlet with name '"</span> <span class="o">+</span> <span class="n">getServletName</span><span class="o">()</span> <span class="o">+</span> <span class="s">"'"</span><span class="o">);</span>
+		<span class="o">}</span>
+
+	<span class="o">}</span>
+	<span class="k">else</span> <span class="o">{</span>
+		<span class="c1">// No need to lookup: the ModelAndView object contains the actual View object.</span>
+		<span class="n">view</span> <span class="o">=</span> <span class="n">mv</span><span class="o">.</span><span class="na">getView</span><span class="o">();</span>
+		<span class="k">if</span> <span class="o">(</span><span class="n">view</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+			<span class="k">throw</span> <span class="k">new</span> <span class="nf">ServletException</span><span class="o">(</span><span class="s">"ModelAndView ["</span> <span class="o">+</span> <span class="n">mv</span> <span class="o">+</span> <span class="s">"] neither contains a view name nor a "</span> <span class="o">+</span>
+					<span class="s">"View object in servlet with name '"</span> <span class="o">+</span> <span class="n">getServletName</span><span class="o">()</span> <span class="o">+</span> <span class="s">"'"</span><span class="o">);</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+
+	<span class="c1">// Delegate to the View object for rendering.</span>
+	<span class="k">if</span> <span class="o">(</span><span class="n">logger</span><span class="o">.</span><span class="na">isDebugEnabled</span><span class="o">())</span> <span class="o">{</span>
+		<span class="n">logger</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">"Rendering view ["</span> <span class="o">+</span> <span class="n">view</span> <span class="o">+</span> <span class="s">"] in DispatcherServlet with name '"</span> <span class="o">+</span> <span class="n">getServletName</span><span class="o">()</span> <span class="o">+</span> <span class="s">"'"</span><span class="o">);</span>
+	<span class="o">}</span>
+	<span class="k">try</span> <span class="o">{</span>
+		<span class="k">if</span> <span class="o">(</span><span class="n">mv</span><span class="o">.</span><span class="na">getStatus</span><span class="o">()</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+			<span class="n">response</span><span class="o">.</span><span class="na">setStatus</span><span class="o">(</span><span class="n">mv</span><span class="o">.</span><span class="na">getStatus</span><span class="o">().</span><span class="na">value</span><span class="o">());</span>
+		<span class="o">}</span>
+		<span class="c1">// 渲染视图</span>
+		<span class="n">view</span><span class="o">.</span><span class="na">render</span><span class="o">(</span><span class="n">mv</span><span class="o">.</span><span class="na">getModelInternal</span><span class="o">(),</span> <span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">);</span>
+	<span class="o">}</span>
+	<span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">ex</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">if</span> <span class="o">(</span><span class="n">logger</span><span class="o">.</span><span class="na">isDebugEnabled</span><span class="o">())</span> <span class="o">{</span>
+			<span class="n">logger</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">"Error rendering view ["</span> <span class="o">+</span> <span class="n">view</span> <span class="o">+</span> <span class="s">"] in DispatcherServlet with name '"</span> <span class="o">+</span>
+					<span class="n">getServletName</span><span class="o">()</span> <span class="o">+</span> <span class="s">"'"</span><span class="o">,</span> <span class="n">ex</span><span class="o">);</span>
+		<span class="o">}</span>
+		<span class="k">throw</span> <span class="n">ex</span><span class="o">;</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+<p><br /></p>
+
+<p>DispatcherServlet.resolveViewName(由ViewResolver组件根据ModelAndView对象得到实际的View)</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="cm">/**
+ * Resolve the given view name into a View object (to be rendered).
+ * &lt;p&gt;The default implementations asks all ViewResolvers of this dispatcher.
+ * Can be overridden for custom resolution strategies, potentially based on
+ * specific model attributes or request parameters.
+ * @param viewName the name of the view to resolve
+ * @param model the model to be passed to the view
+ * @param locale the current locale
+ * @param request current HTTP servlet request
+ * @return the View object, or {@code null} if none found
+ * @throws Exception if the view cannot be resolved
+ * (typically in case of problems creating an actual View object)
+ * @see ViewResolver#resolveViewName
+ */</span>
+<span class="kd">protected</span> <span class="n">View</span> <span class="nf">resolveViewName</span><span class="o">(</span><span class="n">String</span> <span class="n">viewName</span><span class="o">,</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">model</span><span class="o">,</span> <span class="n">Locale</span> <span class="n">locale</span><span class="o">,</span>
+		<span class="n">HttpServletRequest</span> <span class="n">request</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+
+	<span class="k">for</span> <span class="o">(</span><span class="n">ViewResolver</span> <span class="n">viewResolver</span> <span class="o">:</span> <span class="k">this</span><span class="o">.</span><span class="na">viewResolvers</span><span class="o">)</span> <span class="o">{</span>
+		<span class="n">View</span> <span class="n">view</span> <span class="o">=</span> <span class="n">viewResolver</span><span class="o">.</span><span class="na">resolveViewName</span><span class="o">(</span><span class="n">viewName</span><span class="o">,</span> <span class="n">locale</span><span class="o">);</span>
+		<span class="k">if</span> <span class="o">(</span><span class="n">view</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+			<span class="k">return</span> <span class="n">view</span><span class="o">;</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+	<span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+<p><br /></p>
+
+<p>AbstractView.render <br /></p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="cm">/**
+ * Prepares the view given the specified model, merging it with static
+ * attributes and a RequestContext attribute, if necessary.
+ * Delegates to renderMergedOutputModel for the actual rendering.
+ * @see #renderMergedOutputModel
+ */</span>
+<span class="nd">@Override</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">render</span><span class="o">(</span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="o">?&gt;</span> <span class="n">model</span><span class="o">,</span> <span class="n">HttpServletRequest</span> <span class="n">request</span><span class="o">,</span> <span class="n">HttpServletResponse</span> <span class="n">response</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+	<span class="k">if</span> <span class="o">(</span><span class="n">logger</span><span class="o">.</span><span class="na">isTraceEnabled</span><span class="o">())</span> <span class="o">{</span>
+		<span class="n">logger</span><span class="o">.</span><span class="na">trace</span><span class="o">(</span><span class="s">"Rendering view with name '"</span> <span class="o">+</span> <span class="k">this</span><span class="o">.</span><span class="na">beanName</span> <span class="o">+</span> <span class="s">"' with model "</span> <span class="o">+</span> <span class="n">model</span> <span class="o">+</span>
+			<span class="s">" and static attributes "</span> <span class="o">+</span> <span class="k">this</span><span class="o">.</span><span class="na">staticAttributes</span><span class="o">);</span>
+	<span class="o">}</span>
+
+	<span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">mergedModel</span> <span class="o">=</span> <span class="n">createMergedOutputModel</span><span class="o">(</span><span class="n">model</span><span class="o">,</span> <span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">);</span>
+	<span class="n">prepareResponse</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">);</span>
+	<span class="c1">//////////渲染视图的最后步骤</span>
+	<span class="n">renderMergedOutputModel</span><span class="o">(</span><span class="n">mergedModel</span><span class="o">,</span> <span class="n">getRequestToExpose</span><span class="o">(</span><span class="n">request</span><span class="o">),</span> <span class="n">response</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+<p><br /></p>
+
+<p>InternalResourceView 的 renderMergedOutputModel方法</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="cm">/**
+ * Render the internal resource given the specified model.
+ * This includes setting the model as request attributes.
+ */</span>
+<span class="nd">@Override</span>
+<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">renderMergedOutputModel</span><span class="o">(</span>
+		<span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">model</span><span class="o">,</span> <span class="n">HttpServletRequest</span> <span class="n">request</span><span class="o">,</span> <span class="n">HttpServletResponse</span> <span class="n">response</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+
+	<span class="c1">// Expose the model object as request attributes.</span>
+	<span class="n">exposeModelAsRequestAttributes</span><span class="o">(</span><span class="n">model</span><span class="o">,</span> <span class="n">request</span><span class="o">);</span>
+
+	<span class="c1">// Expose helpers as request attributes, if any.</span>
+	<span class="n">exposeHelpers</span><span class="o">(</span><span class="n">request</span><span class="o">);</span>
+
+	<span class="c1">// Determine the path for the request dispatcher.</span>
+	<span class="n">String</span> <span class="n">dispatcherPath</span> <span class="o">=</span> <span class="n">prepareForRendering</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">);</span>
+
+	<span class="c1">// Obtain a RequestDispatcher for the target resource (typically a JSP).</span>
+	<span class="n">RequestDispatcher</span> <span class="n">rd</span> <span class="o">=</span> <span class="n">getRequestDispatcher</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">dispatcherPath</span><span class="o">);</span>
+	<span class="k">if</span> <span class="o">(</span><span class="n">rd</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">throw</span> <span class="k">new</span> <span class="nf">ServletException</span><span class="o">(</span><span class="s">"Could not get RequestDispatcher for ["</span> <span class="o">+</span> <span class="n">getUrl</span><span class="o">()</span> <span class="o">+</span>
+				<span class="s">"]: Check that the corresponding file exists within your web application archive!"</span><span class="o">);</span>
+	<span class="o">}</span>
+
+	<span class="c1">// If already included or response already committed, perform include, else forward.</span>
+	<span class="k">if</span> <span class="o">(</span><span class="n">useInclude</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">))</span> <span class="o">{</span>
+		<span class="n">response</span><span class="o">.</span><span class="na">setContentType</span><span class="o">(</span><span class="n">getContentType</span><span class="o">());</span>
+		<span class="k">if</span> <span class="o">(</span><span class="n">logger</span><span class="o">.</span><span class="na">isDebugEnabled</span><span class="o">())</span> <span class="o">{</span>
+			<span class="n">logger</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">"Including resource ["</span> <span class="o">+</span> <span class="n">getUrl</span><span class="o">()</span> <span class="o">+</span> <span class="s">"] in InternalResourceView '"</span> <span class="o">+</span> <span class="n">getBeanName</span><span class="o">()</span> <span class="o">+</span> <span class="s">"'"</span><span class="o">);</span>
+		<span class="o">}</span>
+		<span class="n">rd</span><span class="o">.</span><span class="na">include</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">);</span>
+	<span class="o">}</span>
+
+	<span class="k">else</span> <span class="o">{</span>
+		<span class="c1">// Note: The forwarded resource is supposed to determine the content type itself.</span>
+		<span class="k">if</span> <span class="o">(</span><span class="n">logger</span><span class="o">.</span><span class="na">isDebugEnabled</span><span class="o">())</span> <span class="o">{</span>
+			<span class="n">logger</span><span class="o">.</span><span class="na">debug</span><span class="o">(</span><span class="s">"Forwarding to resource ["</span> <span class="o">+</span> <span class="n">getUrl</span><span class="o">()</span> <span class="o">+</span> <span class="s">"] in InternalResourceView '"</span> <span class="o">+</span> <span class="n">getBeanName</span><span class="o">()</span> <span class="o">+</span> <span class="s">"'"</span><span class="o">);</span>
+		<span class="o">}</span>
+
+		<span class="c1">// 最终的请求转发代码</span>
+		<span class="n">rd</span><span class="o">.</span><span class="na">forward</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">);</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+<p><br /></p>
+
+
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-6">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">java</button>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">springmvc</button>
+                                
+                        </div>
+                        
+                        <!--
+                        <div class="col-md-6">
+                            <div class="small text-right">
+                                <div>    
+                                    <i class="fa fa-comments-o"> </i> 
+                                    <span class="ds-comments">0</span>条评论
+                                </div>
+                                <div>
+                                    <i class="fa fa-share-alt"> </i> 
+                                    <span class="ds-shares">0</span>条转发
+                                </div>  
+                            </div>
+                        </div>
+                        -->
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <!-- donate -->
+                            
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal2">
+    Donate
+</button>
+<div class="modal inmodal" id="myModal2" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated flipInY">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Donate Me</h4>
+                <small class="font-bold">Thanks for your support!</small>
+            </div>
+            <div class="modal-body">
+                <div class="tabbable" id="tabs-960227">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#panel-405278" data-toggle="tab">Alipay</a>
+                        </li>
+                        <li>
+                            <a href="#panel-874705" data-toggle="tab">Wechat</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="panel-405278">
+                            <div class="text-center">
+                                <img src="/static/img/pay/alipay.png"" height="250" width="250">
+                            </div>    
+                        </div>
+                        <div class="tab-pane" id="panel-874705">
+                            <div class="text-center">
+                                <img src="/static/img/pay/wechat.png"" height="250" width="250">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+                            
+                            <br>
+                            <!-- share -->
+                            
+                                
+<!--分享-->
+<div class="row" style="margin-top:30px;">
+	<h2>Share:</h2>
+    <div class="social-share" style="margin-left:-5px;"data-sites="wechat,qq,qzone,weibo"></div> 
+</div>
+<link rel="stylesheet" href="/static/css/share.min.css">
+<script src="/static/js/jquery.share.min.js"></script>
+<script src="/static/js/embed.js"></script>
+
+<script>
+  var url = 'http://localhost:4000/java/2017/04/15/java-springmvc-src-core.html';
+  var source = 'http://localhost:4000/java/2017/04/15/java-springmvc-src-core.html';
+  var title = 'springmvc-4.3.7.RELEASE 核心源码断点分析';
+  var excerpt = $("p:eq(0)").text();
+  
+  var imageUrl = 'http://localhost:4000/static/img/landing/header_one.jpg';
+  var imgEle = $(".content_img:eq(0)");
+  if (imgEle) {
+    imageUrl = imgEle.attr("src");
+  }
+
+  var $config = {
+      url: url, // 网址，默认使用 window.location.href
+      source: source, // 来源（QQ空间会用到）, 默认读取head标签：<meta name="site" content="http://overtrue" />
+      title: title, // 标题，默认读取 document.title 或者 <meta name="title" content="share.js" />
+      description: excerpt, // 描述, 默认读取head标签：<meta name="description" content="PHP弱类型的实现原理分析" />
+      image: imageUrl, // 图片, 默认取网页中第一个img标签
+      sites: ['qzone', 'qq', 'weibo','wechat','douban'], // 启用的站点
+      //disabled: ['google', 'facebook', 'twitter'], // 禁用的站点
+      wechatQrcodeTitle: "微信扫一扫：分享", // 微信二维码提示文字
+      wechatQrcodeHelper: '<p style="font-size:10px;">微信里点“发现”，扫一下</p><p style="font-size:10px;">二维码便可将本文分享至朋友圈。</p>',
+   };
+  $('.social-share').share($config);
+</script>
+
+
+
+
+                            
+                            <br>
+                            <!-- comment -->
+                            <!--
+
+
+
+-->
+
+<!-- 多说评论框 start -->
+<div class="row" style="margin-top:25px;"></div>
+<div class="ds-thread" data-thread-key="/java/2017/04/15/java-springmvc-src-core.html" data-title="springmvc-4.3.7.RELEASE 核心源码断点分析" data-url="http://localhost:4000/java/2017/04/15/java-springmvc-src-core.html"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+	var duoshuoQuery = {short_name:"kinglyjn"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+<!-- 多说公共JS代码 end -->
+
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+	
+	    <script src="/static/js/scroll.js"></script>
+
+<!-- Baidu analytics -->
+
+
+<!-- Google analytics -->
+
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-73784599-1', 'auto');
+    ga('send', 'pageview');
+
+  </script>
+
+
+<!--
+
+-->
+
+<!--
+
+-->
+
+<script async src="/static/js/count_page.js"></script>
+
+	
+
+</body>
+</html>

@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html>
+	
+		<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta content="Kingly's blog,use Jekyll and github pages." name="description">
+  <meta name="keywords" content="kinglyjn,张庆力的博客,kinglyjn blog,kingly,Jekyll,github,gh-pages">
+  <meta name="author" content="KinglyJn">
+  <title>KinglyJn</title>
+  <!-- favicon -->
+  <link rel="shortcut icon" href="/static/img/favicon.ico">
+
+  <!-- Third-party CSS -->
+  <link href="/bower_components/normalize-css/normalize.min.css" rel="stylesheet">
+  <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/bower_components/animate.css/animate.min.css" rel="stylesheet">
+  <link href="/bower_components/components-font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="/static/font-mfizz/font-mfizz.css" rel="stylesheet">
+  <!-- <link href="/bower_components/toastr/toastr.min.css" rel="stylesheet"> -->
+  <link href="/bower_components/jquery.gritter/css/jquery.gritter.css" rel="stylesheet">
+  <!-- Custom styles for this template -->
+  <!-- <link href="/static/css/pygments.css" rel="stylesheet"> -->
+  <link href="/static/css/style.min.css" rel="stylesheet">
+
+  <!-- Third-party scripts -->
+  <script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
+  <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="/bower_components/i18next/i18next.min.js"></script>
+  <script src="/bower_components/PACE/pace.min.js"></script>
+  <script src="/bower_components/wow/dist/wow.min.js"></script>
+
+  <!-- Custom and plugin javascript -->
+  <!-- <script src="/static/js/inspinia.js"></script> -->
+
+<!-- GrowingIO -->
+
+  <script>
+    var _vds = _vds || [];
+    window._vds = _vds;
+    (function(){
+      _vds.push(['setAccountId', 'a49d4901c7853da9']);
+      (function() {
+        var vds = document.createElement('script');
+        vds.type='text/javascript';
+        vds.async = true;
+        vds.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'dn-growing.qbox.me/vds.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(vds, s);
+      })();
+    })();
+  </script>
+
+
+</head>
+
+	
+
+
+<body id="page-top" class="landing-page">
+
+	
+
+        <div class="navbar-wrapper">
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#page-top" id="i18_title"><span data-i18n="website.title">KinglyJn</span></a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right" id="i18_navbar">
+                
+                    <li>
+                      <a class="page-scroll" href="#about-me">
+                        <span data-i18n="nav.about_me">About</span>
+                      </a>
+                    </li>
+                
+                    <li>
+                      <a class="page-scroll" href="#career">
+                        <span data-i18n="nav.career">Career</span>
+                      </a>
+                    </li>
+                
+                    <li>
+                      <a class="page-scroll" href="#skills">
+                        <span data-i18n="nav.skills">Skills</span>
+                      </a>
+                    </li>
+                
+                    <li>
+                      <a class="page-scroll" href="#projects">
+                        <span data-i18n="nav.projects">Projects</span>
+                      </a>
+                    </li>
+                
+                    <li>
+                      <a class="page-scroll" href="#blog">
+                        <span data-i18n="nav.blog">Blog</span>
+                      </a>
+                    </li>
+                
+                    <li>
+                      <a class="page-scroll" href="#links">
+                        <span data-i18n="nav.link">Links</span>
+                      </a>
+                    </li>
+                
+
+                
+                  <li>
+                    <a id="set_lang_en" class="btn btn-sm set_en" data-locale="en">
+                      <img src="/static/img/flags/United-States5.png" height="16px" width="16px">
+                    </a>
+                  </li>
+                
+                  <li>
+                    <a id="set_lang_zh" class="btn btn-sm set_zh" data-locale="zh">
+                      <img src="/static/img/flags/China5.png" height="16px" width="16px">
+                    </a>
+                  </li>
+                
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+<div id="inSlider" class="carousel carousel-fade" data-ride="carousel">
+    
+    <div style="position:absolute;float:left;left:25%;z-index:15;width:50%;margin-bottom:17%;bottom:0;text-align:center;list-style:none;">
+        <a href="/blog/">
+            <span style="color:white;font-size:32px;">张三 · 故事</span><br>
+            <span style="color:white;font-size:14px;">The Story </span>
+            <span style="color:white;font-size:26px;">∮</span>
+            <span style="color:white;font-size:14px;">ZhangSan</span>
+        </a>
+    </div>
+    
+
+    <ol class="carousel-indicators">
+        <li data-target="#inSlider" data-slide-to="0" class="active" style="margin-left:52px"></li>
+        <li data-target="#inSlider" data-slide-to="1"></li>
+        <li data-target="#inSlider" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner" role="listbox">
+        <div class="item active">
+            <div class="container">
+                <div class="carousel-caption">
+                </div>
+                <div class="carousel-image wow zoomIn">
+                    <!-- <img src="static/img/landing/laptop.png" alt="laptop"/> -->
+                </div>
+            </div>
+            <!-- Set background for slide in css -->
+            <div class="header-back one"></div>
+        </div>
+        <div class="item">
+            <div class="container">
+                <div class="carousel-caption blank">
+                </div>
+            </div>
+            <!-- Set background for slide in css -->
+            <div class="header-back two"></div>
+        </div>
+        <div class="item">
+            <div class="container">
+                <div class="carousel-caption blank">
+                </div>
+            </div>
+            <!-- Set background for slide in css -->
+            <div class="header-back three"></div>
+        </div>
+    </div>
+    <a class="left carousel-control" href="#inSlider" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#inSlider" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+    <a class="right carousel-control" href="#inSlider" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
+
+
+  
+  <section id="about-me" class="features  " style="margin-top: 0px;">
+    <div class="container" id="i18_about_me">
+    <div class="row m-b-lg">
+        <div class="col-lg-12 text-center">
+            <div class="navy-line"></div>
+            <h1><span data-i18n="about_me.about_me">About Me</span></h1>
+            <!-- <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod.</p> -->
+        </div>
+    </div>
+    <div class="row">
+        <!-- python -->
+        <div class="col-xs-2 wow fadeInLeft">
+            <div class="team-member">
+                <div class="vote-icon">
+                    <i class="icon-java"></i>
+                </div>
+            </div>
+        </div>
+        <!-- linux -->
+        <div class="col-xs-2 wow fadeInLeft">
+            <div class="team-member">
+                <div class="vote-icon">
+                    <i class="icon-hadoop"></i>
+                </div>
+            </div>
+        </div>
+        <!-- avatar -->
+        <div class="col-xs-4">
+            <div class="team-member wow zoomIn">
+                <img src="/static/img/landing/Kinglyjn.png" height="110" width="110" class="img-responsive img-circle" alt="">
+                <h4><span class="navy">Jn</span> Kingly</h4>
+                <ul class="list-inline social-icon">
+                    <li>
+                        <a href="https://github.com/Kinglyjn" target="blank"><i class="fa fa-github"></i></a>
+                    </li>
+                    <li>
+                        <a href="mailto:admin@keyllo.com"><i class="fa fa-envelope-o"></i></a>
+                    </li>
+                    <li>
+                        <a href="https://www.linkedin.com/in/kinglyjn"><i class="fa fa-linkedin"></i></a>
+                    </li>
+                    <li>
+                        <a href="http://www.keyllo.com"><i class="fa fa-briefcase"></i></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- html -->
+        <div class="col-xs-2 wow fadeInRight">
+            <div class="team-member">
+                <div class="vote-icon" style="text-align:left;">
+                    <i class="icon-python"></i>
+                </div>
+            </div>
+        </div>
+        <!-- docker -->
+        <div class="col-xs-2 wow fadeInRight">
+            <div class="team-member">
+                <div class="vote-icon" style="text-align:left;">
+                    <i class="icon-shell"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2 text-center m-t-lg m-b-lg wow zoomIn">
+            <p><span data-i18n="about_me.des">A Lazy Man, intent to select * from t_woman where (age between 20 and 30) and (married=false) and (feature is fashion dignified) and (bodyMind is healthy), gentle and caring disposition is better, do not bother if you are not pure-hearted ...</span></p>
+        </div>
+    </div>
+</div>
+
+  </section>
+
+  
+  <section id="career" class="features  gray-section  timeline" style="margin-top: 0px;">
+    <div class="container" id="i18_career">
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            <div class="navy-line"></div>
+            <h1><span data-i18n="career.my_career">My Career</span></h1>
+        </div>
+    </div>
+    <div class="row features-block">
+        <div class="col-lg-12">
+            <div id="vertical-timeline" class="vertical-container light-timeline center-orientation">
+            
+            
+                <div class="vertical-timeline-block">
+                    <div class="vertical-timeline-icon navy-bg wow rotateIn">
+                        <i class="fa fa-database"></i>
+                    </div>
+                    <div class="vertical-timeline-content wow  rotateInUpRight ">
+                        <h2><span data-i18n="career.shangrong1">Hunan ShangRong Information Technology Co. Ltd. Beijing Branch</span></h2>
+                        <p><span data-i18n="career.shangrong_des">Financial web system development|Distributed platform development|Team technical collaboration </span></p>
+                        <span class="vertical-date"><span data-i18n="career.shangrong_date"> Jun. 2015 </span>
+                        <br/> <small><span data-i18n="career.shangrong_job">IT Engineer</span></small> </span>
+                    </div>
+                </div>
+            
+            
+                <div class="vertical-timeline-block">
+                    <div class="vertical-timeline-icon navy-bg wow rotateIn">
+                        <i class="fa fa-group"></i>
+                    </div>
+                    <div class="vertical-timeline-content wow  rotateInUpLeft ">
+                        <h2><span data-i18n="career.kaida1">Beijing Kaida Technology Co. Ltd.</span></h2>
+                        <p><span data-i18n="career.kaida_des">Working major in background of javaee application system. </span></p>
+                        <span class="vertical-date"><span data-i18n="career.kaida_date"> May. 2014 </span>
+                        <br/> <small><span data-i18n="career.kaida_job">Java Dev</span></small> </span>
+                    </div>
+                </div>
+            
+            
+                <div class="vertical-timeline-block">
+                    <div class="vertical-timeline-icon navy-bg wow rotateIn">
+                        <i class="fa fa-graduation-cap"></i>
+                    </div>
+                    <div class="vertical-timeline-content wow  rotateInUpRight ">
+                        <h2><span data-i18n="career.college1">Yunnan University</span></h2>
+                        <p><span data-i18n="career.college_des">Major in physics and computer science | B.S. </span></p>
+                        <span class="vertical-date"><span data-i18n="career.college_date"> Jul. 2014 </span>
+                        <br/> <small><span data-i18n="career.college_job">Student</span></small> </span>
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</div>
+
+  </section>
+
+  
+  <section id="skills" class="features  team" style="margin-top: 0px;">
+    <div class="container">
+    <div class="row">
+        <div class="col-lg-12 text-center" id="i18_skills">
+            <div class="navy-line"></div>
+            <h1><span data-i18n="skills.my_skills">My Skills</span></h1>
+        </div>
+    </div>
+    <div class="row features-block" style="padding-left:30px;padding-right:30px;">
+        
+            
+        <div class="row">
+            <div class="col-lg-1 col-lg-offset-2 wow  fadeInLeft ">
+                <p>Java</p>
+            </div>
+            <div class="col-lg-7 wow   fadeInRight ">
+                <div class="progress progress-bar-default">
+                    <div style="width: 90%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="90" role="progressbar" class="progress-bar">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        
+            
+        <div class="row">
+            <div class="col-lg-1 col-lg-offset-2 wow  fadeInRight ">
+                <p>Hadoop</p>
+            </div>
+            <div class="col-lg-7 wow   fadeInLeft ">
+                <div class="progress progress-bar-default">
+                    <div style="width: 65%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="65" role="progressbar" class="progress-bar">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        
+            
+        <div class="row">
+            <div class="col-lg-1 col-lg-offset-2 wow  fadeInLeft ">
+                <p>Storm</p>
+            </div>
+            <div class="col-lg-7 wow   fadeInRight ">
+                <div class="progress progress-bar-default">
+                    <div style="width: 70%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="70" role="progressbar" class="progress-bar">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        
+            
+        <div class="row">
+            <div class="col-lg-1 col-lg-offset-2 wow  fadeInRight ">
+                <p>Linux/Shell</p>
+            </div>
+            <div class="col-lg-7 wow   fadeInLeft ">
+                <div class="progress progress-bar-default">
+                    <div style="width: 75%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="75" role="progressbar" class="progress-bar">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        
+            
+        <div class="row">
+            <div class="col-lg-1 col-lg-offset-2 wow  fadeInLeft ">
+                <p>Javascript</p>
+            </div>
+            <div class="col-lg-7 wow   fadeInRight ">
+                <div class="progress progress-bar-default">
+                    <div style="width: 80%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="80" role="progressbar" class="progress-bar">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        
+            
+        <div class="row">
+            <div class="col-lg-1 col-lg-offset-2 wow  fadeInRight ">
+                <p>Python</p>
+            </div>
+            <div class="col-lg-7 wow   fadeInLeft ">
+                <div class="progress progress-bar-default">
+                    <div style="width: 65%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="65" role="progressbar" class="progress-bar">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        
+            
+        <div class="row">
+            <div class="col-lg-1 col-lg-offset-2 wow  fadeInLeft ">
+                <p>PHP</p>
+            </div>
+            <div class="col-lg-7 wow   fadeInRight ">
+                <div class="progress progress-bar-default">
+                    <div style="width: 67%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="67" role="progressbar" class="progress-bar">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        
+            
+        <div class="row">
+            <div class="col-lg-1 col-lg-offset-2 wow  fadeInRight ">
+                <p>C/C++</p>
+            </div>
+            <div class="col-lg-7 wow   fadeInLeft ">
+                <div class="progress progress-bar-default">
+                    <div style="width: 70%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="70" role="progressbar" class="progress-bar">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        
+            
+        <div class="row">
+            <div class="col-lg-1 col-lg-offset-2 wow  fadeInLeft ">
+                <p>HTML/CSS</p>
+            </div>
+            <div class="col-lg-7 wow   fadeInRight ">
+                <div class="progress progress-bar-default">
+                    <div style="width: 60%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="60" role="progressbar" class="progress-bar">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        
+    </div>
+</div>
+
+  </section>
+
+  
+  <section id="projects" class="features  gray-section  project" style="margin-top: 0px;">
+    <div class="container" id="i18_projects">
+    <div class="row m-b-lg">
+        <div class="col-lg-12 text-center">
+            <div class="navy-line"></div>
+            <h1><span data-i18n="projects.my_projects">My Projects</span></h1>
+        </div>
+    </div>
+    <div class="row">
+        
+            
+            
+            <div class="col-sm-6 wow  fadeInLeft ">
+            
+              <div class="team-member">
+                  <img src="/static/img/landing/sr-ddcs.png" class="img-responsive img-circle img-small" alt="">
+                  <h4><a href="javascript:void(0)" target="blank"><span class="navy">sr-ddcs</a></span></h4>
+                  <p><span data-i18n="projects.sr-ddcs">Sr-ddcs is a distributed realtime computation system based on storm and data collection technology which is providing service for enterprises decision and info publishment.</span></p>
+
+                  <!--
+                  
+                  <ul class="list-inline">
+                      <li>
+                          <a class="github-button" href="https://github.comjavascript:void(0)" data-icon="octicon-star" data-count-href="javascript:void(0)/stargazers" data-count-api="/reposjavascript:void(0)#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star hydepress/jekyll-install on GitHub">Star</a>
+                      </li>
+                      <li>
+                          <a class="github-button" href="https://github.comjavascript:void(0)" data-icon="octicon-fork" data-count-href="javascript:void(0)/network/members" data-count-api="/reposjavascript:void(0)#forks_count" data-count-aria-label="# forks on GitHub" aria-label="Star hydepress/jekyll-install on GitHub">Fork</a>
+                      </li>
+                  </ul>
+                  
+                  -->
+              </div>
+          </div>
+      
+            
+            
+            <div class="col-sm-6 wow  fadeInRight ">
+            
+              <div class="team-member">
+                  <img src="/static/img/landing/javaweb.png" class="img-responsive img-circle img-small" alt="">
+                  <h4><a href="javascript:void(0)" target="blank"><span class="navy">javaweb</a></span></h4>
+                  <p><span data-i18n="projects.javaweb">vcspark (financial service platform), lawcheck (legal service platform), CMS, electronic commerce system, etc.</span></p>
+
+                  <!--
+                  
+                  <ul class="list-inline">
+                      <li>
+                          <a class="github-button" href="https://github.comjavascript:void(0)" data-icon="octicon-star" data-count-href="javascript:void(0)/stargazers" data-count-api="/reposjavascript:void(0)#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star hydepress/jekyll-install on GitHub">Star</a>
+                      </li>
+                      <li>
+                          <a class="github-button" href="https://github.comjavascript:void(0)" data-icon="octicon-fork" data-count-href="javascript:void(0)/network/members" data-count-api="/reposjavascript:void(0)#forks_count" data-count-aria-label="# forks on GitHub" aria-label="Star hydepress/jekyll-install on GitHub">Fork</a>
+                      </li>
+                  </ul>
+                  
+                  -->
+              </div>
+          </div>
+      
+            
+            
+            <div class="col-sm-6 wow  fadeInLeft ">
+            
+              <div class="team-member">
+                  <img src="/static/img/landing/cloudID.png" class="img-responsive img-circle img-small" alt="">
+                  <h4><a href="javascript:void(0)" target="blank"><span class="navy">cloudID</a></span></h4>
+                  <p><span data-i18n="projects.cloudID">an identity authentication private cloud platform based on SaaS mode, supports OTP and OpenID.</span></p>
+
+                  <!--
+                  
+                  <ul class="list-inline">
+                      <li>
+                          <a class="github-button" href="https://github.comjavascript:void(0)" data-icon="octicon-star" data-count-href="javascript:void(0)/stargazers" data-count-api="/reposjavascript:void(0)#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star hydepress/jekyll-install on GitHub">Star</a>
+                      </li>
+                      <li>
+                          <a class="github-button" href="https://github.comjavascript:void(0)" data-icon="octicon-fork" data-count-href="javascript:void(0)/network/members" data-count-api="/reposjavascript:void(0)#forks_count" data-count-aria-label="# forks on GitHub" aria-label="Star hydepress/jekyll-install on GitHub">Fork</a>
+                      </li>
+                  </ul>
+                  
+                  -->
+              </div>
+          </div>
+      
+            
+            
+                
+            <div class="col-sm-6 wow  fadeInRight ">
+                
+            
+              <div class="team-member">
+                  <img src="/static/img/landing/datactr.png" class="img-responsive img-circle img-small" alt="">
+                  <h4><a href="http://www.keyllo.com" target="blank"><span class="navy">datactr</a></span></h4>
+                  <p><span data-i18n="projects.datactr">datactr provides the platform and expertise to transform your business’ data into revenue-generating assets with analytics.</span></p>
+
+                  <!--
+                  
+                  <ul class="list-inline">
+                      <li>
+                          <a class="github-button" href="https://github.comhttp://www.keyllo.com" data-icon="octicon-star" data-count-href="http://www.keyllo.com/stargazers" data-count-api="/reposhttp://www.keyllo.com#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star hydepress/jekyll-install on GitHub">Star</a>
+                      </li>
+                      <li>
+                          <a class="github-button" href="https://github.comhttp://www.keyllo.com" data-icon="octicon-fork" data-count-href="http://www.keyllo.com/network/members" data-count-api="/reposhttp://www.keyllo.com#forks_count" data-count-aria-label="# forks on GitHub" aria-label="Star hydepress/jekyll-install on GitHub">Fork</a>
+                      </li>
+                  </ul>
+                  
+                  -->
+              </div>
+          </div>
+      
+    </div>
+</div>
+<br>
+
+  </section>
+
+  
+  <section id="blog" class="features  testimonials navy-section" style="margin-top: 0px;">
+    <div class="container">
+    <div class="row">
+        <div class="col-lg-12 text-center wow zoomIn" id="i18_blog">
+            <div style="height: 80px;"></div>
+            <a class="btn btn-lg btn-default btn-rounded btn-outline wow bounceIn" href="/blog/"><span data-i18n="blog.my_blog">My Blog</span></a>
+            <div style="height: 80px;"></div>
+        </div>
+    </div>
+</div>
+
+  </section>
+
+  
+  <section id="links" class="features  gray-section  contact" style="margin-top: 0px;">
+    <div class="container" id="i18_link">
+    <div class="row m-b-lg">
+        <div class="col-lg-12 text-center">
+            <div class="navy-line"></div>
+            <h1><span data-i18n="link.link">Link</span></h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="social-share" style="text-align:center;" data-sites="wechat,qq,qzone,weibo,douban"></div> 
+    </div>
+
+    <div class="row">
+    
+        
+        
+        <div class="col-sm-4 wow  fadeInLeft ">
+        
+        <div class="team-member">
+            <h4><span class="navy">zhangsan</span> </h4>
+            <p>zs soft studio</p>
+            <ul class="list-inline social-icon">
+                <li><a href="http://www.keyllo.com/studio/" target="blank"><i class="fa fa-link"></i></a>
+                </li>
+                <li><a href="mailto:admin@keyllo.com"><i class="fa fa-envelope-o"></i></a>
+                </li>
+            </ul>
+        </div>
+        </div>
+    
+        
+        
+            
+        <div class="col-sm-4 wow  col-sm-offset-4 fadeInRight ">
+            
+        
+        <div class="team-member">
+            <h4><span class="navy">datactr</span> </h4>
+            <p>data center project</p>
+            <ul class="list-inline social-icon">
+                <li><a href="http://www.keyllo.com" target="blank"><i class="fa fa-link"></i></a>
+                </li>
+                <li><a href="mailto:admin@keyllo.com"><i class="fa fa-envelope-o"></i></a>
+                </li>
+            </ul>
+        </div>
+        </div>
+    
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2 text-center m-t-lg m-b-lg">
+            <p id="jalpc_site_pv"><strong>&copy; 2017 KinglyJn</strong></p>
+        </div>
+    </div>
+</div>
+
+
+<!--分享-->
+<link rel="stylesheet" href="/static/css/share.min.css">
+<script src="/static/js/jquery.share.min.js"></script>
+<script>
+  var $config = {
+      url: 'https://kinglyjn.github.io', // 网址，默认使用 window.location.href
+      source: 'https://kinglyjn.github.io', // 来源（QQ空间会用到）, 默认读取head标签：<meta name="site" content="http://overtrue" />
+      title: 'KinglyJn Blog | A Lazy Man', // 标题，默认读取 document.title 或者 <meta name="title" content="share.js" />
+      description: 'A Lazy Man, intend to _select * _from t_woman _where (age _between 20 _and 30) _and (married=false) _and (feature is fashion dignified) _and (bodyMind is healthy), gentle _and caring disposition is better, donot bother if you are not pure-hearted...', // 描述, 默认读取head标签：<meta name="description" content="PHP弱类型的实现原理分析" />
+      image: 'https://kinglyjn.github.io/static/img/landing/header_one.jpg', // 图片, 默认取网页中第一个img标签
+      sites: ['qzone', 'qq', 'weibo','wechat','douban'], // 启用的站点
+      //disabled: ['google', 'facebook', 'twitter'], // 禁用的站点
+      wechatQrcodeTitle: "微信扫一扫：分享", // 微信二维码提示文字
+      wechatQrcodeHelper: '<p style="font-size:10px;">微信里点“发现”，扫一下</p><p style="font-size:10px;">二维码便可将本文分享至朋友圈。</p>',
+   };
+  $('.social-share').share($config);
+</script>
+
+  </section>
+
+<!--
+<iframe src="http://www.maimemo.com/share/page/?uid=779139&pid=660" style="display: none;"></iframe>
+-->
+
+
+
+	
+		<script src="/static/js/scroll.js"></script>
+<script src="/static/js/localization.js"></script>
+<script async src="/static/js/count.min.js"></script>
+
+<!-- Baidu analytics -->
+
+
+<!-- Google analytics -->
+
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-73784599-1', 'auto');
+    ga('send', 'pageview');
+
+  </script>
+
+
+	
+
+</body>
+</html>

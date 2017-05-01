@@ -1,0 +1,51 @@
+{
+  "website":{
+    "title": "Kinglyjn's blog"
+  },
+  "nav":{
+    "home": "Home",
+    "about_me": "About",
+    "skills": "Skills",
+    "projects": "Projects",
+    "career": "Career",
+    "blog": "Blog",
+    "link": "Link&Sharehare"
+  },
+  "about_me":{
+    "about_me": "About Me",
+    "des": "A Lazy Man, intent to select * from t_woman where (age between 20 and 30) and (married=false) and (feature is fashion dignified) and (bodyMind is healthy), gentle and caring disposition is better, don't bother if you are not pure-hearted ..."
+  },
+  "skills":{
+    "my_skills": "Skills"
+  },
+  "projects":{
+    "my_projects": "Projects",
+    "sr-ddcs": "Sr-ddcs is a distributed realtime computation system based on storm and data collection technology which is providing service for enterprises decision and info publishment.",
+    "javaweb": "vcspark (financial service platform), lawcheck (legal service platform), CMS, electronic commerce system, etc.",
+    "cloudID": "an identity authentication private cloud platform based on SaaS mode, supports OTP and OpenID.",
+    "datactr": "datactr provides the platform and expertise to transform your business’ data into revenue-generating assets with analytics."
+  },
+  "career":{
+    "my_career": "Career",
+    "shangrong1": "Hunan ShangRong Information Technology Co. Ltd. Beijing Branch",
+    "shangrong_des": "Financial web system development|Distributed platform development|Team technical collaboration.",
+    "shangrong_date": "Mar. 2015 -",
+    "shangrong_job": "IT Engineer",
+    "kaida1": "Beijing Kaida Technology Co. Ltd.",
+    "kaida_des": "Working major in background of javaee application system.",
+    "kaida_date": "May. 2014",
+    "kaida_job": "Java Dev",
+    "college1": "Yunnan University",
+    "college_des": "Major in physics and computer science | B.S.",
+    "college_date": "Jul. 2014",
+    "college_job": "Student"
+  },
+  "blog":{
+    "my_blog": "My Blog"
+  },
+  "link":{
+    "link": "Link & Share",
+    "view": "views"
+  }
+
+}

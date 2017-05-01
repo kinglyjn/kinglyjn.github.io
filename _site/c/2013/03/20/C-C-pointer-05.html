@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html>
+	
+	    <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+    <meta content="C指针编程之道" name="description">
+  
+  
+    <meta name="keywords" content="C指针编程之道,C语言,kinglyjn">
+  
+  <meta name="author" content="KinglyJn">
+
+  <title>
+    
+        KinglyJn|C指针编程之道（五）- 排序算法
+    
+  </title>
+  <!-- favicon -->
+  <link rel="shortcut icon" href="/static/img/favicon.ico">
+
+  <!-- Third-party CSS -->
+  <link href="/bower_components/normalize-css/normalize.min.css" rel="stylesheet">
+  <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/bower_components/animate.css/animate.min.css" rel="stylesheet">
+  <link href="/bower_components/components-font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="/static/font-mfizz/font-mfizz.css" rel="stylesheet">
+  <!-- <link href="/bower_components/toastr/toastr.min.css" rel="stylesheet"> -->
+  <link href="/bower_components/jquery.gritter/css/jquery.gritter.css" rel="stylesheet">
+  <link rel="stylesheet" href="/search/css/cb-search.css">
+
+  <!-- Custom styles for this template -->
+  <link href="/static/css/style.min.css" rel="stylesheet">
+  <link href="/static/css/pygments.css" rel="stylesheet">
+
+  <!-- Scripts -->
+  <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="/search/js/bootstrap3-typeahead.min.js"></script>
+
+  <!-- cb-search -->
+  <script src="/search/js/cb-search.js"></script>
+  <script>
+    $(function(){
+        $("pre").css('display','block');
+    });
+  </script>
+  <!-- Mainly scripts -->
+  <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="/bower_components/metisMenu/dist/metisMenu.min.js"></script>
+  <script src="/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+
+  <!-- Peity -->
+  <script src="/bower_components/peity/jquery.peity.min.js"></script>
+
+  <script src="/bower_components/PACE/pace.min.js"></script>
+  <script src="/bower_components/wow/dist/wow.min.js"></script>
+  <!-- Custom and plugin javascript -->
+  <script src="/static/js/inspinia.js"></script>
+
+  <!-- Rickshaw -->
+  <script src="/bower_components/rickshaw/vendor/d3.v3.js"></script>
+  <script src="/bower_components/rickshaw/rickshaw.min.js"></script>
+
+
+  <!-- jPages -->
+  <script src="/static/js/jPages.js"></script>
+  <script src="/static/js/js.js"></script>
+  <script type="text/javascript">
+        $(function(){
+          /* initiate the plugin */
+          $("div.pag-holder").jPages({
+              containerID  : "pag-itemContainer",
+              perPage      : 10,  /* num of items per page */
+              startPage    : 1,
+              startRange   : 1,
+              midRange     : 3,
+              endRange     : 1
+          });
+
+          $("div.pag-jump button").click(function(){
+            var page = parseInt($("div.pag-jump input").val());
+            $("div.pag-holder").jPages(page);
+          });
+
+          $("div.pag-jump input").on("keypress", function(){
+            var e=e||window.event;
+            if (e.keyCode == 13) {
+                var page = parseInt($("div.pag-jump input").val());
+                $("div.pag-holder").jPages(page);
+            } 
+          });
+      });
+  </script>
+
+<!-- GrowingIO -->
+
+  <script>
+    var _vds = _vds || [];
+    window._vds = _vds;
+    (function(){
+      _vds.push(['setAccountId', 'a49d4901c7853da9']);
+      (function() {
+        var vds = document.createElement('script');
+        vds.type='text/javascript';
+        vds.async = true;
+        vds.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'dn-growing.qbox.me/vds.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(vds, s);
+      })();
+    })();
+  </script>
+
+
+</head>
+
+	
+
+
+<body id="page-top" class="landing-page">
+
+	
+	    
+
+<!--修复手机端横轴方向左右滑动BUG-->
+<style type="text/css">
+    .landing-page .row {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+</style>
+
+<div class="search-tool"
+      style="position: fixed; top: 0px ; bottom: 0px; left: 0px; right:  0px; opacity: 0.95; background-color: #111111; z-index: 9999; display: none;">
+    <input type="text" class="form-control search-content" id="search-content" style="position: fixed; top: 60px" placeholder="Search Blog">
+
+    <div style="position: fixed; top: 16px; right: 16px; z-index: 9999;">
+        <img src="/search/img/cb-close.png" id="close-btn"/>
+    </div>
+</div>
+
+<div style="position: fixed; right: 16px; bottom: 20px; z-index: 9999;">
+    <img src="/search/img/cb-search.png"  id="search-btn"  title="Double click Ctrl"/>
+</div>
+
+<div class="navbar-wrapper">
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header page-scroll">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/">KinglyJn</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a class="page-scroll" href="/blog/"></a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/blog/">Blog</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/linux/">Linux</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/cloud/">Cloud</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/java/">Java</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/c/">C</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/php/">PHP</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/db/">DB</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/htmlx/">HTMLX</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/life/">Life</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/art/">Art</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/other/">Other</a></li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </nav>
+</div>
+<div id="inSlider" class="carousel carousel-fade" data-ride="carousel">
+    <div style="position:absolute;float:left;left:25%;z-index:15;width:50%;margin-bottom:18%;bottom:0;text-align:center;list-style:none;">
+        <span style="color:white;font-size:24px;">以平实之心写作</span><br>
+        <span style="color:white;font-size:13px;">writing with simple heart ♬. </span>
+    </div>
+    <!--
+    <ol class="carousel-indicators">
+        <li data-target="#inSlider" data-slide-to="0" class="active"></li>
+        <li data-target="#inSlider" data-slide-to="1"></li>
+    </ol>
+    -->
+    <div class="carousel-inner" role="listbox">
+        <div class="item active">
+            <div class="container">
+                <div class="carousel-caption">
+                </div>
+                <div class="carousel-image wow zoomIn">
+                    <!-- <img src="static/img/landing/laptop.png" alt="laptop"/> -->
+                </div>
+            </div>
+            <!-- Set background for slide in css -->
+            <div class="header-back blog-one"></div>
+        </div>
+        <!--
+        <div class="item">
+            <div class="container">
+                <div class="carousel-caption blank">
+                </div>
+            </div>
+            Set background for slide in css
+            <div class="header-back two"></div>
+        </div>
+        -->
+    </div>
+    <!--
+    <a class="left carousel-control" href="#inSlider" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#inSlider" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+    -->
+</div>
+
+
+	
+
+    <div class="wrapper wrapper-content  animated fadeInRight article">
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <div class="pull-right">
+                    	
+                        	<button class="btn btn-white btn-xs" type="button">C</button>
+                        
+                    </div>
+                    <div class="text-center article-title" style="margin-bottom:50px;">
+                        <h1>
+                            C指针编程之道（五）- 排序算法
+                        </h1>
+                        <a href="http://www.keyllo.com/studio/">
+                            <span class="text-muted"><i class="fa fa-user"></i> KinglyJn</span>
+                        </a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <span class="text-muted"><i class="fa fa-clock-o"></i> 2013-03-20</span>
+                    </div>
+                    	<h3 id="冒泡排序">冒泡排序</h3>
+
+<p>算法介绍：<br /></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>算法的基本思想：
+冒泡法排序是交换排序的一种，我们可以将待排序的数组 array[0...n-1] 理解为一个圆柱，将数组中的每一个元素都看成是重量为
+array[i]的气泡，其中array[0]在最上面，array[n-1]在最下面。排序时根据轻气泡在上重气泡在下的原则，则上而下扫描数组，
+遇到违反原则的气泡，就使其向下沉，直到所有的气泡都是轻气泡在上，重气泡在下为止。
+
+算法的基本流程：
+1. 初始时，array[0...n-1]无序，对n个元素进行n-1趟扫描
+    82431
+2. 第一趟扫描，自上而下依次比较数组R相邻的两个气泡的重量，若发现轻者在下、重者在上，则交换两个气泡的位置，经过第一趟比较，
+   最重的气泡就被送到最下面，因此下一趟比较就至少可以减少一次；
+    28431 24831 24381 24318
+3. 第二趟扫面，扫描array[0...n-2]，经过此次扫描，“次重”的气泡就被送到array[n-2]的位置上；
+    24318 23418 23148
+4. 按照以上的方法进行扫描，每次的扫描都比上一次的扫描少一次，直到进行n-1趟扫描，算法结束。
+    23148 21348
+    12348
+</code></pre>
+</div>
+
+<p>算法实现：<br /></p>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="c1">//原始冒泡排序算法
+</span><span class="kt">void</span> <span class="nf">bubble_sort</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">array</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">t</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">j</span><span class="o">&lt;</span><span class="n">i</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">array</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">array</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span> <span class="p">{</span>
+                <span class="n">t</span> <span class="o">=</span> <span class="n">array</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+                <span class="n">array</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">array</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">];</span>
+                <span class="n">array</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="cm">/*
+0   8 2 4 3 1
+1   2 4 3 1 8
+2   2 3 1 4 8
+3   2 1 3 4 8
+4   1 2 3 4 8
+
+我们发现，每一趟比较结束之后，若发现从某个位置r开始，不再进行记录交换，就说明从array[r+1]到array[n-1]
+已经排好序了，从而下一趟比较只要进行到位置r就可以了。若发现某一趟扫描中没有交换记录，则说明所有的元素都已
+经有序，算法就可以结束了，而不是非要进行n-1趟扫描。基于这种思想，可以给出冒泡排序的改进算法。
+*/</span>
+
+<span class="c1">//改进冒泡排序算法
+</span><span class="kt">void</span> <span class="nf">bubble_sort</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">array</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">m</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">bound</span><span class="o">=</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">t</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">bound</span><span class="o">!=</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span> <span class="c1">//bound记录m的值，m是每趟冒泡最后一次发生交换的位置，只要排序还没有排完，m的值就会从0发生改变
+</span>        <span class="n">m</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">bound</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span> <span class="p">{</span>
+                <span class="n">t</span> <span class="o">=</span> <span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+                <span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">];</span>
+                <span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span><span class="p">;</span>
+                <span class="n">m</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="n">bound</span> <span class="o">=</span> <span class="n">m</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="cm">/*
+上述冒泡排序只考虑了重气泡下沉的过程，是“单向起泡”，即使得重气泡下沉，经过一次冒泡至少可以把关键词最大的记录送到最后的位置。
+其实我们可以在重气泡下沉的同时，也使轻气泡上浮，这样经过一次扫描就可以至少把关键词最大的记录和关键词最小的记录放到最终的位
+置上，这就是“双向起泡”，基于这种思想，我们给出双向起泡排序算法的实现如下。
+*/</span>
+
+<span class="c1">//双向起泡排序算法（最终版）
+</span><span class="kt">void</span> <span class="nf">bubble_sort</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">array</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">mmin</span><span class="p">,</span><span class="n">boundmin</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">mmax</span><span class="p">,</span><span class="n">boundmax</span><span class="o">=</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">t</span><span class="p">;</span>
+    
+    <span class="k">while</span> <span class="p">(</span><span class="n">boundmin</span><span class="o">&lt;</span><span class="n">boundmax</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">mmin</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="n">mmax</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        
+        <span class="c1">//重气泡下沉
+</span>        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="n">boundmin</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">boundmax</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span> <span class="p">{</span>
+                <span class="n">t</span> <span class="o">=</span> <span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+                <span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">];</span>
+                <span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span><span class="p">;</span>
+                <span class="n">mmax</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">mmax</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span> <span class="c1">//本次没有记录交换，扫描结束
+</span>        <span class="n">boundmax</span> <span class="o">=</span> <span class="n">mmax</span><span class="p">;</span>
+        
+        <span class="c1">//轻气泡上浮
+</span>        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="n">boundmax</span><span class="p">;</span> <span class="n">i</span><span class="o">&gt;</span><span class="n">boundmin</span><span class="p">;</span> <span class="n">i</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="p">{</span>
+                <span class="n">t</span> <span class="o">=</span> <span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+                <span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">];</span>
+                <span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span><span class="p">;</span>
+                <span class="n">mmin</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">mmin</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span> <span class="c1">//本次没有记录交换，扫描结束
+</span>        <span class="n">boundmin</span> <span class="o">=</span> <span class="n">mmin</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>冒泡排序性能评价：<br /></p>
+
+<ul>
+  <li>时间复杂度：最好时间为O(n)，最坏时间为O(n^2)，因此平均时间复杂度为O(n^2)；</li>
+  <li>空间复杂度：冒泡排序是就地排序，空间复杂度为O(1)；</li>
+  <li>稳定性：有算法的流程可知，冒泡排序是稳定的；</li>
+</ul>
+
+<p><br /><br /></p>
+
+<h3 id="快速排序法">快速排序法</h3>
+
+<p>算法介绍：<br /></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>算法的基本思想：
+快速排序也叫分划交换排序，是交换排序的一种。它采用叫做分治的策略，将问题分解为若干规模更小但与原问题相似的子问题，递归地求解
+这些子问题，最终将子问题的解组合为原问题的解。快速排序正是结合了分治法这种“分而治之”的理念来实现的，其基本思想如下：
+
+1. 分划：在array[low..high]中选择一个记录array[i]作为基准，记录array[i]将当前序列划分为左右两个子区间array[low..i-1]
+        和array[i+1..high]，且满足左子区间中所有记录的值都小于array[i]的值，右子区间中所有记录的值都大于array[i]的值，
+        而array[i]就在它最终的位置上，无需参加之后的排序；
+2. 求解：array[i]将当前序列划分为左右两个子区间array[low..i-1]和array[i+1..high]，这两个子区间都可以进行单独的排序，所
+        以就可以递归调用快速排序方法对左右两个子区间进行排序；
+3. 组合：当两个子区间排序完成后，整个序列就完成了排序任务，这里的组合实际上不需要做任何操作。
+
+快速排序主要是利用基准记录对序列进行分划，可见如何寻找基准记录是算法的关键。
+</code></pre>
+</div>
+
+<p>示例：（49 38 65 97 76 13 27） <br /></p>
+<ol>
+  <li>
+    <p>选取49为基准，从右到左找出第一个比49小的数与49位置调换，从左到右找出<br />
+第一个比49大的数与49位置调换，i和j坐标不断向中间靠拢，直到i==j为止。<br />
+<span style="color:red">27</span> 38 65 97 76 13 <span style="color:red">49</span><br />
+27 38 <span style="color:red">49</span> 97 76 13 <span style="color:red">65</span><br />
+27 38 <span style="color:red">13</span> 97 76 <span style="color:red">49</span> 65<br />
+27 38 13 <span style="color:red">49</span> 76 <span style="color:red">97</span> 65<br /></p>
+  </li>
+  <li>
+    <p>经过第一个排序循环，49被排在了它最终应有的位置上（左边的数都比49小，右边的数都比49大）。<br />
+再次运用递归的方法，求出49两边的排序。<br /></p>
+  </li>
+</ol>
+
+<p>算法实现：<br /></p>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="c1">//分划算法(以最左端值array[i]为基准，不断左右比较后，求出它在最终序列上的下标位置)
+</span><span class="kt">int</span> <span class="nf">part</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">array</span><span class="p">,</span> <span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="kt">int</span> <span class="n">j</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">t</span><span class="o">=</span><span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    
+    <span class="k">while</span> <span class="p">(</span><span class="n">i</span><span class="o">&lt;</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span> <span class="c1">//两端交替向中间扫描，直到i==j为止
+</span>        <span class="c1">//从右向左扫描，找出第一个小于t的数
+</span>        <span class="k">while</span> <span class="p">(</span><span class="n">i</span><span class="o">&lt;</span><span class="n">j</span> <span class="o">&amp;&amp;</span> <span class="n">array</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">&gt;=</span><span class="n">t</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">j</span><span class="o">--</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">i</span><span class="o">&lt;</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span> <span class="c1">//表示找到了这个数array[j]
+</span>            <span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">array</span><span class="p">[</span><span class="n">j</span><span class="p">];</span> <span class="c1">//这里”相当于“array[i]和array[j]交换位置
+</span>            <span class="n">i</span><span class="o">++</span><span class="p">;</span>
+        <span class="p">}</span>
+        
+        <span class="c1">//从左到右扫描，找出第一个大于t的数
+</span>        <span class="k">while</span> <span class="p">(</span><span class="n">i</span><span class="o">&lt;</span><span class="n">j</span> <span class="o">&amp;&amp;</span> <span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">&lt;=</span><span class="n">t</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">i</span><span class="o">++</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">i</span><span class="o">&lt;</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span> <span class="c1">//表示找到了这个数array[i]
+</span>            <span class="n">array</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="p">];</span><span class="c1">//这里”相当于“array[i]和array[j]交换位置
+</span>            <span class="n">j</span><span class="o">--</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span><span class="p">;</span> <span class="c1">//最后定位基准位置
+</span>    
+    <span class="k">return</span> <span class="n">i</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">//快速排序法
+</span><span class="kt">void</span> <span class="nf">quick_sort</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span> <span class="n">array</span><span class="p">,</span> <span class="kt">int</span> <span class="n">low</span><span class="p">,</span> <span class="kt">int</span> <span class="n">high</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">low</span> <span class="o">&lt;</span> <span class="n">high</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">mid</span> <span class="o">=</span> <span class="n">part</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">low</span><span class="p">,</span> <span class="n">high</span><span class="p">);</span>
+        <span class="n">quick_sort</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">low</span><span class="p">,</span> <span class="n">mid</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+        <span class="n">quick_sort</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">mid</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">high</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+<p>快速排序性能评价：<br /></p>
+
+<ul>
+  <li>时间复杂度：最好时间为O(nlog2Q)，最坏时间为O(n^2)，因此平均时间复杂度为O(nlog2n) [以2为底的对数]；</li>
+  <li>空间复杂度：最坏复杂度为O(n), 平均空间复杂度为O(nlog2n)；</li>
+  <li>稳定性：有算法的流程可知，冒泡排序是不稳定的，即原序列经排序后相同记录的相对位置可能发生改变；</li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="直接选择排序">直接选择排序</h3>
+
+<p>算法介绍：<br /></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>算法的基本思想：
+直接选择排序是选择排序的一种。算法对待排序的记录进行n-1次选择，第i次操作选择第i大的记录放在第i个位置上，即
+每一次都将一个记录放到它的最终的位置上，这就是所谓的“各回各家”。
+
+算法的基本流程：
+1. array[0..n-1]无序；
+2. 第一趟排序：在array[0..n-1]中找出最小的记录array[t]，将它与array[0]交换，此时array[0..0]有序，array[1..n-1]无序；
+3. 重复2，...
+4. 如此，n个记录经过n-1趟直接选择排序就可以得到有序序列。
+</code></pre>
+</div>
+
+<p>算法实现：<br /></p>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">select_sort</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">array</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">k</span><span class="p">;</span> <span class="c1">//记录每趟扫描的最小值
+</span>    <span class="kt">int</span> <span class="n">t</span><span class="p">;</span>
+    
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span> <span class="n">j</span><span class="o">&lt;</span><span class="n">n</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">array</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">array</span><span class="p">[</span><span class="n">k</span><span class="p">])</span> <span class="p">{</span>
+                <span class="n">k</span> <span class="o">=</span> <span class="n">j</span><span class="p">;</span> <span class="c1">//记录当前最小值的位置
+</span>            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">k</span><span class="o">!=</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="n">array</span><span class="p">[</span><span class="n">k</span><span class="p">];</span>
+            <span class="n">array</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+            <span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>选择排序性能评价：<br /></p>
+
+<ul>
+  <li>时间复杂度：选择排序的最大优点就是赋值次数少，关键字比较的次数均是n(n-1)/2，因此时间复杂度为O(n^2)；</li>
+  <li>空间复杂度：直接选择排序为就地排序，空间复杂度为O(1)；</li>
+  <li>稳定性：直接选择排序是不稳定的。</li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="直接插入排序">直接插入排序</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>算法基本思想：
+直接插入排序是插入排序的一种，记录array[0..i-1]已经排好顺序，即array[0]&lt;array[1]&lt;...&lt;array[i-1]，
+将待排序记录array[i]插入到上述序列中的适当位置，使得新的序列也有顺序。
+
+算法基本流程：
+1. 待排序数组array[0..n-1]，初始时，array[0]自成有序区，array[1..n-1]无序；
+2. 第一趟直接插入排序：将array[1]与array[0]比较，若array[1]&lt;array[0]，则将array[0]向后移动一个位置，
+   腾出位置插入array[1]，否则将array[i]插入到array[0]的后面；
+3. 重复2，...
+4. 按如上方法插入，直到将array[n-1]插入到有序序列array[0..n-2]中。
+</code></pre>
+</div>
+
+<p>算法实现：<br /></p>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">insert_sort</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">array</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">temp</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">j</span><span class="p">;</span>
+    
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="p">{</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+            
+            <span class="k">for</span> <span class="p">(</span><span class="n">j</span><span class="o">=</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">temp</span><span class="o">&lt;</span><span class="n">array</span><span class="p">[</span><span class="n">j</span><span class="p">];</span> <span class="n">j</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">array</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">array</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+            <span class="p">}</span>
+            
+            <span class="n">array</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+<p>直接插入排序性能评价：<br />
+直接插入法优点是算法执行过程比较清晰，容易实现，当待排序记录的数量很小时，宜使用该方法，但当记录很大时，不易使用该方法。<br /></p>
+
+<ul>
+  <li>时间复杂度：时间复杂度为O(n^2)；</li>
+  <li>空间复杂度：空间复杂度为O(1)；</li>
+  <li>稳定性：稳定。</li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="希尔排序法">希尔排序法</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>算法的基本思想：
+希尔排序是对直接插入排序的一种改进方法，其基本思想是，把记录按下表的一定增量进行分组，对每一组使用直接插入排序法，随着增量的逐渐
+减少，组内的记录越来越多，直至增量减至1时，整个序列正好被分成一个组，算法结束。
+
+算法的基本实现：
+1. 序列array[0..n-1]无序，取一个小于n的整数d1为第一个增量，将距离d1的倍数的记录放到同一个组中，在组内进行直接插入排序；
+2. 取第二个增量d2&lt;d1，重复上面的分组和排序，直到取到的增量dm=1（其中d1&gt;d2&gt;..dm），即所有的记录都放在同一组中进行直接插入排序为止。
+</code></pre>
+</div>
+
+<p>算法的实现：<br /></p>
+
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">shell_insert</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">array</span><span class="p">,</span> <span class="kt">int</span> <span class="n">step</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">j</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">temp</span><span class="p">;</span>
+    
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="n">step</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="n">step</span><span class="p">])</span> <span class="p">{</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+            
+            <span class="k">for</span> <span class="p">(</span><span class="n">j</span><span class="o">=</span><span class="n">i</span><span class="o">-</span><span class="n">step</span><span class="p">;</span> <span class="n">j</span><span class="o">&gt;=</span><span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">temp</span><span class="o">&lt;</span><span class="n">array</span><span class="p">[</span><span class="n">j</span><span class="p">];</span> <span class="n">j</span><span class="o">-=</span><span class="n">step</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">array</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="n">step</span><span class="p">]</span> <span class="o">=</span> <span class="n">array</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+            <span class="p">}</span>
+            <span class="n">array</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="n">step</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">shell_sort</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">array</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">addition</span> <span class="o">=</span> <span class="n">n</span><span class="p">;</span><span class="c1">//开始的增量
+</span>    <span class="k">while</span> <span class="p">(</span><span class="n">addition</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">addition</span> <span class="o">=</span> <span class="n">addition</span><span class="o">/</span><span class="mi">3</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span> <span class="c1">//求下一个增量
+</span>        <span class="n">shell_insert</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">addition</span><span class="p">,</span> <span class="n">n</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+<p>直接插入排序性能评价：<br />
+直接插入法优点是算法执行过程比较清晰，容易实现，当待排序记录的数量很小时，宜使用该方法，但当记录很大时，不易使用该方法。<br /></p>
+
+<ul>
+  <li>时间复杂度：对希尔排序的时间复杂性进行分析是个复杂的问题，因为它的时间是所取增量序列的函数，希尔排序渐进增量可选如下任意的
+自然序列：n&gt;dm&gt;dm-1&gt;…d2&gt;d1=1，渐进增量的取法可以有很多种，但需要注意的是，应使渐减增量序列中没有除了1以外的公因子，并且
+最后一个增量值必须为1，当n不太大时，使用直接插入排序比较好；</li>
+  <li>空间复杂度：空间复杂度为O(1)；</li>
+  <li>稳定性：不稳定。</li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="堆排序算法">堆排序算法：</h3>
+
+<h3 id="归并排序算法">归并排序算法：</h3>
+
+<p><br /></p>
+
+<h3 id="排序方法小结">排序方法小结</h3>
+
+<ul>
+  <li>当待排序的序列基本有序时，用直接排序最快，冒泡排序也较快，快速排序明显变慢。此外，直接插入排序最简单，当序列中的记录数量较小时，
+他也是最佳的排序方法，因此也经常和其他算法一起使用，如快速排序、归并排序等；</li>
+  <li>当待排序的记录数n较小时，可使用插入排序或选择排序，由于直接插入排序所需移动记录的操作比较多，因此当记录本身信息量较大时用简单
+选择排序方法比较好；</li>
+  <li>当n较大时，应采用时间复杂度为O(nlog2n)的快速排序、堆排序或者归并排序方法；</li>
+  <li>改进的冒泡排序对输入是敏感的，类似于直接插入排序；快速排序对输入非常敏感；选择排序对输入不敏感；归并排序对输入不敏感；</li>
+</ul>
+
+
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-6">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">c</button>
+                                
+                        </div>
+                        
+                        <!--
+                        <div class="col-md-6">
+                            <div class="small text-right">
+                                <div>    
+                                    <i class="fa fa-comments-o"> </i> 
+                                    <span class="ds-comments">0</span>条评论
+                                </div>
+                                <div>
+                                    <i class="fa fa-share-alt"> </i> 
+                                    <span class="ds-shares">0</span>条转发
+                                </div>  
+                            </div>
+                        </div>
+                        -->
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <!-- donate -->
+                            
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal2">
+    Donate
+</button>
+<div class="modal inmodal" id="myModal2" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated flipInY">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Donate Me</h4>
+                <small class="font-bold">Thanks for your support!</small>
+            </div>
+            <div class="modal-body">
+                <div class="tabbable" id="tabs-960227">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#panel-405278" data-toggle="tab">Alipay</a>
+                        </li>
+                        <li>
+                            <a href="#panel-874705" data-toggle="tab">Wechat</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="panel-405278">
+                            <div class="text-center">
+                                <img src="/static/img/pay/alipay.png"" height="250" width="250">
+                            </div>    
+                        </div>
+                        <div class="tab-pane" id="panel-874705">
+                            <div class="text-center">
+                                <img src="/static/img/pay/wechat.png"" height="250" width="250">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+                            
+                            <br>
+                            <!-- share -->
+                            
+                                
+<!--分享-->
+<div class="row" style="margin-top:30px;">
+	<h2>Share:</h2>
+    <div class="social-share" style="margin-left:-5px;"data-sites="wechat,qq,qzone,weibo"></div> 
+</div>
+<link rel="stylesheet" href="/static/css/share.min.css">
+<script src="/static/js/jquery.share.min.js"></script>
+<script src="/static/js/embed.js"></script>
+
+<script>
+  var url = 'http://localhost:4000/c/2013/03/20/C-C-pointer-05.html';
+  var source = 'http://localhost:4000/c/2013/03/20/C-C-pointer-05.html';
+  var title = 'C指针编程之道（五）- 排序算法';
+  var excerpt = $("p:eq(0)").text();
+  
+  var imageUrl = 'http://localhost:4000/static/img/landing/header_one.jpg';
+  var imgEle = $(".content_img:eq(0)");
+  if (imgEle) {
+    imageUrl = imgEle.attr("src");
+  }
+
+  var $config = {
+      url: url, // 网址，默认使用 window.location.href
+      source: source, // 来源（QQ空间会用到）, 默认读取head标签：<meta name="site" content="http://overtrue" />
+      title: title, // 标题，默认读取 document.title 或者 <meta name="title" content="share.js" />
+      description: excerpt, // 描述, 默认读取head标签：<meta name="description" content="PHP弱类型的实现原理分析" />
+      image: imageUrl, // 图片, 默认取网页中第一个img标签
+      sites: ['qzone', 'qq', 'weibo','wechat','douban'], // 启用的站点
+      //disabled: ['google', 'facebook', 'twitter'], // 禁用的站点
+      wechatQrcodeTitle: "微信扫一扫：分享", // 微信二维码提示文字
+      wechatQrcodeHelper: '<p style="font-size:10px;">微信里点“发现”，扫一下</p><p style="font-size:10px;">二维码便可将本文分享至朋友圈。</p>',
+   };
+  $('.social-share').share($config);
+</script>
+
+
+
+
+                            
+                            <br>
+                            <!-- comment -->
+                            <!--
+
+
+
+-->
+
+<!-- 多说评论框 start -->
+<div class="row" style="margin-top:25px;"></div>
+<div class="ds-thread" data-thread-key="/c/2013/03/20/C-C-pointer-05.html" data-title="C指针编程之道（五）- 排序算法" data-url="http://localhost:4000/c/2013/03/20/C-C-pointer-05.html"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+	var duoshuoQuery = {short_name:"kinglyjn"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+<!-- 多说公共JS代码 end -->
+
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+	
+	    <script src="/static/js/scroll.js"></script>
+
+<!-- Baidu analytics -->
+
+
+<!-- Google analytics -->
+
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-73784599-1', 'auto');
+    ga('send', 'pageview');
+
+  </script>
+
+
+<!--
+
+-->
+
+<!--
+
+-->
+
+<script async src="/static/js/count_page.js"></script>
+
+	
+
+</body>
+</html>

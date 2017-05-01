@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html>
+	
+	    <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+    <meta content="java开发常见设计模式" name="description">
+  
+  
+    <meta name="keywords" content="java开发常见设计模式,设计模式,java,kinglyjn">
+  
+  <meta name="author" content="KinglyJn">
+
+  <title>
+    
+        KinglyJn|java开发常见设计模式
+    
+  </title>
+  <!-- favicon -->
+  <link rel="shortcut icon" href="/static/img/favicon.ico">
+
+  <!-- Third-party CSS -->
+  <link href="/bower_components/normalize-css/normalize.min.css" rel="stylesheet">
+  <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/bower_components/animate.css/animate.min.css" rel="stylesheet">
+  <link href="/bower_components/components-font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="/static/font-mfizz/font-mfizz.css" rel="stylesheet">
+  <!-- <link href="/bower_components/toastr/toastr.min.css" rel="stylesheet"> -->
+  <link href="/bower_components/jquery.gritter/css/jquery.gritter.css" rel="stylesheet">
+  <link rel="stylesheet" href="/search/css/cb-search.css">
+
+  <!-- Custom styles for this template -->
+  <link href="/static/css/style.min.css" rel="stylesheet">
+  <link href="/static/css/pygments.css" rel="stylesheet">
+
+  <!-- Scripts -->
+  <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="/search/js/bootstrap3-typeahead.min.js"></script>
+
+  <!-- cb-search -->
+  <script src="/search/js/cb-search.js"></script>
+  <script>
+    $(function(){
+        $("pre").css('display','block');
+    });
+  </script>
+  <!-- Mainly scripts -->
+  <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="/bower_components/metisMenu/dist/metisMenu.min.js"></script>
+  <script src="/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+
+  <!-- Peity -->
+  <script src="/bower_components/peity/jquery.peity.min.js"></script>
+
+  <script src="/bower_components/PACE/pace.min.js"></script>
+  <script src="/bower_components/wow/dist/wow.min.js"></script>
+  <!-- Custom and plugin javascript -->
+  <script src="/static/js/inspinia.js"></script>
+
+  <!-- Rickshaw -->
+  <script src="/bower_components/rickshaw/vendor/d3.v3.js"></script>
+  <script src="/bower_components/rickshaw/rickshaw.min.js"></script>
+
+
+  <!-- jPages -->
+  <script src="/static/js/jPages.js"></script>
+  <script src="/static/js/js.js"></script>
+  <script type="text/javascript">
+        $(function(){
+          /* initiate the plugin */
+          $("div.pag-holder").jPages({
+              containerID  : "pag-itemContainer",
+              perPage      : 10,  /* num of items per page */
+              startPage    : 1,
+              startRange   : 1,
+              midRange     : 3,
+              endRange     : 1
+          });
+
+          $("div.pag-jump button").click(function(){
+            var page = parseInt($("div.pag-jump input").val());
+            $("div.pag-holder").jPages(page);
+          });
+
+          $("div.pag-jump input").on("keypress", function(){
+            var e=e||window.event;
+            if (e.keyCode == 13) {
+                var page = parseInt($("div.pag-jump input").val());
+                $("div.pag-holder").jPages(page);
+            } 
+          });
+      });
+  </script>
+
+<!-- GrowingIO -->
+
+  <script>
+    var _vds = _vds || [];
+    window._vds = _vds;
+    (function(){
+      _vds.push(['setAccountId', 'a49d4901c7853da9']);
+      (function() {
+        var vds = document.createElement('script');
+        vds.type='text/javascript';
+        vds.async = true;
+        vds.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'dn-growing.qbox.me/vds.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(vds, s);
+      })();
+    })();
+  </script>
+
+
+</head>
+
+	
+
+
+<body id="page-top" class="landing-page">
+
+	
+	    
+
+<!--修复手机端横轴方向左右滑动BUG-->
+<style type="text/css">
+    .landing-page .row {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+</style>
+
+<div class="search-tool"
+      style="position: fixed; top: 0px ; bottom: 0px; left: 0px; right:  0px; opacity: 0.95; background-color: #111111; z-index: 9999; display: none;">
+    <input type="text" class="form-control search-content" id="search-content" style="position: fixed; top: 60px" placeholder="Search Blog">
+
+    <div style="position: fixed; top: 16px; right: 16px; z-index: 9999;">
+        <img src="/search/img/cb-close.png" id="close-btn"/>
+    </div>
+</div>
+
+<div style="position: fixed; right: 16px; bottom: 20px; z-index: 9999;">
+    <img src="/search/img/cb-search.png"  id="search-btn"  title="Double click Ctrl"/>
+</div>
+
+<div class="navbar-wrapper">
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header page-scroll">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/">KinglyJn</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a class="page-scroll" href="/blog/"></a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/blog/">Blog</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/linux/">Linux</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/cloud/">Cloud</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/java/">Java</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/c/">C</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/php/">PHP</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/db/">DB</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/htmlx/">HTMLX</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/life/">Life</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/art/">Art</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/other/">Other</a></li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </nav>
+</div>
+<div id="inSlider" class="carousel carousel-fade" data-ride="carousel">
+    <div style="position:absolute;float:left;left:25%;z-index:15;width:50%;margin-bottom:18%;bottom:0;text-align:center;list-style:none;">
+        <span style="color:white;font-size:24px;">以平实之心写作</span><br>
+        <span style="color:white;font-size:13px;">writing with simple heart ♬. </span>
+    </div>
+    <!--
+    <ol class="carousel-indicators">
+        <li data-target="#inSlider" data-slide-to="0" class="active"></li>
+        <li data-target="#inSlider" data-slide-to="1"></li>
+    </ol>
+    -->
+    <div class="carousel-inner" role="listbox">
+        <div class="item active">
+            <div class="container">
+                <div class="carousel-caption">
+                </div>
+                <div class="carousel-image wow zoomIn">
+                    <!-- <img src="static/img/landing/laptop.png" alt="laptop"/> -->
+                </div>
+            </div>
+            <!-- Set background for slide in css -->
+            <div class="header-back blog-one"></div>
+        </div>
+        <!--
+        <div class="item">
+            <div class="container">
+                <div class="carousel-caption blank">
+                </div>
+            </div>
+            Set background for slide in css
+            <div class="header-back two"></div>
+        </div>
+        -->
+    </div>
+    <!--
+    <a class="left carousel-control" href="#inSlider" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#inSlider" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+    -->
+</div>
+
+
+	
+
+    <div class="wrapper wrapper-content  animated fadeInRight article">
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <div class="pull-right">
+                    	
+                        	<button class="btn btn-white btn-xs" type="button">Java</button>
+                        
+                    </div>
+                    <div class="text-center article-title" style="margin-bottom:50px;">
+                        <h1>
+                            java开发常见设计模式
+                        </h1>
+                        <a href="http://www.keyllo.com/studio/">
+                            <span class="text-muted"><i class="fa fa-user"></i> KinglyJn</span>
+                        </a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <span class="text-muted"><i class="fa fa-clock-o"></i> 2012-12-16</span>
+                    </div>
+                    	<h3 id="责任链模式">责任链模式</h3>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="cm">/**
+* 封装请求体
+*/</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Request</span> <span class="o">{</span>
+	<span class="kd">private</span> <span class="n">String</span> <span class="n">content</span><span class="o">;</span>
+
+	<span class="kd">public</span> <span class="nf">Request</span><span class="o">(</span><span class="n">String</span> <span class="n">content</span><span class="o">)</span> <span class="o">{</span>
+		<span class="kd">super</span><span class="o">();</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">content</span> <span class="o">=</span> <span class="n">content</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="kd">public</span> <span class="n">String</span> <span class="nf">getContent</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">content</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setContent</span><span class="o">(</span><span class="n">String</span> <span class="n">content</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">content</span> <span class="o">=</span> <span class="n">content</span><span class="o">;</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+
+<span class="cm">/**
+* 封装响应体
+*/</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Response</span> <span class="o">{</span>
+	<span class="kd">private</span> <span class="n">String</span> <span class="n">content</span><span class="o">;</span>
+
+	<span class="kd">public</span> <span class="nf">Response</span><span class="o">(</span><span class="n">String</span> <span class="n">content</span><span class="o">)</span> <span class="o">{</span>
+		<span class="kd">super</span><span class="o">();</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">content</span> <span class="o">=</span> <span class="n">content</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="kd">public</span> <span class="n">String</span> <span class="nf">getContent</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">content</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setContent</span><span class="o">(</span><span class="n">String</span> <span class="n">content</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">content</span> <span class="o">=</span> <span class="n">content</span><span class="o">;</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+
+<span class="cm">/**
+* 过滤器接口（过滤器和过滤器链都实现该接口）
+*/</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Filter</span> <span class="o">{</span>
+	<span class="kt">void</span> <span class="nf">doFilter</span><span class="o">(</span><span class="n">Request</span> <span class="n">request</span><span class="o">,</span> <span class="n">Response</span> <span class="n">response</span><span class="o">,</span> <span class="n">FilterChain</span> <span class="n">chain</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="cm">/**
+* 过滤器链
+*/</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">FilterChain</span> <span class="kd">implements</span> <span class="n">Filter</span> <span class="o">{</span>
+	<span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Filter</span><span class="o">&gt;</span> <span class="n">filters</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Filter</span><span class="o">&gt;();</span>
+	<span class="kd">private</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+
+	<span class="kd">public</span> <span class="nf">FilterChain</span><span class="o">()</span> <span class="o">{</span>
+		<span class="kd">super</span><span class="o">();</span>
+	<span class="o">}</span>
+	<span class="kd">public</span> <span class="nf">FilterChain</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Filter</span><span class="o">&gt;</span> <span class="n">filters</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">filters</span> <span class="o">=</span> <span class="n">filters</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Filter</span><span class="o">&gt;</span> <span class="nf">getFilters</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">filters</span><span class="o">;</span>
+	<span class="o">}</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setFilters</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Filter</span><span class="o">&gt;</span> <span class="n">filters</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">filters</span> <span class="o">=</span> <span class="n">filters</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="c1">//</span>
+	<span class="kd">public</span> <span class="n">FilterChain</span> <span class="nf">addFilter</span><span class="o">(</span><span class="n">Filter</span> <span class="n">filter</span><span class="o">)</span> <span class="o">{</span>
+		<span class="n">filters</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">filter</span><span class="o">);</span>
+		<span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+	<span class="o">}</span>
+	<span class="c1">//</span>
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">doFilter</span><span class="o">(</span><span class="n">Request</span> <span class="n">request</span><span class="o">,</span> <span class="n">Response</span> <span class="n">response</span><span class="o">,</span> <span class="n">FilterChain</span> <span class="n">chain</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">if</span> <span class="o">(</span><span class="n">chain</span><span class="o">.</span><span class="na">getFilters</span><span class="o">().</span><span class="na">isEmpty</span><span class="o">()</span> <span class="o">||</span> <span class="n">i</span><span class="o">==</span><span class="n">chain</span><span class="o">.</span><span class="na">getFilters</span><span class="o">().</span><span class="na">size</span><span class="o">())</span> <span class="o">{</span>
+			<span class="k">return</span><span class="o">;</span>
+		<span class="o">}</span>
+		<span class="n">Filter</span> <span class="n">filter</span> <span class="o">=</span> <span class="n">chain</span><span class="o">.</span><span class="na">getFilters</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">);</span> 
+		<span class="n">i</span><span class="o">++;</span> <span class="c1">//注意顺序</span>
+		<span class="n">filter</span><span class="o">.</span><span class="na">doFilter</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">,</span> <span class="n">chain</span><span class="o">);</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+
+<span class="cm">/**
+* 过滤器Filter1，Filter2，Filter3
+*/</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Filter1</span> <span class="kd">implements</span> <span class="n">Filter</span> <span class="o">{</span>
+
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">doFilter</span><span class="o">(</span><span class="n">Request</span> <span class="n">request</span><span class="o">,</span> <span class="n">Response</span> <span class="n">response</span><span class="o">,</span> <span class="n">FilterChain</span> <span class="n">chain</span><span class="o">)</span> <span class="o">{</span>
+		<span class="n">request</span><span class="o">.</span><span class="na">setContent</span><span class="o">(</span><span class="n">request</span><span class="o">.</span><span class="na">getContent</span><span class="o">()</span> <span class="o">+</span> <span class="s">" filter1"</span><span class="o">);</span>
+		<span class="n">chain</span><span class="o">.</span><span class="na">doFilter</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">,</span> <span class="n">chain</span><span class="o">);</span>
+		<span class="n">response</span><span class="o">.</span><span class="na">setContent</span><span class="o">(</span><span class="n">response</span><span class="o">.</span><span class="na">getContent</span><span class="o">()</span> <span class="o">+</span> <span class="s">" filter1"</span><span class="o">);</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+
+<span class="cm">/**
+* main
+*/</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+	<span class="n">Request</span> <span class="n">request</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Request</span><span class="o">(</span><span class="s">"myrequest"</span><span class="o">);</span>
+	<span class="n">Response</span> <span class="n">response</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Response</span><span class="o">(</span><span class="s">"myresponse"</span><span class="o">);</span>
+	
+	<span class="n">Filter1</span> <span class="n">filter1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Filter1</span><span class="o">();</span>
+	<span class="n">Filter2</span> <span class="n">filter2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Filter2</span><span class="o">();</span>
+	<span class="n">Filter3</span> <span class="n">filter3</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Filter3</span><span class="o">();</span>
+	
+	<span class="n">FilterChain</span> <span class="n">chain</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FilterChain</span><span class="o">();</span>
+	<span class="n">chain</span><span class="o">.</span><span class="na">addFilter</span><span class="o">(</span><span class="n">filter1</span><span class="o">).</span><span class="na">addFilter</span><span class="o">(</span><span class="n">filter2</span><span class="o">).</span><span class="na">addFilter</span><span class="o">(</span><span class="n">filter3</span><span class="o">);</span>
+	<span class="n">chain</span><span class="o">.</span><span class="na">doFilter</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">,</span> <span class="n">chain</span><span class="o">);</span>
+	
+	<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">request</span><span class="o">.</span><span class="na">getContent</span><span class="o">());</span>
+	<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">response</span><span class="o">.</span><span class="na">getContent</span><span class="o">());</span>
+<span class="o">}</span>
+
+<span class="c1">//运行结果：</span>
+<span class="n">myrequest</span>  <span class="n">filter1</span>  <span class="n">filter2</span>  <span class="n">filter3</span>
+<span class="n">myresponse</span>  <span class="n">filter3</span>  <span class="n">filter2</span>  <span class="n">fileter1</span>
+</code></pre>
+</div>
+<p>责任链模式代码执行过程: <br />
+<img src="http://img.blog.csdn.net/20161228143659330?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:80%" /><br /></p>
+
+<h3 id="监听者模式">监听者模式</h3>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="cm">/**
+ * 监听者接口
+ */</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Listener</span> <span class="o">{</span>
+	<span class="kt">void</span> <span class="nf">action</span><span class="o">(</span><span class="n">Event</span> <span class="n">e</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">GrandPa</span> <span class="kd">implements</span> <span class="n">Listener</span> <span class="o">{</span>
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">action</span><span class="o">(</span><span class="n">Event</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"grandFather hug child!  "</span> <span class="o">+</span> <span class="n">e</span><span class="o">);</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Dad</span> <span class="kd">implements</span> <span class="n">Listener</span> <span class="o">{</span>
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">action</span><span class="o">(</span><span class="n">Event</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"dad feed child!  "</span> <span class="o">+</span> <span class="n">e</span><span class="o">);</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Dog</span> <span class="kd">implements</span> <span class="n">Listener</span> <span class="o">{</span>
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">action</span><span class="o">(</span><span class="n">Event</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"wang wang!  "</span> <span class="o">+</span> <span class="n">e</span><span class="o">);</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+
+
+<span class="cm">/**
+ * 事件顶层父类
+ */</span>
+<span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">Event</span> <span class="o">{</span>
+<span class="o">}</span>
+
+<span class="cm">/**
+ * 具体事件
+ */</span>
+<span class="kn">import</span> <span class="nn">java.util.Date</span><span class="o">;</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">WakeupEvent</span> <span class="kd">extends</span> <span class="n">Event</span> <span class="o">{</span>
+	<span class="kd">private</span> <span class="n">Date</span> <span class="n">time</span><span class="o">;</span>
+	<span class="kd">private</span> <span class="n">String</span> <span class="n">location</span><span class="o">;</span>
+	
+	<span class="kd">public</span> <span class="nf">WakeupEvent</span><span class="o">(</span><span class="n">Date</span> <span class="n">time</span><span class="o">,</span> <span class="n">String</span> <span class="n">location</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">time</span> <span class="o">=</span> <span class="n">time</span><span class="o">;</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">location</span> <span class="o">=</span> <span class="n">location</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="kd">public</span> <span class="n">Date</span> <span class="nf">getTime</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">time</span><span class="o">;</span>
+	<span class="o">}</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setTime</span><span class="o">(</span><span class="n">Date</span> <span class="n">time</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">time</span> <span class="o">=</span> <span class="n">time</span><span class="o">;</span>
+	<span class="o">}</span>
+	<span class="kd">public</span> <span class="n">String</span> <span class="nf">getLocation</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">location</span><span class="o">;</span>
+	<span class="o">}</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setLocation</span><span class="o">(</span><span class="n">String</span> <span class="n">location</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">location</span> <span class="o">=</span> <span class="n">location</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="n">String</span> <span class="nf">toString</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="s">"WakeupEvent [time="</span> <span class="o">+</span> <span class="n">time</span> <span class="o">+</span> <span class="s">", location="</span> <span class="o">+</span> <span class="n">location</span> <span class="o">+</span> <span class="s">"]"</span><span class="o">;</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+
+
+<span class="cm">/**
+ * 事件源
+ */</span>
+<span class="kn">import</span> <span class="nn">java.util.ArrayList</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Child</span> <span class="kd">implements</span> <span class="n">Runnable</span> <span class="o">{</span>
+	<span class="kd">private</span> <span class="n">WakeupEvent</span> <span class="n">event</span><span class="o">;</span>
+	<span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Listener</span><span class="o">&gt;</span> <span class="n">listeners</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Listener</span><span class="o">&gt;();</span>
+
+	<span class="kd">public</span> <span class="n">WakeupEvent</span> <span class="nf">getEvent</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">event</span><span class="o">;</span>
+	<span class="o">}</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setEvent</span><span class="o">(</span><span class="n">WakeupEvent</span> <span class="n">event</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">event</span> <span class="o">=</span> <span class="n">event</span><span class="o">;</span>
+	<span class="o">}</span>
+	<span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Listener</span><span class="o">&gt;</span> <span class="nf">getListeners</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">listeners</span><span class="o">;</span>
+	<span class="o">}</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setListeners</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Listener</span><span class="o">&gt;</span> <span class="n">listeners</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">listeners</span> <span class="o">=</span> <span class="n">listeners</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="c1">//</span>
+	<span class="kd">public</span> <span class="n">Child</span> <span class="nf">addListener</span><span class="o">(</span><span class="n">Listener</span> <span class="n">listener</span><span class="o">)</span> <span class="o">{</span>
+		<span class="n">listeners</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">listener</span><span class="o">);</span>
+		<span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+	<span class="o">}</span>
+	
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"睡着..."</span><span class="o">);</span>
+		<span class="k">try</span> <span class="o">{</span>
+			<span class="n">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="mi">5000</span><span class="o">);</span>
+			<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"醒了!!!"</span><span class="o">);</span>
+			<span class="k">for</span> <span class="o">(</span><span class="n">Listener</span> <span class="n">listener</span> <span class="o">:</span> <span class="n">listeners</span><span class="o">)</span> <span class="o">{</span>
+				<span class="n">listener</span><span class="o">.</span><span class="na">action</span><span class="o">(</span><span class="n">event</span><span class="o">);</span>
+			<span class="o">}</span>
+		<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+			<span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+
+
+<span class="cm">/**
+* main
+*/</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+	<span class="n">Child</span> <span class="n">child</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Child</span><span class="o">();</span>
+	<span class="n">WakeupEvent</span> <span class="n">event</span> <span class="o">=</span> <span class="k">new</span> <span class="n">WakeupEvent</span><span class="o">(</span><span class="k">new</span> <span class="n">Date</span><span class="o">(),</span> <span class="s">"卧室"</span><span class="o">);</span>
+	
+	<span class="c1">//</span>
+	<span class="n">child</span><span class="o">.</span><span class="na">setEvent</span><span class="o">(</span><span class="n">event</span><span class="o">);</span>
+	<span class="n">child</span><span class="o">.</span><span class="na">addListener</span><span class="o">(</span><span class="k">new</span> <span class="n">GrandPa</span><span class="o">()).</span><span class="na">addListener</span><span class="o">(</span><span class="k">new</span> <span class="n">Dad</span><span class="o">()).</span><span class="na">addListener</span><span class="o">(</span><span class="k">new</span> <span class="n">Dog</span><span class="o">());</span>
+	
+	<span class="c1">//</span>
+	<span class="k">new</span> <span class="nf">Thread</span><span class="o">(</span><span class="n">child</span><span class="o">).</span><span class="na">start</span><span class="o">();</span>
+<span class="o">}</span>
+
+
+<span class="c1">//运行结果：</span>
+<span class="err">睡着</span><span class="o">...</span>
+<span class="err">醒了</span><span class="o">!!!</span>
+<span class="n">grandFather</span> <span class="n">hug</span> <span class="n">child</span><span class="o">!</span>  <span class="n">WakeupEvent</span> <span class="o">[</span><span class="n">time</span><span class="o">=</span><span class="n">Wed</span> <span class="n">Dec</span> <span class="mi">28</span> <span class="mi">15</span><span class="o">:</span><span class="mi">35</span><span class="o">:</span><span class="mi">14</span> <span class="n">CST</span> <span class="mi">2012</span><span class="o">,</span> <span class="n">location</span><span class="o">=</span><span class="err">卧室</span><span class="o">]</span>
+<span class="n">dad</span> <span class="n">feed</span> <span class="n">child</span><span class="o">!</span>  <span class="n">WakeupEvent</span> <span class="o">[</span><span class="n">time</span><span class="o">=</span><span class="n">Wed</span> <span class="n">Dec</span> <span class="mi">28</span> <span class="mi">15</span><span class="o">:</span><span class="mi">35</span><span class="o">:</span><span class="mi">14</span> <span class="n">CST</span> <span class="mi">2012</span><span class="o">,</span> <span class="n">location</span><span class="o">=</span><span class="err">卧室</span><span class="o">]</span>
+<span class="n">wang</span> <span class="n">wang</span><span class="o">!</span>  <span class="n">WakeupEvent</span> <span class="o">[</span><span class="n">time</span><span class="o">=</span><span class="n">Wed</span> <span class="n">Dec</span> <span class="mi">28</span> <span class="mi">15</span><span class="o">:</span><span class="mi">35</span><span class="o">:</span><span class="mi">14</span> <span class="n">CST</span> <span class="mi">2012</span><span class="o">,</span> <span class="n">location</span><span class="o">=</span><span class="err">卧室</span><span class="o">]</span>
+</code></pre>
+</div>
+<p><br /><br /></p>
+
+<h3 id="遍历器模式">遍历器模式</h3>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="cm">/**
+* 遍历器接口
+*/</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Iterator</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="o">{</span>
+	<span class="kt">boolean</span> <span class="nf">hasNext</span><span class="o">();</span>
+	<span class="n">E</span> <span class="nf">next</span><span class="o">();</span>
+<span class="o">}</span>
+
+
+<span class="cm">/**
+* 集合接口
+*/</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Collection</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="o">{</span>
+	<span class="kt">void</span> <span class="nf">add</span><span class="o">(</span><span class="n">E</span> <span class="n">e</span><span class="o">);</span>
+	<span class="kt">int</span> <span class="nf">size</span><span class="o">();</span>
+	<span class="n">Iterator</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="nf">iterator</span><span class="o">();</span>
+<span class="o">}</span>
+
+
+<span class="cm">/**
+* 集合实现类ArrayList
+*/</span>
+<span class="kn">package</span> <span class="n">test</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ArrayList</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="kd">implements</span> <span class="n">Collection</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="o">{</span>
+	<span class="kd">private</span> <span class="n">Object</span><span class="o">[]</span> <span class="n">array</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Object</span><span class="o">[</span><span class="mi">10</span><span class="o">];</span>
+	<span class="kd">private</span> <span class="kt">int</span> <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">add</span><span class="o">(</span><span class="n">E</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+		<span class="n">array</span><span class="o">[</span><span class="n">index</span><span class="o">]</span> <span class="o">=</span> <span class="n">e</span><span class="o">;</span>
+		<span class="n">index</span><span class="o">++;</span>
+		<span class="k">if</span> <span class="o">(</span><span class="n">index</span> <span class="o">==</span> <span class="n">array</span><span class="o">.</span><span class="na">length</span><span class="o">)</span> <span class="o">{</span>
+			<span class="n">Object</span><span class="o">[]</span> <span class="n">newArray</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Object</span><span class="o">[</span><span class="n">array</span><span class="o">.</span><span class="na">length</span><span class="o">+</span><span class="mi">10</span><span class="o">];</span>
+			<span class="n">System</span><span class="o">.</span><span class="na">arraycopy</span><span class="o">(</span><span class="n">array</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">newArray</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">array</span><span class="o">.</span><span class="na">length</span><span class="o">);</span>
+			<span class="n">array</span> <span class="o">=</span> <span class="n">newArray</span><span class="o">;</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">int</span> <span class="nf">size</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">index</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="n">Iterator</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="nf">iterator</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="k">new</span> <span class="n">Iterator</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;()</span> <span class="o">{</span>
+			<span class="kd">private</span> <span class="kt">int</span> <span class="n">currentIndex</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">;</span>
+			
+			<span class="nd">@Override</span>
+			<span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">hasNext</span><span class="o">()</span> <span class="o">{</span>
+				<span class="k">if</span> <span class="o">(</span><span class="n">currentIndex</span> <span class="o">&gt;=</span> <span class="n">index</span><span class="o">-</span><span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+					<span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+				<span class="o">}</span>
+				<span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+			<span class="o">}</span>
+
+			<span class="nd">@SuppressWarnings</span><span class="o">(</span><span class="s">"unchecked"</span><span class="o">)</span>
+			<span class="nd">@Override</span>
+			<span class="kd">public</span> <span class="n">E</span> <span class="nf">next</span><span class="o">()</span> <span class="o">{</span>
+				<span class="n">currentIndex</span><span class="o">++;</span>
+				<span class="k">return</span> <span class="o">(</span><span class="n">E</span><span class="o">)</span> <span class="n">array</span><span class="o">[</span><span class="n">currentIndex</span><span class="o">];</span>
+			<span class="o">}</span>
+			
+		<span class="o">};</span>
+	<span class="o">}</span>
+	
+	<span class="c1">//</span>
+	<span class="nd">@SuppressWarnings</span><span class="o">(</span><span class="s">"unchecked"</span><span class="o">)</span>
+	<span class="kd">public</span> <span class="n">E</span> <span class="nf">get</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="o">(</span><span class="n">E</span><span class="o">)</span> <span class="n">array</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+
+
+<span class="cm">/**
+* 集合实现类LinkedList
+*/</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">LinkedList</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="kd">implements</span> <span class="n">Collection</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="o">{</span>
+	<span class="kd">private</span> <span class="n">Node</span> <span class="n">preHead</span><span class="o">;</span>
+	<span class="kd">private</span> <span class="n">Node</span> <span class="n">head</span><span class="o">;</span>
+	<span class="kd">private</span> <span class="n">Node</span> <span class="n">tail</span><span class="o">;</span>
+	<span class="kd">private</span> <span class="kt">int</span> <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+	
+	<span class="kd">class</span> <span class="nc">Node</span> <span class="o">{</span>
+		<span class="kd">private</span> <span class="n">E</span> <span class="n">data</span><span class="o">;</span>
+		<span class="kd">private</span> <span class="n">Node</span> <span class="n">nextNode</span><span class="o">;</span>
+		<span class="kd">public</span> <span class="n">E</span> <span class="nf">getData</span><span class="o">()</span> <span class="o">{</span>
+			<span class="k">return</span> <span class="n">data</span><span class="o">;</span>
+		<span class="o">}</span>
+		<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setData</span><span class="o">(</span><span class="n">E</span> <span class="n">data</span><span class="o">)</span> <span class="o">{</span>
+			<span class="k">this</span><span class="o">.</span><span class="na">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">;</span>
+		<span class="o">}</span>
+		<span class="kd">public</span> <span class="n">Node</span> <span class="nf">getNextNode</span><span class="o">()</span> <span class="o">{</span>
+			<span class="k">return</span> <span class="n">nextNode</span><span class="o">;</span>
+		<span class="o">}</span>
+		<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setNextNode</span><span class="o">(</span><span class="n">Node</span> <span class="n">nextNode</span><span class="o">)</span> <span class="o">{</span>
+			<span class="k">this</span><span class="o">.</span><span class="na">nextNode</span> <span class="o">=</span> <span class="n">nextNode</span><span class="o">;</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+	
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">add</span><span class="o">(</span><span class="n">E</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">if</span> <span class="o">(</span><span class="n">head</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+			<span class="n">head</span> <span class="o">=</span> <span class="n">tail</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Node</span><span class="o">();</span>
+			<span class="n">head</span><span class="o">.</span><span class="na">setData</span><span class="o">(</span><span class="n">e</span><span class="o">);</span>
+			<span class="n">preHead</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Node</span><span class="o">();</span>
+            <span class="n">preHead</span><span class="o">.</span><span class="na">setNextNode</span><span class="o">(</span><span class="n">head</span><span class="o">);</span>
+		<span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+			<span class="n">Node</span> <span class="n">newNode</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Node</span><span class="o">();</span>
+            <span class="n">newNode</span><span class="o">.</span><span class="na">setData</span><span class="o">(</span><span class="n">e</span><span class="o">);</span>
+            <span class="n">tail</span><span class="o">.</span><span class="na">setNextNode</span><span class="o">(</span><span class="n">newNode</span><span class="o">);</span>
+            <span class="n">tail</span> <span class="o">=</span> <span class="n">newNode</span><span class="o">;</span>
+		<span class="o">}</span>
+		<span class="n">index</span><span class="o">++;</span>
+	<span class="o">}</span>
+
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">int</span> <span class="nf">size</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">index</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="n">Iterator</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="nf">iterator</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="k">new</span> <span class="n">Iterator</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;()</span> <span class="o">{</span>
+			<span class="kd">private</span> <span class="n">Node</span> <span class="n">currentNode</span> <span class="o">=</span> <span class="n">preHead</span><span class="o">;</span>
+			
+			<span class="nd">@Override</span>
+			<span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">hasNext</span><span class="o">()</span> <span class="o">{</span>
+				<span class="k">return</span> <span class="n">currentNode</span><span class="o">.</span><span class="na">getNextNode</span><span class="o">()==</span><span class="kc">null</span> <span class="o">?</span> <span class="kc">false</span> <span class="o">:</span> <span class="kc">true</span><span class="o">;</span>
+			<span class="o">}</span>
+
+			<span class="nd">@Override</span>
+			<span class="kd">public</span> <span class="n">E</span> <span class="nf">next</span><span class="o">()</span> <span class="o">{</span>
+				<span class="n">currentNode</span> <span class="o">=</span> <span class="n">currentNode</span><span class="o">.</span><span class="na">getNextNode</span><span class="o">();</span>
+                <span class="k">return</span> <span class="n">currentNode</span><span class="o">.</span><span class="na">getData</span><span class="o">();</span>
+			<span class="o">}</span>
+		<span class="o">};</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+
+
+<span class="cm">/**
+* 测试方法
+*/</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+	<span class="n">Collection</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LinkedList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;();</span>
+	<span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">"张三"</span><span class="o">);</span>
+	<span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">"李四"</span><span class="o">);</span>
+	<span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">"小娟"</span><span class="o">);</span>
+	
+	<span class="n">Iterator</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">it</span> <span class="o">=</span> <span class="n">list</span><span class="o">.</span><span class="na">iterator</span><span class="o">();</span>
+	<span class="k">while</span> <span class="o">(</span><span class="n">it</span><span class="o">.</span><span class="na">hasNext</span><span class="o">())</span> <span class="o">{</span>
+		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">it</span><span class="o">.</span><span class="na">next</span><span class="o">());</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+
+<span class="c1">//运行结果说明  </span>
+<span class="c1">//遍历器模式适合运用在 屏蔽同类事物的相同操作上</span>
+<span class="err">张三</span>
+<span class="err">李四</span>
+<span class="err">小娟</span>
+</code></pre>
+</div>
+<p><br /><br /></p>
+
+<h3 id="策略模式">策略模式</h3>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="cm">/**
+* Comparable接口
+*/</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Comparable</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">{</span>
+	<span class="kt">int</span> <span class="nf">compareTo</span><span class="o">(</span><span class="n">T</span> <span class="n">t</span><span class="o">);</span>
+<span class="o">}</span>
+
+
+<span class="cm">/**
+* Comparator接口
+*/</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Comparator</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">{</span>
+	<span class="kt">int</span> <span class="nf">compare</span><span class="o">(</span><span class="n">T</span> <span class="n">o1</span><span class="o">,</span> <span class="n">T</span> <span class="n">o2</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="cm">/**
+* Comparator接口实现类 DogWeightComparator
+*/</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DogWeightComparator</span> <span class="kd">implements</span> <span class="n">Comparator</span><span class="o">&lt;</span><span class="n">Dog</span><span class="o">&gt;</span> <span class="o">{</span>
+	<span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">DogWeightComparator</span> <span class="n">INSTANCE</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DogWeightComparator</span><span class="o">();</span>
+    <span class="kd">private</span> <span class="nf">DogWeightComparator</span><span class="o">(){}</span>
+    
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">DogWeightComparator</span> <span class="nf">getInstance</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">INSTANCE</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">compare</span><span class="o">(</span><span class="n">Dog</span> <span class="n">o1</span><span class="o">,</span> <span class="n">Dog</span> <span class="n">o2</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">o1</span><span class="o">.</span><span class="na">getWeight</span><span class="o">()</span> <span class="o">&lt;</span> <span class="n">o2</span><span class="o">.</span><span class="na">getWeight</span><span class="o">())</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="mi">1</span><span class="o">;</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">o1</span><span class="o">.</span><span class="na">getWeight</span><span class="o">()</span> <span class="o">&gt;</span> <span class="n">o2</span><span class="o">.</span><span class="na">getWeight</span><span class="o">())</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="mi">0</span><span class="o">;</span>
+    <span class="o">}</span> 
+<span class="o">}</span>
+
+<span class="cm">/**
+* Comparator接口实现类 DogHeightComparator
+*/</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DogHeightComparator</span> <span class="kd">implements</span> <span class="n">Comparator</span><span class="o">&lt;</span><span class="n">Dog</span><span class="o">&gt;</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">DogHeightComparator</span> <span class="n">INSTANCE</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DogHeightComparator</span><span class="o">();</span>
+    <span class="kd">private</span> <span class="nf">DogHeightComparator</span><span class="o">(){}</span>
+    
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">DogHeightComparator</span> <span class="nf">getInstance</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">INSTANCE</span><span class="o">;</span>
+    <span class="o">}</span>
+    
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">compare</span><span class="o">(</span><span class="n">Dog</span> <span class="n">o1</span><span class="o">,</span> <span class="n">Dog</span> <span class="n">o2</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">o1</span><span class="o">.</span><span class="na">getHeight</span><span class="o">()</span> <span class="o">&lt;</span> <span class="n">o2</span><span class="o">.</span><span class="na">getHeight</span><span class="o">())</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="o">;</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">o1</span><span class="o">.</span><span class="na">getHeight</span><span class="o">()</span> <span class="o">&gt;</span> <span class="n">o2</span><span class="o">.</span><span class="na">getHeight</span><span class="o">())</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="mi">1</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="mi">0</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+
+<span class="cm">/**
+* 对象元素Dog
+*/</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Dog</span> <span class="kd">implements</span> <span class="n">Comparable</span><span class="o">&lt;</span><span class="n">Dog</span><span class="o">&gt;</span> <span class="o">{</span>
+	<span class="kd">private</span> <span class="kt">int</span> <span class="n">weight</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">height</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="n">Comparator</span><span class="o">&lt;</span><span class="n">Dog</span><span class="o">&gt;</span> <span class="n">comparator</span> <span class="o">=</span> <span class="n">DogWeightComparator</span><span class="o">.</span><span class="na">getInstance</span><span class="o">();</span> <span class="c1">// 默认按照狗的重量排序</span>
+
+    <span class="kd">public</span> <span class="nf">Dog</span><span class="o">(</span><span class="kt">int</span> <span class="n">weight</span><span class="o">,</span> <span class="kt">int</span> <span class="n">height</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">weight</span> <span class="o">=</span> <span class="n">weight</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">height</span> <span class="o">=</span> <span class="n">height</span><span class="o">;</span>
+    <span class="o">}</span>
+    
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getWeight</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">weight</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setWeight</span><span class="o">(</span><span class="kt">int</span> <span class="n">weight</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">weight</span> <span class="o">=</span> <span class="n">weight</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getHeight</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">height</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setHeight</span><span class="o">(</span><span class="kt">int</span> <span class="n">height</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">height</span> <span class="o">=</span> <span class="n">height</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="n">Comparator</span><span class="o">&lt;</span><span class="n">Dog</span><span class="o">&gt;</span> <span class="nf">getComparator</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">comparator</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">setComparator</span><span class="o">(</span><span class="n">Comparator</span><span class="o">&lt;</span><span class="n">Dog</span><span class="o">&gt;</span> <span class="n">comparator</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">Dog</span><span class="o">.</span><span class="na">comparator</span> <span class="o">=</span> <span class="n">comparator</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">toString</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="s">"Dog [weight="</span> <span class="o">+</span> <span class="n">weight</span> <span class="o">+</span> <span class="s">", height="</span> <span class="o">+</span> <span class="n">height</span> <span class="o">+</span> <span class="s">"]"</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">compareTo</span><span class="o">(</span><span class="n">Dog</span> <span class="n">o</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">comparator</span><span class="o">.</span><span class="na">compare</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">o</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+
+<span class="cm">/**
+* 工具类 Arrays
+*/</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Arrays</span> <span class="o">{</span>
+	
+	<span class="nd">@SuppressWarnings</span><span class="o">({</span> <span class="s">"rawtypes"</span><span class="o">,</span> <span class="s">"unchecked"</span> <span class="o">})</span>
+	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">sort</span><span class="o">(</span><span class="n">Object</span><span class="o">[]</span> <span class="n">os</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">os</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">os</span><span class="o">.</span><span class="na">length</span><span class="o">-</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="o">;</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
+                <span class="n">Comparable</span> <span class="n">o1</span> <span class="o">=</span> <span class="o">(</span><span class="n">Comparable</span><span class="o">)</span> <span class="n">os</span><span class="o">[</span><span class="n">j</span><span class="o">];</span>
+                <span class="n">Comparable</span> <span class="n">o2</span> <span class="o">=</span> <span class="o">(</span><span class="n">Comparable</span><span class="o">)</span> <span class="n">os</span><span class="o">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="o">];</span>
+                
+                <span class="k">if</span> <span class="o">(</span><span class="n">o1</span><span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="n">o2</span><span class="o">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+                	<span class="n">Object</span> <span class="n">tmp</span> <span class="o">=</span> <span class="n">os</span><span class="o">[</span><span class="n">j</span><span class="o">];</span>
+                    <span class="n">os</span><span class="o">[</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="o">];</span>
+                    <span class="n">os</span><span class="o">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="o">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="o">;</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+	<span class="o">}</span>
+	
+<span class="o">}</span>
+
+
+<span class="cm">/**
+* 测试方法
+*/</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+	<span class="n">Dog</span><span class="o">[]</span> <span class="n">dogs</span> <span class="o">=</span> <span class="o">{</span><span class="k">new</span> <span class="n">Dog</span><span class="o">(</span><span class="mi">7</span><span class="o">,</span> <span class="mi">3</span><span class="o">),</span> <span class="k">new</span> <span class="n">Dog</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="mi">2</span><span class="o">),</span> <span class="k">new</span> <span class="n">Dog</span><span class="o">(</span><span class="mi">5</span><span class="o">,</span> <span class="mi">6</span><span class="o">)};</span>
+	<span class="c1">//Dog.setComparator(DogWeightComparator.getInstance()); //按狗的重量排序测试</span>
+    <span class="c1">//Dog.setComparator(DogHeightComparator.getInstance()); //按狗的身高排序策略</span>
+	
+	<span class="n">Arrays</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="n">dogs</span><span class="o">);</span>  <span class="c1">//要求Dog类实现Compareble接口，默认按狗的重量排序</span>
+	
+	<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">dogs</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">dogs</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+<p><br /><br /></p>
+
+<h3 id="桥接模式">桥接模式</h3>
+
+<p><img src="http://img.blog.csdn.net/20161229170613706?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:50%" /><br /></p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="cm">/**
+* 桥接抽象类
+*/</span>
+<span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">Gift</span> <span class="o">{</span>
+    <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
+    <span class="n">GiftImpl</span> <span class="n">giftImpl</span><span class="o">;</span> <span class="c1">// 用聚合或组合代替继承</span>
+<span class="o">}</span>
+
+
+<span class="cm">/**
+* 桥接实现类顶层父类
+*/</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">GiftImpl</span> <span class="kd">extends</span> <span class="n">Gift</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">toString</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="s">"name: "</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s">" giftImpl: "</span> <span class="o">+</span> <span class="n">giftImpl</span><span class="o">.</span><span class="na">getClass</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+
+<span class="cm">/**
+* 桥接具体实现类（各种实现类的定义之间可能存在交叉）
+*/</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">WarmGift</span> <span class="kd">extends</span> <span class="n">GiftImpl</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="nf">WarmGift</span><span class="o">()</span> <span class="o">{}</span>
+    <span class="kd">public</span> <span class="nf">WarmGift</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">,</span> <span class="n">GiftImpl</span> <span class="n">giftImpl</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">giftImpl</span> <span class="o">=</span> <span class="n">giftImpl</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ColdGift</span> <span class="kd">extends</span> <span class="n">GiftImpl</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="nf">ColdGift</span><span class="o">()</span> <span class="o">{}</span>
+    <span class="kd">public</span> <span class="nf">ColdGift</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">,</span> <span class="n">GiftImpl</span> <span class="n">giftImpl</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">giftImpl</span> <span class="o">=</span> <span class="n">giftImpl</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">FlowerGift</span> <span class="kd">extends</span> <span class="n">GiftImpl</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="nf">FlowerGift</span><span class="o">()</span> <span class="o">{}</span>
+    <span class="kd">public</span> <span class="nf">FlowerGift</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">,</span> <span class="n">GiftImpl</span> <span class="n">giftImpl</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">giftImpl</span> <span class="o">=</span> <span class="n">giftImpl</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">RingGift</span> <span class="kd">extends</span> <span class="n">GiftImpl</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="nf">RingGift</span><span class="o">()</span> <span class="o">{}</span>
+    <span class="kd">public</span> <span class="nf">RingGift</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">,</span> <span class="n">GiftImpl</span> <span class="n">giftImpl</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">giftImpl</span> <span class="o">=</span> <span class="n">giftImpl</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+
+<span class="cm">/**
+* 测试方法
+*/</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">Gift</span> <span class="n">warmGift</span> <span class="o">=</span> <span class="k">new</span> <span class="n">WarmGift</span><span class="o">(</span><span class="s">"warmGift"</span><span class="o">,</span> <span class="k">new</span> <span class="n">FlowerGift</span><span class="o">(</span><span class="s">"flower"</span><span class="o">,</span> <span class="kc">null</span><span class="o">));</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">warmGift</span><span class="o">);</span> <span class="c1">//name: warmGift giftImpl: class com.kly.bridge.FlowerGift</span>
+    
+    <span class="n">Gift</span> <span class="n">coldGift</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ColdGift</span><span class="o">(</span><span class="s">"coldGift"</span><span class="o">,</span> <span class="k">new</span> <span class="n">RingGift</span><span class="o">());</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">coldGift</span><span class="o">);</span> <span class="c1">//name: coldGift giftImpl: class com.kly.bridge.RingGift</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+<p><br /><br /></p>
+
+<h3 id="代理模式">代理模式</h3>
+
+<ul>
+  <li>代理类和被代理类实现同一个接口，代理类中聚合了被代理对象</li>
+</ul>
+
+<p><code class="highlighter-rouge">静态代理</code><br /></p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="cm">/**
+* 代理接口
+*/</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Movable</span> <span class="o">{</span>
+    <span class="kt">void</span> <span class="nf">move</span><span class="o">();</span>
+<span class="o">}</span>
+
+
+<span class="cm">/**
+* 被代理类
+*/</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Tank</span> <span class="kd">implements</span> <span class="n">Movable</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">move</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"tank moving..."</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">Movable</span> <span class="n">m</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Tank</span><span class="o">();</span>
+        <span class="n">m</span><span class="o">.</span><span class="na">move</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+
+<span class="cm">/**
+* 代理类
+*/</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">TankLogProxy</span> <span class="kd">implements</span> <span class="n">Movable</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="n">Movable</span> <span class="n">tank</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="nf">TankLogProxy</span><span class="o">(</span><span class="n">Movable</span> <span class="n">tank</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">tank</span> <span class="o">=</span> <span class="n">tank</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">move</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"tank start!"</span><span class="o">);</span>
+        <span class="n">tank</span><span class="o">.</span><span class="na">move</span><span class="o">();</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"tank end!"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+
+<span class="cm">/**
+* 代理类
+*/</span>
+<span class="kn">import</span> <span class="nn">java.util.Random</span><span class="o">;</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">TankTimeProxy</span> <span class="kd">implements</span> <span class="n">Movable</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="n">Movable</span> <span class="n">tank</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="nf">TankTimeProxy</span><span class="o">(</span><span class="n">Movable</span> <span class="n">tank</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">tank</span> <span class="o">=</span> <span class="n">tank</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">move</span><span class="o">()</span> <span class="o">{</span>
+        <span class="kt">long</span> <span class="n">start</span> <span class="o">=</span> <span class="n">System</span><span class="o">.</span><span class="na">currentTimeMillis</span><span class="o">();</span>
+        
+        <span class="n">tank</span><span class="o">.</span><span class="na">move</span><span class="o">();</span>
+        
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="k">new</span> <span class="n">Random</span><span class="o">().</span><span class="na">nextInt</span><span class="o">(</span><span class="mi">10000</span><span class="o">));</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="kt">long</span> <span class="n">end</span> <span class="o">=</span> <span class="n">System</span><span class="o">.</span><span class="na">currentTimeMillis</span><span class="o">();</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"运行时间："</span> <span class="o">+</span> <span class="o">((</span><span class="n">end</span><span class="o">-</span><span class="n">start</span><span class="o">)/</span><span class="mf">1000.0</span><span class="o">)</span> <span class="o">+</span> <span class="s">" s"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+
+<span class="c1">//静态代理测试方法</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">TankTimeProxy</span> <span class="n">tankTimeProxy</span> <span class="o">=</span> <span class="k">new</span> <span class="n">TankTimeProxy</span><span class="o">(</span><span class="k">new</span> <span class="n">Tank</span><span class="o">());</span>
+    <span class="n">TankLogProxy</span> <span class="n">tankLogProxy</span> <span class="o">=</span> <span class="k">new</span> <span class="n">TankLogProxy</span><span class="o">(</span><span class="n">tankTimeProxy</span><span class="o">);</span>
+    <span class="n">tankLogProxy</span><span class="o">.</span><span class="na">move</span><span class="o">();</span>
+<span class="o">}</span>
+
+<span class="c1">//运行结果：</span>
+<span class="n">tank</span> <span class="n">start</span><span class="o">!</span>
+<span class="n">tank</span> <span class="n">moving</span><span class="o">...</span>
+<span class="err">运行时间：</span><span class="mf">2.82</span> <span class="n">s</span>
+<span class="n">tank</span> <span class="n">end</span><span class="o">!</span>
+</code></pre>
+</div>
+<p><br /></p>
+
+<h3 id="工厂模式">工厂模式</h3>
+
+<h3 id="单例模式">单例模式</h3>
+
+<h3 id="装饰模式">装饰模式</h3>
+
+<p><br /></p>
+
+
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-6">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">java</button>
+                                
+                        </div>
+                        
+                        <!--
+                        <div class="col-md-6">
+                            <div class="small text-right">
+                                <div>    
+                                    <i class="fa fa-comments-o"> </i> 
+                                    <span class="ds-comments">0</span>条评论
+                                </div>
+                                <div>
+                                    <i class="fa fa-share-alt"> </i> 
+                                    <span class="ds-shares">0</span>条转发
+                                </div>  
+                            </div>
+                        </div>
+                        -->
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <!-- donate -->
+                            
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal2">
+    Donate
+</button>
+<div class="modal inmodal" id="myModal2" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated flipInY">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Donate Me</h4>
+                <small class="font-bold">Thanks for your support!</small>
+            </div>
+            <div class="modal-body">
+                <div class="tabbable" id="tabs-960227">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#panel-405278" data-toggle="tab">Alipay</a>
+                        </li>
+                        <li>
+                            <a href="#panel-874705" data-toggle="tab">Wechat</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="panel-405278">
+                            <div class="text-center">
+                                <img src="/static/img/pay/alipay.png"" height="250" width="250">
+                            </div>    
+                        </div>
+                        <div class="tab-pane" id="panel-874705">
+                            <div class="text-center">
+                                <img src="/static/img/pay/wechat.png"" height="250" width="250">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+                            
+                            <br>
+                            <!-- share -->
+                            
+                                
+<!--分享-->
+<div class="row" style="margin-top:30px;">
+	<h2>Share:</h2>
+    <div class="social-share" style="margin-left:-5px;"data-sites="wechat,qq,qzone,weibo"></div> 
+</div>
+<link rel="stylesheet" href="/static/css/share.min.css">
+<script src="/static/js/jquery.share.min.js"></script>
+<script src="/static/js/embed.js"></script>
+
+<script>
+  var url = 'http://localhost:4000/java/2012/12/16/java-design-pattern.html';
+  var source = 'http://localhost:4000/java/2012/12/16/java-design-pattern.html';
+  var title = 'java开发常见设计模式';
+  var excerpt = $("p:eq(0)").text();
+  
+  var imageUrl = 'http://localhost:4000/static/img/landing/header_one.jpg';
+  var imgEle = $(".content_img:eq(0)");
+  if (imgEle) {
+    imageUrl = imgEle.attr("src");
+  }
+
+  var $config = {
+      url: url, // 网址，默认使用 window.location.href
+      source: source, // 来源（QQ空间会用到）, 默认读取head标签：<meta name="site" content="http://overtrue" />
+      title: title, // 标题，默认读取 document.title 或者 <meta name="title" content="share.js" />
+      description: excerpt, // 描述, 默认读取head标签：<meta name="description" content="PHP弱类型的实现原理分析" />
+      image: imageUrl, // 图片, 默认取网页中第一个img标签
+      sites: ['qzone', 'qq', 'weibo','wechat','douban'], // 启用的站点
+      //disabled: ['google', 'facebook', 'twitter'], // 禁用的站点
+      wechatQrcodeTitle: "微信扫一扫：分享", // 微信二维码提示文字
+      wechatQrcodeHelper: '<p style="font-size:10px;">微信里点“发现”，扫一下</p><p style="font-size:10px;">二维码便可将本文分享至朋友圈。</p>',
+   };
+  $('.social-share').share($config);
+</script>
+
+
+
+
+                            
+                            <br>
+                            <!-- comment -->
+                            <!--
+
+
+
+-->
+
+<!-- 多说评论框 start -->
+<div class="row" style="margin-top:25px;"></div>
+<div class="ds-thread" data-thread-key="/java/2012/12/16/java-design-pattern.html" data-title="java开发常见设计模式" data-url="http://localhost:4000/java/2012/12/16/java-design-pattern.html"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+	var duoshuoQuery = {short_name:"kinglyjn"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+<!-- 多说公共JS代码 end -->
+
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+	
+	    <script src="/static/js/scroll.js"></script>
+
+<!-- Baidu analytics -->
+
+
+<!-- Google analytics -->
+
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-73784599-1', 'auto');
+    ga('send', 'pageview');
+
+  </script>
+
+
+<!--
+
+-->
+
+<!--
+
+-->
+
+<script async src="/static/js/count_page.js"></script>
+
+	
+
+</body>
+</html>

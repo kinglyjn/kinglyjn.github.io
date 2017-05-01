@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html>
+	
+	    <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+    <meta content="centos7下开机自启动postgres" name="description">
+  
+  
+    <meta name="keywords" content="centos7下开机自启动postgres,开机自启动,postgres,kinglyjn,张庆力">
+  
+  <meta name="author" content="KinglyJn">
+
+  <title>
+    
+        KinglyJn|centos7下开机自启动postgres
+    
+  </title>
+  <!-- favicon -->
+  <link rel="shortcut icon" href="/static/img/favicon.ico">
+
+  <!-- Third-party CSS -->
+  <link href="/bower_components/normalize-css/normalize.min.css" rel="stylesheet">
+  <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/bower_components/animate.css/animate.min.css" rel="stylesheet">
+  <link href="/bower_components/components-font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="/static/font-mfizz/font-mfizz.css" rel="stylesheet">
+  <!-- <link href="/bower_components/toastr/toastr.min.css" rel="stylesheet"> -->
+  <link href="/bower_components/jquery.gritter/css/jquery.gritter.css" rel="stylesheet">
+  <link rel="stylesheet" href="/search/css/cb-search.css">
+
+  <!-- Custom styles for this template -->
+  <link href="/static/css/style.min.css" rel="stylesheet">
+  <link href="/static/css/pygments.css" rel="stylesheet">
+
+  <!-- Scripts -->
+  <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="/search/js/bootstrap3-typeahead.min.js"></script>
+
+  <!-- cb-search -->
+  <script src="/search/js/cb-search.js"></script>
+  <script>
+    $(function(){
+        $("pre").css('display','block');
+    });
+  </script>
+  <!-- Mainly scripts -->
+  <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="/bower_components/metisMenu/dist/metisMenu.min.js"></script>
+  <script src="/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+
+  <!-- Peity -->
+  <script src="/bower_components/peity/jquery.peity.min.js"></script>
+
+  <script src="/bower_components/PACE/pace.min.js"></script>
+  <script src="/bower_components/wow/dist/wow.min.js"></script>
+  <!-- Custom and plugin javascript -->
+  <script src="/static/js/inspinia.js"></script>
+
+  <!-- Rickshaw -->
+  <script src="/bower_components/rickshaw/vendor/d3.v3.js"></script>
+  <script src="/bower_components/rickshaw/rickshaw.min.js"></script>
+
+
+  <!-- jPages -->
+  <script src="/static/js/jPages.js"></script>
+  <script src="/static/js/js.js"></script>
+  <script type="text/javascript">
+        $(function(){
+          /* initiate the plugin */
+          $("div.pag-holder").jPages({
+              containerID  : "pag-itemContainer",
+              perPage      : 10,  /* num of items per page */
+              startPage    : 1,
+              startRange   : 1,
+              midRange     : 3,
+              endRange     : 1
+          });
+
+          $("div.pag-jump button").click(function(){
+            var page = parseInt($("div.pag-jump input").val());
+            $("div.pag-holder").jPages(page);
+          });
+
+          $("div.pag-jump input").on("keypress", function(){
+            var e=e||window.event;
+            if (e.keyCode == 13) {
+                var page = parseInt($("div.pag-jump input").val());
+                $("div.pag-holder").jPages(page);
+            } 
+          });
+      });
+  </script>
+
+<!-- GrowingIO -->
+
+  <script>
+    var _vds = _vds || [];
+    window._vds = _vds;
+    (function(){
+      _vds.push(['setAccountId', 'a49d4901c7853da9']);
+      (function() {
+        var vds = document.createElement('script');
+        vds.type='text/javascript';
+        vds.async = true;
+        vds.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'dn-growing.qbox.me/vds.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(vds, s);
+      })();
+    })();
+  </script>
+
+
+</head>
+
+	
+
+
+<body id="page-top" class="landing-page">
+
+	
+	    
+
+<!--修复手机端横轴方向左右滑动BUG-->
+<style type="text/css">
+    .landing-page .row {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+</style>
+
+<div class="search-tool"
+      style="position: fixed; top: 0px ; bottom: 0px; left: 0px; right:  0px; opacity: 0.95; background-color: #111111; z-index: 9999; display: none;">
+    <input type="text" class="form-control search-content" id="search-content" style="position: fixed; top: 60px" placeholder="Search Blog">
+
+    <div style="position: fixed; top: 16px; right: 16px; z-index: 9999;">
+        <img src="/search/img/cb-close.png" id="close-btn"/>
+    </div>
+</div>
+
+<div style="position: fixed; right: 16px; bottom: 20px; z-index: 9999;">
+    <img src="/search/img/cb-search.png"  id="search-btn"  title="Double click Ctrl"/>
+</div>
+
+<div class="navbar-wrapper">
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header page-scroll">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/">KinglyJn</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a class="page-scroll" href="/blog/"></a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/blog/">Blog</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/linux/">Linux</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/cloud/">Cloud</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/java/">Java</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/c/">C</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/php/">PHP</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/db/">DB</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/htmlx/">HTMLX</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/life/">Life</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/art/">Art</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/other/">Other</a></li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </nav>
+</div>
+<div id="inSlider" class="carousel carousel-fade" data-ride="carousel">
+    <div style="position:absolute;float:left;left:25%;z-index:15;width:50%;margin-bottom:18%;bottom:0;text-align:center;list-style:none;">
+        <span style="color:white;font-size:24px;">以平实之心写作</span><br>
+        <span style="color:white;font-size:13px;">writing with simple heart ♬. </span>
+    </div>
+    <!--
+    <ol class="carousel-indicators">
+        <li data-target="#inSlider" data-slide-to="0" class="active"></li>
+        <li data-target="#inSlider" data-slide-to="1"></li>
+    </ol>
+    -->
+    <div class="carousel-inner" role="listbox">
+        <div class="item active">
+            <div class="container">
+                <div class="carousel-caption">
+                </div>
+                <div class="carousel-image wow zoomIn">
+                    <!-- <img src="static/img/landing/laptop.png" alt="laptop"/> -->
+                </div>
+            </div>
+            <!-- Set background for slide in css -->
+            <div class="header-back blog-one"></div>
+        </div>
+        <!--
+        <div class="item">
+            <div class="container">
+                <div class="carousel-caption blank">
+                </div>
+            </div>
+            Set background for slide in css
+            <div class="header-back two"></div>
+        </div>
+        -->
+    </div>
+    <!--
+    <a class="left carousel-control" href="#inSlider" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#inSlider" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+    -->
+</div>
+
+
+	
+
+    <div class="wrapper wrapper-content  animated fadeInRight article">
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <div class="pull-right">
+                    	
+                        	<button class="btn btn-white btn-xs" type="button">Linux</button>
+                        
+                    </div>
+                    <div class="text-center article-title" style="margin-bottom:50px;">
+                        <h1>
+                            centos7下开机自启动postgres
+                        </h1>
+                        <a href="http://www.keyllo.com/studio/">
+                            <span class="text-muted"><i class="fa fa-user"></i> KinglyJn</span>
+                        </a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <span class="text-muted"><i class="fa fa-clock-o"></i> 2016-12-12</span>
+                    </div>
+                    	<p>/etc/rc.local <br /></p>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="c">#!/bin/bash  </span>
+<span class="c"># THIS FILE IS ADDED FOR COMPATIBILITY PURPOSES  </span>
+<span class="c">#  </span>
+<span class="c"># It is highly advisable to create own systemd services or udev rules  </span>
+<span class="c"># to run scripts during boot instead of using this file.  </span>
+<span class="c">#  </span>
+<span class="c"># In constrast to previous versions due to parallel execution during boot   </span>
+<span class="c"># this script will NOT be run after all other services.  </span>
+<span class="c">#    </span>
+<span class="c"># Please note that you must run 'chmod +x /etc/rc.d/rc.local' to ensure  </span>
+<span class="c"># that this script will be executed during boot.  </span>
+  
+touch /var/lock/subsys/local  
+su - postgres -c <span class="s1">'pg_ctl start'</span>  
+</code></pre>
+</div>
+<p><br /></p>
+
+<blockquote>
+  <p>注意:<br />
+Please note that you must run ‘chmod +x /etc/rc.d/rc.local’ to ensure <br />
+centos7不仅用systemctl替代过去的service和chkconfig。rc.local机制也变了，我检查了centos6.5是没有这句话的。centos7默认的取消了该文件的执行的权限，执行一下就好了。官方既然不建议这么做，不知道会不会有其他问题，下次都改用service模式？</p>
+</blockquote>
+
+<p><br /><br /></p>
+
+<h2 id="linux系统开机时自动启动的方法">Linux系统开机时自动启动的方法</h2>
+
+<blockquote>
+  <p><i style="font-size:12px">核心提示：系统的服务在开机时一般都可以自动启动，那在linux系统下如果想要程序在开机时自动启动怎么办?我们知道在 windows系统“开始”–&gt;“所有程序”–&gt;“启动”里面放个快捷方式就行，那Linux系统下呢？…系统的服务在开机时一般都可以自动启动，那在linux系统下如果想要程序在开机时自动启动怎么办?我们知道在 windows系统“开始”–&gt;“所有程序”–&gt;“启动”里面放个快捷方式就行，那Linux系统下呢？这也是一个比较简单的问题，有不少的方法可以解决，这里介绍三种方法。因为是简单介绍，所以具体细节不是很详细，可以通过man看看相关手册。</i><br /></p>
+</blockquote>
+
+<h3 id="一etcrclocal">一、/etc/rc.local</h3>
+
+<p>这是一个最简单的方法，编辑“/etc/rc.local”，把启动程序的shell命令输入进去即可（要输入命令的全路径），类似于windows下的“启动”。<br /></p>
+
+<p>使用命令 vi  /etc/rc.local   <br /></p>
+
+<p>然后在文件最后一行添加要执行程序的全路径。 <br /></p>
+
+<p>例如，每次开机时要执行一个haha.sh，这个脚本放在/opt下面，那就可以在“/etc/rc.local”中加一行“/opt/./haha.sh”，或者两行“cd /opt”和“./haha.sh”。 <br /><br /></p>
+
+<h3 id="二crontab类似于windows的任务计划服务">二、crontab（类似于windows的任务计划服务）</h3>
+
+<p>通过crontab可以设定程序的执行时间表，例如让程序在每天的8点，或者每个星期一的10点执行一次。<br />
+crontab -l 列出时间表；<br />
+crontab -e编辑时间表；<br />
+crontab -d删除时间表；<br /><br /></p>
+
+<p>“-l”没什么可说的，就是一个查看而已；<br />
+“-e”是编辑，和vi没什么差别（其实就是用vi编辑一个特定文件）；<br />
+“-d”基本不用，因为它把该用户所有的时间表都删除了，一般都是用“-e”编辑把不要了的时间表逐行删除；<br /><br /></p>
+
+<p>那到底该如何编辑呢？<br /></p>
+
+<p>crontab文件的格式是：M H D m d CMD。<br />
+一个6个字段，其中最后一个CMD就是所要执行的程序，如haha.sh。<br />
+M：分钟（0-59）<br />
+H：小时（0-23）<br />
+D：日期（1-31）<br />
+m：月份（1-12）<br />
+d：一个星期中的某天（0-6，0代表周日）<br /><br /></p>
+
+<p>这5个时间字段用空格隔开，其值可以是一个数字，也可以用逗号隔开的多个数字（或其他） ，如果不需设置，则默认为“*”。<br /></p>
+
+<p>例如，每天的8点5分执行haha.sh，就是“5 8 * * * /opt/./haha.sh”。<br /></p>
+
+<p>好像和“开机程序自动启动”扯远了，现在回归正题。其实上面介绍的crontab的功能已经具备了开机自动启动的能力，可以写一个监测脚本，每5分钟执行一次（*/5 * * * * ./haha.sh），如果程序不在了就重新启动一次。<br /><br /></p>
+
+<h3 id="三注册系统服务">三、注册系统服务</h3>
+
+<p>操作系统自带的服务，如ssh，ftp等等，开机都是自动启动的，我们也可以通过这种方式让自己开发的程序提高“身价”。 <br /></p>
+
+<p>比如我想把某个已经安装了的服务添加为系统服务，可以执行以下命令： <br /></p>
+
+<p>chkconfig –add 服务名称          (首先，添加为系统服务,注意add前面有两个横杠) <br /></p>
+
+<p>chkconfig -leve 启动级别 服务名 on    <br /></p>
+
+<p>（说明，3级别代表在命令行模式启动，5级别代表在图形界面启动，on表示开启） <br /></p>
+
+<p>chkconfig -leve 启动级别 服务名 off    <br /></p>
+
+<p>（说明，off表示关闭自启动） <br /></p>
+
+<p>例如：chkconfig -level 3 mysql on  (说明：让mysql服务在命令行模式，随系统启动) <br /></p>
+
+<p>也可以使用   chkconfig –add 服务名称    来删除系统服务 <br /></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>******************************************************************************************
+
+如果要查看哪些服务被添加为系统服务可以使用命令 ：
+
+ntsysv  或者chkconfig --list
+
+如果要查看哪些程序被添加为自启动，可以使用命令  ：
+
+cat   /etc/rc.local    （查看这个文件中添加了哪些程序路径）
+
+*******************************************************************************************
+</code></pre>
+</div>
+
+<p>下面举例说说，如何把一个shell脚本添加为系统服务，并跟随系统启动： <br /></p>
+
+<p>可以看到“/etc/rc.d/init.d”下有很多的文件，每个文件都是可以看到内容的，其实都是一些shell脚本。
+系统服务的启动就是通过“/etc/rc.d/init.d”中的脚本文件实现的。我们也可以写一个自己的脚本放在这里。
+脚本文件的内容也很简单，类似于这个样子（例如起个名字叫做“hahad”）： <br />
+. /etc/init.d/functions  <br /></p>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code>start<span class="o">()</span> <span class="o">{</span>
+        <span class="nb">echo</span> <span class="s2">"Starting my process "</span>
+        <span class="nb">cd</span> /opt
+        ./haha.sh
+<span class="o">}</span>
+stop<span class="o">()</span> <span class="o">{</span>
+        killall haha.sh
+        <span class="nb">echo</span> <span class="s2">"Stoped"</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>写了脚本文件之后事情还没有完，继续完成以下几个步骤：<br /></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>chmod +x hahad                    #增加执行权限
+chkconfig --add hahad             #把hahad添加到系统服务列表
+chkconfig hahad on                 #设定hahad的开关（on/off）
+chkconfig --list hahad               #就可以看到已经注册了hahad的服务
+</code></pre>
+</div>
+
+<p>这时候才完成了全部工作。 <br /></p>
+
+
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-6">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">Linux</button>
+                                
+                        </div>
+                        
+                        <!--
+                        <div class="col-md-6">
+                            <div class="small text-right">
+                                <div>    
+                                    <i class="fa fa-comments-o"> </i> 
+                                    <span class="ds-comments">0</span>条评论
+                                </div>
+                                <div>
+                                    <i class="fa fa-share-alt"> </i> 
+                                    <span class="ds-shares">0</span>条转发
+                                </div>  
+                            </div>
+                        </div>
+                        -->
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <!-- donate -->
+                            
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal2">
+    Donate
+</button>
+<div class="modal inmodal" id="myModal2" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated flipInY">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Donate Me</h4>
+                <small class="font-bold">Thanks for your support!</small>
+            </div>
+            <div class="modal-body">
+                <div class="tabbable" id="tabs-960227">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#panel-405278" data-toggle="tab">Alipay</a>
+                        </li>
+                        <li>
+                            <a href="#panel-874705" data-toggle="tab">Wechat</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="panel-405278">
+                            <div class="text-center">
+                                <img src="/static/img/pay/alipay.png"" height="250" width="250">
+                            </div>    
+                        </div>
+                        <div class="tab-pane" id="panel-874705">
+                            <div class="text-center">
+                                <img src="/static/img/pay/wechat.png"" height="250" width="250">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+                            
+                            <br>
+                            <!-- share -->
+                            
+                                
+<!--分享-->
+<div class="row" style="margin-top:30px;">
+	<h2>Share:</h2>
+    <div class="social-share" style="margin-left:-5px;"data-sites="wechat,qq,qzone,weibo"></div> 
+</div>
+<link rel="stylesheet" href="/static/css/share.min.css">
+<script src="/static/js/jquery.share.min.js"></script>
+<script src="/static/js/embed.js"></script>
+
+<script>
+  var url = 'http://localhost:4000/linux/2016/12/12/linux-postgre-on-linux-start.html';
+  var source = 'http://localhost:4000/linux/2016/12/12/linux-postgre-on-linux-start.html';
+  var title = 'centos7下开机自启动postgres';
+  var excerpt = $("p:eq(0)").text();
+  
+  var imageUrl = 'http://localhost:4000/static/img/landing/header_one.jpg';
+  var imgEle = $(".content_img:eq(0)");
+  if (imgEle) {
+    imageUrl = imgEle.attr("src");
+  }
+
+  var $config = {
+      url: url, // 网址，默认使用 window.location.href
+      source: source, // 来源（QQ空间会用到）, 默认读取head标签：<meta name="site" content="http://overtrue" />
+      title: title, // 标题，默认读取 document.title 或者 <meta name="title" content="share.js" />
+      description: excerpt, // 描述, 默认读取head标签：<meta name="description" content="PHP弱类型的实现原理分析" />
+      image: imageUrl, // 图片, 默认取网页中第一个img标签
+      sites: ['qzone', 'qq', 'weibo','wechat','douban'], // 启用的站点
+      //disabled: ['google', 'facebook', 'twitter'], // 禁用的站点
+      wechatQrcodeTitle: "微信扫一扫：分享", // 微信二维码提示文字
+      wechatQrcodeHelper: '<p style="font-size:10px;">微信里点“发现”，扫一下</p><p style="font-size:10px;">二维码便可将本文分享至朋友圈。</p>',
+   };
+  $('.social-share').share($config);
+</script>
+
+
+
+
+                            
+                            <br>
+                            <!-- comment -->
+                            <!--
+
+
+
+-->
+
+<!-- 多说评论框 start -->
+<div class="row" style="margin-top:25px;"></div>
+<div class="ds-thread" data-thread-key="/linux/2016/12/12/linux-postgre-on-linux-start.html" data-title="centos7下开机自启动postgres" data-url="http://localhost:4000/linux/2016/12/12/linux-postgre-on-linux-start.html"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+	var duoshuoQuery = {short_name:"kinglyjn"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+<!-- 多说公共JS代码 end -->
+
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+	
+	    <script src="/static/js/scroll.js"></script>
+
+<!-- Baidu analytics -->
+
+
+<!-- Google analytics -->
+
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-73784599-1', 'auto');
+    ga('send', 'pageview');
+
+  </script>
+
+
+<!--
+
+-->
+
+<!--
+
+-->
+
+<script async src="/static/js/count_page.js"></script>
+
+	
+
+</body>
+</html>

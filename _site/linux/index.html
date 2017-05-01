@@ -1,0 +1,1578 @@
+<!DOCTYPE html>
+<html>
+	
+	    <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  
+  <meta name="author" content="KinglyJn">
+
+  <title>
+    
+        KinglyJn|Linux
+    
+  </title>
+  <!-- favicon -->
+  <link rel="shortcut icon" href="/static/img/favicon.ico">
+
+  <!-- Third-party CSS -->
+  <link href="/bower_components/normalize-css/normalize.min.css" rel="stylesheet">
+  <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/bower_components/animate.css/animate.min.css" rel="stylesheet">
+  <link href="/bower_components/components-font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="/static/font-mfizz/font-mfizz.css" rel="stylesheet">
+  <!-- <link href="/bower_components/toastr/toastr.min.css" rel="stylesheet"> -->
+  <link href="/bower_components/jquery.gritter/css/jquery.gritter.css" rel="stylesheet">
+  <link rel="stylesheet" href="/search/css/cb-search.css">
+
+  <!-- Custom styles for this template -->
+  <link href="/static/css/style.min.css" rel="stylesheet">
+  <link href="/static/css/pygments.css" rel="stylesheet">
+
+  <!-- Scripts -->
+  <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="/search/js/bootstrap3-typeahead.min.js"></script>
+
+  <!-- cb-search -->
+  <script src="/search/js/cb-search.js"></script>
+  <script>
+    $(function(){
+        $("pre").css('display','block');
+    });
+  </script>
+  <!-- Mainly scripts -->
+  <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="/bower_components/metisMenu/dist/metisMenu.min.js"></script>
+  <script src="/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+
+  <!-- Peity -->
+  <script src="/bower_components/peity/jquery.peity.min.js"></script>
+
+  <script src="/bower_components/PACE/pace.min.js"></script>
+  <script src="/bower_components/wow/dist/wow.min.js"></script>
+  <!-- Custom and plugin javascript -->
+  <script src="/static/js/inspinia.js"></script>
+
+  <!-- Rickshaw -->
+  <script src="/bower_components/rickshaw/vendor/d3.v3.js"></script>
+  <script src="/bower_components/rickshaw/rickshaw.min.js"></script>
+
+
+  <!-- jPages -->
+  <script src="/static/js/jPages.js"></script>
+  <script src="/static/js/js.js"></script>
+  <script type="text/javascript">
+        $(function(){
+          /* initiate the plugin */
+          $("div.pag-holder").jPages({
+              containerID  : "pag-itemContainer",
+              perPage      : 10,  /* num of items per page */
+              startPage    : 1,
+              startRange   : 1,
+              midRange     : 3,
+              endRange     : 1
+          });
+
+          $("div.pag-jump button").click(function(){
+            var page = parseInt($("div.pag-jump input").val());
+            $("div.pag-holder").jPages(page);
+          });
+
+          $("div.pag-jump input").on("keypress", function(){
+            var e=e||window.event;
+            if (e.keyCode == 13) {
+                var page = parseInt($("div.pag-jump input").val());
+                $("div.pag-holder").jPages(page);
+            } 
+          });
+      });
+  </script>
+
+<!-- GrowingIO -->
+
+  <script>
+    var _vds = _vds || [];
+    window._vds = _vds;
+    (function(){
+      _vds.push(['setAccountId', 'a49d4901c7853da9']);
+      (function() {
+        var vds = document.createElement('script');
+        vds.type='text/javascript';
+        vds.async = true;
+        vds.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'dn-growing.qbox.me/vds.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(vds, s);
+      })();
+    })();
+  </script>
+
+
+</head>
+
+	
+
+
+<body id="page-top" class="landing-page">
+
+	
+	    
+
+<!--修复手机端横轴方向左右滑动BUG-->
+<style type="text/css">
+    .landing-page .row {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+</style>
+
+<div class="search-tool"
+      style="position: fixed; top: 0px ; bottom: 0px; left: 0px; right:  0px; opacity: 0.95; background-color: #111111; z-index: 9999; display: none;">
+    <input type="text" class="form-control search-content" id="search-content" style="position: fixed; top: 60px" placeholder="Search Blog">
+
+    <div style="position: fixed; top: 16px; right: 16px; z-index: 9999;">
+        <img src="/search/img/cb-close.png" id="close-btn"/>
+    </div>
+</div>
+
+<div style="position: fixed; right: 16px; bottom: 20px; z-index: 9999;">
+    <img src="/search/img/cb-search.png"  id="search-btn"  title="Double click Ctrl"/>
+</div>
+
+<div class="navbar-wrapper">
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header page-scroll">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/">KinglyJn</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a class="page-scroll" href="/blog/"></a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/blog/">Blog</a></li>
+                        
+                            
+                            <li class="active">
+                            
+                            <a class="page-scroll" href="/linux/">Linux</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/cloud/">Cloud</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/java/">Java</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/c/">C</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/php/">PHP</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/db/">DB</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/htmlx/">HTMLX</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/life/">Life</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/art/">Art</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/other/">Other</a></li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </nav>
+</div>
+<div id="inSlider" class="carousel carousel-fade" data-ride="carousel">
+    <div style="position:absolute;float:left;left:25%;z-index:15;width:50%;margin-bottom:18%;bottom:0;text-align:center;list-style:none;">
+        <span style="color:white;font-size:24px;">以平实之心写作</span><br>
+        <span style="color:white;font-size:13px;">writing with simple heart ♬. </span>
+    </div>
+    <!--
+    <ol class="carousel-indicators">
+        <li data-target="#inSlider" data-slide-to="0" class="active"></li>
+        <li data-target="#inSlider" data-slide-to="1"></li>
+    </ol>
+    -->
+    <div class="carousel-inner" role="listbox">
+        <div class="item active">
+            <div class="container">
+                <div class="carousel-caption">
+                </div>
+                <div class="carousel-image wow zoomIn">
+                    <!-- <img src="static/img/landing/laptop.png" alt="laptop"/> -->
+                </div>
+            </div>
+            <!-- Set background for slide in css -->
+            <div class="header-back blog-one"></div>
+        </div>
+        <!--
+        <div class="item">
+            <div class="container">
+                <div class="carousel-caption blank">
+                </div>
+            </div>
+            Set background for slide in css
+            <div class="header-back two"></div>
+        </div>
+        -->
+    </div>
+    <!--
+    <a class="left carousel-control" href="#inSlider" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#inSlider" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+    -->
+</div>
+
+
+	
+
+        <div class="row">
+    <div class="col-lg-12 text-center">
+        <div class="navy-line"></div>
+        <h1>Linux</h1>
+    </div>
+</div>
+
+<div class="wrapper wrapper-content  animated fadeInRight blog">
+    <div class="row">
+		<ul id="pag-itemContainer" style="list-style:none;">
+    
+		
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/linux/2016/12/13/zookeeper.html" class="btn-link">
+                        <h2>
+                            zookeeper安装部署主要流程（以zookeeper-3.4.6为例） &nbsp;
+                            <i class="fa fa-bookmark-o"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2016-12-13</span>
+                    </div>
+                    <p>
+                    	安装主要流程
+1、配置hosts、hostname，测试各节点网络的连通性
+2、解压zookeepr-3.4.6.tar.gz，编辑/etc/profile配置环境变量（注意. /etc/pro...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">Linux</button>
+                                
+                        </div>
+                        <!--
+                        <div class="col-md-6">
+                            <div class="small text-right">
+                                <h5>Stats:</h5>
+                                <div> 
+                                
+                                
+                                </div>
+                            </div>
+                        </div>
+                        -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/linux/2016/12/13/ubuntu-bind9.html" class="btn-link">
+                        <h2>
+                            ubuntu14.04 bind9的安装配置 &nbsp;
+                            <i class="fa fa-bookmark-o"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2016-12-13</span>
+                    </div>
+                    <p>
+                    	服务端
+
+bind9安装后目录文件列表
+
+
+
+安装bind9
+
+#安装bind9 （dig @172.16.127.xxx version.bind chaos txt  
+#配置完之后查看bi...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">Linux</button>
+                                
+                        </div>
+                        <!--
+                        <div class="col-md-6">
+                            <div class="small text-right">
+                                <h5>Stats:</h5>
+                                <div> 
+                                
+                                
+                                </div>
+                            </div>
+                        </div>
+                        -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/linux/2016/12/13/mysql.html" class="btn-link">
+                        <h2>
+                            linux环境下mysql5.6的安装、配置、使用及常见问题解决办法 &nbsp;
+                            <i class="fa fa-bookmark-o"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2016-12-13</span>
+                    </div>
+                    <p>
+                    	准备工作
+
+本文档是在ubuntu14.04下安装5.6版本的mysql。
+1、所用软件：Ubuntu14.04 LTS版
+2、建议使用root用户
+3、使用服务器地址：192.168.1.23...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">Linux</button>
+                                
+                        </div>
+                        <!--
+                        <div class="col-md-6">
+                            <div class="small text-right">
+                                <h5>Stats:</h5>
+                                <div> 
+                                
+                                
+                                </div>
+                            </div>
+                        </div>
+                        -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/linux/2016/12/13/chrony.html" class="btn-link">
+                        <h2>
+                            集群服务器安装时间同步服务（chrony） &nbsp;
+                            <i class="fa fa-bookmark-o"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2016-12-13</span>
+                    </div>
+                    <p>
+                    	摘要
+服务器之间的时间需要同步，但并不是所有机器可以直接连外网，这时可以用Chrony工具解决。解决方法是将其中一台设为时间服务器，然后其它服务器和这台时间服务器同步即可。
+
+ chrony是两...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">Linux</button>
+                                
+                        </div>
+                        <!--
+                        <div class="col-md-6">
+                            <div class="small text-right">
+                                <h5>Stats:</h5>
+                                <div> 
+                                
+                                
+                                </div>
+                            </div>
+                        </div>
+                        -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/linux/2016/12/13/aws.html" class="btn-link">
+                        <h2>
+                            AWS服务和使用简介 &nbsp;
+                            <i class="fa fa-bookmark-o"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2016-12-13</span>
+                    </div>
+                    <p>
+                    	AWS全球使用情况：
+
+AWS云在全球14个地理区域内运营着38个可用区，而且明年还将有另外9个可用区和4个区域上线。AWS云基础设施围绕区域和可用区（“AZ”）构建。区域是指全球范围内的某个物...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">Linux</button>
+                                
+                        </div>
+                        <!--
+                        <div class="col-md-6">
+                            <div class="small text-right">
+                                <h5>Stats:</h5>
+                                <div> 
+                                
+                                
+                                </div>
+                            </div>
+                        </div>
+                        -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/linux/2016/12/12/ubuntu-software-manage.html" class="btn-link">
+                        <h2>
+                            ubuntu安装软件的管理 &nbsp;
+                            <i class="fa fa-bookmark-o"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2016-12-12</span>
+                    </div>
+                    <p>
+                    	ubuntu中软件安装方法
+
+APT方式
+
+  普通安装：apt-get install softname1 softname2 …;
+  修复安装：apt-get -f install sof...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">Linux</button>
+                                
+                        </div>
+                        <!--
+                        <div class="col-md-6">
+                            <div class="small text-right">
+                                <h5>Stats:</h5>
+                                <div> 
+                                
+                                
+                                </div>
+                            </div>
+                        </div>
+                        -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/linux/2016/12/12/shell-base.html" class="btn-link">
+                        <h2>
+                            shell脚本基础 &nbsp;
+                            <i class="fa fa-bookmark-o"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2016-12-12</span>
+                    </div>
+                    <p>
+                    	摘要
+
+Shell 是一个用C语言编写的程序，它是用户使用Linux的桥梁。Shell既是一种命令语言，又是一种程序设计语言。
+Shell 是指一种应用程序，这个应用程序提供了一个界面，用户通过...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">Linux</button>
+                                
+                        </div>
+                        <!--
+                        <div class="col-md-6">
+                            <div class="small text-right">
+                                <h5>Stats:</h5>
+                                <div> 
+                                
+                                
+                                </div>
+                            </div>
+                        </div>
+                        -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/linux/2016/12/12/nexus.html" class="btn-link">
+                        <h2>
+                            nexus（Maven仓库私服）的安装、配置、使用和仓库迁移 &nbsp;
+                            <i class="fa fa-bookmark-o"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2016-12-12</span>
+                    </div>
+                    <p>
+                    	简介
+Nexus下载：点击进入
+Nexus 是Maven仓库管理器，如果你使用Maven，你可以从Maven中央仓库 下载所需要的构件（artifact），但这通常不是一个好的做法，你应该在本地...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">Linux</button>
+                                
+                        </div>
+                        <!--
+                        <div class="col-md-6">
+                            <div class="small text-right">
+                                <h5>Stats:</h5>
+                                <div> 
+                                
+                                
+                                </div>
+                            </div>
+                        </div>
+                        -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/linux/2016/12/12/linux-ssh-free-visit.html" class="btn-link">
+                        <h2>
+                            SSH双向自由访问 &nbsp;
+                            <i class="fa fa-bookmark-o"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2016-12-12</span>
+                    </div>
+                    <p>
+                    	测试机器
+
+A: 172.16.127.128
+B: 172.16.127.129
+
+
+
+思路：
+
+首先测试进行单向登录访问的设置,也就是A可以自由访问B
+双向自由访问只是在A-&gt;B的基础...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">Linux</button>
+                                
+                        </div>
+                        <!--
+                        <div class="col-md-6">
+                            <div class="small text-right">
+                                <h5>Stats:</h5>
+                                <div> 
+                                
+                                
+                                </div>
+                            </div>
+                        </div>
+                        -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/linux/2016/12/12/linux-redis.html" class="btn-link">
+                        <h2>
+                            linux安装和配置redis &nbsp;
+                            <i class="fa fa-bookmark-o"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2016-12-12</span>
+                    </div>
+                    <p>
+                    	Redis源码获取
+
+
+  进入Redis官网获取Redis最新稳定版下载地址
+  通过wget命令下载 Redis 源代码。
+
+
+Redis编译
+
+
+  通过tar -xvf redis-3....
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">Linux</button>
+                                
+                        </div>
+                        <!--
+                        <div class="col-md-6">
+                            <div class="small text-right">
+                                <h5>Stats:</h5>
+                                <div> 
+                                
+                                
+                                </div>
+                            </div>
+                        </div>
+                        -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/linux/2016/12/12/linux-postgre-on-linux-start.html" class="btn-link">
+                        <h2>
+                            centos7下开机自启动postgres &nbsp;
+                            <i class="fa fa-bookmark-o"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2016-12-12</span>
+                    </div>
+                    <p>
+                    	/etc/rc.local 
+
+#!/bin/bash  
+# THIS FILE IS ADDED FOR COMPATIBILITY PURPOSES  
+#  
+# It is highl...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">Linux</button>
+                                
+                        </div>
+                        <!--
+                        <div class="col-md-6">
+                            <div class="small text-right">
+                                <h5>Stats:</h5>
+                                <div> 
+                                
+                                
+                                </div>
+                            </div>
+                        </div>
+                        -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/linux/2016/12/12/linux-nginx.html" class="btn-link">
+                        <h2>
+                            linux安装和配置nginx &nbsp;
+                            <i class="fa fa-bookmark-o"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2016-12-12</span>
+                    </div>
+                    <p>
+                    	centos7下安装nginx
+
+1.
+下载对应当前系统版本的nginx包(package)
+# wget  http://nginx.org/packages/centos/7/noarch/...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">Linux</button>
+                                
+                        </div>
+                        <!--
+                        <div class="col-md-6">
+                            <div class="small text-right">
+                                <h5>Stats:</h5>
+                                <div> 
+                                
+                                
+                                </div>
+                            </div>
+                        </div>
+                        -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/linux/2016/12/12/linux-nfs.html" class="btn-link">
+                        <h2>
+                            NFS服务安装配置（centos7 nfs-utils示例） &nbsp;
+                            <i class="fa fa-bookmark-o"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2016-12-12</span>
+                    </div>
+                    <p>
+                    	测试机器
+
+
+  nps-server 10.166.205.104
+  nfs-client 10.166.205.101
+
+
+
+server端
+
+1、安装nfs-utils和rpcbind
+...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">Linux</button>
+                                
+                        </div>
+                        <!--
+                        <div class="col-md-6">
+                            <div class="small text-right">
+                                <h5>Stats:</h5>
+                                <div> 
+                                
+                                
+                                </div>
+                            </div>
+                        </div>
+                        -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/linux/2016/12/12/linux-mac-crontab.html" class="btn-link">
+                        <h2>
+                            linux/mac定时任务(crontab) &nbsp;
+                            <i class="fa fa-bookmark-o"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2016-12-12</span>
+                    </div>
+                    <p>
+                    	设置cron任务示例
+
+linux/mac下的定时执行主要是使用crontab文件中加入定制计划来执行，Cron本身是一个守护进程，在后台运行，通过配置文件“crontab”来根据时间调度指定的...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">Linux</button>
+                                
+                        </div>
+                        <!--
+                        <div class="col-md-6">
+                            <div class="small text-right">
+                                <h5>Stats:</h5>
+                                <div> 
+                                
+                                
+                                </div>
+                            </div>
+                        </div>
+                        -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/linux/2016/12/12/linux-hardware-cmd.html" class="btn-link">
+                        <h2>
+                            查看硬件配置命令（ubuntu示例） &nbsp;
+                            <i class="fa fa-bookmark-o"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2016-12-12</span>
+                    </div>
+                    <p>
+                    	查看内核/操作系统/CPU信息
+
+ubuntu@dbserver:~$ uname -a
+Linux dbserver 4.2.0-27-generic #32~14.04.1-Ubuntu S...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">Linux</button>
+                                
+                        </div>
+                        <!--
+                        <div class="col-md-6">
+                            <div class="small text-right">
+                                <h5>Stats:</h5>
+                                <div> 
+                                
+                                
+                                </div>
+                            </div>
+                        </div>
+                        -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/linux/2016/12/12/git-readme.html" class="btn-link">
+                        <h2>
+                            Git及常用命令说明 &nbsp;
+                            <i class="fa fa-bookmark-o"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2016-12-12</span>
+                    </div>
+                    <p>
+                    	概述
+
+Git Home: https://git-scm.com/
+Git is a version control ststem.  
+Git is a free software dist...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">Linux</button>
+                                
+                        </div>
+                        <!--
+                        <div class="col-md-6">
+                            <div class="small text-right">
+                                <h5>Stats:</h5>
+                                <div> 
+                                
+                                
+                                </div>
+                            </div>
+                        </div>
+                        -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/linux/2016/12/12/SSHPermissions-to-open.html" class="btn-link">
+                        <h2>
+                            id_rsa are too open 的处理 &nbsp;
+                            <i class="fa fa-apple"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2016-12-12</span>
+                    </div>
+                    <p>
+                    	问题描述：
+
+
+
+
+
+原因分析
+
+这是由于秘钥的权限太开放导致的，应该把自己的秘钥文件id_rsa的权限设置成自己可读可写就可以了（600）
+
+
+解决方法：
+
+$ chmod 0600 /xxx...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">Linux</button>
+                                
+                        </div>
+                        <!--
+                        <div class="col-md-6">
+                            <div class="small text-right">
+                                <h5>Stats:</h5>
+                                <div> 
+                                
+                                
+                                </div>
+                            </div>
+                        </div>
+                        -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/linux/2016/12/09/ubuntu-ufw-install-conf.html" class="btn-link">
+                        <h2>
+                            ubuntu防火墙(ufw)安装和配置 &nbsp;
+                            <i class="fa fa-bookmark-o"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2016-12-09</span>
+                    </div>
+                    <p>
+                    	安装
+
+sudo apt-get install ufw 
+
+
+
+一般用户，只需如下设置：
+sudo apt-get install ufw 
+sudo ufw enable 
+sudo ufw...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">Linux</button>
+                                
+                        </div>
+                        <!--
+                        <div class="col-md-6">
+                            <div class="small text-right">
+                                <h5>Stats:</h5>
+                                <div> 
+                                
+                                
+                                </div>
+                            </div>
+                        </div>
+                        -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/linux/2016/12/09/storm-shell-manage.html" class="btn-link">
+                        <h2>
+                            ubuntu14.04_storm集群节点管理脚本示例 &nbsp;
+                            <i class="fa fa-bookmark-o"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2016-12-09</span>
+                    </div>
+                    <p>
+                    	需求：
+
+
+  实现nimbus机脚本控制supervisor节点机的开、关、查看
+
+
+实现思路：
+
+
+  实现集群各节点间的网络通信和域名解析
+  建立各节点间的互信机制
+  脚本控制
+
+
+具...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">Linux</button>
+                                
+                        </div>
+                        <!--
+                        <div class="col-md-6">
+                            <div class="small text-right">
+                                <h5>Stats:</h5>
+                                <div> 
+                                
+                                
+                                </div>
+                            </div>
+                        </div>
+                        -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/linux/2016/12/09/linux-vim-command.html" class="btn-link">
+                        <h2>
+                            vim编辑器常用操作 &nbsp;
+                            <i class="fa fa-bookmark-o"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2016-12-09</span>
+                    </div>
+                    <p>
+                    	vim的三种模式
+
+
+  命令模式：
+vi启动后默认进入的是命令模式，从这个模式使用命令可以切换到另外两种模式，同时无论在任何模式下只要按一下[Esc]键都可以返回命令模式。在命令模式中输入字幕...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">Linux</button>
+                                
+                        </div>
+                        <!--
+                        <div class="col-md-6">
+                            <div class="small text-right">
+                                <h5>Stats:</h5>
+                                <div> 
+                                
+                                
+                                </div>
+                            </div>
+                        </div>
+                        -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/linux/2016/12/09/linux-sudo-su-nopasswd.html" class="btn-link">
+                        <h2>
+                            设置sudo和su不需要密码 &nbsp;
+                            <i class="fa fa-bookmark-o"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2016-12-09</span>
+                    </div>
+                    <p>
+                    	一、设置sudo为不需要密码
+
+有时候我们只需要执行一条root权限的命令也要su到root，是不是有些不方便？这时可以用sudo代替。默认新建的用户不在sudo组，需要编辑/etc/sudoe...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">Linux</button>
+                                
+                        </div>
+                        <!--
+                        <div class="col-md-6">
+                            <div class="small text-right">
+                                <h5>Stats:</h5>
+                                <div> 
+                                
+                                
+                                </div>
+                            </div>
+                        </div>
+                        -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/linux/2016/12/09/linux-netconf.html" class="btn-link">
+                        <h2>
+                            linux网络配置 &nbsp;
+                            <i class="fa fa-bookmark-o"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2016-12-09</span>
+                    </div>
+                    <p>
+                    	常用网络诊断命令
+
+#基本工具
+#网络诊断的第一步，是了解自己的设备，比如有哪些接口，IP地址都是什么
+#显示网络接口(interface)信息。如接口名称，接口类型，接口的IP地址，硬件的MA...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">Linux</button>
+                                
+                        </div>
+                        <!--
+                        <div class="col-md-6">
+                            <div class="small text-right">
+                                <h5>Stats:</h5>
+                                <div> 
+                                
+                                
+                                </div>
+                            </div>
+                        </div>
+                        -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/linux/2016/12/09/linux-date-time.html" class="btn-link">
+                        <h2>
+                            linux系统时区、日期、时间的查看和修改 &nbsp;
+                            <i class="fa fa-bookmark-o"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2016-12-09</span>
+                    </div>
+                    <p>
+                    	修改时区
+
+$ sudo cp /usr/share/zoneinfo/$主时区/$次时区 /etc/localtime
+#在中国可以使用：
+$ sudo cp /usr/share/zonei...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">Linux</button>
+                                
+                        </div>
+                        <!--
+                        <div class="col-md-6">
+                            <div class="small text-right">
+                                <h5>Stats:</h5>
+                                <div> 
+                                
+                                
+                                </div>
+                            </div>
+                        </div>
+                        -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/linux/2016/11/11/linux-ubuntu-single-user-mode.html" class="btn-link">
+                        <h2>
+                            ubuntu系统单用户模式 &nbsp;
+                            <i class="fa fa-bookmark-o"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2016-11-11</span>
+                    </div>
+                    <p>
+                    	
+  如果用户改了某个不该改的文件（如使用sudo chown更改了/etc/sudoers文件导致sudo命令无法使用，或是由于一时操作失误，无法再进入系统），想要恢复又恢复不过来，这时候就可...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">Linux</button>
+                                
+                        </div>
+                        <!--
+                        <div class="col-md-6">
+                            <div class="small text-right">
+                                <h5>Stats:</h5>
+                                <div> 
+                                
+                                
+                                </div>
+                            </div>
+                        </div>
+                        -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/linux/2016/11/11/linux-ubuntu1404-source-list.html" class="btn-link">
+                        <h2>
+                            ubuntu 14.04源更新（sources.list） &nbsp;
+                            <i class="fa fa-bookmark-o"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2016-11-11</span>
+                    </div>
+                    <p>
+                    	
+  在网上下载了一个ubuntu 14.04的镜像，我是在vmware虚拟机里安装的（我是在无网络情况下安装的，不知道有没有影响，可能在有网络安装系统的时候会更新一些东西），安装好了之后在终端...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">Linux</button>
+                                
+                        </div>
+                        <!--
+                        <div class="col-md-6">
+                            <div class="small text-right">
+                                <h5>Stats:</h5>
+                                <div> 
+                                
+                                
+                                </div>
+                            </div>
+                        </div>
+                        -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/linux/2016/11/11/linux-centos7-init-cmd.html" class="btn-link">
+                        <h2>
+                            linux初始化常用命令（centos7示例） &nbsp;
+                            <i class="fa fa-bookmark-o"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2016-11-11</span>
+                    </div>
+                    <p>
+                    	软件升级和安装
+
+whatis yum      #获取yum命令简介
+man yum         #获取yum命令详情
+apropos 'Updater' #通过功能简介查找命令
+yum ...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">Linux</button>
+                                
+                        </div>
+                        <!--
+                        <div class="col-md-6">
+                            <div class="small text-right">
+                                <h5>Stats:</h5>
+                                <div> 
+                                
+                                
+                                </div>
+                            </div>
+                        </div>
+                        -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+		
+		<li>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="ibox" style="margin-bottom:0px;">
+                <div class="ibox-content">
+                    <a href="/linux/2012/11/17/win-dos-shell-base.html" class="btn-link">
+                        <h2>
+                            常用dos命令 &nbsp;
+                            <i class="fa fa-windows"> </i>
+                        </h2>
+                    </a>
+                    <div class="small m-b-xs">
+                        <strong>KinglyJn</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted"><i class="fa fa-clock-o"></i> 2012-11-17</span>
+                    </div>
+                    <p>
+                    	dos不显示中文：
+运行regedit-&gt;HKEY_CURRENT_USER-&gt;Console-&gt;SystemRoot%_system32_cmd.exe-&gt;CodePa...
+                    </p>
+                    <div class="row">
+                        <div class="col-md-6" style="padding-left:0px">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">win</button>
+                                
+                        </div>
+                        <!--
+                        <div class="col-md-6">
+                            <div class="small text-right">
+                                <h5>Stats:</h5>
+                                <div> 
+                                
+                                
+                                </div>
+                            </div>
+                        </div>
+                        -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        </li>
+        
+        </ul>
+        <!--在head.html中配置的是煤业显示10条-->
+<!--如果大于10条就显示分页-->
+
+    <div class="col-lg-6 col-lg-offset-5">
+		<div class="pag-holder" style="float:left; display:inline;"></div>
+		<div class="pag-jump" style="float:left;margin:22px 10px">
+			转到
+			<input type="text" value="1" style="width:30px;"/>&nbsp;页
+			<button type="button" class="btn btn-default btn-xs" style="margin-left:10px;">确定</button>
+		</div>
+	</div>
+
+
+
+
+    </div>
+</div>
+
+
+	
+	    <script src="/static/js/scroll.js"></script>
+
+<!-- Baidu analytics -->
+
+
+<!-- Google analytics -->
+
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-73784599-1', 'auto');
+    ga('send', 'pageview');
+
+  </script>
+
+
+<!--
+
+-->
+
+<!--
+
+-->
+
+<script async src="/static/js/count_page.js"></script>
+
+	
+
+</body>
+</html>
