@@ -1,4 +1,4 @@
-#<a name="kinglyjn Blog"></a>Kinglyjn Blog. [![Analytics](https://www.page.keyllo.com)](http://www.page.keyllo.com)
+# [kinglyjn blog](http://www.page.keyllo.com)
 
 [![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
 
