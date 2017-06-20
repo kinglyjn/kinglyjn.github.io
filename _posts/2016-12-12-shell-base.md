@@ -602,7 +602,7 @@ echo "函数的执行结果为：$?"
 * command < file    //将file输入重定向到command
 * m>&n                   //将输出文件m和n合并
 * m<&n                   //将输入文件m和n合并
-<br>
+  <br>
 
 <i>[注]
 0 通常是标准输入（STDIN）<br>
@@ -649,3 +649,15 @@ func1() {
 echo $url   #输出 https://kignlyjn.github.io
 func1       #输出 在文件 test2.sh 中
 ```
+
+
+
+#### 定时删除文件
+
+```shell
+#! /bin/sh
+find /opt/bakfiles -mtime +30 -name "*.war.*" -exec rm -rf {} \;
+```
+
+
+

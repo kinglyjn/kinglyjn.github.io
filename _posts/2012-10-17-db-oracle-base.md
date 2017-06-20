@@ -892,6 +892,16 @@ oracel分页一共有三种方式：
     5.自连接
         特殊的表连接,参与连接的两张表是同一张表
             select * from employees aa left join employees bb on aa.manager_id=bb.employee_id; 
+
+        查询最近的一条记录
+        select 
+			t1.* 
+		from 
+			b_t_login t1
+		right join
+			(select id,max(modify_time) as max_modify_time from b_t_login group by user_number) t2
+		on 
+			t1.id=t2.id;
 ```
 <br>
 
