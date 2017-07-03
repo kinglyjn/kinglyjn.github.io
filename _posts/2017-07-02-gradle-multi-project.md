@@ -186,7 +186,9 @@ project(':zdemo-gradle-app') {
 
 ### 使用eclipse或其他集成开发工具打开新创建的gradle项目
 
-import exsisting gradle project 导入刚刚创建的项目，项目导入后如下： ![这里写图片描述](http://img.blog.csdn.net/20170702135153728?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+import exsisting gradle project 导入刚刚创建的项目，项目导入后如下： <br>
+
+<img src="http://img.blog.csdn.net/20170702135153728?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:80%"/>
 
 <br>
 
