@@ -1,3 +1,14 @@
+---
+layout: post
+title:  "Maven 打包"
+desc: "Maven 打包"
+keywords: "Maven 打包,责任链设计模式,maven,java,kinglyjn"
+date: 2016-04-15
+categories: [Java]
+tags: [java,maven]
+icon: fa-coffee
+---
+
 
 
 > “打包“这个词听起来比较土，比较正式的说法应该是”构建项目软件包“，具体说就是将项目中的各种文件，
@@ -6,6 +17,8 @@
 > 令行使用。作为一款”打包工具“，Maven自然有义务帮助用户创建各种各样的包，规范的JAR包和WAR包自
 > 然不再话下，略微复杂的自定义打包格式也必须支持，本文就介绍一些常用的打包案例以及相关的实现方式，
 > 除了前面提到的一些包以外，你还能看到如何生成源码包、Javadoc包、以及从命令行可直接运行的CLI包。
+
+
 
 ### Packaging的含义
 
@@ -51,6 +64,10 @@
 </plugin>
 ```
 
+<br>
+
+
+
 ### 源码包和Javadoc包
 
 一个Maven项目只生成一个主构件，当需要生成其他附属构件的时候，需要用上classifier。源码包和Javadoc包就是附属构件的极佳例子。它们有着广泛的用途，尤其是源码包，当你使用一个第三方依赖的时候，有时候会希望在IDE中直接进入该依赖的源码查看其实现的细节，如果该依赖将源码包发布到了Maven仓库，那么像Eclipse就能通过m2eclipse插件解析下载源码包并关联到你的项目中，十分方便。由于生成源码包是极其常见的需求，因此Maven官方提供了一个插件来帮助用户完成这个任务：
@@ -92,6 +109,10 @@
 
 为了帮助所有Maven用户更方便的使用Maven中央库中海量的资源，中央仓库的维护者强制要求开源项目提交构件的时候同时提供源码包和Javadoc包。这是个很好的实践，读者也可以尝试在自己所处的公司内部实行，以促进不同项目之间的交流。
 
+<br>
+
+
+
 ### 可执行CLI包
 
 除了前面提到了常规JAR包、WAR包，源码包和Javadoc包，另一种常被用到的包是在命令行可直接运行的CLI（Command Line）包。默认Maven生成的JAR包只包含了编译生成的.class文件和项目资源文件，而要得到一个可以直接在命令行通过java命令运行的JAR文件，还要满足两个条件：
@@ -125,6 +146,10 @@ Maven有好几个插件能帮助用户完成上述任务，不过用起来最方
 ```
 
 上述例子中的，我的Main-Class是com.juvenxu.mavenbook.HelloWorldCli，构建完成后，对应于一个常规的hello-world-1.0.jar文件，我还得到了一个hello-world-1.0-cli.jar文件。细心的读者可能已经注意到了，这里用的是cli这个classifier。最后，我可以通过java -jar hello-world-1.0-cli.jar命令运行程序。
+
+<br>
+
+
 
 ### 自定义格式包
 
@@ -219,9 +244,15 @@ README.txt
 
 运行mvn clean package之后，我们就能在target/目录下得到名为hello-world-1.0-bin.zip的分发包了。
 
+<br>
+
+
+
 ### 小结
 
 打包是项目构建最重要的组成部分之一，本文介绍了主流Maven打包技巧，包括默认打包方式的原理、如何制作源码包和Javadoc包、如何制作命令行可运行的CLI包、以及进一步的，如何基于个性化需求自定义打包格式。这其中涉及了很多的Maven插件，当然最重要，也是最为复杂和强大的打包插件就是maven-assembly-plugin。事实上Maven本身的分发包就是通过maven-assembly-plugin制作的，感兴趣的读者可以直接[查看源码](http://svn.apache.org/viewvc/maven/maven-3/trunk/apache-maven/src/main/assembly/)一窥究竟。
+
+<br>
 
 
 
