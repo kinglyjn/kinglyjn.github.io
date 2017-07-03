@@ -11,7 +11,515 @@ icon: fa-coffee
 
 
 
-### 初始化项目
+### 首先我们先来看一个简单的单模块项目构建示例
+
+>  zdemo-gradle-simple
+
+<br>
+
+
+
+settings.gradle
+
+```groovy
+rootProject.name = 'zdemo-gradle-simple'
+```
+
+<br>
+
+
+
+build.gradle
+
+```groovy
+/*
+ * 预定义一些类
+ * 类可以直接定义在构建脚本中
+ * 更好的方式是构建脚本与构建类分开，gradle默认将构建类放在 build/src/main/groovy 
+ * 目录下，然后将编写的  *.groovy导入构建脚本即可
+ * 另一种比较常用的方式是建立一个独立的项目来定义task，其他所有的项目均可引用这些task
+ */
+import version.ProjectVersion
+import version.ReleaseVersionTask
+import version.ReleaseVersionListener
+
+
+/*
+ * 预定义一些属性
+ */
+ext {
+	//内部版本文件
+	versionFile = file('version.properties')
+	
+	//依赖包版本
+	junitVersion = "4.12"
+	springframeworkVersion = "4.3.7.RELEASE"
+	slf4jVersion = "1.7.24"
+	log4jVersion = "1.2.17"
+}
+
+/*
+ * 预定义一些方法
+ */
+ProjectVersion readVersion() {   //以下为从配置文件version.properties中读取版本信息的脚本			
+	logger.quiet "reading the version file..." //注意无论什么时候执行gradle构建，gradle都会顺序运行 [初始化->配置->执行] 这三个生命周期阶段 
+	if (!versionFile.exists()) {
+		throw new GradleException("Required version file does not exists, $versionFile.path")
+	}
+	Properties props = new Properties();
+	versionFile.withInputStream { is ->
+		props.load(is)
+	}
+	new ProjectVersion(major:props.major.toInteger(), minor:props.minor.toInteger(), release:props.release.toBoolean())
+}
+
+
+
+/*
+ * 配置插件
+ */
+apply plugin: 'java-library'
+apply plugin: 'groovy'
+//apply from: '../build-config/gradle-quality.gradle' //引入外部gradle文件
+
+
+/*
+ * 配置项目和插件的属性
+ */
+description = 'Gradle项目模板 之 单项目示例'
+group = 'com.keyllo.demo'
+archivesBaseName = 'zdemo-gradle-simple'
+version = readVersion()
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+
+
+/*
+ * 配置一些默认类型的任务（默认类型为DefaultTask）
+ */
+task printVersion {
+	group = 'other' 	//配置阶段执行的代码
+	description = '打印项目版本'
+	//dependsOn = ['task01', 'task02'] //将会在当前任务之前执行
+	//finalizedBy = ['task03'] //将会在当前任务执行之后执行（不管当前任务是否抛出异常都会执行finalizedBy任务）
+	
+	doLast { 			//执行阶段执行的代码
+		logger.quiet "version: $version"
+	}
+}
+
+task makeReleaseVersion {
+	group = 'other'
+	description = '修改项目版本为发布版本(运行这个任务将改变版本属性，并将新的版本值保存到属性文件中, inputs和outputs保证该任务只会被执行第一次)'
+	inputs.property('release', version.release)
+	outputs.file(versionFile)
+	
+	doLast { //这段代码需要在doLast中，否则若直接在task下（配置阶段会执行这些代码），每次执行其他任务版本就会变成发布版本
+		version.release = true
+		ant.propertyfile(file:versionFile) {
+			entry(key:'release', type:'string', operation: '=', value:'true')
+		}
+		println "make project version release done!"
+	}
+}
+
+task makeReleaseVersion2(type:ReleaseVersionTask) { //自定义task，与makeReleaseVersion具有相同的功能
+	release = version.release
+	destFile = versionFile
+}
+
+task createDistribution(type:Zip) {
+	group = 'other'
+	description = '创建发布版本'
+	dependsOn = ['makeReleaseVersion']
+	
+	from jar.outputs.files			//隐式调用 jar task 的输出（对于web项目使用war.outputs.files）
+	from(sourceSets*.allSource) {	//把源文件放到zip文件的src目录下
+		into 'src'
+	}
+	from(rootDir) {					//为zip文件夹添加版本文件
+		include versionFile.name
+	}
+}
+
+task backupReleaseDistribution(type:Copy) {
+	group = 'other'
+	description = '备份发布版本到 backup 文件夹'
+	
+	from createDistribution.outputs.files	//隐式调用createDistribution的输出(该任务会依赖推断出需要先执行createDistribution任务)
+	into "$buildDir/backup"
+}
+
+task release {
+	group = 'other'
+	description = '发布版本'
+	dependsOn = ['backupReleaseDistribution']
+	
+	doLast {
+		logger.quiet "released project: $project.name"
+	}
+}
+
+/*
+gradle.taskGraph.whenReady { TaskExecutionGraph taskGraph -> //通过生命周期钩子[hook]实现版本发布的功能[project.getGradle-->gradle.getTaskGraph-->taskExecutionGraph.whenReady]
+	if (taskGraph.hasTask(release)) { //查看执行图中是否包含 task release
+		version.release = true
+		ant.propertyfile(file:versionFile) {
+			entry(key:'release', type:'string', operation:'=', value:'true')
+		}
+	}
+}
+*/
+
+/*
+def releaseVersionListener = new ReleaseVersionListener()   	//通过生命周期监听器实现版本发布的功能
+gradle.taskGraph.addTaskExecutionGraphListener(releaseVersionListener) //注册监听器到task执行图
+*/
+
+tasks.addRule("Pattern: increment<Vtype>Version - Increments the project major or minor version.") { String taskName ->
+	if (taskName.startsWith('increment') && taskName.endsWith('Version')) {
+		task(taskName) { //规则命名任务（规则命名任务即使通过插件声明分组了，它也将永远显示在Rules分组下）
+			doLast {	 //shell示例：gradle tasks --all  |  gradle task incrementMajorVersion
+				String vtype = (taskName-'increment'-'Version').toLowerCase()
+				String currentVersion = version.toString()
+				switch(vtype) { 
+					case 'major':
+						++version.major
+						break
+					case 'minor':
+						++version.minor
+						break
+					default:
+						throw new GradleException("Invalid version type $vtype, allowed types:['Major','Minor']")
+				}
+				String newVersion = version.toString()
+				logger.info "Incrementing $vtype project version: $currentVersion -> $newVersion"
+				ant.propertyfile(file:versionFile) {
+					entry(key:vtype, type:'int', operation:'+', value:1)
+				}
+			}
+		}
+	}
+}
+
+2.times {counter -> 
+	task "dycTask$counter" { //完全动态任务（可以设置分组等信息）
+		group = 'other'
+		description = '动态任务示例'
+		
+		doLast {
+			println "-----dycTask$counter-----"
+		}
+	}
+}
+
+
+
+/*
+ * 配置依赖仓库
+ */
+repositories {
+	mavenLocal()
+    mavenCentral()
+	jcenter()
+}
+
+
+
+/*
+ * 配置依赖项
+ * 
+ */
+configurations { //配置依赖分组信息
+	//compile.exclude module: 'commons'
+    //all*.exclude group: 'org.gradle.test.excludes', module: 'reports'
+	
+	//all.resolutionStrategy {  //发生冲突时,使用开发者指定的版本 //与 force:true 配合使用
+		//failOnVersionConflict() 
+	//}	
+}
+
+dependencies { 	//配置具体的依赖项
+	//test
+	testCompile "junit:junit:${junitVersion}"
+	testCompile "org.springframework:spring-test:${springframeworkVersion}"
+
+	//groovy
+	//compile gradleApi() //gradleApi导入的gradle-api包中已经包含了slf4j-log4j12相关类，使用了这个包以后自定义的log4j.properties文件就不会起作用了
+	//compile localGroovy()
+	
+	//spring
+	compile "org.springframework:spring-context:${springframeworkVersion}"
+	compile "org.springframework:spring-context-support:${springframeworkVersion}"
+	
+	//log4j
+	compile "org.slf4j:slf4j-api:${slf4jVersion}"
+	compile group:'org.slf4j', name:'slf4j-log4j12', version:'${slf4jVersion}'
+	compile "log4j:log4j:${log4jVersion}"
+	
+	
+	/*
+	 * 一些依赖配置示例
+	 */
+	//compile project(':library') //依赖内部其他项目
+	
+	//compile files('spring-core.jar', 'spring-aap.jar') //依赖文件系统的jar文件
+	//compile fileTree(dir: 'deps', include: '*.jar')
+	//compile fileTree(dir: 'libs', include: ['*.jar'])
+	
+	//compile('log4j:log4j:1.2.17') { //排除所有的传递性依赖
+		//transitive = false //transitive 属性默认为 true
+	//}
+	
+	//compile ('commons-httpclient:commons-httpclient:3.1'){ //排除部分依赖
+		//exclude group:'commons-codec' //排除该group的依赖  //group是必选项,module可选
+		//exclude group:'commons-codec',module:'commons-codec'
+	//}
+	
+	//compile group:'b',name:'b',version:'1.1',force:true  //强制使用某个版本
+}
+```
+
+<br>
+
+
+
+buildSrc/src/main/groovy/version/ProjectVersion.groovy
+
+```groovy
+package version
+
+class ProjectVersion {
+	def major
+	def minor
+	def release
+	def String toString() {
+		"$major.$minor${release ? '-RELEASE' : '-SNAPSHOT'}"
+	}
+}
+```
+
+<br>
+
+buildSrc/src/main/groovy/version/ReleaseVersionTask.groovy
+
+```groovy
+package version
+
+import org.gradle.api.DefaultTask
+import org.gradle.api.tasks.*
+
+/**
+ * 自定义任务：发布版本
+ * @author zhangqingli
+ *
+ */
+class ReleaseVersionTask extends DefaultTask {
+	@Input 	  //通过注解声明 task的输入/输出
+	@Optional //允许输入值为null
+	Boolean release
+	@OutputFile
+	File destFile
+	
+	ReleaseVersionTask() { //在构造器中设置task的属性
+		group = 'other'
+		description = 'this is ReleaseVersionTask, extends from DefaultTask'
+	}
+	
+	@TaskAction
+	void start() {
+		project.version.release = true
+		ant.propertyfile(file:destFile) {
+			entry(key:'release', type:'string', operation: '=', value:'true')
+		}
+	}
+}
+```
+
+<br>
+
+buildSrc/src/main/groovy/version/ReleaseVersionListener.groovy
+
+```groovy
+package version
+
+import org.gradle.api.Project
+import org.gradle.api.Task
+import org.gradle.api.execution.TaskExecutionGraph
+import org.gradle.api.execution.TaskExecutionGraphListener
+
+/**
+ * 通过生命周期监听器实现版本发布功能
+ * @author zhangqingli
+ *
+ */
+class ReleaseVersionListener implements TaskExecutionGraphListener {
+	static final String releaseTaskPath = ":release"
+	
+	
+	@Override
+	public void graphPopulated(TaskExecutionGraph taskExecutionGraph) {
+		if (taskExecutionGraph.hasTask(releaseTaskPath)) { //确定 release task 任务包含在执行图中
+			println "> releaseVersionListener"
+			List<Task> allTasks = taskExecutionGraph.allTasks;
+			
+			Task releaseTask = allTasks.find {
+				it.path == releaseTaskPath
+			}
+			Project project = releaseTask.project //每个task都知道自己所属的project
+			
+			project.version.release = true
+			project.ant.propertyfile(file:project.versionFile) {
+				entry(key:'release', type:'string', operation:'=', value:'true')
+			}	
+		}
+	}
+}
+```
+
+<br>
+
+
+
+src/main/java/spring01/hello/User.java
+
+```java
+package spring01.hello;
+
+public class User {
+	
+	private String name;
+	private int age;
+	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public int getAge() {
+		return age;
+	}
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	@Override
+	public String toString() {
+		return "HelloWorld [name=" + name + ", age=" + age + "]";
+	}
+}
+```
+
+<br>
+
+
+
+src/main/resources/spring01.xml
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	<!-- 引入外部配置文件 -->
+	<context:property-placeholder location="db.properties"/>
+	
+	<!-- 装配beans -->
+	<bean id="user01" class="spring01.hello.User">
+		<property name="name" value="${user01.name}"/>
+		<property name="age" value="${user01.age}"/>
+	</bean>
+</beans>
+```
+
+<br>
+
+src/main/resources/db.properties
+
+```properties
+user01.name=zhangsan
+user01.age=23
+```
+
+src/main/resources/log4j.properties
+
+```properties
+project.name=zdemo-gradle-simple
+fileout.path=/tmp/mytmp/logs
+#
+log4j.rootLogger=info, STDOUT, FILEOUT
+log4j.logger.org.springframework.data.mongodb.core=MONGODB 
+
+log4j.appender.STDOUT=org.apache.log4j.ConsoleAppender
+log4j.appender.STDOUT.encoding=UTF-8
+log4j.appender.STDOUT.layout=org.apache.log4j.PatternLayout
+log4j.appender.STDOUT.layout.ConversionPattern=[${project.name}] [%-5p] [%d] [%-3r] %l [%t,%x] %n  - %m%n
+
+log4j.appender.FILEOUT=org.apache.log4j.DailyRollingFileAppender   
+log4j.appender.FILEOUT.File=${fileout.path}/${project.name}.log
+log4j.appender.FILEOUT.encoding=UTF-8
+log4j.appender.FILEOUT.layout=org.apache.log4j.PatternLayout
+log4j.appender.FILEOUT.layout.ConversionPattern=[${project.name}] [%-5p] [%d] [%-3r] %l [%t,%x] %n %m%n
+```
+
+<br>
+
+
+
+src/test/java/spring01/UserTest.java
+
+```java
+package spring01;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import spring01.hello.User;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations={
+		"classpath:/spring01.xml"
+})
+public class UserTest {
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserTest.class);
+	
+	@Autowired
+	@Qualifier("user01")
+	private User user01;
+	
+	
+	@Test
+	public void test01() {
+		LOGGER.info("test01>>");
+		System.out.println(user01.getName() + "--" + user01.getAge());
+	}
+	
+	@Test
+	public void test02() {
+		System.out.println(LocalDate.now() + "--" + LocalTime.now());
+		System.out.println(Integer.toBinaryString(0B0101 + 0B0010));
+		System.out.println(0B001 & 0B1011);
+	}
+}
+```
+
+<br><br>
+
+
+
+### 然后我们开始来构建多模块项目，首先初始化多模块项目
 
 ```groovy
 > mkdir zdemo-gradle-parent && cd zdemo-gradle-parent
