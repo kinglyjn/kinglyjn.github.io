@@ -106,9 +106,11 @@ br0       8.02a0080e1   no      eth0
 
 #2.配置DNS
 方法一、修改/etc/network/interfaces（看我说的interfaces文件是万能的吧，能配IP，能配路由）
-方法二、修改/etc/resolvconf/resolv.conf.d/base文件，该文件默认是空的，在里面写入
+方法二、修改/etc/resolvconf/resolv.conf.d/base文件，该文件默认是空的，在里面写入(永久生效)
 方法三、修改/etc/resolv.conf，当然这个方法是临时的，你下一次重启或者重启网络服务之后，就会失效
-
+cat /etc/resolvconf/resolv.conf.d/base   
+nameserver 223.5.5.5
+nameserver 114.114.114.114
 
 #3.检查网卡状态
 #输入命令：ethtool eth0
