@@ -72,7 +72,19 @@ javac -d . -cp .:/xxx/gson-2.3.1.jar GsonTest.java
 java -cp .:gson-2.3.1.jar GsonTest
 ```
 
+<br>
 
+
+
+### JDK 和 tomcat内存限制设置
+
+```shell
+# tomcat
+-Xms512m -Xmx1024m -Xss1024K -XX:PermSize=256m -XX:MaxPermSize=512m
+
+# jdk
+-server -Xms512m -Xmx1024m -XX:PermSize=256m -XX:MaxPermSize=512m -Dmaven.multiModuleProjectDirectory=$M2_HOME
+```
 
 
 
