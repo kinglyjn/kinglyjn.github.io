@@ -20,7 +20,7 @@ class字节码文件是根据JVM虚拟机规范中规定的字节码组织规则
 下面通过一段代码演示手动加载 class文件字节码到系统内，转换成class对象，然后再实例化的过程：<br>
 
  a. 定义自己的类加载器：<br>
- 
+
 ```java
 package classloadertest;
 
@@ -240,170 +240,153 @@ public class MyGenerater {
 
 
 ```java
-package cglibtest;
-
-/**
- * 该类是所有被代理类的接口类，jdk实现的代理要求被代理类基于统一的接口
- * 
- */
-public interface IService01 {
+package test;
+public interface IService {
 	void add();
 	void update();
 }
 
 
+public static void main(String[] args) {
+    /*
+     * 被代理类
+     */
+    final IService targetService = new IService() {
+        @Override
+        public void add() {
+          	System.out.println("IService add >>>>>>>>>>>>>>");
+          	Integer.parseInt("aaa");
+        }
 
+        @Override
+        public void update() {
+          	System.out.println("IService update >>>>>>>>>>>>>>");
+        }
+    };
 
-package cglibtest;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
-/**
- * jdk动态代理需要目标类基于统一的接口
- *
- */
-public class JdkAopTest01 {
-	public static void main(String[] args) {
-		//生成代理类
-		IService01 iServiceProxy = (IService01) MyInvocationHandler01.generateProxyInstance(new Service01());
-		
-		//使用代理类
-		iServiceProxy.add();
-		iServiceProxy.update();
-	}
+    /*
+     * 代理类
+     */
+    InvocationHandler invocationHandler = new InvocationHandler() {
+        @Override
+        public Object invoke(Object proxy, Method method, Object[] args) throws Throwable{
+          //Around 环绕通知表示整个过程
+          Object result = null;
+          try {
+              //Before 前置通知
+               System.out.println("before------------------");
+               result = method.invoke(targetService, args);
+              //AfterReturning 返回通知
+              System.out.println("afterReturning------------------");
+          } catch (Exception e) {
+              //AfterThrowing 异常通知
+              System.out.println("afterThrowing------------------");
+          } finally {
+              //After 后置通知
+              System.out.println("after------------------");
+          }
+          return result;
+        }
+    };
+    IService iServiceProxy = (IService) Proxy.newProxyInstance(
+      		targetService.getClass().getClassLoader(),
+      		targetService.getClass().getInterfaces(), 
+      		invocationHandler);
+
+    /*
+     * 使用代理类
+     */
+    iServiceProxy.add();
+    System.out.println();
+    iServiceProxy.update();
 }
 
 
-//被代理类，即目标类target
-class Service01 implements IService01 {
+//执行结果
+before------------------
+IService add >>>>>>>>>>>>>>
+afterThrowing------------------
+after------------------
 
-	@Override
-	public void add() {
-		System.out.println("Service01 add >>>>>>>>>>>>>>");
-		Integer.parseInt("aaa");
-	}
-
-	@Override
-	public void update() {
-		System.out.println("Service01 update >>>>>>>>>>>>>>");
-	}
-}
-
-//切面处理类InvocationHandler
-class MyInvocationHandler01 implements InvocationHandler {
-	private Object target;
-	public MyInvocationHandler01(Object target) {
-		this.target = target;
-	}
-
-	// 生成代理类
-	public static Object generateProxyInstance(Object target) {
-		MyInvocationHandler01 myInvocationHandler01 = new MyInvocationHandler01(target);
-		return Proxy.newProxyInstance(target.getClass().getClassLoader(), 
-				target.getClass().getInterfaces(),
-				myInvocationHandler01);
-	}
-
-	@Override
-	public Object invoke(Object proxy, Method method, Object[] args)
-			throws Throwable {
-		//程序执行前加入逻辑，MethodBeforeAdviceInterceptor
-		System.out.println("before------------------");
-		
-		//程序执行
-		Object result = null;
-		try {
-			result = method.invoke(target, args);
-		} catch (Exception e) {
-			System.out.println("=========异常=========");
-		} finally {
-			System.out.println("=======执行finally========");
-		}
-		
-		//程序执行后加入逻辑，MethodAfterAdviceInterceptor  
-		System.out.println("after------------------------------");
-		return result;
-	}
-}
+before------------------
+IService update >>>>>>>>>>>>>>
+afterReturning------------------
+after------------------
 ```
 <br><br>
+
+
 
 
 ### cglib代理（不需要实现特定的接口，它是通过生成目标子类实现代理的）
 
 ```java
-package cglibtest;
-import java.lang.reflect.Method;
-import net.sf.cglib.proxy.Enhancer;
-import net.sf.cglib.proxy.MethodInterceptor;
-import net.sf.cglib.proxy.MethodProxy;
-/**
- * cglib动态代理不需要目标类基于统一的接口
- * @author zhangqingli
- *
- */
-public class CglibProxyTest02 {
-	public static void main(String[] args) {
-		//生成代理类
-		Service02 serviceProxy = (Service02) MyInterceptor.generateProxyInstance(Service02.class);
-		
-		//使用代理类
-		System.out.println(serviceProxy.add(100));
-		serviceProxy.update();
-	}
-}
-
-
-
-//被代理类，即目标对象target
-class Service02 {
-	
+class MyService {
 	public Integer add(Integer id) {
-		System.out.println("Service02 add >>>>>>>>>>>>>>>>>");
+		System.out.println("MyService add >>>>>>>>>>>>>>>>>");
 		Integer.parseInt("aaa");
 		return id;
 	}
-	
+
 	public void update() {
-		System.out.println("Service02 update >>>>>>>>>>>>>>>");
+		System.out.println("MyService update >>>>>>>>>>>>>>>");
 	}
 }
 
-//切面处理类，MethodInterceptor
-class MyInterceptor implements MethodInterceptor {
-	
-	// 生成代理对象
-	public static Object generateProxyInstance(Class<?> targetType) {
-		MyInterceptor myInterceptor = new MyInterceptor();
-		Enhancer enhancer = new Enhancer();
-		enhancer.setSuperclass(targetType);
-		enhancer.setCallback(myInterceptor);
-		return enhancer.create();
-	}
-	
+
+public static void main(String[] args) {
+  	/*
+	 * 创建代理子类
+	 */
+	Enhancer enhancer = new Enhancer();
+  	enhancer.setSuperclass(MyService.class);
+  	enhancer.setCallback(new MethodInterceptor() {
 	@Override
-	public Object intercept(Object obj, Method method, Object[] args,
-			MethodProxy methodProxy) throws Throwable {
-		//程序执行前加入逻辑，MethodBeforeAdviceInterceptor
-		System.out.println("before--------------------------");
+	public Object intercept(Object obj, Method method, 
+           Object[] args, MethodProxy methodProxy) throws Throwable {
+			//Around 环绕通知表示整个过程
+            Object result = null;
+            try {
+              	//Before 前置通知
+             	 System.out.println("before------------------");
+
+              	//使用method和methodProxy都能调用invoke方法，并且执行效果一样
+             	 result = methodProxy.invokeSuper(obj, args);
+
+             	 //AfterReturning 返回通知
+              	System.out.println("afterReturning------------------");
+            } catch (Exception e) {
+              	//AfterThrowing 异常通知
+             	 System.out.println("afterThrowing------------------");
+            } finally {
+              	//After 后置通知
+             	 System.out.println("after------------------");
+            }
+            return result;
+          }
+	});
+	MyService myServiceProxy = (MyService) enhancer.create();
 		
-		//程序执行
-		Object result = null;
-		try {
-			result = methodProxy.invokeSuper(obj, args); //使用method和methodProxy都能调用invoke方法，并且执行效果一样
-		} catch (Exception e) {
-			System.out.println("===========异常===========");
-			throw e;
-		} finally {
-			System.out.println("=========执行finally==========");
-		}
-		
-		
-		//程序执行后加入逻辑，MethodAfterAdviceInterceptor
-		System.out.println("after--------------------------");
-		return result;
-	}
+    /*
+     * 使用代理子类
+     */
+    Integer i = myServiceProxy.add(111);
+    System.out.println(i);
+    myServiceProxy.update();
 }
+
+
+//执行结果
+before------------------
+MyService add >>>>>>>>>>>>>>>>>
+afterThrowing------------------
+after------------------
+null
+  
+before------------------
+MyService update >>>>>>>>>>>>>>>
+afterReturning------------------
+after------------------
 ```
 <br>
 
