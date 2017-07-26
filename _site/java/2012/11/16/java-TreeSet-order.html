@@ -6,20 +6,21 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
-    <meta content="从Set里面取出有序的记录" name="description">
+    <meta content="Collection接口及其子类（List & TreeSet）进行排序" name="description">
   
   
-    <meta name="keywords" content="从Set里面取出有序的记录,TreeSet,java,kinglyjn">
+    <meta name="keywords" content="Collection接口及其子类（List & TreeSet）进行排序,java,kinglyjn">
   
   <meta name="author" content="KinglyJn">
 
   <title>
     
-        KinglyJn|从Set里面取出有序的记录
+        KinglyJn|Collection接口及其子类（List & TreeSet）以及TreeMap进行排序
     
   </title>
   <!-- favicon -->
   <link rel="shortcut icon" href="/static/img/favicon.ico">
+
 
   <!-- Third-party CSS -->
   <link href="/bower_components/normalize-css/normalize.min.css" rel="stylesheet">
@@ -281,7 +282,7 @@
                     </div>
                     <div class="text-center article-title" style="margin-bottom:50px;">
                         <h1>
-                            从Set里面取出有序的记录
+                            Collection接口及其子类（List & TreeSet）以及TreeMap进行排序
                         </h1>
                         <a href="http://www.keyllo.com/studio/">
                             <span class="text-muted"><i class="fa fa-user"></i> KinglyJn</span>
@@ -290,8 +291,16 @@
                         <span class="text-muted"><i class="fa fa-clock-o"></i> 2012-11-16</span>
                     </div>
                     	<blockquote>
-  <p><i style="font-szie:10px;">Set里面的记录是无序的，如果想使用Set，然后又想里面的记录是有序的，就可以使用TreeSet，而不是HashSet，在使用TreeSet的时候，里面的元素必须是实现了Comparable接口的，TreeSet在进行排序的时候就是通过比较它们的Comparable接口的实现！</i></p>
+  <p><i style="font-szie:10px;">集合分为两大类，即Collection（List、ArrayList、LinkedList、Vector；HashSet、LinkedHashSet、TreeSet） 和 Map（HashMap、LinkedHashMap、TreeMap、Hashtable&amp;Properties-古老的实现类线程安全并且键不能为null），Map的key使用set集合进行存储（组成keySet），所以map的key不能重复。使用Collections操作collection及map，使用Arrays操作数组。</i><br /></p>
+
+  <p><i style="font-szie:10px;">Set里面的记录是无序的，如果想使用Set，然后又想里面的记录是有序的，就可以使用TreeSet，而不是HashSet，在使用TreeSet的时候，里面的元素必须是实现了Comparable接口的，TreeSet在进行排序的时候就是通过比较它们的Comparable接口的实现！</i><br /></p>
+
+  <p><i style="font-szie:10px;">HashSet、LinkedHashSet、TreeSet的元素的存储位置都是无序的，由元素的hashCode决定，不同之处在于HashSet是按照hashCode决定的存储位置对Set遍历的；LinkedHashSet维护了一个双向链表，能够按照元素的添加顺序进行遍历；TreeSet是根据其Comparable接口的compareTo方法对其元素进行顺序遍历的。</i><br /></p>
+
+  <p><i style="font-szie:10px;">那么，Set中的元素是如何存储的呢？其实它是使用了hashCode方法，计算当前元素的hashCode值，此hashCode值决定了此元素在Set中的存储位置，若此位置之前没有存储过元素，则这个对象直接被存储到该位置；若此位置之前存储过对象，则再通过equals方法比较前后两个元素是否相同，如果相同则后一个对象就添加不进来，所以一般要求hashCode和equals方法需要一致。</i><br /></p>
 </blockquote>
+
+<h3 id="使用comparable接口内部实现排序">使用Comparable接口内部实现排序</h3>
 
 <div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.util.Set</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">java.util.TreeSet</span><span class="o">;</span>
@@ -425,6 +434,88 @@ LinkedList….链表实现，增删快，查询慢<br /></p>
 Hashtable……重量级，速度慢，线程安全，不允许键和值为null<br /></p>
 </blockquote>
 
+<p><br /></p>
+
+<h3 id="使用comparator实现外部排序">使用Comparator实现外部排序</h3>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;();</span>
+    <span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(-</span><span class="mi">3</span><span class="o">);</span>
+    <span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+    <span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+
+    <span class="k">for</span> <span class="o">(</span><span class="n">Integer</span> <span class="n">i</span> <span class="o">:</span> <span class="n">list</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+    <span class="o">}</span> <span class="c1">//-3 1 2</span>
+
+    <span class="n">Collections</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="n">list</span><span class="o">,</span> <span class="k">new</span> <span class="n">Comparator</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;()</span> <span class="o">{</span>
+      <span class="nd">@Override</span>
+      <span class="kd">public</span> <span class="kt">int</span> <span class="nf">compare</span><span class="o">(</span><span class="n">Integer</span> <span class="n">o1</span><span class="o">,</span> <span class="n">Integer</span> <span class="n">o2</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">Math</span><span class="o">.</span><span class="na">abs</span><span class="o">(</span><span class="n">o1</span><span class="o">)-</span><span class="n">Math</span><span class="o">.</span><span class="na">abs</span><span class="o">(</span><span class="n">o2</span><span class="o">);</span>
+      <span class="o">}</span>
+    <span class="o">});</span>
+
+    <span class="k">for</span> <span class="o">(</span><span class="n">Integer</span> <span class="n">i</span> <span class="o">:</span> <span class="n">list</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+    <span class="o">}</span> <span class="c1">//1 2 -3</span>
+<span class="o">}</span>
+
+
+
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">Set</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">set</span> <span class="o">=</span> <span class="k">new</span> <span class="n">TreeSet</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;(</span><span class="k">new</span> <span class="n">Comparator</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;()</span> <span class="o">{</span>
+      <span class="nd">@Override</span>
+      <span class="kd">public</span> <span class="kt">int</span> <span class="nf">compare</span><span class="o">(</span><span class="n">Integer</span> <span class="n">o1</span><span class="o">,</span> <span class="n">Integer</span> <span class="n">o2</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">Math</span><span class="o">.</span><span class="na">abs</span><span class="o">(</span><span class="n">o1</span><span class="o">)-</span><span class="n">Math</span><span class="o">.</span><span class="na">abs</span><span class="o">(</span><span class="n">o2</span><span class="o">);</span>
+      <span class="o">}</span>
+    <span class="o">});</span>
+    <span class="n">set</span><span class="o">.</span><span class="na">add</span><span class="o">(-</span><span class="mi">3</span><span class="o">);</span>
+    <span class="n">set</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+    <span class="n">set</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+
+    <span class="k">for</span> <span class="o">(</span><span class="n">Integer</span> <span class="n">i</span> <span class="o">:</span> <span class="n">set</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+    <span class="o">}</span> <span class="c1">//1 2 -3</span>
+<span class="o">}</span>
+
+
+
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+		<span class="n">Map</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="k">new</span> <span class="n">TreeMap</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span><span class="n">String</span><span class="o">&gt;(</span><span class="k">new</span> <span class="n">Comparator</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;()</span> <span class="o">{</span>
+			<span class="nd">@Override</span>
+			<span class="kd">public</span> <span class="kt">int</span> <span class="nf">compare</span><span class="o">(</span><span class="n">Integer</span> <span class="n">o1</span><span class="o">,</span> <span class="n">Integer</span> <span class="n">o2</span><span class="o">)</span> <span class="o">{</span>
+				<span class="k">return</span> <span class="n">Math</span><span class="o">.</span><span class="na">abs</span><span class="o">(</span><span class="n">o1</span><span class="o">)-</span><span class="n">Math</span><span class="o">.</span><span class="na">abs</span><span class="o">(</span><span class="n">o2</span><span class="o">);</span>
+			<span class="o">}</span>
+		<span class="o">});</span>
+		
+		<span class="n">map</span><span class="o">.</span><span class="na">put</span><span class="o">(-</span><span class="mi">3</span><span class="o">,</span> <span class="s">"aaa"</span><span class="o">);</span>
+		<span class="n">map</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s">"bbb"</span><span class="o">);</span>
+		<span class="n">map</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="s">"ccc"</span><span class="o">);</span>
+		
+		<span class="n">Set</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">keySet</span> <span class="o">=</span> <span class="n">map</span><span class="o">.</span><span class="na">keySet</span><span class="o">();</span>
+		<span class="k">for</span> <span class="o">(</span><span class="n">Integer</span> <span class="n">key</span> <span class="o">:</span> <span class="n">keySet</span><span class="o">)</span> <span class="o">{</span>
+			<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">key</span> <span class="o">+</span> <span class="s">"---&gt;"</span> <span class="o">+</span> <span class="n">map</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">key</span><span class="o">));</span>
+		<span class="o">}</span>
+  
+  		<span class="c1">//1---&gt;bbb</span>
+        <span class="c1">//2---&gt;ccc</span>
+        <span class="c1">//-3---&gt;aaa</span>
+	<span class="o">}</span>
+</code></pre>
+</div>
+
+<h3 id="collections包装collection和map实现集合类的线程安全">Collections包装collection和map，实现集合类的线程安全</h3>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">Collection</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">sCollection</span> <span class="o">=</span> <span class="n">Collections</span><span class="o">.</span><span class="na">synchronizedCollection</span><span class="o">(</span><span class="n">list</span><span class="o">);</span> <span class="c1">//</span>
+
+<span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;();</span> <span class="c1">//list是线程不安全的</span>
+<span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">sList</span> <span class="o">=</span> <span class="n">Collections</span><span class="o">.</span><span class="na">synchronizedList</span><span class="o">(</span><span class="n">list</span><span class="o">);</span> <span class="c1">//sList是线程安全的</span>
+
+<span class="c1">//类似的可以生成线程安全的set和map</span>
+</code></pre>
+</div>
+
+
                     <hr>
                     <div class="row">
                         <div class="col-md-6">
@@ -513,7 +604,7 @@ Hashtable……重量级，速度慢，线程安全，不允许键和值为null<
 <script>
   var url = 'http://localhost:4000/java/2012/11/16/java-TreeSet-order.html';
   var source = 'http://localhost:4000/java/2012/11/16/java-TreeSet-order.html';
-  var title = '从Set里面取出有序的记录';
+  var title = 'Collection接口及其子类（List & TreeSet）以及TreeMap进行排序';
   var excerpt = $("p:eq(0)").text();
   
   var imageUrl = 'http://localhost:4000/static/img/landing/header_one.jpg';
@@ -550,7 +641,7 @@ Hashtable……重量级，速度慢，线程安全，不允许键和值为null<
 
 <!-- 多说评论框 start -->
 <div class="row" style="margin-top:25px;"></div>
-<div class="ds-thread" data-thread-key="/java/2012/11/16/java-TreeSet-order.html" data-title="从Set里面取出有序的记录" data-url="http://localhost:4000/java/2012/11/16/java-TreeSet-order.html"></div>
+<div class="ds-thread" data-thread-key="/java/2012/11/16/java-TreeSet-order.html" data-title="Collection接口及其子类（List & TreeSet）以及TreeMap进行排序" data-url="http://localhost:4000/java/2012/11/16/java-TreeSet-order.html"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">

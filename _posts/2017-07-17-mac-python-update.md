@@ -1,3 +1,16 @@
+---
+layout: post
+title:  "Mac下升级Python2.7到3.6"
+desc: "Mac下升级Python2.7到3.6"
+keywords: "Mac下升级Python2.7到3.6,python,张庆力"
+date: 2017-06-08
+categories: [Other]
+tags: [Other]
+icon: fa-rub
+---
+
+
+
 # Mac下升级Python2.7到3.6
 
 > Mac系统自带python2.7，本文目的是将自带的[Python](http://lib.csdn.net/base/python)升级到3.6版本。网上有本多的做法是让python2.7和python3.X两个版本共存，博主并不知道，是两版本共存好，还是直接升 级好，所以读者要慎重选择方法。

@@ -6,20 +6,21 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
-    <meta content="zookeeper安装部署主要流程（以zookeeper-3.4.6为例）" name="description">
+    <meta content="ETL工具kettle技术初步调研" name="description">
   
   
-    <meta name="keywords" content="zookeeper,安装部署,linux,kinglyjn,张庆力">
+    <meta name="keywords" content="ETL工具kettle技术初步调研,kinglyjn">
   
   <meta name="author" content="KinglyJn">
 
   <title>
     
-        KinglyJn|zookeeper安装部署主要流程（以zookeeper-3.4.6为例）
+        KinglyJn|ETL工具kettle技术初步调研
     
   </title>
   <!-- favicon -->
   <link rel="shortcut icon" href="/static/img/favicon.ico">
+
 
   <!-- Third-party CSS -->
   <link href="/bower_components/normalize-css/normalize.min.css" rel="stylesheet">
@@ -276,104 +277,309 @@
                 <div class="ibox-content">
                     <div class="pull-right">
                     	
-                        	<button class="btn btn-white btn-xs" type="button">Linux</button>
+                        	<button class="btn btn-white btn-xs" type="button">mac</button>
+                        
+                        	<button class="btn btn-white btn-xs" type="button">linux</button>
                         
                     </div>
                     <div class="text-center article-title" style="margin-bottom:50px;">
                         <h1>
-                            zookeeper安装部署主要流程（以zookeeper-3.4.6为例）
+                            ETL工具kettle技术初步调研
                         </h1>
                         <a href="http://www.keyllo.com/studio/">
                             <span class="text-muted"><i class="fa fa-user"></i> KinglyJn</span>
                         </a>
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        <span class="text-muted"><i class="fa fa-clock-o"></i> 2016-12-13</span>
+                        <span class="text-muted"><i class="fa fa-clock-o"></i> 2017-05-25</span>
                     </div>
-                    	<h3 id="安装主要流程">安装主要流程</h3>
-<p>1、配置hosts、hostname，测试各节点网络的连通性<br />
-2、解压zookeepr-3.4.6.tar.gz，编辑/etc/profile配置环境变量（注意. /etc/profile 或 source /etc/profile）<br />
-3、修改zookeeper篇日志文件zoo.cfg<br /></p>
+                    	<blockquote>
+  <p>重要提示：
+经本人连续一周在mac-10.12.2和linux-6.5平台测试下，发现kettle版本6和版本7存在诸多
+不稳定因素，其中最不可让人忍受的是spoon图形界面设计器由于消耗CPU资源太厉害，CPU资源达
+到100%后kettle spoon设计器经常突然退出（注意kettle吃内存不是主要问题，当然它吃内存
+也相当厉害，一般1G以上，导致突然退出的主要原因是CPU）。另外在mac中kitchen命令不能正常
+执行repository job，总之 kettle-6.x 和 kettle-7.x问题重重，所以本人建议各位不要
+着急图新鲜，最好还是使用kettle-4.x和kettle-5.x稳定版本（需要jdk1.6的支持，mac系统
+下不建议使用），等新版本稳定之后再做升级。</p>
 
-<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="gp">ubuntu@supervisor01z:~$ </span>vi zookeeper-3.4.6/conf/zoo.cfg 
-<span class="nv">initLimit</span><span class="o">=</span>10
-<span class="nv">syncLimit</span><span class="o">=</span>5
-<span class="nv">dataDir</span><span class="o">=</span>/home/ubuntu/zookeeper-3.4.6/zkdata
-<span class="nv">dataLogDir</span><span class="o">=</span>/home/ubuntu/zookeeper-3.4.6/logs
-<span class="nv">clientPort</span><span class="o">=</span>2181
-server.1<span class="o">=</span>nimbusz:2888:3888
-server.2<span class="o">=</span>supervisor01z:2888:3888
-server.3<span class="o">=</span>supervisor02z:2888:3888
+</blockquote>
+
+<h3 id="使用homebrew安装kettle">使用homebrew安装kettle</h3>
+
+<pre><code class="language-shells">bogon:~ zhangqingli$ brew install kettle
+Updating Homebrew...
+==&gt; Auto-updated Homebrew!
+Updated 1 tap (homebrew/core).
+==&gt; Updated Formulae
+portmidi                                 yasm
+
+==&gt; Using the sandbox
+==&gt; Downloading https://downloads.sourceforge.net/project/pentaho/Data%20Integra
+==&gt; Downloading from https://jaist.dl.sourceforge.net/project/pentaho/Data%20Int
+######################################################################## 100.0%
+==&gt; Caveats
+To have launchd start kettle now and restart at login:
+  brew services start kettle
+Or, if you dont want/need a background service you can just run:
+  pdicarte /usr/local/etc/kettle/carte-config.xml
+==&gt; Summary
+🍺  /usr/local/Cellar/kettle/6.1.0.1-196: 1,665 files, 871.6MB, built in 54 minutes 22 seconds
+
+【注意下面三行】
+ brew services start kettle
+ pdicarte /usr/local/etc/kettle/carte-config.xml
+ /usr/local/Cellar/kettle/6.1.0.1-196
+</code></pre>
+
+<h3 id="直接从官网下载集成安装包安装kettle">直接从官网下载集成安装包安装kettle</h3>
+
+<pre><code class="language-shells">下载完成之后更改如下文件的版本号信息
+与下载包对应即可，不然双击Data Integration.app启动图标可能启动不了程序
+xx/Data Integration.app/Contents/Info.plist
+
+后来发现可能做如下操作，就可以正常在mac打开kettle应用了：
+1.将Data Integration.app从程序目录移动到mac系统的其他任意地方，然后双击试图打开kettle程序
+  实际上是打不开的；
+2.再将Data Integration.app从其他地方再次移动到程序目录，双击试图打开kettle，发现可以打开了！
+  世界就是这么神奇诡异！
+</code></pre>
+
+<h3 id="增大spoon运行依赖的jvm内存">增大spoon运行依赖的jvm内存</h3>
+
+<p>编辑spoon.sh文件</p>
+
+<pre><code class="language-shells">...
+# ******************************************************************
+# ** Set java runtime options                                     **
+# ** Change 2048m to higher values in case you run out of memory  **
+# ** or set the PENTAHO_DI_JAVA_OPTIONS environment variable      **
+# ******************************************************************
+
+if [ -z "$PENTAHO_DI_JAVA_OPTIONS" ]; then
+    PENTAHO_DI_JAVA_OPTIONS="-Xms1024m -Xmx3072m -XX:MaxPermSize=256m"
+fi
+
+OPT="$OPT $PENTAHO_DI_JAVA_OPTIONS -Dhttps.protocols=TLSv1,TLSv1.1,TLSv1.2 -Djava.library.path=$LIBPATH -DKETTLE_HOME=$KETTLE_HOME -DKETTLE_REPOSITORY=$KETTLE_REPOSITORY -DKETTLE_USER=$KETTLE_USER -DKETTLE_PASSWORD=$KETTLE_PASSWORD -DKETTLE_PLUGIN_PACKAGES=$KETTLE_PLUGIN_PACKAGES -DKETTLE_LOG_SIZE_LIMIT=$KETTLE_LOG_SIZE_LIMIT -DKETTLE_JNDI_ROOT=$KETTLE_JNDI_ROOT"
+...
+
+</code></pre>
+
+<h3 id="kettle的启动和三种运行方式">kettle的启动和三种运行方式</h3>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="c"># 启动 </span>
+nohup spoon.command &gt; /dev/null 2&gt;&amp;1 &amp;
+
+<span class="c"># 运行</span>
+在本地运行
+在远程运行
+  需要使用carte服务器（内嵌jetty），默认用户名密码为cluster/cluster
+  执行命令 carte 172.16.127.1 8100
+集群方式运行
+  master节点，默认用户名密码为cluster/cluster
+  slave节点
 </code></pre>
 </div>
 
-<p>4、建立zookeeper节点标示文件myid<br /></p>
+<p>注：更改carte的用户名密码</p>
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="c"># 默认的用户名密码（cluster/cluster）</span>
+<span class="c"># 存在 pwd/kettle.pwd文件中</span>
+cluster: OBF:1v8w1uh21z7k1ym71z7i1ugo1v9q
 
-<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="gp">ubuntu@nimbusz:~$ </span><span class="nb">echo</span> “1” &gt; /home/ubuntu/zookeeper-3.4.6/zkdata/myid
-<span class="gp">ubuntu@supervisor01z:~$ </span><span class="nb">echo</span> “2” &gt; /home/ubuntu/zookeeper-3.4.6/zkdata/myid
-<span class="gp">ubuntu@supervisor02z:~$ </span><span class="nb">echo</span> “3” &gt; /home/ubuntu/zookeeper-3.4.6/zkdata/myid
+<span class="c"># 修改carte服务器的用户名和密码</span>
+<span class="c"># 密码加密使用 encr.sh -carte test123 </span>
+kinglyjn: xxx
 </code></pre>
 </div>
 
-<p>5、启动zookeeper，并且进行状态监控<br /></p>
+<h3 id="pan-和-kitchen-命令行没有特殊标记的为两者共有">pan 和 kitchen 命令行（没有特殊标记的为两者共有）</h3>
 
-<div class="language-shell highlighter-rouge"><pre class="highlight"><code>zkServer.sh start 或者 zkServer.sh start-foreground
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="c"># 资源库相关参数</span>
+/rep          :资源库名称
+/user         :资源库用户名
+/pass         :资源库密码
+/dir          :目录（不要忘了前缀/）
+/trans        :要启动的转换名称（pan命令）
+/job          :要启动的作业名称（kitchen命令）
+
+<span class="c"># 文件相关参数</span>
+/file         :要启动的文件名（转换文件）
+
+<span class="c"># 常用以及可选的参数</span>
+/level        :日志级别（Error,Nothing,Minimal,Basic,Detailed,Debug,Rowlevel）
+/logfile      :要写入的日志文件  内存中保存日志的
+/listdir      :列出资源库的目录
+/listrep      :列出可用的资源库
+/exprep       :将资源中所有的对象导出到xml文件中
+/norep        :不要讲日志写到资源库中
+/safemode     :安全模式下运行，有额外的检查
+/version      :显示转换的版本，校订和创建日期
+/param        :设置参数，参数的格式paramname<span class="o">=</span>paramvalue,例如-param:FOO<span class="o">=</span>bar
+/listparam    :列出转换里已经设置好的参数
+/listtrans    :列出指定目录下的转换（pan命令）
+/listjobs     :列出指定目录下的作业（kitchen命令）
+/export       :把作业依赖的所有资源导出到一个zip文件里（kitchen命令）
+
+<span class="c"># 减少内存溢出相关参数</span>
+/maxloglines  :内存中保存日志的最大日志行数
+/maxlogtimeout  :内存中保存日志的最长时间
+
+
+<span class="c"># 命令示例</span>
+<span class="c"># 执行test01.ktr文件，日志保存在~/test/log.txt中，默认日志输出级别为Basic</span>
+pan.sh /file:~/test/test01.ktr /logfile:~/test/log.txt /level:Basic
+
+<span class="c"># 导出一个job文件，以及该job文件依赖的转换及其他资源</span>
+kitchen.sh /file:~/test/test01.kjb /export:~/test/a.zip
+
+<span class="c"># 导出一个job文件，以及该job文件依赖的转换及其他资源</span>
+kitchen.sh /rep:dbserver-repository /user:admin /pass:xxxx /dir:/job_test/ /job:myjob01 /logfile:/home/centos/Desktop/myjob01.log /level:Basic
+
+<span class="c"># 直接执行一个导出的zip文件（使用资源库导出的zip包不能正常执行，使用文件导出的zip包可以正常执行）</span>
+kitchen.sh /file:<span class="s2">"zip:file:///c:/test/a.zip!job1.kjb"</span>
+
+
+
+<span class="c"># 执行一个资源库中的job（mac10.12.2下执行有问题，centos6下执行正常）</span>
+kitchen.sh /rep:dbserver-repository /user:admin /pass:xxxx /dir:/job_test/ /job:myjob01 /logfile:/home/centos/Desktop/myjob01.log /level:Basic
 </code></pre>
 </div>
 
-<p>6、查看zookeeper节点状态<br /></p>
+<h3 id="日志">日志</h3>
 
-<div class="language-shell highlighter-rouge"><pre class="highlight"><code>zkServer.sh status
-  //如果被选举为leader，则状态为 leader
-  //如果没有被选举为leader，则状态一般为 follower
+<h4 id="文件日志">文件日志</h4>
+<p>命令行的/logfile参数，将日志输出到指定的文件中。
+linux管道符也可以将屏幕的日志输出重定向到日志文件。
+默认的日志文件保存在 java.io.tempdir 目录中，文件名类似于 spoon_xxx.log。
+为便于调试，spoon里的所有日志窗口，内容和日志文件相同。</p>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="c"># 内存中的日志太多，可能引起内存溢出的错误</span>
+<span class="c"># spoon运行时设置日志缓存大小</span>
+spoon的“选项”对话框里设置
+“日志窗口的最大行数”
+“内存中保留日志的时长”
+“日志视图的最大行数”
+
+<span class="c"># kettle.properties文件中设置</span>
+KETTLE_MAX_LOG_SIZE_IN_LINE 变量
+KETTLE_MAX_LOG_TIMEOUT_IN_MINUTES 变量
 </code></pre>
 </div>
-<p><br /></p>
 
-<h3 id="常用zookeeper命令">常用zookeeper命令</h3>
+<h4 id="数据库日志">数据库日志</h4>
 
-<div class="language-shell highlighter-rouge"><pre class="highlight"><code>zk服务命令:
-在准备好相应的配置之后，可以直接通过zkServer.sh 这个脚本进行服务的相关操作
-  1. 启动ZK服务:    zkServer.sh start
-  2. 查看ZK服务状态: zkServer.sh status
-  3. 停止ZK服务:    zkServer.sh stop
-  4. 重启ZK服务:    zkServer.sh restart
-    
-zk客户端命令:
-ZooKeeper命令行工具类似于Linux的shell环境，不过功能肯定不及shell啦，但是使用它我们可以简单的对ZooKeeper进行访问，数据创建，数据修改等操作。使用 zkCli.sh -server 127.0.0.1:2181 连接到 ZooKeeper 服务，连接成功后，系统会输出 ZooKeeper 的相关环境以及配置信息。
-命令行工具的一些简单操作如下：
-  1. 显示根目录下、文件： ls / 使用 ls 命令来查看当前 ZooKeeper 中所包含的内容
-  2. 显示根目录下、文件： ls2 / 查看当前节点数据并能看到更新次数等数据
-  3. 创建文件，并设置初始内容： create /zk <span class="s2">"test"</span> 创建一个新的 znode节点“ zk ”以及与它关联的字符串
-  4. 获取文件内容： get /zk 确认 znode 是否包含我们所创建的字符串
-  5. 修改文件内容： <span class="nb">set</span> /zk <span class="s2">"zkbak"</span> 对 zk 所关联的字符串进行设置
-  6. 删除文件： delete /zk 将刚才创建的 znode 删除
-  7. 退出客户端： quit
-  8. 帮助命令： <span class="nb">help
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="c"># 转换有相关的四张日志表</span>
+转换日志表（记录转换的整体执行情况）
+步骤日志表（记录转换中每一步骤的执行情况）
+性能日志表（需要打开性能监控功能 edit--&gt;settings--&gt;监控, 打开监控后性能表的大小会急剧增加）
+日志通道日志表（通过channel_id外键将上述三个表串联起来）
 
-</span>zk常用四字命令：
-ZooKeeper支持某些特定的四字命令字母与其的交互。它们大多是查询命令，用来获取 ZooKeeper 服务的当前状态及相关信息。用户在客户端可以通过 telnet 或 nc 向 ZooKeeper 提交相应的命令。
-  1. 可以通过命令：echo stat|nc 127.0.0.1 2181 来查看哪个节点被选择作为follower或者leader
-  2. 使用echo ruok|nc 127.0.0.1 2181 测试是否启动了该  Server，若回复imok表示已经启动。
-  3. <span class="nb">echo </span>dump| nc 127.0.0.1 2181 ,列出未经处理的会话和临时节点。
-  4. <span class="nb">echo kill</span> | nc 127.0.0.1 2181 ,关掉server
-  5. <span class="nb">echo </span>conf | nc 127.0.0.1 2181 ,输出相关服务配置的详细信息。
-  6. <span class="nb">echo </span>cons | nc 127.0.0.1 2181 ,列出所有连接到服务器的客户端的完全的连接 / 会话的详细信息。
-  7. <span class="nb">echo </span>envi |nc 127.0.0.1 2181 ,输出关于服务环境的详细信息（区别于 conf 命令）。
-  8. <span class="nb">echo </span>reqs | nc 127.0.0.1 2181 ,列出未经处理的请求。
-  9. <span class="nb">echo </span>wchs | nc 127.0.0.1 2181 ,列出服务器 watch 的详细信息。
-  10. <span class="nb">echo </span>wchc | nc 127.0.0.1 2181 ,通过 session 列出服务器 watch 的详细信息，它的输出是一个与 watch 相关的会话的列表。
-  11. <span class="nb">echo </span>wchp | nc 127.0.0.1 2181 ,通过路径列出服务器 watch 的详细信息。它输出一个与 session 相关的路径。
+<span class="c"># 作业有相关的三张日志表</span>
+作业日志表
+作业项日志表
+日志通道日志表
+
+
+<span class="c"># 设置数据库日志</span>
+edit--&gt;settings--&gt;logging
 </code></pre>
 </div>
-<p><br /></p>
 
-<h3 id="运行效果图">运行效果图</h3>
-<p><img src="http://img.blog.csdn.net/20161213112207892?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:80%;" /></p>
+<h3 id="常用输入">常用输入</h3>
+
+<p>【注】所有标志“$”的输入框都可以使用变量作为其值，使用 ctl+alt+space 将会提示所有可用的变量</p>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code>1.自定义常量数据（Data Grid，常用语测试）
+
+2.生成记录（Generate Rows，常用语测试）
+
+3.获取系统信息（Get System Info，常见的包括转换开始时间、关键时间点、主机名ip进程号等）
+    系统日期固定（表示转换开始的时间）
+    系统日期可变（表示每次运行都去获取操作系统的当前时间）
+    开始日期范围、结束日期范围（配合日志表使用）
+    命令行参数（Command Line 最多可以设置10个）
+
+4.表输入
+    执行sql语句，从数据库中获取数据
+      i. 可以用过 ? 和 <span class="k">${</span><span class="nv">var</span><span class="k">}</span> 的方式使用变量（配合Get System Info使用, ?
+         变量要求前面的步骤传来的参数的顺序要一致）
+      ii. 延迟转换
+         rs.getBytes<span class="o">(</span>int<span class="o">)</span>  vs  rs.getString<span class="o">(</span>int<span class="o">)</span>
+      iii. 表输入的数据类型如何和kettle数据类型对应？
+         ResultSetMetaData
+
+5.文本文件输入
+    处理有列分隔符（限定符、逃逸字符）的文本文件
+    功能选项丰富，有错误处理机制
+      文件选择的方式：直接选择本地文件、从上一个步骤传递文件名
+      内容：封闭符、分隔符的设置（如果是ascii编码则可使用<span class="nv">$[</span>01]方式）、不可见字符输入、行头设置
+      过滤：内容过滤、选中/排除记录
+      字段：自动识别字段类型（不一定准确）
+
+6.CSV文件输入
+    简化了文本文件输入
+    通过NIO、并行、延迟转换提高性能
+
+7.列固定宽度文件
+    列固定宽度的文件，不用解析字符串，性能好
+
+8.XML输入（DOM方式）
+    文件选择方式：直接选择本地文件、从上个步骤传递文件名
+    XMLPath：自动选择XMLPath循环路径
+    字段：自动或手动设置
+    使用DOM方式解析XML，使用简单，但由于一次性占用内存，它不能解析XML大文件
+
+9.XML输入（SAX方式/或称流方式）
+    可用于处理XML大文件，处理方式更灵活，效率更高，但是使用较复杂，要写脚本或java代码
+    可参考 ../data-integration/samples/transaformations/<span class="k">*</span>.ktr 中的例子
+
+10.JSON输入
+    文件选择方式：直接选择本地文件、从上一个步骤传递文件名
+    JSONPath：手工设置路径（参考http://goessner.net/articles/JsonPath）
+    字段：自动识别字段
+
+11.Excel输入
+12.Access输入
+13.配置文件输入
+14.SAP输入
+15.Orcle CDC增量输入
+16.消息队列输入
+17.PDF文件输入
+18.搜索引擎结果输入
+...
+
+</code></pre>
+</div>
+
+<h3 id="常用输出">常用输出</h3>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="c"># 数据库表输出</span>
+    表输出
+        使用sql的方式向数据库提交数据（如 insert语句）
+        支持批量提交、支持数据分区（要求分区字段类型为date型）、字段映射、返回自增列
+        如何进行错误处理？
+
+    更新、删除、插入/更新
+
+    批量加载（mysql、oracle）
+
+<span class="c"># 文件输出</span>
+    SQL文件输出
+    文本文件输出
+    XML输出
+    Excel Output/Excel Writer
+
+<span class="c"># 其他输出方式</span>
+    其他（报表、应用）
+      
+</code></pre>
+</div>
 
                     <hr>
                     <div class="row">
                         <div class="col-md-6">
                                 <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">Mac</button>
                                 
                                     <button class="btn btn-white btn-xs" type="button">Linux</button>
                                 
@@ -456,9 +662,9 @@ ZooKeeper支持某些特定的四字命令字母与其的交互。它们大多�
 <script src="/static/js/embed.js"></script>
 
 <script>
-  var url = 'http://localhost:4000/linux/2016/12/13/zookeeper.html';
-  var source = 'http://localhost:4000/linux/2016/12/13/zookeeper.html';
-  var title = 'zookeeper安装部署主要流程（以zookeeper-3.4.6为例）';
+  var url = 'http://localhost:4000/mac/linux/2017/05/25/mac-kettle.html';
+  var source = 'http://localhost:4000/mac/linux/2017/05/25/mac-kettle.html';
+  var title = 'ETL工具kettle技术初步调研';
   var excerpt = $("p:eq(0)").text();
   
   var imageUrl = 'http://localhost:4000/static/img/landing/header_one.jpg';
@@ -495,7 +701,7 @@ ZooKeeper支持某些特定的四字命令字母与其的交互。它们大多�
 
 <!-- 多说评论框 start -->
 <div class="row" style="margin-top:25px;"></div>
-<div class="ds-thread" data-thread-key="/linux/2016/12/13/zookeeper.html" data-title="zookeeper安装部署主要流程（以zookeeper-3.4.6为例）" data-url="http://localhost:4000/linux/2016/12/13/zookeeper.html"></div>
+<div class="ds-thread" data-thread-key="/mac/linux/2017/05/25/mac-kettle.html" data-title="ETL工具kettle技术初步调研" data-url="http://localhost:4000/mac/linux/2017/05/25/mac-kettle.html"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">

@@ -1,0 +1,354 @@
+<h1 id="java-io-api">JAVA IO API</h1>
+
+<h2 id="javaiofile">java.io.File</h2>
+
+<ul>
+  <li>java.io.File 是文件和目录路径名的抽象表示形式，与平台无关；</li>
+  <li>File能够新建、删除、重命名文件和目录、以及获取文件和目录的信息，但file不能访问文件内容本身，如果需要访问文件内容本身，则需要输入输出流</li>
+  <li>File对象可以作为参数传递给输入输出流的构造函数</li>
+</ul>
+
+<p>File常见API</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="c1">// 访问文件或文件夹</span>
+  <span class="n">getName</span><span class="o">()</span>
+  <span class="n">getPath</span><span class="o">()</span>
+  <span class="n">getAbsoluteFile</span><span class="o">()</span>
+  <span class="n">getAbsolutePath</span><span class="o">()</span>
+  <span class="n">getParent</span><span class="o">()</span>
+  <span class="n">renameTo</span><span class="o">(</span><span class="n">File</span> <span class="n">dest</span><span class="o">)</span> <span class="c1">//剪切文件或文件夹</span>
+    
+<span class="c1">// 文件或文件夹操作相关</span>
+  <span class="n">createNewFile</span><span class="o">()</span>
+  <span class="n">delete</span><span class="o">()</span>
+    
+<span class="c1">// 文件或文件夹检测</span>
+  <span class="n">exisits</span><span class="o">()</span>
+  <span class="n">canWrite</span><span class="o">()</span>
+  <span class="n">canRead</span><span class="o">()</span>
+  <span class="n">isFile</span><span class="o">()</span>
+  <span class="n">isDirectory</span><span class="o">()</span>
+    
+<span class="c1">// 目录操作相关</span>
+  <span class="n">mkDir</span><span class="o">()</span>
+  <span class="n">mkDirs</span><span class="o">()</span>
+  <span class="n">list</span><span class="o">()</span>
+  <span class="n">listFiles</span><span class="o">()</span>
+    
+<span class="c1">// 获取常规文件信息</span>
+  <span class="n">lastModified</span><span class="o">()</span> 	<span class="c1">//最后一次修改的时间</span>
+  <span class="n">length</span><span class="o">()</span>  		<span class="c1">//文件字符长度</span>
+</code></pre>
+</div>
+
+<p><br /></p>
+
+<p>示例代码：</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="c1">// 创建文件夹</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="n">File</span> <span class="nf">createDir</span><span class="o">(</span><span class="n">String</span> <span class="n">dirName</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">File</span> <span class="n">dir</span> <span class="o">=</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="n">dirName</span><span class="o">);</span>
+    <span class="k">if</span> <span class="o">(!</span><span class="n">dir</span><span class="o">.</span><span class="na">exists</span><span class="o">())</span> <span class="o">{</span>
+      <span class="n">dir</span><span class="o">.</span><span class="na">mkdirs</span><span class="o">();</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="n">dir</span><span class="o">;</span>
+<span class="o">}</span>
+
+<span class="c1">// 创建文件</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="n">File</span> <span class="nf">createFile</span><span class="o">(</span><span class="n">File</span> <span class="n">dir</span><span class="o">,</span> <span class="n">String</span> <span class="n">fileName</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">File</span> <span class="n">file</span> <span class="o">=</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="n">dir</span><span class="o">,</span> <span class="n">fileName</span><span class="o">);</span>
+    <span class="k">if</span> <span class="o">(!</span><span class="n">file</span><span class="o">.</span><span class="na">exists</span><span class="o">())</span> <span class="o">{</span>
+      <span class="k">try</span> <span class="o">{</span>
+        <span class="n">file</span><span class="o">.</span><span class="na">createNewFile</span><span class="o">();</span>
+      <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="n">file</span><span class="o">;</span>
+<span class="o">}</span>
+
+<span class="c1">// 删除文件或者文件夹</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">boolean</span> <span class="nf">deleteDof</span><span class="o">(</span><span class="n">File</span> <span class="n">dof</span><span class="o">)</span> <span class="o">{</span>
+  	<span class="k">return</span> <span class="n">dof</span><span class="o">.</span><span class="na">delete</span><span class="o">();</span>
+<span class="o">}</span>
+
+<span class="c1">// 重命名或剪切文件和文件夹，要求file存在并且newFile不存在</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">boolean</span> <span class="nf">renameTo</span><span class="o">(</span><span class="n">File</span> <span class="n">file</span><span class="o">,</span> <span class="n">File</span> <span class="n">newFile</span><span class="o">)</span> <span class="o">{</span>
+  	<span class="k">return</span> <span class="n">file</span><span class="o">.</span><span class="na">renameTo</span><span class="o">(</span><span class="n">newFile</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="c1">// 不带后缀查找文件夹内的文件</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">printFileNamesNotExtension</span><span class="o">(</span><span class="n">File</span> <span class="n">dir</span><span class="o">,</span> <span class="n">String</span> <span class="n">fileName</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">dir</span><span class="o">==</span><span class="kc">null</span> <span class="o">||</span> <span class="o">!</span><span class="n">dir</span><span class="o">.</span><span class="na">isDirectory</span><span class="o">())</span> <span class="o">{</span>
+      <span class="k">return</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="n">File</span><span class="o">[]</span> <span class="n">files</span> <span class="o">=</span> <span class="n">dir</span><span class="o">.</span><span class="na">listFiles</span><span class="o">(</span><span class="k">new</span> <span class="n">FileFilter</span><span class="o">()</span> <span class="o">{</span>
+      <span class="nd">@Override</span>
+      <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">accept</span><span class="o">(</span><span class="n">File</span> <span class="n">file</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">String</span> <span class="n">name</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="na">getName</span><span class="o">();</span>
+        <span class="kt">int</span> <span class="n">index</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="na">lastIndexOf</span><span class="o">(</span><span class="s">"."</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">index</span><span class="o">!=-</span><span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">index</span><span class="o">!=</span><span class="n">name</span><span class="o">.</span><span class="na">length</span><span class="o">()-</span><span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+          <span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="n">index</span><span class="o">);</span>
+          <span class="k">return</span> <span class="n">name</span><span class="o">.</span><span class="na">equalsIgnoreCase</span><span class="o">(</span><span class="n">fileName</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+      <span class="o">}</span>
+    <span class="o">});</span>
+
+    <span class="k">for</span> <span class="o">(</span><span class="n">File</span> <span class="n">file</span> <span class="o">:</span> <span class="n">files</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">file</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+
+<span class="c1">// 打印文件树</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">tree</span><span class="o">(</span><span class="n">File</span> <span class="n">file</span><span class="o">,</span> <span class="kt">int</span> <span class="n">level</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(!</span><span class="n">file</span><span class="o">.</span><span class="na">exists</span><span class="o">()</span> <span class="o">||</span> <span class="n">file</span><span class="o">.</span><span class="na">isFile</span><span class="o">())</span> <span class="o">{</span>
+      <span class="k">return</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="n">File</span><span class="o">[]</span> <span class="n">files</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="na">listFiles</span><span class="o">();</span>
+    <span class="k">for</span> <span class="o">(</span><span class="n">File</span> <span class="n">file2</span> <span class="o">:</span> <span class="n">files</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">getTreeLevelLine</span><span class="o">(</span><span class="n">level</span><span class="o">)</span> <span class="o">+</span> <span class="n">file2</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+      <span class="k">if</span> <span class="o">(</span><span class="n">file2</span><span class="o">.</span><span class="na">isDirectory</span><span class="o">())</span> <span class="o">{</span>
+        <span class="n">tree</span><span class="o">(</span><span class="n">file2</span><span class="o">,</span> <span class="n">level</span><span class="o">+</span><span class="mi">1</span><span class="o">);</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="n">String</span> <span class="nf">getTreeLevelLine</span><span class="o">(</span><span class="kt">int</span> <span class="n">level</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">StringBuffer</span> <span class="n">sb</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringBuffer</span><span class="o">();</span>
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">level</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+      <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="s">"    "</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="n">sb</span><span class="o">.</span><span class="na">toString</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p><br /></p>
+
+<h2 id="io原理及流的分类">IO原理及流的分类</h2>
+
+<blockquote>
+  <p>注：java的io体系共涉及40多个类，实际上非常规则，都是如下四个抽象基类（字节流InputStream&amp;OutputStream、字符流Reader&amp;Writer）派生出来的，由这四个类派生出来的子类名称都是以其父类名作为子类名的后缀。</p>
+</blockquote>
+
+<p><br /></p>
+
+<p><strong>IO流的分类</strong></p>
+
+<p>按照数据的流向分为：</p>
+
+<ul>
+  <li>输入流（input）</li>
+  <li>输出流（output）</li>
+</ul>
+
+<p>按照操作数据单位的不同分为：</p>
+
+<ul>
+  <li>字节流（1byte，即8bit）</li>
+  <li>字符流（2~3byte）</li>
+</ul>
+
+<p>按照流的角色的不同分为：</p>
+
+<ul>
+  <li>节点流</li>
+  <li>包装流</li>
+</ul>
+
+<p><br /></p>
+
+<p><strong>IO流体系</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>分类</th>
+      <th>字节输入流</th>
+      <th>字节输出流</th>
+      <th>字符输入流</th>
+      <th>字符输出流</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>*抽象基类</td>
+      <td>InputStream</td>
+      <td>OutputStream</td>
+      <td>Reader</td>
+      <td>Writer</td>
+    </tr>
+    <tr>
+      <td>*访问文件</td>
+      <td>File-</td>
+      <td>File-</td>
+      <td>File-</td>
+      <td>File-</td>
+    </tr>
+    <tr>
+      <td>访问数组</td>
+      <td>ByteArray-</td>
+      <td>ByteArray-</td>
+      <td>CharArray-</td>
+      <td>CharArray-</td>
+    </tr>
+    <tr>
+      <td>访问字符串</td>
+      <td> </td>
+      <td> </td>
+      <td>String-</td>
+      <td>String-</td>
+    </tr>
+    <tr>
+      <td>访问管道</td>
+      <td>Pipled-</td>
+      <td>Pipled-</td>
+      <td>Pipled-</td>
+      <td>Pipled-</td>
+    </tr>
+    <tr>
+      <td>*对象流</td>
+      <td>Object-</td>
+      <td>Object-</td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>*数据流</td>
+      <td>Data-</td>
+      <td>Data-</td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>*缓冲流</td>
+      <td>Buffered-</td>
+      <td>Buffered-</td>
+      <td>Buffered-</td>
+      <td>Buffered-</td>
+    </tr>
+    <tr>
+      <td>*转换流</td>
+      <td> </td>
+      <td> </td>
+      <td>InputStream-</td>
+      <td>OutputStream-</td>
+    </tr>
+    <tr>
+      <td>*打印流</td>
+      <td> </td>
+      <td>PrintStream</td>
+      <td> </td>
+      <td>PrintWriter</td>
+    </tr>
+    <tr>
+      <td>推回输入流</td>
+      <td>Pushback-</td>
+      <td> </td>
+      <td>Pushback-</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>过滤流</td>
+      <td>Filter-</td>
+      <td>Filter-</td>
+      <td>Filter-</td>
+      <td>Filter-</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><br /></p>
+
+<h3 id="示例代码">示例代码</h3>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">copyFile</span><span class="o">(</span><span class="n">File</span> <span class="n">src</span><span class="o">,</span> <span class="n">File</span> <span class="n">dist</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">BufferedInputStream</span> <span class="n">in</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="n">BufferedOutputStream</span> <span class="n">out</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="k">try</span> <span class="o">{</span>
+     	 <span class="n">in</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BufferedInputStream</span><span class="o">(</span><span class="k">new</span> <span class="n">FileInputStream</span><span class="o">(</span><span class="n">src</span><span class="o">));</span>
+      	 <span class="n">out</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BufferedOutputStream</span><span class="o">(</span><span class="k">new</span> <span class="n">FileOutputStream</span><span class="o">(</span><span class="n">dist</span><span class="o">,</span> <span class="kc">false</span><span class="o">));</span>
+	     <span class="c1">//String str = "I love you!\n";</span>
+         <span class="c1">//out.write(str.getBytes(), 0, str.length());</span>
+     	 <span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+     	 <span class="kt">byte</span><span class="o">[]</span> <span class="n">bs</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">byte</span><span class="o">[</span><span class="mi">1024</span><span class="o">];</span>
+      <span class="k">while</span><span class="o">((</span><span class="n">len</span><span class="o">=</span><span class="n">in</span><span class="o">.</span><span class="na">read</span><span class="o">(</span><span class="n">bs</span><span class="o">))</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+       	 <span class="n">out</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">bs</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">len</span><span class="o">);</span>
+      <span class="o">}</span>
+    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+     	 <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+    <span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+      	<span class="k">try</span> <span class="o">{</span>
+       	 	<span class="n">in</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+      	<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+        	<span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+      	<span class="o">}</span>
+      	<span class="k">try</span> <span class="o">{</span>
+       	 	<span class="n">out</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+      	<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+        	<span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+      	<span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">copyTextFile</span><span class="o">(</span><span class="n">File</span> <span class="n">src</span><span class="o">,</span> <span class="n">File</span> <span class="n">dist</span><span class="o">)</span> <span class="o">{</span>
+  	<span class="n">BufferedReader</span> <span class="n">br</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+  	<span class="n">BufferedWriter</span> <span class="n">bw</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+  	<span class="k">try</span> <span class="o">{</span>
+  	 	<span class="n">br</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BufferedReader</span><span class="o">(</span><span class="k">new</span> <span class="n">FileReader</span><span class="o">(</span><span class="n">src</span><span class="o">));</span>
+   	 	<span class="n">bw</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BufferedWriter</span><span class="o">(</span><span class="k">new</span> <span class="n">FileWriter</span><span class="o">(</span><span class="n">dist</span><span class="o">,</span> <span class="kc">false</span><span class="o">));</span>
+   		<span class="cm">/*int len = 0;
+   		char[] cs = new char[1024];
+   		while((len=br.read(cs)) != -1) {
+      		bw.write(cs, 0, len);
+    	}*/</span>
+      	<span class="n">String</span> <span class="n">line</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+		<span class="k">while</span> <span class="o">((</span><span class="n">line</span><span class="o">=</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">())</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+			<span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">line</span><span class="o">);</span>
+          	<span class="n">bw</span><span class="o">.</span><span class="na">newLine</span><span class="o">();</span>
+		<span class="o">}</span>
+  	<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+    	<span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+  	<span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+    	<span class="k">try</span> <span class="o">{</span>
+      		<span class="n">br</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+    	<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+     	 	<span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+    	<span class="o">}</span>
+    	<span class="k">try</span> <span class="o">{</span>
+      		<span class="n">bw</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+    	<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+      		<span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+    	<span class="o">}</span>
+  	<span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">copyTextFileByTranstream</span><span class="o">(</span><span class="n">File</span> <span class="n">src</span><span class="o">,</span> <span class="n">File</span> <span class="n">dist</span><span class="o">)</span> <span class="o">{</span>
+  	<span class="n">BufferedReader</span> <span class="n">br</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+  	<span class="n">PrintWriter</span> <span class="n">pw</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+
+  	<span class="k">try</span> <span class="o">{</span>
+    	<span class="n">br</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BufferedReader</span><span class="o">(</span><span class="k">new</span> <span class="n">InputStreamReader</span><span class="o">(</span><span class="k">new</span> <span class="n">FileInputStream</span><span class="o">(</span><span class="n">src</span><span class="o">),</span> <span class="s">"gbk"</span><span class="o">));</span>
+    	<span class="n">pw</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PrintWriter</span><span class="o">(</span>
+          			<span class="k">new</span> <span class="nf">OutputStreamWriter</span><span class="o">(</span><span class="k">new</span> <span class="n">FileOutputStream</span><span class="o">(</span><span class="n">dist</span><span class="o">,</span> <span class="kc">false</span><span class="o">),</span> <span class="s">"utf-8"</span><span class="o">));</span>
+    	<span class="n">String</span> <span class="n">line</span><span class="o">;</span>
+    	<span class="k">while</span> <span class="o">((</span><span class="n">line</span><span class="o">=</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">())</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+     		<span class="n">pw</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">line</span><span class="o">);</span>
+    	<span class="o">}</span>
+  	<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+    	<span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+  	<span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+    	<span class="k">try</span> <span class="o">{</span>
+      		<span class="n">br</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+    	<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+      		<span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+   	 	<span class="o">}</span>
+    	<span class="n">pw</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+  	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+

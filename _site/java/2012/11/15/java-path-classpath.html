@@ -21,6 +21,7 @@
   <!-- favicon -->
   <link rel="shortcut icon" href="/static/img/favicon.ico">
 
+
   <!-- Third-party CSS -->
   <link href="/bower_components/normalize-css/normalize.min.css" rel="stylesheet">
   <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -350,6 +351,18 @@ javac -d . -cp .:/xxx/gson-2.3.1.jar GsonTest.java
 
 //运行
 java -cp .:gson-2.3.1.jar GsonTest
+</code></pre>
+</div>
+
+<p><br /></p>
+
+<h3 id="jdk-和-tomcat内存限制设置">JDK 和 tomcat内存限制设置</h3>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="c"># tomcat</span>
+-Xms512m -Xmx1024m -Xss1024K -XX:PermSize<span class="o">=</span>256m -XX:MaxPermSize<span class="o">=</span>512m
+
+<span class="c"># jdk</span>
+-server -Xms512m -Xmx1024m -XX:PermSize<span class="o">=</span>256m -XX:MaxPermSize<span class="o">=</span>512m -Dmaven.multiModuleProjectDirectory<span class="o">=</span><span class="nv">$M2_HOME</span>
 </code></pre>
 </div>
 

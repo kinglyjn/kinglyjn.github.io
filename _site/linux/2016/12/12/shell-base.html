@@ -21,6 +21,7 @@
   <!-- favicon -->
   <link rel="shortcut icon" href="/static/img/favicon.ico">
 
+
   <!-- Third-party CSS -->
   <link href="/bower_components/normalize-css/normalize.min.css" rel="stylesheet">
   <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -940,6 +941,14 @@ func1<span class="o">()</span> <span class="o">{</span>
 func1       <span class="c">#输出 在文件 test2.sh 中</span>
 </code></pre>
 </div>
+
+<h4 id="定时删除文件">定时删除文件</h4>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="c">#! /bin/sh</span>
+find /opt/bakfiles -mtime +30 -name <span class="s2">"*.war.*"</span> -exec rm -rf <span class="o">{}</span> <span class="se">\;</span>
+</code></pre>
+</div>
+
 
                     <hr>
                     <div class="row">

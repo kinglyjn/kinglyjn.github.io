@@ -21,6 +21,7 @@
   <!-- favicon -->
   <link rel="shortcut icon" href="/static/img/favicon.ico">
 
+
   <!-- Third-party CSS -->
   <link href="/bower_components/normalize-css/normalize.min.css" rel="stylesheet">
   <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -515,169 +516,150 @@
 
 <h3 id="java代理需要实现特定接口">java代理（需要实现特定接口）</h3>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kn">package</span> <span class="n">cglibtest</span><span class="o">;</span>
-
-<span class="cm">/**
- * 该类是所有被代理类的接口类，jdk实现的代理要求被代理类基于统一的接口
- * 
- */</span>
-<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">IService01</span> <span class="o">{</span>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kn">package</span> <span class="n">test</span><span class="o">;</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">IService</span> <span class="o">{</span>
 	<span class="kt">void</span> <span class="nf">add</span><span class="o">();</span>
 	<span class="kt">void</span> <span class="nf">update</span><span class="o">();</span>
 <span class="o">}</span>
 
 
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    <span class="cm">/*
+     * 被代理类
+     */</span>
+    <span class="kd">final</span> <span class="n">IService</span> <span class="n">targetService</span> <span class="o">=</span> <span class="k">new</span> <span class="n">IService</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">add</span><span class="o">()</span> <span class="o">{</span>
+          	<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"IService add &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;"</span><span class="o">);</span>
+          	<span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="s">"aaa"</span><span class="o">);</span>
+        <span class="o">}</span>
 
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">update</span><span class="o">()</span> <span class="o">{</span>
+          	<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"IService update &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;"</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">};</span>
 
-<span class="kn">package</span> <span class="n">cglibtest</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">java.lang.reflect.InvocationHandler</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">java.lang.reflect.Method</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">java.lang.reflect.Proxy</span><span class="o">;</span>
-<span class="cm">/**
- * jdk动态代理需要目标类基于统一的接口
- *
- */</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">JdkAopTest01</span> <span class="o">{</span>
-	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-		<span class="c1">//生成代理类</span>
-		<span class="n">IService01</span> <span class="n">iServiceProxy</span> <span class="o">=</span> <span class="o">(</span><span class="n">IService01</span><span class="o">)</span> <span class="n">MyInvocationHandler01</span><span class="o">.</span><span class="na">generateProxyInstance</span><span class="o">(</span><span class="k">new</span> <span class="n">Service01</span><span class="o">());</span>
-		
-		<span class="c1">//使用代理类</span>
-		<span class="n">iServiceProxy</span><span class="o">.</span><span class="na">add</span><span class="o">();</span>
-		<span class="n">iServiceProxy</span><span class="o">.</span><span class="na">update</span><span class="o">();</span>
-	<span class="o">}</span>
+    <span class="cm">/*
+     * 代理类
+     */</span>
+    <span class="n">InvocationHandler</span> <span class="n">invocationHandler</span> <span class="o">=</span> <span class="k">new</span> <span class="n">InvocationHandler</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="n">Object</span> <span class="nf">invoke</span><span class="o">(</span><span class="n">Object</span> <span class="n">proxy</span><span class="o">,</span> <span class="n">Method</span> <span class="n">method</span><span class="o">,</span> <span class="n">Object</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Throwable</span><span class="o">{</span>
+          <span class="c1">//Around 环绕通知表示整个过程</span>
+          <span class="n">Object</span> <span class="n">result</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+          <span class="k">try</span> <span class="o">{</span>
+              <span class="c1">//Before 前置通知</span>
+               <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"before------------------"</span><span class="o">);</span>
+               <span class="n">result</span> <span class="o">=</span> <span class="n">method</span><span class="o">.</span><span class="na">invoke</span><span class="o">(</span><span class="n">targetService</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span>
+              <span class="c1">//AfterReturning 返回通知</span>
+              <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"afterReturning------------------"</span><span class="o">);</span>
+          <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+              <span class="c1">//AfterThrowing 异常通知</span>
+              <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"afterThrowing------------------"</span><span class="o">);</span>
+          <span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+              <span class="c1">//After 后置通知</span>
+              <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"after------------------"</span><span class="o">);</span>
+          <span class="o">}</span>
+          <span class="k">return</span> <span class="n">result</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">};</span>
+    <span class="n">IService</span> <span class="n">iServiceProxy</span> <span class="o">=</span> <span class="o">(</span><span class="n">IService</span><span class="o">)</span> <span class="n">Proxy</span><span class="o">.</span><span class="na">newProxyInstance</span><span class="o">(</span>
+      		<span class="n">targetService</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getClassLoader</span><span class="o">(),</span>
+      		<span class="n">targetService</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getInterfaces</span><span class="o">(),</span> 
+      		<span class="n">invocationHandler</span><span class="o">);</span>
+
+    <span class="cm">/*
+     * 使用代理类
+     */</span>
+    <span class="n">iServiceProxy</span><span class="o">.</span><span class="na">add</span><span class="o">();</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">();</span>
+    <span class="n">iServiceProxy</span><span class="o">.</span><span class="na">update</span><span class="o">();</span>
 <span class="o">}</span>
 
 
-<span class="c1">//被代理类，即目标类target</span>
-<span class="kd">class</span> <span class="nc">Service01</span> <span class="kd">implements</span> <span class="n">IService01</span> <span class="o">{</span>
+<span class="c1">//执行结果</span>
+<span class="n">before</span><span class="o">------------------</span>
+<span class="n">IService</span> <span class="n">add</span> <span class="o">&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;</span>
+<span class="n">afterThrowing</span><span class="o">------------------</span>
+<span class="n">after</span><span class="o">------------------</span>
 
-	<span class="nd">@Override</span>
-	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">add</span><span class="o">()</span> <span class="o">{</span>
-		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Service01 add &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;"</span><span class="o">);</span>
-		<span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="s">"aaa"</span><span class="o">);</span>
-	<span class="o">}</span>
-
-	<span class="nd">@Override</span>
-	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">update</span><span class="o">()</span> <span class="o">{</span>
-		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Service01 update &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;"</span><span class="o">);</span>
-	<span class="o">}</span>
-<span class="o">}</span>
-
-<span class="c1">//切面处理类InvocationHandler</span>
-<span class="kd">class</span> <span class="nc">MyInvocationHandler01</span> <span class="kd">implements</span> <span class="n">InvocationHandler</span> <span class="o">{</span>
-	<span class="kd">private</span> <span class="n">Object</span> <span class="n">target</span><span class="o">;</span>
-	<span class="kd">public</span> <span class="nf">MyInvocationHandler01</span><span class="o">(</span><span class="n">Object</span> <span class="n">target</span><span class="o">)</span> <span class="o">{</span>
-		<span class="k">this</span><span class="o">.</span><span class="na">target</span> <span class="o">=</span> <span class="n">target</span><span class="o">;</span>
-	<span class="o">}</span>
-
-	<span class="c1">// 生成代理类</span>
-	<span class="kd">public</span> <span class="kd">static</span> <span class="n">Object</span> <span class="nf">generateProxyInstance</span><span class="o">(</span><span class="n">Object</span> <span class="n">target</span><span class="o">)</span> <span class="o">{</span>
-		<span class="n">MyInvocationHandler01</span> <span class="n">myInvocationHandler01</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MyInvocationHandler01</span><span class="o">(</span><span class="n">target</span><span class="o">);</span>
-		<span class="k">return</span> <span class="n">Proxy</span><span class="o">.</span><span class="na">newProxyInstance</span><span class="o">(</span><span class="n">target</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getClassLoader</span><span class="o">(),</span> 
-				<span class="n">target</span><span class="o">.</span><span class="na">getClass</span><span class="o">().</span><span class="na">getInterfaces</span><span class="o">(),</span>
-				<span class="n">myInvocationHandler01</span><span class="o">);</span>
-	<span class="o">}</span>
-
-	<span class="nd">@Override</span>
-	<span class="kd">public</span> <span class="n">Object</span> <span class="nf">invoke</span><span class="o">(</span><span class="n">Object</span> <span class="n">proxy</span><span class="o">,</span> <span class="n">Method</span> <span class="n">method</span><span class="o">,</span> <span class="n">Object</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span>
-			<span class="kd">throws</span> <span class="n">Throwable</span> <span class="o">{</span>
-		<span class="c1">//程序执行前加入逻辑，MethodBeforeAdviceInterceptor</span>
-		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"before------------------"</span><span class="o">);</span>
-		
-		<span class="c1">//程序执行</span>
-		<span class="n">Object</span> <span class="n">result</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
-		<span class="k">try</span> <span class="o">{</span>
-			<span class="n">result</span> <span class="o">=</span> <span class="n">method</span><span class="o">.</span><span class="na">invoke</span><span class="o">(</span><span class="n">target</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span>
-		<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
-			<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"=========异常========="</span><span class="o">);</span>
-		<span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
-			<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"=======执行finally========"</span><span class="o">);</span>
-		<span class="o">}</span>
-		
-		<span class="c1">//程序执行后加入逻辑，MethodAfterAdviceInterceptor  </span>
-		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"after------------------------------"</span><span class="o">);</span>
-		<span class="k">return</span> <span class="n">result</span><span class="o">;</span>
-	<span class="o">}</span>
-<span class="o">}</span>
+<span class="n">before</span><span class="o">------------------</span>
+<span class="n">IService</span> <span class="n">update</span> <span class="o">&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;</span>
+<span class="n">afterReturning</span><span class="o">------------------</span>
+<span class="n">after</span><span class="o">------------------</span>
 </code></pre>
 </div>
 <p><br /><br /></p>
 
 <h3 id="cglib代理不需要实现特定的接口它是通过生成目标子类实现代理的">cglib代理（不需要实现特定的接口，它是通过生成目标子类实现代理的）</h3>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kn">package</span> <span class="n">cglibtest</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">java.lang.reflect.Method</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">net.sf.cglib.proxy.Enhancer</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">net.sf.cglib.proxy.MethodInterceptor</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">net.sf.cglib.proxy.MethodProxy</span><span class="o">;</span>
-<span class="cm">/**
- * cglib动态代理不需要目标类基于统一的接口
- * @author zhangqingli
- *
- */</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CglibProxyTest02</span> <span class="o">{</span>
-	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-		<span class="c1">//生成代理类</span>
-		<span class="n">Service02</span> <span class="n">serviceProxy</span> <span class="o">=</span> <span class="o">(</span><span class="n">Service02</span><span class="o">)</span> <span class="n">MyInterceptor</span><span class="o">.</span><span class="na">generateProxyInstance</span><span class="o">(</span><span class="n">Service02</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
-		
-		<span class="c1">//使用代理类</span>
-		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">serviceProxy</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="mi">100</span><span class="o">));</span>
-		<span class="n">serviceProxy</span><span class="o">.</span><span class="na">update</span><span class="o">();</span>
-	<span class="o">}</span>
-<span class="o">}</span>
-
-
-
-<span class="c1">//被代理类，即目标对象target</span>
-<span class="kd">class</span> <span class="nc">Service02</span> <span class="o">{</span>
-	
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">MyService</span> <span class="o">{</span>
 	<span class="kd">public</span> <span class="n">Integer</span> <span class="nf">add</span><span class="o">(</span><span class="n">Integer</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
-		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Service02 add &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;"</span><span class="o">);</span>
+		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"MyService add &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;"</span><span class="o">);</span>
 		<span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="s">"aaa"</span><span class="o">);</span>
 		<span class="k">return</span> <span class="n">id</span><span class="o">;</span>
 	<span class="o">}</span>
-	
+
 	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">update</span><span class="o">()</span> <span class="o">{</span>
-		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Service02 update &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;"</span><span class="o">);</span>
+		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"MyService update &gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;"</span><span class="o">);</span>
 	<span class="o">}</span>
 <span class="o">}</span>
 
-<span class="c1">//切面处理类，MethodInterceptor</span>
-<span class="kd">class</span> <span class="nc">MyInterceptor</span> <span class="kd">implements</span> <span class="n">MethodInterceptor</span> <span class="o">{</span>
-	
-	<span class="c1">// 生成代理对象</span>
-	<span class="kd">public</span> <span class="kd">static</span> <span class="n">Object</span> <span class="nf">generateProxyInstance</span><span class="o">(</span><span class="n">Class</span><span class="o">&lt;?&gt;</span> <span class="n">targetType</span><span class="o">)</span> <span class="o">{</span>
-		<span class="n">MyInterceptor</span> <span class="n">myInterceptor</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MyInterceptor</span><span class="o">();</span>
-		<span class="n">Enhancer</span> <span class="n">enhancer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Enhancer</span><span class="o">();</span>
-		<span class="n">enhancer</span><span class="o">.</span><span class="na">setSuperclass</span><span class="o">(</span><span class="n">targetType</span><span class="o">);</span>
-		<span class="n">enhancer</span><span class="o">.</span><span class="na">setCallback</span><span class="o">(</span><span class="n">myInterceptor</span><span class="o">);</span>
-		<span class="k">return</span> <span class="n">enhancer</span><span class="o">.</span><span class="na">create</span><span class="o">();</span>
-	<span class="o">}</span>
-	
+
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+  	<span class="cm">/*
+	 * 创建代理子类
+	 */</span>
+	<span class="n">Enhancer</span> <span class="n">enhancer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Enhancer</span><span class="o">();</span>
+  	<span class="n">enhancer</span><span class="o">.</span><span class="na">setSuperclass</span><span class="o">(</span><span class="n">MyService</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+  	<span class="n">enhancer</span><span class="o">.</span><span class="na">setCallback</span><span class="o">(</span><span class="k">new</span> <span class="n">MethodInterceptor</span><span class="o">()</span> <span class="o">{</span>
 	<span class="nd">@Override</span>
-	<span class="kd">public</span> <span class="n">Object</span> <span class="nf">intercept</span><span class="o">(</span><span class="n">Object</span> <span class="n">obj</span><span class="o">,</span> <span class="n">Method</span> <span class="n">method</span><span class="o">,</span> <span class="n">Object</span><span class="o">[]</span> <span class="n">args</span><span class="o">,</span>
-			<span class="n">MethodProxy</span> <span class="n">methodProxy</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Throwable</span> <span class="o">{</span>
-		<span class="c1">//程序执行前加入逻辑，MethodBeforeAdviceInterceptor</span>
-		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"before--------------------------"</span><span class="o">);</span>
+	<span class="kd">public</span> <span class="n">Object</span> <span class="nf">intercept</span><span class="o">(</span><span class="n">Object</span> <span class="n">obj</span><span class="o">,</span> <span class="n">Method</span> <span class="n">method</span><span class="o">,</span> 
+           <span class="n">Object</span><span class="o">[]</span> <span class="n">args</span><span class="o">,</span> <span class="n">MethodProxy</span> <span class="n">methodProxy</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Throwable</span> <span class="o">{</span>
+			<span class="c1">//Around 环绕通知表示整个过程</span>
+            <span class="n">Object</span> <span class="n">result</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+            <span class="k">try</span> <span class="o">{</span>
+              	<span class="c1">//Before 前置通知</span>
+             	 <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"before------------------"</span><span class="o">);</span>
+
+              	<span class="c1">//使用method和methodProxy都能调用invoke方法，并且执行效果一样</span>
+             	 <span class="n">result</span> <span class="o">=</span> <span class="n">methodProxy</span><span class="o">.</span><span class="na">invokeSuper</span><span class="o">(</span><span class="n">obj</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span>
+
+             	 <span class="c1">//AfterReturning 返回通知</span>
+              	<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"afterReturning------------------"</span><span class="o">);</span>
+            <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+              	<span class="c1">//AfterThrowing 异常通知</span>
+             	 <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"afterThrowing------------------"</span><span class="o">);</span>
+            <span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+              	<span class="c1">//After 后置通知</span>
+             	 <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"after------------------"</span><span class="o">);</span>
+            <span class="o">}</span>
+            <span class="k">return</span> <span class="n">result</span><span class="o">;</span>
+          <span class="o">}</span>
+	<span class="o">});</span>
+	<span class="n">MyService</span> <span class="n">myServiceProxy</span> <span class="o">=</span> <span class="o">(</span><span class="n">MyService</span><span class="o">)</span> <span class="n">enhancer</span><span class="o">.</span><span class="na">create</span><span class="o">();</span>
 		
-		<span class="c1">//程序执行</span>
-		<span class="n">Object</span> <span class="n">result</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
-		<span class="k">try</span> <span class="o">{</span>
-			<span class="n">result</span> <span class="o">=</span> <span class="n">methodProxy</span><span class="o">.</span><span class="na">invokeSuper</span><span class="o">(</span><span class="n">obj</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span> <span class="c1">//使用method和methodProxy都能调用invoke方法，并且执行效果一样</span>
-		<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
-			<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"===========异常==========="</span><span class="o">);</span>
-			<span class="k">throw</span> <span class="n">e</span><span class="o">;</span>
-		<span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
-			<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"=========执行finally=========="</span><span class="o">);</span>
-		<span class="o">}</span>
-		
-		
-		<span class="c1">//程序执行后加入逻辑，MethodAfterAdviceInterceptor</span>
-		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"after--------------------------"</span><span class="o">);</span>
-		<span class="k">return</span> <span class="n">result</span><span class="o">;</span>
-	<span class="o">}</span>
+    <span class="cm">/*
+     * 使用代理子类
+     */</span>
+    <span class="n">Integer</span> <span class="n">i</span> <span class="o">=</span> <span class="n">myServiceProxy</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="mi">111</span><span class="o">);</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+    <span class="n">myServiceProxy</span><span class="o">.</span><span class="na">update</span><span class="o">();</span>
 <span class="o">}</span>
+
+
+<span class="c1">//执行结果</span>
+<span class="n">before</span><span class="o">------------------</span>
+<span class="n">MyService</span> <span class="n">add</span> <span class="o">&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;</span>
+<span class="n">afterThrowing</span><span class="o">------------------</span>
+<span class="n">after</span><span class="o">------------------</span>
+<span class="kc">null</span>
+  
+<span class="n">before</span><span class="o">------------------</span>
+<span class="n">MyService</span> <span class="n">update</span> <span class="o">&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;</span>
+<span class="n">afterReturning</span><span class="o">------------------</span>
+<span class="n">after</span><span class="o">------------------</span>
 </code></pre>
 </div>
 <p><br /></p>
