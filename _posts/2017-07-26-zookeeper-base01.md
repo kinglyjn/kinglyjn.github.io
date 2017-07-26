@@ -1,9 +1,9 @@
 ---
 layout: post
-title:  "zookeeper安装部署主要流程（以zookeeper-3.4.6为例）"
-desc: "zookeeper安装部署主要流程（以zookeeper-3.4.6为例）"
-keywords: "zookeeper,安装部署,linux,kinglyjn,张庆力"
-date: 2016-12-13
+title:  "zookeeper安装及概述（以zookeeper-3.4.6为例）"
+desc: "zookeeper安装及概述（以zookeeper-3.4.6为例）"
+keywords: "zookeeper安装及概述,linux,kinglyjn,张庆力"
+date: 2017-07-26
 categories: [Linux]
 tags: [Linux]
 icon: fa-bookmark-o
