@@ -1,3 +1,16 @@
+---
+layout: post
+title:  "mongodb副本集"
+desc: "mongodb副本集"
+keywords: "mongodb replSet,mongodb副本集,kinglyjn,张庆力"
+date: 2017-06-13
+categories: [db]
+tags: [db, mongodb]
+icon: fa-database
+---
+
+
+
 ### 副本集的特点
 
 * 主是唯一的，但不是固定的：具体哪个节点是主节点由仲裁决定，相对于传统的主从结构副本集可以进行自动容灾。默认读写操作指向主节点，主节点记录写操作的oplog（写日志），从节点根据oplog进行数据的复制，注意mongodb的从节点是绝对不可写的（即使是root权限也不行）

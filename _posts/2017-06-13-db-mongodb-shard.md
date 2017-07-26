@@ -1,3 +1,16 @@
+---
+layout: post
+title:  "mongodb分片技技术"
+desc: "mongodb分片技技术"
+keywords: "mongodb shard,mongodb分片,kinglyjn,张庆力"
+date: 2017-06-13
+categories: [db]
+tags: [db, mongodb]
+icon: fa-database
+---
+
+
+
 ### mongodb分片技技术
 
 > 注意：MongoDB 3.4, config servers must be deployed as a replica set (CSRS).
