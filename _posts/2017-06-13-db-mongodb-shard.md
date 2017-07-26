@@ -4,8 +4,8 @@ title:  "mongodb分片技技术"
 desc: "mongodb分片技技术"
 keywords: "mongodb shard,mongodb分片,kinglyjn,张庆力"
 date: 2017-06-13
-categories: [db]
-tags: [db, mongodb]
+categories: [DB]
+tags: [DB, mongodb]
 icon: fa-database
 ---
 

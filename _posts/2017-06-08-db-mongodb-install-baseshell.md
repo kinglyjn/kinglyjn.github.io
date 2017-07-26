@@ -4,8 +4,8 @@ title:  "mongodb安装、卸载和常见客户端命令"
 desc: "mongodb安装、卸载和常见客户端命令"
 keywords: "mongodb安装卸载,kinglyjn,张庆力"
 date: 2017-06-08
-categories: [db]
-tags: [db, mongodb]
+categories: [DB]
+tags: [DB, mongodb]
 icon: fa-database
 ---
 

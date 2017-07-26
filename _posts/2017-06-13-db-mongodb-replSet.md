@@ -4,8 +4,8 @@ title:  "mongodb副本集"
 desc: "mongodb副本集"
 keywords: "mongodb replSet,mongodb副本集,kinglyjn,张庆力"
 date: 2017-06-13
-categories: [db]
-tags: [db, mongodb]
+categories: [DB]
+tags: [DB, mongodb]
 icon: fa-database
 ---
 
