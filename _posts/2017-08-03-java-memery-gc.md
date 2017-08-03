@@ -2,7 +2,7 @@
 layout: post
 title:  "JAVA内存模型以及垃圾回收机制"
 desc: "JAVA内存模型以及垃圾回收机制"
-keywords: "JAVA内存模型以及垃圾回收机制,java,kinglyjn,张庆力"
+keywords: "JAVA内存模型以及垃圾回收机制,java,kinglyjn,张庆力"
 date: 2017-08-03
 categories: [Java]
 tags: [Java]
