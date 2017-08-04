@@ -19,67 +19,31 @@ icon: fa-database
 <br>
 
 
-### 数据库并发性带来的问题：<br>
-
-* `脏读`（Dirty Reads）：所谓脏读就是对脏数据（Drity Data）的读取，而脏数据所指的就是未提交的数据。也就是说，一个事务正在对一条记录做修改，在这个事务完成并提交之前，这条数据是处于待定状态的（可能提交也可能回滚），这时，第二个事务来读取这条没有提交的数据，并据此做进一步的处理，就会产生未提交的数据依赖关系。这种现象被称为脏读。
-* `不可重复读`（Non-Repeatable Reads）：一个事务先后读取同一条记录，但两次读取的数据不同，我们称之为不可重复读。也就是说，这个事务在两次读取之间该数据被其它事务所修改。
-* `幻读`（Phantom Reads）：一个事务按相同的查询条件重新读取以前检索过的数据，却发现其他事务插入了满足其查询条件的新数据，这种现象就称为幻读。
-
-<br>
 
 ### 事务的隔离级别
 
 数据库的隔离级别主要分为四级，隔离级别越高，并发性就越低，一致性就越高。<br>
 
+* `序列化读`：所有事务的执行都是顺序执行；
+* `可重复读`：事务A修改或插入了某些记录并提交，事务B是无法看到的，【除非事务B重新修改了这条记录（在事务B中没被修改的事务A的那些数据还是看不到的）或事务B提交】，这时候才能够看到事务A的修改或插入。事务B修改这条记录导致这条记录在事务A中的更新或插入出现在事务B中的现象就是幻读（从幻读这个名字就可以看出来，就像是在事务B中出现幻觉一样！）。
+* `读已提交`：事务A修改或插入了某些记录并提交，事务B能够直接读取到，这会导致事务B除了出现幻读现象外，还会出现不可重复读取的现象（即前后查询读到的两个结果不一样）。
+* `读未提交`：事务A修改或插入了某些记录还没有提交，事务B就能够读到，这会导致事务B除了出现幻读、不可重复读现象外，还会出现脏读的情况（因为事务B能够看到事务A中还未提交的事务，如果事务A的事务发生了回滚，那么事务B中读到的就是脏数据！）
 
-1、`读未提交` （Read UnCommited）<br>
 
-这是数据库最弱的隔离级别（完全不隔离），存在脏读、不可重复读、幻读的诸多问题。示例如下：<br>
-
-<img src="http://img.blog.csdn.net/20170112152448927?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:60%"/><br>
-
-由于事务B读取了事务未提交的数据，一旦回滚，事务B读取的数据就是有问题的。<br><br>
-
-2、`读已提交`（Read Commited）
-
-这个级别不允许事务B读取事务A还未提交的update操作更新后的数据（对于事务A的insert操作，在未提交之前，对事务B还是可见的）。避免了脏读，但还可能出现不可重复读、幻读。示例如下：<br>
-
-<img src="http://img.blog.csdn.net/20170112153053096?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:60%"/><br>
-
-这里面不会出现脏读，保证事务B读取的都是事务A update提交之后的数据。但是事务之间还是会存在互相影响的情况（不可重复读），见下面的例子：<br>
-
-<img src="http://img.blog.csdn.net/20170112154051200?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:60%"/><br>
-
-事务A和事务B都是先读取Price的价格，然后在价格上面减去一定的数值，我们期望结果是70，但是实际结果可能是90，也可能是80。<br><br>
-
-3、`可重复读`（Repeatable Read）
-
-所有被Select获取的数据都不能被修改，这样就可以避免一个事务前后读取数据不一致的情况。但是却没有办法控制幻读，因为这个时候其他事务不能更改所选的数据，但是可以增加数据，因为前一个事务没有范围锁。<br>
-
-<img src="http://img.blog.csdn.net/20170112165102862?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:60%"/><br>
-
-该隔离级别消除了不可重复读，但因为对于事务A的insert操作事务B还是可见的，所以是还是存在幻读的现象。<br>
-
-<img src="http://img.blog.csdn.net/20170112161710622?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:60%"/><br><br>
-
-4、`可序列化读`（Serialize）
-
-事务之间最高的隔离界别，只能顺序的读取数据，当一个事务在读取和修改数据的时候，另外一个事务只能挂起，直到正在读取和修改数据的事务提交之后，挂起的事务才能执行。
-
-<img src="http://img.blog.csdn.net/20170112161928092?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:60%"/><br><br>
 
 以上这些隔离级别都是定义在java.sql. Connection中，在获取连接的时候我们可以进行设置，但是一般情况下，系统会用数据库默认的级别来设置。<br>
 
 ```default
-Connection.TRANSACTION_READ_UNCOMMITTED;
-Connection.TRANSACTION_READ_COMMITTED;
-Connection.TRANSACTION_REPEATABLE_READ;  
 Connection.TRANSACTION_SERIALIZABLE;
+Connection.TRANSACTION_REPEATABLE_READ;
+Connection.TRANSACTION_READ_COMMITTED;
+Connection.TRANSACTION_READ_UNCOMMITTED;
 ```
 
 小结：<br>
 
 <img src="http://img.blog.csdn.net/20170112165319819?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:60%"/><br><br>
+
 
 
 ### 事务的传播属性
@@ -108,3 +72,29 @@ Connection.TRANSACTION_SERIALIZABLE;
 `Not Support`：当前方法不支持事务，如果当前线程存在事务，就挂起当前事务，执行完当前方法，恢复事务。一般情况下在查询的时候使用，如果一个方法只是查询，并且非常耗时，就可以使用Not Support，避免事务时间超长。<br>
 
 `Never`：当前方法不支持事务，如果当前线程存在事务，则抛出异常。这种用的比较少。<br>
+
+<br>
+
+
+
+### Mysql查看自动提交 和 隔离级别实验
+
+```sql
+--查看全局是否是自动提交事务
+select @@autocommit;
+
+--查看全局级别的事务隔离级别
+select @@GLOBAL.tx_isolation;
+REPEATABLE-READ
+
+--查看会话级别的事务隔离级别
+select @@SESSION.tx_isolation;
+REPEATABLE-READ
+
+--设置会话级别的事务的隔离级别
+set session transaction isolation level serializable;
+set session transaction isolation level repeatable read;
+set session transaction isolation level read committed;
+set session transaction isolation level read uncommitted;
+```
+
