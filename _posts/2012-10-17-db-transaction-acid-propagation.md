@@ -44,6 +44,24 @@ Connection.TRANSACTION_READ_UNCOMMITTED;
 
 <img src="http://img.blog.csdn.net/20170112165319819?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:60%"/><br><br>
 
+<br>
+
+
+
+### 使用悲观锁实现类似于事务隔离的要求(一般不使用！)
+
+```sql
+--读锁：事务A和事务B都能读取，但是都不能进行写操作
+--写锁：事务A能进行读和写，事务B既不能读也不能写
+--使用示例
+lock table table01 read, table02 write;
+lock table table01 read;
+lock table table02 write;
+unlock tables;
+```
+
+<br>
+
 
 
 ### 事务的传播属性
