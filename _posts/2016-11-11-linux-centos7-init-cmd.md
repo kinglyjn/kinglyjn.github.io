@@ -730,3 +730,217 @@ connectionTimeout="15000" disableUploadTimeout="false" useBodyEncodingForURI="tr
 对于数据库锁，加锁和解锁必须在一个数据库连接里，否则会出现解锁失败。
 ```
 
+<br>
+
+
+
+> 注
+
+<hr>
+
+### 常用的一些linux命令
+
+```shell
+增加用户：
+>>>>>linux系统上差UN关键用户的时候，默认创建用户组（用户组的名称与用户相同）
+	//增加用
+	# useradd kinglyjn
+	//为用户设置密码
+	# passwd  kinglyjn
+	//切换用户
+	# su - kinglyjn
+	//切换到管理员用户 
+	$ su 
+	
+文件：
+>>>>>在Linux系统下面，文件类型（常见的三种）
+	* 文件 （表示方式-）
+	* 目录  (表示方式d)
+	* 连接 （表示方式l）
+>>>>>文件的归属也有三种：
+	* 拥有者
+	* 拥有者属于组
+	* 其他人
+	
+文件类型(-ld)  权限（可读r可写w可执行x  有三组：拥有者u 拥有者组g 其他用户o）	 文件个数  拥有者 拥有者所属的组   文件大小  创建日期  文件名
+—-—-—-—-—-—-—-—-—-—-—-—-—-—-—-—-—-—-—-—-—-—-—-—-—-—-—-—-—-—-—-—-—-—-—-—-—-—-—-—-—-—-—-—-—
+lrwxrwxrwx 1 ubuntu ubuntu    32 Sep  9 23:20 .ecryptfs -> /home/xxx
+drwxrwxr-x 2 ubuntu ubuntu  4096 Sep 18 03:20 installpack/
+-rw------- 1 ubuntu ubuntu   146 Sep 18 05:19 .mysql_history
+
+
+文件赋权：
+	chmod 赋权（chmod +x fileName）
+	chown 改变拥有者 (chown userName fileName, chown -R userName:groupName dirName)
+	chgrp 改变拥有者组
+	
+	
+文件的创建:
+	* touch fileName
+	* 例如 echo ‘hello world!’ >> fileName
+
+目录的创建：
+	mkdir test
+	mkdir -p test/test/test  (-p表示创建多级目录)
+
+连接的创建：
+	软链接和硬链接：软连接只是创建了原文件的一个连接地址，硬链接相当于对原文件的拷贝，但编辑硬链接也会对原文件进行编辑
+		    软连接和硬链接删除之后，都不会删除源文件。
+	创建软连接：ln -s src lnName
+	创建硬链接：ln src lnName
+
+
+文件的编辑vi/vim:
+	常见的快捷键（在vi查看的状态下）
+	* 删除当前行  dd
+	* 保存	    ZZ
+	* 将光标处的字符删除  x
+	* 在光标的下一行进行插入  o
+文件的查看：
+	cat fileName：查看文件的全部内容，文件内容比较少
+	more fileName：翻页查看文件内容，文件内容很多
+	tail  -200f/-n 100  fileName：查看文件末尾的内容，通常与-f参数连用查看日志的实时滚动信息
+	head -200f/-n 100  fileName：查看文件开头的内容
+	
+文件的搜索：
+	find ~/ -name fileName 从当前目录下搜索文件
+	find / -name fileNa\* 从根目录搜索文件，支持正则
+
+
+
+系统管理：
+	//常用
+	uname [-r] 		查看系统
+	cat /proc/cpuinfo 	查看cpu
+	cat /proc/meminfo 	查看内存信息
+	date [-R] 		查看日期[时区]
+	cal 2016		显示日历表
+	date -s 2015-09-09 xx	设置系统时间
+	df -lh 			显示已挂载磁盘信息
+	du -sh * 		显示目录占用空间
+	fdisk -l		显示挂载设备名称
+	fsck /dev/sda3		修复sda3磁盘
+	
+
+	//磁盘相关
+	mount 			查看挂载信息
+	mount /dev/sdb1 /data01	挂载磁盘到/data01目录
+	unmount /dev/sdb1	卸载磁盘
+	
+	//内存相关
+	free -m			整体查看内存使用情况
+	top			各种进程内存的使用情况
+
+
+	//网络相关
+	cat /etc/sysconfig/network-scripts/eth0
+	———————————————————————————————————————
+	DEVICE=eth0
+	TYPE=Ethernet
+	UUID=76d0da76-68bd-46e9-b7d9-af4d388f4411
+	ONBOOT=yes
+	NM_CONTROLLED=yes
+	BOOTPROTO=dhcp
+	HWADDR=00:0C:29:2B:D9:90
+	DEFROUTE=yes
+	PEERDNS=yes
+	PEERROUTES=yes
+	IPV4_FAILURE_FATAL=yes
+	IPV6INIT=no
+	NAME="System eth0"
+	LAST_CONNECT=1477397560
+	
+
+软件安装的三种方式：
+	第一种方式：RPM方式(限于centos等系列)
+		## 检查某个软件是否安装
+			rpm -qa |grep java
+		## 卸载已安装的软件
+			rpm -e —nodeps xxxx
+		## 安装软件
+			rpm -ivh xxx.rpm
+	
+	
+	第二种方式：tar源码包安装（不推荐使用）
+		## 解压tar包
+			tar -zxvf xxx.tar.gz  解压到当前目录
+			tar -zxvf xxx.tar.gz -C dirName 解压到指定目录
+			unzip xxx.zip
+		## 压缩文件
+			tar -zcvf zzz.tar.gz dirName/fileName 
+			zip xxx.zip dirName/fileName
+	
+	第三种方式：yum （比较自动化，解决了软件包的依赖关系以及各个软件的安装顺序）
+		* 需要配置源，比较麻烦
+
+
+安装java：
+	* 解压tar包
+	* 配置环境变量
+		vi /etc/profile
+		
+		## JAVA_HOME
+		export JAVA_HOME=/home/centos/jdk/jdk1.7.0_67
+		export PATH=$PATH:$JAVA_HOME/bin
+
+		source /etc/profile
+		echo $JAVA_HOME
+
+
+
+设置普通用户的无密码的sudo权限：
+	vi /etc/sudoers
+	//在最上面插入
+	userNamexxx ALL=(root)NOPASSWD:ALL
+
+	
+
+防火墙：（centos等系列）
+	查看防火墙是否关闭：
+		sudo service iptable status
+	关闭防火墙：
+		sudo service iptables stop
+	启动防火墙：
+		sudo service iptables start
+	永久设置防火墙关闭/开启：
+		sudo chkconfig iptables off|on		
+
+	设置开机启动web服务器：
+		sudo chkconfig httpd on
+	查看开机启动web服务器是否成功：
+		sudo chkconfig —-list|grep httpd
+	
+
+linux的crontable定时任务：
+	在linux中，自带的调度功能crontab
+	针对用户，每个用户都可以调度自己的任务
+	
+	//示例：在centos这个用户下创建定时任务，这个定时任务的功能是，每隔一分钟将系统时间写入到指定的文件中
+	>crontab -e
+	*/1 * * * * /bin/date >> /home/centos/bf-log.txt
+
+	//列出所有的定时任务
+	>crontab -l
+
+	//删除所有的定时任务
+	>crontab -r
+
+	//crontab时间表达式的一些实例
+	## 每天的21:30分执行
+	30 21 * * * cmd
+	
+	## 每个月1，11，21号的2:30执行
+	30 2 1,11,21 * * cmd
+	
+	## 每周六周日的1:45执行
+	45 1 * * 6,0 cmd
+
+	## 每天的20:00至23:00,每半个小时执行一次
+	0,30 20-23 * * * cmd
+	
+	## 每隔一小时执行一次
+	* */1 * * * cmd
+```
+
+
+
