@@ -239,6 +239,62 @@ server.2=supervisor01z:2888:3888
 server.3=supervisor02z:2888:3888
 ```
 
+> 注意1：如果你的机器有多个网卡，如： 
+>
+> ```shell
+> 127.0.0.1 localhost nimbusz
+> 192.168.56.102 nimbusz
+> ...
+> ```
+>
+> 按照上述配置可能会出现如下错误：[参考](https://stackoverflow.com/questions/30940981/zookeeper-error-cannot-open-channel-to-x-at-election-address)
+
+```shell
+2017-06-19 12:09:22,989 [myid:1] - WARN  [QuorumPeer[myid=1]/0:0:0:0:0:0:0:0:2181:QuorumCnxManager@382] 
+  - Cannot open channel to 2 at election address /x.x.x.x:3888
+java.net.ConnectException: Connection refused
+```
+
+因为在每个节点中如何定义本地服务器的ip，如果你给了公共ip，那么监听器将无法连接到端口。你必须为当前节点指定0.0.0.0：
+
+```shell
+server.1=0.0.0.0:2888:3888
+server.2=192.168.10.10:2888:3888
+server.3=192.168.2.1:2888:3888
+
+即：
+Node 1:
+zoo.cfg
+server.1= 0.0.0.0:<port>:<port2>
+server.2= <IP>:<port>:<port2>
+server.n= <IP>:<port>:<port2>
+
+Node 2 :
+server.1= <IP>:<port>:<port2>
+server.2= 0.0.0.0:<port>:<port2>
+server.n= <IP>:<port>:<port2>
+
+...
+```
+
+> 注意2：Zookeeper启动时默认将Zookeeper.out输出到当前目录，不友好。改变位置有两种方法：
+
+* 在当前用户下~/.bash_profile或在/etc/profile，添加ZOO_LOG_DIR变量。
+
+  ```shell
+  export ZOO_LOG_DIR=/home/Hadoop/local/logs/zookeeper
+  ```
+
+
+* 修改zkServer.sh 脚本
+
+  ```shell
+  1.修改zoo.cfg文件，增加dataLogDir参数，如：
+  	dataDir=/data/zookeeper/data
+  	dataLogDir=/data/zookeeper/logs
+  2.修改zkServer.sh脚本，增加ZOO_LOG_DIR变量赋值
+  ```
+
 <br>
 
 4、建立zookeeper节点标示文件myid<br>
