@@ -3,7 +3,7 @@ layout: post
 title:  "iPhoneX & iPhone8 for Jobs"
 desc: "iPhoneX & iPhone8 for Jobs"
 keywords: "iPhoneX & iPhone8 for Jobs, iPhoneX, iPhone8"
-date: 2017-09-03
+date: 2017-09-13
 categories: [Other]
 tags: [Other]
 icon: fa-apple
