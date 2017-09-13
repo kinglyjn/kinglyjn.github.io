@@ -344,9 +344,55 @@ MySQL监听在localhost，说明MySQL已经启动。
 使用命令行mysql -u root -p 来登录MySQL：
 <span class="gp">$ </span>mysql -u root -p
 
-
 远程登录
 <span class="gp">$ </span>mysql  -h192.168.1.160 -u root -p
+<span class="gp">$ </span>mysql  -h192.168.1.160 -P3306 -u root -p
+
+
+---------[一些常见操作]----------
+<span class="c">#显示创建指令</span>
+<span class="gp">$ </span>show create database <span class="nb">test</span>;
+<span class="gp">$ </span>show create table test.t_user;
+<span class="c">#更改数据库的编码方式</span>
+<span class="gp">$ </span>alter database <span class="nb">test </span>CHARACTER SET <span class="o">=</span> utf8;
+<span class="c">#查看表、字段、索引</span>
+<span class="gp">$ </span>show tables from <span class="nb">test</span>;
+<span class="gp">$ </span>show clumns from test.t_user;
+<span class="gp">$ </span>show indexes from test.t_user;
+<span class="c">#重命名--可能导致视图或者存储过程失效</span>
+rename table old_table_name to new_table_name;
+alter table t_user change old_column_name new_column_name <span class="nb">type</span>;
+<span class="c">#添加字段</span>
+alter table t_stu3 add <span class="nb">pwd </span>varchar<span class="o">(</span>255<span class="o">)</span> after name; --或者 first
+<span class="c">#删除字段</span>
+alter table t_stu3 drop <span class="nb">pwd</span>, drop sex;
+<span class="c">#修改字段</span>
+alter table t_stu3 modify stu_name varchar<span class="o">(</span>20<span class="o">)</span> not null after id;
+alter table t_stu3 change stu_name sname varchar<span class="o">(</span>20<span class="o">)</span> not null after id;
+<span class="c">#添加索引</span>
+alter table t_stu4 add index index_stu_name<span class="o">(</span>stu_name<span class="o">)</span>;
+alter table t_stu4 add constraint pk_stu4 primary key<span class="o">(</span>id<span class="o">)</span>;
+alter table t_stu4 add constraint fk_stu4_clazz4 foreign key<span class="o">(</span>clazz_id<span class="o">)</span> references t_clazz4<span class="o">(</span>id<span class="o">)</span> on delete restrict;
+alert table t_stu4 add unique<span class="o">(</span>name<span class="o">)</span>;
+alter table t_stu3 alter column sex <span class="nb">set </span>default 3;
+
+<span class="c">#删除索引</span>
+alter table t_stu3 drop index index_xxx;
+alter table t_stu4 drop foreign key fk_stu4_clazz4;
+alter table t_stu3 alter column sex drop default;
+
+<span class="c">#插入记录</span>
+insert into t_clazz3<span class="o">(</span>name<span class="o">)</span> values<span class="o">(</span><span class="s1">'23班'</span><span class="o">)</span>;
+insert into t_clazz4 values<span class="o">(</span>default, <span class="s1">'23班'</span><span class="o">)</span>;
+insert into t_clazz4 <span class="nb">set </span><span class="nv">name</span><span class="o">=</span><span class="s1">'24班'</span>;
+insert into t_clazz3<span class="o">(</span>name<span class="o">)</span> <span class="k">select </span>name from t_clazz4;
+<span class="c">#更新记录</span>
+update t_stu3 <span class="nb">set </span><span class="nv">name</span><span class="o">=</span><span class="s1">'keyllo'</span>, <span class="nv">age</span><span class="o">=</span>18 where <span class="nv">id</span><span class="o">=</span>1;
+<span class="c">#删除记录</span>
+delete from t_stu3 where where <span class="nv">id</span><span class="o">=</span>1; --只删除数据
+truncate table t_stu3; --除了删除数据，也删除索引等，可能主键id自增也会重置
+drop table t_stu3;
+---------[END]----------
 
 
 重启服务
@@ -369,19 +415,32 @@ sudo service mysql status
 
 <p>我要在本机链接我本机上虚拟机的mysql，我使用mac下的workbench，就就是连接不上，报错信息为：“Can’t connect to MySQL server on ‘10.211.55.5’ (61)”，查了好多资料，有一种方法解决了我的问题：</p>
 
-<div class="language-shell highlighter-rouge"><pre class="highlight"><code>第一步：查看是都3306端口开启
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="c">#第一步：查看3306端口是否开启</span>
+<span class="c"># 使用ufw，sudo ufw status或者直接使用命令 netstat -an | grep 3306，如果结果显示类似：</span>
+<span class="c">#tcp   0   0 127.0.0.1:3306   0.0.0.0:*     LISTEN</span>
+<span class="c">#从结果可以看出3306端口只是在IP 127.0.0.1上监听，所以拒绝了其他IP的访问。</span>
 
-    使用ufw，sudo ufw status或者直接使用命令 netstat -an | grep 3306，如果结果显示类似：
-    tcp   0   0 127.0.0.1:3306   0.0.0.0:<span class="k">*</span>     LISTEN
-从结果可以看出3306端口只是在IP 127.0.0.1上监听，所以拒绝了其他IP的访问。
+<span class="c">#第二步：修改配置文件</span>
+<span class="c">#修改文件 /etc/mysql/my.cnf文件，打开文件，找到下面内容：</span>
+    <span class="c"># Instead of skip-networking the default is now to listen only on</span>
+    <span class="c"># localhost which is more compatible and is not less secure.</span>
+    <span class="nb">bind</span>-address <span class="o">=</span> 127.0.0.1
+<span class="c">#把上面这一行注释掉或者把127.0.0.1换成合适的IP，建议注释掉。</span>
+<span class="c">#重新启动后，重新使用netstat检测：</span>
+    netstat -an | grep 3306tcp 0 0 0.0.0.0:3306 0.0.0.0:<span class="k">*</span> LISTEN
 
-第二步：修改配置文件
-    修改文件 /etc/mysql/my.cnf文件，打开文件，找到下面内容：
-    <span class="c"># Instead of skip-networking the default is now to listen only on# localhost which is more compatible and is not less secure.bind-address = 127.0.0.1把上面这一行注释掉或者把127.0.0.1换成合适的IP，建议注释掉。</span>
-    重新启动后，重新使用netstat检测：
-    ~# netstat -an | grep 3306tcp 0 0 0.0.0.0:3306 0.0.0.0:<span class="k">*</span> LISTEN
+<span class="c">#第三步：使用创建的用户登录一下，成功。</span>
 
-第三步：使用创建的用户登录一下，成功。
+<span class="c">#第四部：修改编码方式</span>
+<span class="gp">&gt; </span>grep <span class="s1">'character'</span> /etc/mysql/my.cnf 
+default-character-set<span class="o">=</span>utf8
+character-set-server<span class="o">=</span>utf8
+
+<span class="c">#第五步：默认的存储引擎设置为支持外键和事务的存储引擎InnoDB</span>
+grep <span class="s1">'default-storage-engine'</span> /etc/mysql/my.cnf 
+default-storage-engine<span class="o">=</span>INNODB
+<span class="c">#可以查看数据库的存储引擎</span>
+show engines;
 </code></pre>
 </div>
 <p><br /></p>
@@ -471,10 +530,76 @@ mysql&gt; show variables like ‘character%’ ;
 
 在/etc/mysql下有个my.cnf文件，我们修改my.cnf文件
 ubuntu@dbserver:~$ grep 'character' /etc/mysql/my.cnf 
-default-character-set=utf8
-character-set-server=utf8
+[mysqld]  
+......
+character_set_server=utf8  
+collation-server=utf8_general_ci  
+......  
+  
+[client]
+......
+#设置客户端字符集
+default-character-set=utf8  
+......
 
-修改完成后，service mysql restart重启mysql服务就生效
+修改完成后，service mysql restart重启mysql服务就生效。注意位置，default-character-set=utf8只能放在[client]下面，否则不能启动MySQL
+</code></pre>
+</div>
+
+<p><br /></p>
+
+<h3 id="mysql-的权限管理">mysql 的权限管理</h3>
+
+<div class="language-sql highlighter-rouge"><pre class="highlight"><code><span class="c1">--mysql涉及到的授权表</span>
+<span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">mysql</span><span class="p">.</span><span class="k">user</span><span class="p">;</span>
+<span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">mysql</span><span class="p">.</span><span class="n">tables_priv</span><span class="p">;</span>
+<span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">mysql</span><span class="p">.</span><span class="n">columns_priv</span><span class="p">;</span>
+
+<span class="c1">--显示当前的用户</span>
+<span class="k">select</span> <span class="k">user</span><span class="p">();</span>
+
+<span class="c1">--添加超级用户（DBA）</span>
+<span class="c1">-- *.* 表示是所有的库，所有的表</span>
+<span class="c1">-- keyllo@localhost表示用户名和允许用户登录使用的ip段</span>
+<span class="c1">-- identified by 后面是用户登录所需的密码</span>
+<span class="c1">-- with grant option 表示该用户还能给其他用户赋权</span>
+<span class="k">grant</span> <span class="k">all</span> <span class="k">privileges</span> <span class="k">on</span> <span class="o">*</span><span class="p">.</span><span class="o">*</span> <span class="k">to</span> <span class="n">keyllo</span><span class="o">@</span><span class="n">localhost</span> <span class="n">identified</span> <span class="k">by</span> <span class="s1">'123456'</span> <span class="k">with</span> <span class="k">grant</span> <span class="k">option</span><span class="p">;</span>
+
+<span class="c1">--添加普通用户</span>
+<span class="k">grant</span> <span class="k">create</span><span class="p">,</span><span class="k">create</span> <span class="k">temporary</span> <span class="n">tables</span><span class="p">,</span><span class="k">update</span><span class="p">,</span><span class="k">execute</span><span class="p">,</span><span class="k">select</span><span class="p">,</span><span class="k">show</span> <span class="k">view</span><span class="p">,</span><span class="k">usage</span><span class="p">,</span><span class="k">delete</span> <span class="k">on</span> <span class="n">test</span><span class="p">.</span><span class="o">*</span> <span class="k">to</span> <span class="n">keyllo2</span><span class="o">@</span><span class="n">localhost</span>  <span class="n">identified</span> <span class="k">by</span> <span class="s1">'123456'</span> <span class="k">with</span> <span class="k">grant</span> <span class="k">option</span><span class="p">;</span>
+
+<span class="c1">--使权限立即生效</span>
+<span class="n">flush</span> <span class="k">privileges</span><span class="p">;</span>
+
+<span class="c1">--收回用户的某些权限</span>
+<span class="k">revoke</span> <span class="k">select</span><span class="p">,</span><span class="k">update</span> <span class="k">on</span> <span class="n">test</span><span class="p">.</span><span class="o">*</span> <span class="k">from</span> <span class="n">keyllo2</span><span class="o">@</span><span class="n">localhost</span><span class="p">;</span>
+
+<span class="c1">--删除一个用户</span>
+<span class="k">drop</span> <span class="k">user</span> <span class="n">keyllo2</span><span class="o">@</span><span class="n">localhost</span><span class="p">;</span>
+
+<span class="c1">--查看一个用户有哪些权限</span>
+<span class="k">show</span> <span class="n">grants</span> <span class="k">for</span> <span class="n">root</span><span class="o">@</span><span class="n">localhost</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p><br /></p>
+
+<h3 id="mysql数据库的备份和恢复">mysql数据库的备份和恢复</h3>
+
+<div class="language-sql highlighter-rouge"><pre class="highlight"><code><span class="c1">-- 备份</span>
+<span class="n">mysqldump</span> <span class="o">-</span><span class="n">hlocalhost</span> <span class="o">-</span><span class="n">uroot</span> <span class="o">-</span><span class="n">pxxx</span> <span class="n">test</span> <span class="o">&gt;</span> <span class="o">~/</span><span class="n">test</span><span class="o">/</span><span class="n">mysql_dump</span><span class="o">/</span><span class="n">dbname_20161213</span><span class="p">.</span><span class="n">dump</span>
+<span class="n">mysqldump</span> <span class="o">-</span><span class="n">hlocalhost</span> <span class="o">-</span><span class="n">uroot</span> <span class="o">-</span><span class="n">pxxx</span> <span class="n">test</span> <span class="n">t_user</span> <span class="o">&gt;</span> <span class="o">~/</span><span class="n">test</span><span class="o">/</span><span class="n">mysql_dump</span><span class="o">/</span><span class="n">dbname_20161213</span><span class="p">.</span><span class="n">dump</span>
+<span class="n">mysqldump</span> <span class="o">-</span><span class="n">hlocalhost</span> <span class="o">-</span><span class="n">uroot</span> <span class="o">-</span><span class="n">p</span> <span class="c1">--all-databases &gt; xxx/xxx.dump</span>
+
+<span class="c1">-- 还原</span>
+<span class="n">mysql</span> <span class="o">-</span><span class="n">hlocalhost</span> <span class="o">-</span><span class="n">uroot</span> <span class="o">-</span><span class="n">pxxx</span> <span class="n">dbname</span> <span class="o">&lt;</span> <span class="o">~/</span><span class="n">test</span><span class="o">/</span><span class="n">mysql_dump</span><span class="o">/</span><span class="n">dbname_20161213</span><span class="p">.</span><span class="n">dump</span>
+<span class="n">mysql</span> <span class="o">-</span><span class="n">hlocalhost</span> <span class="o">-</span><span class="n">uroot</span> <span class="o">-</span><span class="n">pxxx</span> <span class="n">dbname</span> <span class="o">&lt;</span> <span class="p">..</span><span class="o">/</span><span class="n">exe</span><span class="p">.</span><span class="k">sql</span>
+<span class="n">mysql</span> <span class="o">-</span><span class="n">hlocalhost</span> <span class="o">-</span><span class="n">uroot</span> <span class="o">-</span><span class="n">p</span> <span class="o">&lt;</span> <span class="n">xxx</span><span class="o">/</span><span class="n">all_databases</span><span class="p">.</span><span class="n">dump</span>
+<span class="n">mysql</span> <span class="o">-</span><span class="n">hlocalhost</span> <span class="o">-</span><span class="n">uroot</span> <span class="o">-</span><span class="n">pxxx</span> <span class="n">dbname</span> <span class="o">-</span><span class="n">e</span> <span class="nv">"select * from t_user"</span>
+<span class="n">mysql</span> <span class="o">-</span><span class="n">hlocalhost</span> <span class="o">-</span><span class="n">uroot</span> <span class="o">-</span><span class="n">p</span> <span class="n">dbname</span> <span class="o">-</span><span class="n">e</span> <span class="nv">"select * from t_user"</span>
+
+<span class="c1">-- 通过可视化工具进行数据库的备份和恢复(导出和导入)</span>
+<span class="n">mysql_workbench</span><span class="err">、</span><span class="n">navicat</span><span class="err">、</span><span class="n">dbeaver</span><span class="err">、</span><span class="n">sqlyog</span>
 </code></pre>
 </div>
 

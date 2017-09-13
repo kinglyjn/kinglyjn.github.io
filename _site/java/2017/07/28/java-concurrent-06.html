@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html>
+	
+	    <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+    <meta content="JAVA中的锁(一)" name="description">
+  
+  
+    <meta name="keywords" content="JAVA中的锁(一),java,kinglyjn,张庆力">
+  
+  <meta name="author" content="KinglyJn">
+
+  <title>
+    
+        KinglyJn|JAVA中的锁(一)
+    
+  </title>
+  <!-- favicon -->
+  <link rel="shortcut icon" href="static/img/favicon.ico">
+
+
+  <!-- Third-party CSS -->
+  <link href="/bower_components/normalize-css/normalize.min.css" rel="stylesheet">
+  <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/bower_components/animate.css/animate.min.css" rel="stylesheet">
+  <link href="/bower_components/components-font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="/static/font-mfizz/font-mfizz.css" rel="stylesheet">
+  <!-- <link href="/bower_components/toastr/toastr.min.css" rel="stylesheet"> -->
+  <link href="/bower_components/jquery.gritter/css/jquery.gritter.css" rel="stylesheet">
+  <link rel="stylesheet" href="/search/css/cb-search.css">
+
+  <!-- Custom styles for this template -->
+  <link href="/static/css/style.min.css" rel="stylesheet">
+  <link href="/static/css/pygments.css" rel="stylesheet">
+
+  <!-- Scripts -->
+  <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="/search/js/bootstrap3-typeahead.min.js"></script>
+
+  <!-- cb-search -->
+  <script src="/search/js/cb-search.js"></script>
+  <script>
+    $(function(){
+        $("pre").css('display','block');
+    });
+  </script>
+  <!-- Mainly scripts -->
+  <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="/bower_components/metisMenu/dist/metisMenu.min.js"></script>
+  <script src="/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+
+  <!-- Peity -->
+  <script src="/bower_components/peity/jquery.peity.min.js"></script>
+
+  <script src="/bower_components/PACE/pace.min.js"></script>
+  <script src="/bower_components/wow/dist/wow.min.js"></script>
+  <!-- Custom and plugin javascript -->
+  <script src="/static/js/inspinia.js"></script>
+
+  <!-- Rickshaw -->
+  <script src="/bower_components/rickshaw/vendor/d3.v3.js"></script>
+  <script src="/bower_components/rickshaw/rickshaw.min.js"></script>
+
+
+  <!-- jPages -->
+  <script src="/static/js/jPages.js"></script>
+  <script src="/static/js/js.js"></script>
+  <script type="text/javascript">
+        $(function(){
+          /* initiate the plugin */
+          $("div.pag-holder").jPages({
+              containerID  : "pag-itemContainer",
+              perPage      : 10,  /* num of items per page */
+              startPage    : 1,
+              startRange   : 1,
+              midRange     : 3,
+              endRange     : 1
+          });
+
+          $("div.pag-jump button").click(function(){
+            var page = parseInt($("div.pag-jump input").val());
+            $("div.pag-holder").jPages(page);
+          });
+
+          $("div.pag-jump input").on("keypress", function(){
+            var e=e||window.event;
+            if (e.keyCode == 13) {
+                var page = parseInt($("div.pag-jump input").val());
+                $("div.pag-holder").jPages(page);
+            } 
+          });
+      });
+  </script>
+
+<!-- GrowingIO -->
+
+  <script>
+    var _vds = _vds || [];
+    window._vds = _vds;
+    (function(){
+      _vds.push(['setAccountId', 'a49d4901c7853da9']);
+      (function() {
+        var vds = document.createElement('script');
+        vds.type='text/javascript';
+        vds.async = true;
+        vds.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'dn-growing.qbox.me/vds.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(vds, s);
+      })();
+    })();
+  </script>
+
+
+</head>
+
+	
+
+
+<body id="page-top" class="landing-page">
+
+	
+	    
+
+<!--修复手机端横轴方向左右滑动BUG-->
+<style type="text/css">
+    .landing-page .row {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+</style>
+
+<div class="search-tool"
+      style="position: fixed; top: 0px ; bottom: 0px; left: 0px; right:  0px; opacity: 0.95; background-color: #111111; z-index: 9999; display: none;">
+    <input type="text" class="form-control search-content" id="search-content" style="position: fixed; top: 60px" placeholder="Search Blog">
+
+    <div style="position: fixed; top: 16px; right: 16px; z-index: 9999;">
+        <img src="/search/img/cb-close.png" id="close-btn"/>
+    </div>
+</div>
+
+<div style="position: fixed; right: 16px; bottom: 20px; z-index: 9999;">
+    <img src="/search/img/cb-search.png"  id="search-btn"  title="Double click Ctrl"/>
+</div>
+
+<div class="navbar-wrapper">
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header page-scroll">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/">KinglyJn</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a class="page-scroll" href="/blog/"></a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/blog/">Blog</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/linux/">Linux</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/cloud/">Cloud</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/java/">Java</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/c/">C</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/php/">PHP</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/db/">DB</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/htmlx/">HTMLX</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/life/">Life</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/art/">Art</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/other/">Other</a></li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </nav>
+</div>
+<div id="inSlider" class="carousel carousel-fade" data-ride="carousel">
+    <div style="position:absolute;float:left;left:25%;z-index:15;width:50%;margin-bottom:18%;bottom:0;text-align:center;list-style:none;">
+        <span style="color:white;font-size:24px;">以平实之心写作</span><br>
+        <span style="color:white;font-size:13px;">writing with simple heart ♬. </span>
+    </div>
+    <!--
+    <ol class="carousel-indicators">
+        <li data-target="#inSlider" data-slide-to="0" class="active"></li>
+        <li data-target="#inSlider" data-slide-to="1"></li>
+    </ol>
+    -->
+    <div class="carousel-inner" role="listbox">
+        <div class="item active">
+            <div class="container">
+                <div class="carousel-caption">
+                </div>
+                <div class="carousel-image wow zoomIn">
+                    <!-- <img src="static/img/landing/laptop.png" alt="laptop"/> -->
+                </div>
+            </div>
+            <!-- Set background for slide in css -->
+            <div class="header-back blog-one"></div>
+        </div>
+        <!--
+        <div class="item">
+            <div class="container">
+                <div class="carousel-caption blank">
+                </div>
+            </div>
+            Set background for slide in css
+            <div class="header-back two"></div>
+        </div>
+        -->
+    </div>
+    <!--
+    <a class="left carousel-control" href="#inSlider" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#inSlider" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+    -->
+</div>
+
+
+	
+
+    <div class="wrapper wrapper-content  animated fadeInRight article">
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <div class="pull-right">
+                    	
+                        	<button class="btn btn-white btn-xs" type="button">Java</button>
+                        
+                    </div>
+                    <div class="text-center article-title" style="margin-bottom:50px;">
+                        <h1>
+                            JAVA中的锁(一)
+                        </h1>
+                        <a href="http://www.keyllo.com/studio/">
+                            <span class="text-muted"><i class="fa fa-user"></i> KinglyJn</span>
+                        </a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <span class="text-muted"><i class="fa fa-clock-o"></i> 2017-07-28</span>
+                    </div>
+                    	<h3 id="信号机semaphore和信号协调">信号机(Semaphore)和信号协调</h3>
+
+<p>以一个停车场是运作为例。为了简单起见，假设停车场只有三个车位，一开始三个车位都是空的。这时如果同时来了五辆车，看门人允许其中三辆不受阻碍的进入，然后放下车拦，剩下的车则必须在入口等待，此后来的车也都不得不在入口处等待。这时，有一辆车离开停车场，看门人得知后，打开车拦，放入一辆，如果又离开两辆，则又可以放入两辆，如此往复。</p>
+
+<p>在这个停车场系统]中，车位是公共资源，每辆车好比一个线程，看门人起的就是信号量的作用。</p>
+
+<p>更进一步，信号量的特性如下：信号量是一个非负整数（车位数），所有通过它的线程（车辆）都会将该整数减一（通过它当然是为了使用资源），当该整数值为零时，所有试图通过它的线程都将处于等待状态。在信号量上我们定义两种操作： Wait（等待） 和 Release（释放）。 当一个线程调用Wait（等待）操作时，它要么通过然后将信号量减一，要么一直等下去，直到信号量大于一或超时。Release（释放）实际上是在信号量上执行加操作，对应于车辆离开停车场，该操作之所以叫做“释放”是因为加操作实际上是释放了由信号量守护的资源。</p>
+
+<p>在java中，还可以设置该信号量是否采用公平模式，如果以公平方式执行，则线程将会按到达的顺序（FIFO）执行，如果是非公平，则可以后请求的有可能排在队列的头部。</p>
+
+<p><br /></p>
+
+<h3 id="lock锁">Lock锁</h3>
+
+<p>锁是用来控制多个资源访问共享资源的方式，一般来说，一个锁能够防止多个线程同时访问共享资源（但是有些锁可以允许并发地访问共享资源，比如读写锁）。在 Lock接口出现以前，java是靠synchronized关键字来实现锁功能的，而在java SE 1.5以后，并发包中新增了Lock接口（以及相关实现类），它提供了与synchronized关键字类似的同步功能，只是在使用时需要显式地获取和释放锁，虽然他缺少了synchronized隐式获取释放锁的便捷性，但却拥有了锁获取与释放的可操作性、可中断的获取锁以及超时获取锁等多种synchronized关键字所不具备的同步通特性。Lock接口的实现基本都是通过聚合了一个同步器的子类来完成线程访问控制的。</p>
+
+<p>Lock的使用也很简单，如下所示：</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+	<span class="n">Lock</span> <span class="n">lock</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ReentrantLock</span><span class="o">();</span>
+	<span class="n">lock</span><span class="o">.</span><span class="na">lock</span><span class="o">();</span>
+	<span class="k">try</span> <span class="o">{</span>
+		<span class="c1">// TODO</span>
+        <span class="c1">// 不要将获取锁的操作写在try块中，因为如果在获取锁(自定义锁的实现)时发生了异常</span>
+        <span class="c1">// 异常发生的同时，也会导致锁无辜释放</span>
+	<span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+		<span class="n">lock</span><span class="o">.</span><span class="na">unlock</span><span class="o">();</span> <span class="c1">//保证锁最终能够尽量释放</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>Lock接口提供的synchronized关键字所不具备的主要特性：</p>
+
+<ul>
+  <li>尝试非阻塞地获取锁：当前线程A尝试获取锁，如果这一时刻锁没有被其他线程获取到，则成功获取并持有锁</li>
+  <li>能被中断地获取锁：当获取到锁的线程被中断时，中断异常将会抛出，同时锁会被释放</li>
+  <li>超时获取锁：在指定的截止时间之前获取锁，如果截止时间到了仍没有获取到锁则返回</li>
+</ul>
+
+<p>Lock接口的API：</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="c1">//获取锁，调用该方法当前线程会获取锁，获取到之后从该方法返回</span>
+<span class="kt">void</span> <span class="nf">lock</span><span class="o">()</span>
+
+<span class="c1">//可中断地获取锁，和lock方法不同的是该方法会响应中断，即在锁的获取中可以中断当前线程</span>
+<span class="kt">void</span> <span class="nf">lockInterruptibly</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">InterruptedException</span>
+
+<span class="c1">//尝试非阻塞的获取锁，调用该方法后立即返回，如果能够获取则返回true，否则false</span>
+<span class="kt">boolean</span> <span class="nf">tryLock</span><span class="o">()</span>
+
+<span class="c1">//超时地获取锁当前线程在以下3中情况下会返回：</span>
+<span class="c1">//当前线程在超时时间内获取了锁</span>
+<span class="c1">//当前线程在超时时间内被中断</span>
+<span class="c1">//超时时间结束，返回false</span>
+<span class="kt">boolean</span> <span class="nf">tryLock</span><span class="o">(</span><span class="kt">long</span> <span class="n">time</span><span class="o">,</span> <span class="n">TimeUnit</span> <span class="n">unit</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">InterruptedException</span>
+
+<span class="c1">//释放锁</span>
+<span class="kt">void</span> <span class="nf">unlock</span><span class="o">()</span>
+
+<span class="c1">//获取等待通知组件，该组件和当前的锁绑定，当前线程只有获得了锁，才能调用该组件的wait方法，</span>
+<span class="c1">//而调用之后当前线程则释放锁。</span>
+<span class="n">Condition</span> <span class="nf">newCondition</span><span class="o">()</span>
+</code></pre>
+</div>
+
+<p><br /></p>
+
+<h3 id="队列同步器">队列同步器</h3>
+
+<p>队列同步器（AbstractQueuedSynchronizer），以下简同步器，是用来构建锁，或者是其他同步组件的基础框架，它使用了int成员滨量表示同步状态，通过内置的FIFO队列来完成资源获取线程的排队工作。并发包的作者（Doug Lea）期望它能够称为实现大部分同步需求的基础。</p>
+
+<p>同步器的主要使用方式是继承，子类通过继承同步器并实现它的抽象法法来管理同步状态，在抽象方法实现的过程中免不了要对同步的状态进行更改，这时候就要使用同步器提供的3个接口：</p>
+
+<ul>
+  <li>getState()</li>
+  <li>setState(int newState)</li>
+  <li>compareAndSetState(int expect, int update)</li>
+</ul>
+
+<p>因为他们能够保证状态的改变是安全的。子类推荐被定义为自定义同步组件的静态内部类，同步器自身并没有实现任何同步接口，他仅仅是定义了若干同步状态获取和释放的方法来供自定义同步组件来使用，同步器既可以支持独占式的获取同步状态，也可以支持共享式地获取同步状态，这样就可以方便的实现不同类型的同步组件（ReentrantLock、ReentrantReadWriteLock、CountDownLatch等）。</p>
+
+<p>同步器是实现锁（也可以是任意同步组件）的关键，在锁的实现中聚合同步器，利用同步器实现锁的语义。这样可以理解二者之间的关系：锁是面向使用者的，它定义了使用者与锁交互的接口（比如他可以允许两个线程并行访问），隐藏了实现细节；同步器是面向锁的实现者的，他简化了锁的实现方式，屏蔽了同步状态管理、线程的排队、等待与唤醒等底层操作。锁和同步器很好的隔离了使用者和实现者锁关注的领域。</p>
+
+<p><br /></p>
+
+<p><strong>队列同步器的接口与示例</strong></p>
+
+<p>同步器的设计是基于模板方法模式的，也就是说，使用者需要继承同步器指定的方法，随后将同步器组合在自定义同步组件的实现中，并调用同步器提供的模板方法，而这些模板方法将会调用使用者重写的方法。</p>
+
+<p>重写同步器指定的方法时，需要使用同步器提供的如下三个方法来访问或修改同步状态，即上面提到的getState、setState、compareAndSetState三个方法。</p>
+
+<p><code class="highlighter-rouge">同步器可重写的方法</code>：</p>
+
+<ul>
+  <li>protected boolean tryAcquire(int arg)：独占式获取同步状态，实现该方法需要查询当前状态并判断同步状态状态是否符合预期，然后进行CAS设置同步状态；</li>
+  <li>protected boolean tryRelease(int arg)：独占式释放同步状态，等待获取同步状态的线程将有机会获取同步状态；</li>
+  <li>protected int tryAcquireShared(int arg)：共享式获取同步状态，发回值大于或等于0的值表示获取成功，反之获取失败；</li>
+  <li>protected boolean tryReleaseShared(int arg)：共享式释放同步状态；</li>
+  <li>protected boolean isHeldExclusively()：当前同步器是否在独占模式下被线程占用，一般该方法表示是否被当前线程所独占；</li>
+</ul>
+
+<p><code class="highlighter-rouge">同步器提供的模板方法</code>基本上分为三类：</p>
+
+<ul>
+  <li>独占式获取和释放同步状态
+    <ul>
+      <li>void acquire(int arg)：独占式获取同步状态，如果当前线程获取同步状态成功则由该方法返回，否则将会进入同步队列中等待，该方法将会调用重写的tryAcquire(int arg)方法；</li>
+      <li>void acquireInterruptibly(int arg)：与acquire相同，但是该方法会响应中断，当前线程未获取到线程同步状态而进入同步队列中，如果当前线程被中断，则该方法会抛出InterruptedException并返回；</li>
+      <li>boolean tryAcquireNanos(int arg, long nanos)：在acquireInterruptibly的基础上增加了超时限制，如果当前线程在超时时间内没有获取到同步状态，那么将会返回false，如果获取到了则返回true；</li>
+      <li>boolean release(int arg)：独占式的释放同步状态，该方法在释放同步状态之后，将同步队列中第一个节点包含的线程唤醒；</li>
+    </ul>
+  </li>
+  <li>共享式获取和释放同步状态
+    <ul>
+      <li>void acquireShared(int arg)：共享式地获取同步状态，如果当前线程未获取到同步状态，将会进入到同步队列中等待，与独占式的主要区别在于同一个时刻可以有多个线程获取到同步状态；</li>
+      <li>void acquireSharedInterruptibly(int arg)：与acquireShared相同，该方法响应中断；</li>
+      <li>boolean tryAcquireSharedNanos(int arg, long nanos)：在acquireSharedInterruptibly 基础上增加了超时限制；</li>
+      <li>boolean releaseShared(int arg)：共享式地释放同步状态；</li>
+    </ul>
+  </li>
+  <li>查询同步队列中的等待线程状况
+    <ul>
+      <li>Collection<Thread> getQueuedThreads()：获取等待在同步队列上的线程集合；</Thread></li>
+    </ul>
+  </li>
+</ul>
+
+<p>只有掌握了同步器的工作原理才能更加深入地理解并发包中其他的并发组件，所以下面通过一个独占锁的示例来深入了解一下同步器的工作原理。顾名思义，独占锁就是在同一个时刻，只能有一个线程获取到锁，而其他获取锁的线程只能处于同步队列中等待，只有获取锁的线程释放的锁，后继的线程才能获取锁。代码示例如下：</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.util.concurrent.TimeUnit</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.concurrent.locks.AbstractQueuedSynchronizer</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.concurrent.locks.Condition</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.concurrent.locks.Lock</span><span class="o">;</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Mutex</span> <span class="kd">implements</span> <span class="n">Lock</span> <span class="o">{</span>
+	<span class="cm">/**
+	 * 静态内部类：自定义同步器
+	 */</span>
+	<span class="kd">private</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">Sync</span> <span class="kd">extends</span> <span class="n">AbstractQueuedSynchronizer</span> <span class="o">{</span>
+		<span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">long</span> <span class="n">serialVersionUID</span> <span class="o">=</span> <span class="mi">1L</span><span class="o">;</span>
+
+		<span class="nd">@Override</span>
+		<span class="kd">protected</span> <span class="kt">boolean</span> <span class="nf">tryAcquire</span><span class="o">(</span><span class="kt">int</span> <span class="n">arg</span><span class="o">)</span> <span class="o">{</span> <span class="c1">//当状态为0的时候获取锁</span>
+			<span class="k">if</span> <span class="o">(</span><span class="n">compareAndSetState</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">1</span><span class="o">))</span> <span class="o">{</span>
+				<span class="n">setExclusiveOwnerThread</span><span class="o">(</span><span class="n">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">());</span>
+				<span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+			<span class="o">}</span>
+			<span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+		<span class="o">}</span>
+
+		<span class="nd">@Override</span>
+		<span class="kd">protected</span> <span class="kt">boolean</span> <span class="nf">tryRelease</span><span class="o">(</span><span class="kt">int</span> <span class="n">arg</span><span class="o">)</span> <span class="o">{</span> <span class="c1">//释放锁并将同步状态设置为0</span>
+			<span class="k">if</span> <span class="o">(</span><span class="n">getState</span><span class="o">()==</span><span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+				<span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalMonitorStateException</span><span class="o">();</span>
+			<span class="o">}</span>
+			<span class="n">setExclusiveOwnerThread</span><span class="o">(</span><span class="kc">null</span><span class="o">);</span>
+			<span class="n">setState</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+			<span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+		<span class="o">}</span>
+
+		<span class="nd">@Override</span>
+		<span class="kd">protected</span> <span class="kt">boolean</span> <span class="nf">isHeldExclusively</span><span class="o">()</span> <span class="o">{</span> <span class="c1">//是否处于独占状态</span>
+			<span class="k">return</span> <span class="nf">getState</span><span class="o">()==</span><span class="mi">1</span><span class="o">;</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+	
+	<span class="c1">//仅需将操作代理到Sync上即可</span>
+	<span class="kd">private</span> <span class="kd">final</span> <span class="n">Sync</span> <span class="n">sync</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Sync</span><span class="o">();</span>
+	
+	
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">lock</span><span class="o">()</span> <span class="o">{</span>
+		<span class="n">sync</span><span class="o">.</span><span class="na">acquire</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+	<span class="o">}</span>
+	
+	<span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isLocked</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">sync</span><span class="o">.</span><span class="na">isHeldExclusively</span><span class="o">();</span>
+	<span class="o">}</span>
+
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">lockInterruptibly</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">InterruptedException</span> <span class="o">{</span>
+		<span class="n">sync</span><span class="o">.</span><span class="na">acquireInterruptibly</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+	<span class="o">}</span>
+
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">tryLock</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">sync</span><span class="o">.</span><span class="na">tryAcquire</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+	<span class="o">}</span>
+
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">tryLock</span><span class="o">(</span><span class="kt">long</span> <span class="n">timeout</span><span class="o">,</span> <span class="n">TimeUnit</span> <span class="n">unit</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">InterruptedException</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">sync</span><span class="o">.</span><span class="na">tryAcquireNanos</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">unit</span><span class="o">.</span><span class="na">toNanos</span><span class="o">(</span><span class="n">timeout</span><span class="o">));</span>
+	<span class="o">}</span>
+
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">unlock</span><span class="o">()</span> <span class="o">{</span>
+		<span class="n">sync</span><span class="o">.</span><span class="na">release</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+	<span class="o">}</span>
+
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="n">Condition</span> <span class="nf">newCondition</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">sync</span><span class="o">.</span><span class="na">new</span> <span class="nf">ConditionObject</span><span class="o">();</span>
+	<span class="o">}</span>
+	
+	<span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">hasQueuedThreads</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">sync</span><span class="o">.</span><span class="na">hasQueuedThreads</span><span class="o">();</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>上述示例中独占锁Mutex是一个自定义的同步组件，他是在同一个时刻只允许一个线程占有锁。Mutex中定义了一个静态内部类，该内部类继承了同步器并实现了同步获取和释放同步状态。在tryAcquire(int acquires)方法中，如果经过CAS设置成功（同步状态设置为1），则表示获取了同步状态，而在tryRelease(int releases)中只是将同步状态重置为0，用户使用Mutex时并不会直接和内部的同步器实现打交道，而是调用Mutex提供的方法。在Mutex的实现中，以获取lock()为例，只需要在方法实现中调用同步器的模板方法aquire(int args)即可，当前线程调用该方法获取同步状态失败后会被加入到同步队列中等待，这样就大大降低了实现一个可靠同步组件的门槛。</p>
+
+<p><br /></p>
+
+<h3 id="队列同步器的实现分析">队列同步器的实现分析</h3>
+
+<p>接下来将从实现角度分析同步器是如何完成线程同步的，主要包括：同步队列、独占式同步状态获取与释放、共享式同步状态获取与释放、超时获同步状态等同步器的核心数据结构与模板方法。</p>
+
+<p><strong>同步队列</strong></p>
+
+<p>同步器依赖内部的同步队列（一个双向的FIFO队列）来完成同步状态的管理，当前线程获取同步状态失败时，同步器会将当前线程以及等待状态信息构造成一个节点（Node）并将其加入同步队列，同时会阻塞当前线程。当同步状态释放时，会把首节点中的线程唤醒，使其再次尝试获取同步状态。</p>
+
+<p>同步队列中的节点（Node）用来保存 获取同步状态失败的线程 的引用、等待状态、以及前驱和后继节点，节点的属性类型和属性名称以及描述如下所示：</p>
+
+<pre><code class="language-default">init waitStatus: 等待状态，包含如下状态：
+	1.CANCELLED，值为1，由于在同步队列中等待的线程超时或者被中断，需要从同步队列中取消等待，节点进入该状
+	  态讲不会发生变化
+	2.SIGNAL，值为-1，后继节点的线程处于等待状态，而当前节点的线程如果释放了同步状态或者被取消，将会通知
+	  后继节点，使后继节点的线程得以运行
+	3.CONDITION，值为-2，节点在等待队列中，结点线程等待在 Condition 上，当其他线程对Condition调用了
+	  signal()方法后，该节点将会从等待队列中转移到同步队列中，加入到对同步状态的获取中
+	4.PROPAGATE，值为3，表示下一次共享式同步状态获取将会无条件的传播下去
+	4.INITIAL，值为0，初始状态
+</code></pre>
+
+<p>下面是Node静态内部类的源码：</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">static</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">Node</span> <span class="o">{</span>  
+        <span class="cm">/** 标识一个这个节点是否为shared类型 */</span>  
+        <span class="kd">static</span> <span class="kd">final</span> <span class="n">Node</span> <span class="n">SHARED</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Node</span><span class="o">();</span>  
+        <span class="cm">/** Marker to indicate a node is waiting in exclusive mode */</span>  
+        <span class="kd">static</span> <span class="kd">final</span> <span class="n">Node</span> <span class="n">EXCLUSIVE</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>  
+  
+        <span class="cm">/** waitStatus value to indicate thread has cancelled */</span>  
+        <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">CANCELLED</span> <span class="o">=</span>  <span class="mi">1</span><span class="o">;</span>  
+        <span class="cm">/** waitStatus value to indicate successor's thread needs unparking */</span>  
+        <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">SIGNAL</span>    <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">;</span>  
+        <span class="cm">/** waitStatus value to indicate thread is waiting on condition */</span>  
+        <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">CONDITION</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span><span class="o">;</span>  
+        <span class="cm">/** 
+         * waitStatus value to indicate the next acquireShared should 
+         * unconditionally propagate 
+         */</span>  
+        <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">PROPAGATE</span> <span class="o">=</span> <span class="o">-</span><span class="mi">3</span><span class="o">;</span>  
+  
+        <span class="cm">/** 
+         *   等待状态值，又以下状态值: 
+         * 
+         *   SIGNAL:     值为-1 ，后续节点处于等待状态，而当前节点的线程如果 
+         *               释放了同步状态或者取消等待，节点进入该状态不会变化           
+         *   CANCELLED:  值为 1，由于在同步队列中等待的线程等待超时或者被中断 
+         *               需要从同步队列中取消等待，节点进入该状态将不会变化                     
+         *   CONDITION:  值为-2，节点在等待队列中，节点线程等待在Condition上， 
+         *               当其他线程对Condition调用了signal()方法后，该节点将会 
+         *               从等待队里中转移到同步队列中，加入对同步状态的获取中 
+         
+         *   PROPAGATE:  值为-3，表示下一次共享式同步状态获取将会无条件地被传播下去 
+         *             
+         *   0:          初始化状态 
+         */</span>  
+        <span class="kd">volatile</span> <span class="kt">int</span> <span class="n">waitStatus</span><span class="o">;</span>  
+  
+        <span class="cm">/** 
+         * 前驱节点，当节点加入同步队列时被设置 
+         */</span>  
+        <span class="kd">volatile</span> <span class="n">Node</span> <span class="n">prev</span><span class="o">;</span>  
+  
+         <span class="cm">/** 
+         * 后继节点 
+         */</span>  
+        <span class="kd">volatile</span> <span class="n">Node</span> <span class="n">next</span><span class="o">;</span>  
+  
+        <span class="cm">/** 
+         * 获取状态状态的线程 
+         */</span>  
+        <span class="kd">volatile</span> <span class="n">Thread</span> <span class="n">thread</span><span class="o">;</span>  
+  
+         <span class="cm">/** 
+         * 等待队列中的后继节点。如果当前节点是共享的，那么这个字段是一个shared常量， 
+         * 也就是说节点类型（独占或共享）和等待队列中个后继节点共用同一个字段 
+         */</span>  
+        <span class="n">Node</span> <span class="n">nextWaiter</span><span class="o">;</span>  
+  
+        <span class="cm">/** 
+         * Returns true if node is waiting in shared mode. 
+         */</span>  
+        <span class="kd">final</span> <span class="kt">boolean</span> <span class="nf">isShared</span><span class="o">()</span> <span class="o">{</span>  
+            <span class="k">return</span> <span class="n">nextWaiter</span> <span class="o">==</span> <span class="n">SHARED</span><span class="o">;</span>  
+        <span class="o">}</span>  
+  
+        <span class="cm">/** 
+         * Returns previous node, or throws NullPointerException if null. 
+         * Use when predecessor cannot be null.  The null check could 
+         * be elided, but is present to help the VM. 
+         * 
+         * @return the predecessor of this node 
+         */</span>  
+        <span class="kd">final</span> <span class="n">Node</span> <span class="nf">predecessor</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">NullPointerException</span> <span class="o">{</span>  
+            <span class="n">Node</span> <span class="n">p</span> <span class="o">=</span> <span class="n">prev</span><span class="o">;</span>  
+            <span class="k">if</span> <span class="o">(</span><span class="n">p</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>  
+                <span class="k">throw</span> <span class="k">new</span> <span class="nf">NullPointerException</span><span class="o">();</span>  
+            <span class="k">else</span>  
+                <span class="k">return</span> <span class="n">p</span><span class="o">;</span>  
+        <span class="o">}</span>  
+  
+        <span class="n">Node</span><span class="o">()</span> <span class="o">{</span>    <span class="c1">// Used to establish initial head or SHARED marker  </span>
+        <span class="o">}</span>  
+  
+        <span class="n">Node</span><span class="o">(</span><span class="n">Thread</span> <span class="n">thread</span><span class="o">,</span> <span class="n">Node</span> <span class="n">mode</span><span class="o">)</span> <span class="o">{</span>     <span class="c1">// Used by addWaiter  </span>
+            <span class="k">this</span><span class="o">.</span><span class="na">nextWaiter</span> <span class="o">=</span> <span class="n">mode</span><span class="o">;</span>  
+            <span class="k">this</span><span class="o">.</span><span class="na">thread</span> <span class="o">=</span> <span class="n">thread</span><span class="o">;</span>  
+        <span class="o">}</span>  
+  
+        <span class="n">Node</span><span class="o">(</span><span class="n">Thread</span> <span class="n">thread</span><span class="o">,</span> <span class="kt">int</span> <span class="n">waitStatus</span><span class="o">)</span> <span class="o">{</span> <span class="c1">// Used by Condition  </span>
+            <span class="k">this</span><span class="o">.</span><span class="na">waitStatus</span> <span class="o">=</span> <span class="n">waitStatus</span><span class="o">;</span>  
+            <span class="k">this</span><span class="o">.</span><span class="na">thread</span> <span class="o">=</span> <span class="n">thread</span><span class="o">;</span>  
+        <span class="o">}</span>  
+    <span class="o">}</span> 
+</code></pre>
+</div>
+
+<p><br /></p>
+
+<h3 id="独占式同步状态的获取与释放">独占式同步状态的获取与释放</h3>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="c1">//主要完成同步状态的获取、节点的构造、加入同步队列、以及在同步队列中进行自旋等待的相关工作</span>
+<span class="c1">//其主要逻辑是：首先调用自定义同步器实现 tryAcquire(int arg) 的方法，该方法保证线程安全</span>
+<span class="c1">//地获取同步状态，如果同步状态获取失败，则构造同步节点(独占式Node.EXCLUSIVE,同一时刻只能</span>
+<span class="c1">//有一个线程成功获取同步状态)并通过 addWaiter(Node node)方法将该节点加入到同步队列的尾部，</span>
+<span class="c1">//最后调用 acquireQueued(Node node, int arg) 方法，使得该节点以“死循环“的方式获取同步</span>
+<span class="c1">//状态。如果获取不到则阻塞节点中的线程，而被阻塞线程的唤醒需要依靠前驱节点的出队 或者阻塞线程</span>
+<span class="c1">//的中断来实现</span>
+<span class="kd">public</span> <span class="kd">final</span> <span class="kt">void</span> <span class="nf">acquire</span><span class="o">(</span><span class="kt">int</span> <span class="n">arg</span><span class="o">)</span> <span class="o">{</span>
+  	<span class="k">if</span> <span class="o">(!</span><span class="n">tryAcquire</span><span class="o">(</span><span class="n">arg</span><span class="o">)</span> <span class="o">&amp;&amp;</span>
+     	 <span class="n">acquireQueued</span><span class="o">(</span><span class="n">addWaiter</span><span class="o">(</span><span class="n">Node</span><span class="o">.</span><span class="na">EXCLUSIVE</span><span class="o">),</span> <span class="n">arg</span><span class="o">))</span>
+    	<span class="n">selfInterrupt</span><span class="o">();</span>
+<span class="o">}</span>
+
+
+<span class="c1">//compareAndSetTail(Node expect, Node update)保证了节点能够被线程安全的添加。试想一下，</span>
+<span class="c1">//如果使用一个普通的LinkedList来维护节点之间的关系，那么当一个线程获取了同步状态，而其他线程</span>
+<span class="c1">//由于调用 tryAcquire(int arg) 方法获取同步状态失败而被并发地添加到Linkedlist中时，</span>
+<span class="c1">//LinkedList将难以保证Node的正确添加，最终的结果可能是节点的数量有偏差，而且顺序也是乱的</span>
+<span class="kd">private</span> <span class="n">Node</span> <span class="nf">addWaiter</span><span class="o">(</span><span class="n">Node</span> <span class="n">mode</span><span class="o">)</span> <span class="o">{</span>
+  	<span class="n">Node</span> <span class="n">node</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Node</span><span class="o">(</span><span class="n">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">(),</span> <span class="n">mode</span><span class="o">);</span>
+  	<span class="c1">// Try the fast path of enq; backup to full enq on failure</span>
+  	<span class="n">Node</span> <span class="n">pred</span> <span class="o">=</span> <span class="n">tail</span><span class="o">;</span>
+  	<span class="k">if</span> <span class="o">(</span><span class="n">pred</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+    	<span class="n">node</span><span class="o">.</span><span class="na">prev</span> <span class="o">=</span> <span class="n">pred</span><span class="o">;</span>
+    	<span class="k">if</span> <span class="o">(</span><span class="n">compareAndSetTail</span><span class="o">(</span><span class="n">pred</span><span class="o">,</span> <span class="n">node</span><span class="o">))</span> <span class="o">{</span>
+      		<span class="n">pred</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">node</span><span class="o">;</span>
+      		<span class="k">return</span> <span class="n">node</span><span class="o">;</span>
+    	<span class="o">}</span>
+  	<span class="o">}</span>
+  	<span class="n">enq</span><span class="o">(</span><span class="n">node</span><span class="o">);</span>
+  	<span class="k">return</span> <span class="n">node</span><span class="o">;</span>
+<span class="o">}</span>
+
+<span class="c1">//enq(final Node node)方法中，同步器通过”死循环”来保证节点的正确添加，在“死循环”中只有</span>
+<span class="c1">//通过CAS将节点设置为尾节点之后，当前线程才能从该方法中返回，否则当前线程不断地尝试设置。可以</span>
+<span class="c1">//看出，该方法将并发添加节点的请求通过CAS变得"串行化"了</span>
+<span class="kd">private</span> <span class="n">Node</span> <span class="nf">enq</span><span class="o">(</span><span class="kd">final</span> <span class="n">Node</span> <span class="n">node</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">for</span> <span class="o">(;;)</span> <span class="o">{</span>
+        <span class="n">Node</span> <span class="n">t</span> <span class="o">=</span> <span class="n">tail</span><span class="o">;</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">t</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span> <span class="c1">// Must initialize</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">compareAndSetHead</span><span class="o">(</span><span class="k">new</span> <span class="n">Node</span><span class="o">()))</span>
+                <span class="n">tail</span> <span class="o">=</span> <span class="n">head</span><span class="o">;</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="n">node</span><span class="o">.</span><span class="na">prev</span> <span class="o">=</span> <span class="n">t</span><span class="o">;</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">compareAndSetTail</span><span class="o">(</span><span class="n">t</span><span class="o">,</span> <span class="n">node</span><span class="o">))</span> <span class="o">{</span>
+                <span class="n">t</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">node</span><span class="o">;</span>
+                <span class="k">return</span> <span class="n">t</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="c1">//节点进入到同步队列之后，就进入了一个自旋的过程，每个节点（或者说每个线程）都在自省地观察，</span>
+<span class="c1">//当条件满足获取到同步状态时，就可以从这个自旋的过程中退出，否则依旧留在这个自旋的过程中（</span>
+<span class="c1">//并且阻塞节点的线程），代码如下。在该方法中当前线程在“死循环”中尝试获取同步状态，而只有</span>
+<span class="c1">//前驱节点是头结点才能尝试获取同步状态（这样保证了早获取早通知的逻辑思路）。</span>
+<span class="kd">final</span> <span class="kt">boolean</span> <span class="nf">acquireQueued</span><span class="o">(</span><span class="kd">final</span> <span class="n">Node</span> <span class="n">node</span><span class="o">,</span> <span class="kt">int</span> <span class="n">arg</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kt">boolean</span> <span class="n">failed</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="k">try</span> <span class="o">{</span>
+        <span class="kt">boolean</span> <span class="n">interrupted</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+        <span class="k">for</span> <span class="o">(;;)</span> <span class="o">{</span>
+            <span class="kd">final</span> <span class="n">Node</span> <span class="n">p</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="na">predecessor</span><span class="o">();</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">p</span> <span class="o">==</span> <span class="n">head</span> <span class="o">&amp;&amp;</span> <span class="n">tryAcquire</span><span class="o">(</span><span class="n">arg</span><span class="o">))</span> <span class="o">{</span>
+                <span class="n">setHead</span><span class="o">(</span><span class="n">node</span><span class="o">);</span>
+                <span class="n">p</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span> <span class="c1">// help GC</span>
+                <span class="n">failed</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+                <span class="k">return</span> <span class="n">interrupted</span><span class="o">;</span>
+            <span class="o">}</span>	
+            <span class="k">if</span> <span class="o">(</span><span class="n">shouldParkAfterFailedAcquire</span><span class="o">(</span><span class="n">p</span><span class="o">,</span> <span class="n">node</span><span class="o">)</span> <span class="o">&amp;&amp;</span>
+                <span class="n">parkAndCheckInterrupt</span><span class="o">())</span>
+                <span class="n">interrupted</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">failed</span><span class="o">)</span>
+            <span class="n">cancelAcquire</span><span class="o">(</span><span class="n">node</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>独占式同步状态获取流程如下图所示：</p>
+
+<pre><code class="language-default">获取同步状态-------失败--------&gt;生成节点
+	|							|
+	|							|
+	|							|/
+	|						加入到同步队列尾部
+    |                       	|
+    |							|CAS设置
+    |                        	|							 
+	|						前驱是否为头结点------------&gt;&lt;------|		
+    |							|					  |	 	线程被中断或者前驱节点被释放
+    |							|Y					线程进入等待状态
+    |							|/					  |
+    |						获取同步状态------失败-------&gt;
+    |							|
+    |							成功
+    |							|
+    |							|/
+    |&lt;-----------------------当前节点设置成头节点	
+	|
+	|/	
+ 退出返回
+</code></pre>
+
+<p>当同步状态获取成功以后，当前线程从acquire(int arg)方法返回，对于锁这种并发组件而言，代表着当前线程获取了锁。</p>
+
+<p>当前线程获取同步状态并执行了相应的逻辑之后，就需要释放同步状态，使得后续节点能够继续获取同步状态。代码如下：</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="c1">//该方法释放了同步状态之后，会唤醒其后继节点(进而使得后继节点能够重新尝试获取同步状态)</span>
+<span class="kd">public</span> <span class="kd">final</span> <span class="kt">boolean</span> <span class="nf">release</span><span class="o">(</span><span class="kt">int</span> <span class="n">arg</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">tryRelease</span><span class="o">(</span><span class="n">arg</span><span class="o">))</span> <span class="o">{</span>
+        <span class="n">Node</span> <span class="n">h</span> <span class="o">=</span> <span class="n">head</span><span class="o">;</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">h</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">h</span><span class="o">.</span><span class="na">waitStatus</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">)</span>
+            <span class="n">unparkSuccessor</span><span class="o">(</span><span class="n">h</span><span class="o">);</span>
+        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>分析了独占式同步状态的获取和释放之后，适当做个小结：</p>
+
+<ol>
+  <li>在获取同步状态时，同步器维护一个同步队列，获取同步状态失败的线程都会被加入到队列中，并在队列中进行自旋；</li>
+  <li>移出队列（或停止自旋）的条件是前驱节点成为头节点且成功获取了同步状态；</li>
+  <li>在释放同步状态时，同步器调用了tryRelease(int arg)方法，唤醒头结点的后续节点，使得后续节点能够继续获取同步状态。</li>
+</ol>
+
+<p><br /></p>
+
+<h3 id="共享式同步状态的获取和释放">共享式同步状态的获取和释放</h3>
+
+<p>共享式获取与独占式获取最主要的差别在于同一时刻能否有多个线程同时获取到同步状态。以文件的读写为例，如果一个程序在对文件进行读操作，那么这一个时刻对于该文件的写操作均被阻塞，而读操作能够同时进行。写操作要求对资源的独占式访问，而读操作可以是共享式访问。</p>
+
+<p>共享式访问资源时，其他共享式的访问均被允许，而独占式的访问被阻塞；独占式访问资源时，同一时刻其他访问均被阻塞。</p>
+
+<p>通过调用同步器的acquireShared(int arg)方法可以共享式地获取同步状态，该方法代码如下：</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>
+<span class="kd">public</span> <span class="kd">final</span> <span class="kt">void</span> <span class="nf">acquireShared</span><span class="o">(</span><span class="kt">int</span> <span class="n">arg</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">tryAcquireShared</span><span class="o">(</span><span class="n">arg</span><span class="o">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="o">)</span>
+        <span class="n">doAcquireShared</span><span class="o">(</span><span class="n">arg</span><span class="o">);</span> <span class="c1">//获取同步状态失败后</span>
+<span class="o">}</span>
+
+<span class="kd">private</span> <span class="kt">void</span> <span class="nf">doAcquireShared</span><span class="o">(</span><span class="kt">int</span> <span class="n">arg</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">final</span> <span class="n">Node</span> <span class="n">node</span> <span class="o">=</span> <span class="n">addWaiter</span><span class="o">(</span><span class="n">Node</span><span class="o">.</span><span class="na">SHARED</span><span class="o">);</span>
+    <span class="kt">boolean</span> <span class="n">failed</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="k">try</span> <span class="o">{</span>
+        <span class="kt">boolean</span> <span class="n">interrupted</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+        <span class="k">for</span> <span class="o">(;;)</span> <span class="o">{</span>
+            <span class="kd">final</span> <span class="n">Node</span> <span class="n">p</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="na">predecessor</span><span class="o">();</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">p</span> <span class="o">==</span> <span class="n">head</span><span class="o">)</span> <span class="o">{</span>
+                <span class="kt">int</span> <span class="n">r</span> <span class="o">=</span> <span class="n">tryAcquireShared</span><span class="o">(</span><span class="n">arg</span><span class="o">);</span> <span class="c1">//如果当前节点的前驱节点是头结点，尝试获取同步状态</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">r</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>				   <span class="c1">//获取同步状态成功后</span>
+                    <span class="n">setHeadAndPropagate</span><span class="o">(</span><span class="n">node</span><span class="o">,</span> <span class="n">r</span><span class="o">);</span>
+                    <span class="n">p</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span> <span class="c1">// help GC</span>
+                    <span class="k">if</span> <span class="o">(</span><span class="n">interrupted</span><span class="o">)</span>
+                        <span class="n">selfInterrupt</span><span class="o">();</span>
+                    <span class="n">failed</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+                    <span class="k">return</span><span class="o">;</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">shouldParkAfterFailedAcquire</span><span class="o">(</span><span class="n">p</span><span class="o">,</span> <span class="n">node</span><span class="o">)</span> <span class="o">&amp;&amp;</span>
+                <span class="n">parkAndCheckInterrupt</span><span class="o">())</span>
+                <span class="n">interrupted</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">failed</span><span class="o">)</span>
+            <span class="n">cancelAcquire</span><span class="o">(</span><span class="n">node</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>与独占式一样，共享式获取也需要释放同步状态，代码如下：</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="c1">//该方法在释放同步状态之后，将会唤醒后续处于等待状态的节点</span>
+<span class="c1">//对于能够支持多个线程同时访问的并发组件(e.g. Semaphore)，在释放资源上它和独占式的主要区别在于</span>
+<span class="c1">//tryReleaseShared(int arg)方法必须确保同步状态(或者资源数)线程被安全释放，一般是通过循环和CAS</span>
+<span class="c1">//来保证的，因为释放同步状态的操作会来自于多个线程。</span>
+<span class="kd">public</span> <span class="kd">final</span> <span class="kt">boolean</span> <span class="nf">releaseShared</span><span class="o">(</span><span class="kt">int</span> <span class="n">arg</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">tryReleaseShared</span><span class="o">(</span><span class="n">arg</span><span class="o">))</span> <span class="o">{</span>
+        <span class="n">doReleaseShared</span><span class="o">();</span>
+        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+<span class="o">}</span>
+
+<span class="kd">private</span> <span class="kt">void</span> <span class="nf">doReleaseShared</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">for</span> <span class="o">(;;)</span> <span class="o">{</span>
+        <span class="n">Node</span> <span class="n">h</span> <span class="o">=</span> <span class="n">head</span><span class="o">;</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">h</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">h</span> <span class="o">!=</span> <span class="n">tail</span><span class="o">)</span> <span class="o">{</span>
+            <span class="kt">int</span> <span class="n">ws</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="na">waitStatus</span><span class="o">;</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">ws</span> <span class="o">==</span> <span class="n">Node</span><span class="o">.</span><span class="na">SIGNAL</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">(!</span><span class="n">compareAndSetWaitStatus</span><span class="o">(</span><span class="n">h</span><span class="o">,</span> <span class="n">Node</span><span class="o">.</span><span class="na">SIGNAL</span><span class="o">,</span> <span class="mi">0</span><span class="o">))</span>
+                    <span class="k">continue</span><span class="o">;</span>            <span class="c1">// loop to recheck cases</span>
+                <span class="n">unparkSuccessor</span><span class="o">(</span><span class="n">h</span><span class="o">);</span>
+            <span class="o">}</span>
+            <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="n">ws</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span>
+                     <span class="o">!</span><span class="n">compareAndSetWaitStatus</span><span class="o">(</span><span class="n">h</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">Node</span><span class="o">.</span><span class="na">PROPAGATE</span><span class="o">))</span>
+                <span class="k">continue</span><span class="o">;</span>                <span class="c1">// loop on failed CAS</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">h</span> <span class="o">==</span> <span class="n">head</span><span class="o">)</span>                   <span class="c1">// loop if head changed</span>
+            <span class="k">break</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p><br /></p>
+
+<h3 id="自定义一个同步组件-twinslock">自定义一个同步组件-TwinsLock</h3>
+
+<p>设计一个同步工具，该工具在同一个时刻只允许至多两个线程同时访问，超过两个线程的访问将被阻塞，我们江浙个同步工具命名为TwinsLock。</p>
+
+<ul>
+  <li>首先确定其访问模式。TwinsLock能够在同一时刻支持多个线程的访问，这显然是共享式访问，因此需要使用同步器提供的acquireShared(int arg)等和Shared相关的方法，这就要求TwinsLock必须重写 tryAcquireShared(int arg)方法 和 tryReleaseShared(int arg)方法，这样才能保证同步器的共享式同步状态的获取与释放方法得以执行。</li>
+  <li>其次定义资源数。TwinsLock在同一个时刻只允许至多两个线程同时访问，表明同步资源数为2，这样可以设置初始状态status为2，当一个线程进行获取则status减1，该线程释放则status加1，状态的合法范围为2、1、0，其中0表示当前已经有两个线程获取了同步资源，此时再有其他线程对同步状态进行获取的话，该线程只能被移入到阻塞队列中去。在同步状态进行变更的时候，需要使用compareAndSet(int expect, int update)方法做原子性保障。</li>
+  <li>最后组合自定义同步器，一般情况下自定义同步器会被定义为自定义同步组件的内部类。</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.util.concurrent.TimeUnit</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.concurrent.locks.AbstractQueuedSynchronizer</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.concurrent.locks.Condition</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.concurrent.locks.Lock</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">TwinsLock</span> <span class="kd">implements</span> <span class="n">Lock</span> <span class="o">{</span>
+	<span class="kd">private</span> <span class="kd">final</span> <span class="n">Sync</span> <span class="n">sync</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Sync</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+	
+	<span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">Sync</span> <span class="kd">extends</span> <span class="n">AbstractQueuedSynchronizer</span> <span class="o">{</span>
+		<span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">long</span> <span class="n">serialVersionUID</span> <span class="o">=</span> <span class="mi">1L</span><span class="o">;</span>
+
+		<span class="n">Sync</span><span class="o">(</span><span class="kt">int</span> <span class="n">count</span><span class="o">)</span> <span class="o">{</span>
+			<span class="k">if</span> <span class="o">(</span><span class="n">count</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+				<span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalArgumentException</span><span class="o">(</span><span class="s">"count must large than 0"</span><span class="o">);</span>
+			<span class="o">}</span>
+			<span class="n">setState</span><span class="o">(</span><span class="n">count</span><span class="o">);</span>
+		<span class="o">}</span>
+
+		<span class="c1">//返回值大于0才表示当前线程才获取到了同步状态</span>
+		<span class="nd">@Override</span> 
+		<span class="kd">protected</span> <span class="kt">int</span> <span class="nf">tryAcquireShared</span><span class="o">(</span><span class="kt">int</span> <span class="n">reduceCount</span><span class="o">)</span> <span class="o">{</span>
+			<span class="k">for</span> <span class="o">(;;)</span> <span class="o">{</span>
+				<span class="kt">int</span> <span class="n">current</span> <span class="o">=</span> <span class="n">getState</span><span class="o">();</span>
+				<span class="kt">int</span> <span class="n">newCount</span> <span class="o">=</span> <span class="n">current</span><span class="o">-</span><span class="n">reduceCount</span><span class="o">;</span>
+				<span class="k">if</span> <span class="o">(</span><span class="n">newCount</span><span class="o">&lt;</span><span class="mi">0</span> <span class="o">||</span> <span class="n">compareAndSetState</span><span class="o">(</span><span class="n">current</span><span class="o">,</span> <span class="n">newCount</span><span class="o">))</span> <span class="o">{</span> <span class="c1">//CAS确保正确设置</span>
+					<span class="k">return</span> <span class="n">newCount</span><span class="o">;</span>
+				<span class="o">}</span>
+			<span class="o">}</span>
+		<span class="o">}</span>
+
+		<span class="nd">@Override</span>
+		<span class="kd">protected</span> <span class="kt">boolean</span> <span class="nf">tryReleaseShared</span><span class="o">(</span><span class="kt">int</span> <span class="n">returnCount</span><span class="o">)</span> <span class="o">{</span>
+			<span class="k">for</span><span class="o">(;;)</span> <span class="o">{</span>
+				<span class="kt">int</span> <span class="n">current</span> <span class="o">=</span> <span class="n">getState</span><span class="o">();</span>
+				<span class="kt">int</span> <span class="n">newCount</span> <span class="o">=</span> <span class="n">current</span> <span class="o">+</span> <span class="n">returnCount</span><span class="o">;</span>
+				<span class="k">if</span> <span class="o">(</span><span class="n">compareAndSetState</span><span class="o">(</span><span class="n">current</span><span class="o">,</span> <span class="n">newCount</span><span class="o">))</span> <span class="o">{</span> <span class="c1">//CAS确保正确设置</span>
+					<span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+				<span class="o">}</span>
+			<span class="o">}</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+	
+	<span class="cm">/**
+	 * 获取锁
+	 */</span>
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">lock</span><span class="o">()</span> <span class="o">{</span>
+		<span class="n">sync</span><span class="o">.</span><span class="na">acquireShared</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+	<span class="o">}</span>
+
+	<span class="cm">/**
+	 * 释放锁
+	 */</span>
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">unlock</span><span class="o">()</span> <span class="o">{</span>
+		<span class="n">sync</span><span class="o">.</span><span class="na">releaseShared</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+	<span class="o">}</span>
+	
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">lockInterruptibly</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">InterruptedException</span> <span class="o">{</span>
+		<span class="c1">// TODO</span>
+	<span class="o">}</span>
+
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">tryLock</span><span class="o">()</span> <span class="o">{</span>
+		<span class="c1">// TODO</span>
+		<span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">tryLock</span><span class="o">(</span><span class="kt">long</span> <span class="n">time</span><span class="o">,</span> <span class="n">TimeUnit</span> <span class="n">unit</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">InterruptedException</span> <span class="o">{</span>
+		<span class="c1">// TODO</span>
+		<span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="n">Condition</span> <span class="nf">newCondition</span><span class="o">()</span> <span class="o">{</span>
+		<span class="c1">// TODO </span>
+		<span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>下面编写一个测试类来验证TwinsLock是否能按照预期来工作。在测试类中，定义了工作者线程Worker，该线程在执行过程中获取锁，当获取锁之后使当前线程睡1s（并不释放锁），随后打印当前线程名称，最后再次睡眠1s并释放锁，测试代码如下：</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TwinsLockTest</span> <span class="o">{</span>
+	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">InterruptedException</span> <span class="o">{</span>
+		<span class="kd">final</span> <span class="n">Lock</span> <span class="n">lock</span> <span class="o">=</span> <span class="k">new</span> <span class="n">TwinsLock</span><span class="o">();</span>
+		<span class="kd">class</span> <span class="nc">Worker</span> <span class="kd">implements</span> <span class="n">Runnable</span> <span class="o">{</span>
+			<span class="nd">@Override</span>
+			<span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+				<span class="n">lock</span><span class="o">.</span><span class="na">lock</span><span class="o">();</span>
+				<span class="k">try</span> <span class="o">{</span>
+					<span class="n">sleep</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+					<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">getName</span><span class="o">());</span>
+					<span class="n">sleep</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+				<span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+					<span class="n">lock</span><span class="o">.</span><span class="na">unlock</span><span class="o">();</span>
+				<span class="o">}</span>
+			<span class="o">}</span>
+		<span class="o">}</span>
+		
+		<span class="c1">//启动10个线程</span>
+		<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+			<span class="n">Worker</span> <span class="n">worker</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Worker</span><span class="o">();</span>
+			<span class="n">Thread</span> <span class="n">thread</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Thread</span><span class="o">(</span><span class="n">worker</span><span class="o">,</span> <span class="s">"Thread-"</span><span class="o">+</span><span class="n">i</span><span class="o">);</span>
+			<span class="n">thread</span><span class="o">.</span><span class="na">setDaemon</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+			<span class="n">thread</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+		<span class="o">}</span>
+		<span class="n">sleep</span><span class="o">(</span><span class="mi">10</span><span class="o">);</span>
+	<span class="o">}</span>
+	
+	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">sleep</span><span class="o">(</span><span class="kt">long</span> <span class="n">seconds</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">try</span> <span class="o">{</span>
+			<span class="n">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="n">seconds</span><span class="o">*</span><span class="mi">1000</span><span class="o">);</span>
+		<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+			<span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+
+<span class="c1">//运行结果</span>
+<span class="c1">//运行测试可以看到线程名称成对输出，也就是在同一个时刻只有两个线程能够获取到锁，</span>
+<span class="c1">//这表明TwinsLock可以按照预期正常工作。</span>
+</code></pre>
+</div>
+
+
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-6">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">Java</button>
+                                
+                        </div>
+                        
+                        <!--
+                        <div class="col-md-6">
+                            <div class="small text-right">
+                                <div>    
+                                    <i class="fa fa-comments-o"> </i> 
+                                    <span class="ds-comments">0</span>条评论
+                                </div>
+                                <div>
+                                    <i class="fa fa-share-alt"> </i> 
+                                    <span class="ds-shares">0</span>条转发
+                                </div>  
+                            </div>
+                        </div>
+                        -->
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <!-- donate -->
+                            
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal2">
+    Donate
+</button>
+<div class="modal inmodal" id="myModal2" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated flipInY">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Donate Me</h4>
+                <small class="font-bold">Thanks for your support!</small>
+            </div>
+            <div class="modal-body">
+                <div class="tabbable" id="tabs-960227">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#panel-405278" data-toggle="tab">Alipay</a>
+                        </li>
+                        <li>
+                            <a href="#panel-874705" data-toggle="tab">Wechat</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="panel-405278">
+                            <div class="text-center">
+                                <img src="/static/img/pay/alipay.png"" height="250" width="250">
+                            </div>    
+                        </div>
+                        <div class="tab-pane" id="panel-874705">
+                            <div class="text-center">
+                                <img src="/static/img/pay/wechat.png"" height="250" width="250">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+                            
+                            <br>
+                            <!-- share -->
+                            
+                                
+<!--分享-->
+<div class="row" style="margin-top:30px;">
+	<h2>Share:</h2>
+    <div class="social-share" style="margin-left:-5px;"data-sites="wechat,qq,qzone,weibo"></div> 
+</div>
+<link rel="stylesheet" href="/static/css/share.min.css">
+<script src="/static/js/jquery.share.min.js"></script>
+<script src="/static/js/embed.js"></script>
+
+<script>
+  var url = 'http://localhost:4000/java/2017/07/28/java-concurrent-06.html';
+  var source = 'http://localhost:4000/java/2017/07/28/java-concurrent-06.html';
+  var title = 'JAVA中的锁(一)';
+  var excerpt = $("p:eq(0)").text();
+  
+  var imageUrl = 'http://localhost:4000/static/img/landing/header_one.jpg';
+  var imgEle = $(".content_img:eq(0)");
+  if (imgEle) {
+    imageUrl = imgEle.attr("src");
+  }
+
+  var $config = {
+      url: url, // 网址，默认使用 window.location.href
+      source: source, // 来源（QQ空间会用到）, 默认读取head标签：<meta name="site" content="http://overtrue" />
+      title: title, // 标题，默认读取 document.title 或者 <meta name="title" content="share.js" />
+      description: excerpt, // 描述, 默认读取head标签：<meta name="description" content="PHP弱类型的实现原理分析" />
+      image: imageUrl, // 图片, 默认取网页中第一个img标签
+      sites: ['qzone', 'qq', 'weibo','wechat','douban'], // 启用的站点
+      //disabled: ['google', 'facebook', 'twitter'], // 禁用的站点
+      wechatQrcodeTitle: "微信扫一扫：分享", // 微信二维码提示文字
+      wechatQrcodeHelper: '<p style="font-size:10px;">微信里点“发现”，扫一下</p><p style="font-size:10px;">二维码便可将本文分享至朋友圈。</p>',
+   };
+  $('.social-share').share($config);
+</script>
+
+
+
+
+                            
+                            <br>
+                            <!-- comment -->
+                            <!--
+
+
+
+-->
+
+<!-- 多说评论框 start -->
+<div class="row" style="margin-top:25px;"></div>
+<div class="ds-thread" data-thread-key="/java/2017/07/28/java-concurrent-06.html" data-title="JAVA中的锁(一)" data-url="http://localhost:4000/java/2017/07/28/java-concurrent-06.html"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+	var duoshuoQuery = {short_name:"kinglyjn"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+<!-- 多说公共JS代码 end -->
+
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+	
+	    <script src="/static/js/scroll.js"></script>
+
+<!-- Baidu analytics -->
+
+
+<!-- Google analytics -->
+
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-73784599-1', 'auto');
+    ga('send', 'pageview');
+
+  </script>
+
+
+<!--
+
+-->
+
+<!--
+
+-->
+
+<script async src="/static/js/count_page.js"></script>
+
+	
+
+</body>
+</html>

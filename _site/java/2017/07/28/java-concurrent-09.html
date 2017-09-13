@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html>
+	
+	    <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+    <meta content="JAVA中的锁（四）-LockSuport" name="description">
+  
+  
+    <meta name="keywords" content="JAVA中的锁（四）-LockSuport,java,kinglyjn,张庆力">
+  
+  <meta name="author" content="KinglyJn">
+
+  <title>
+    
+        KinglyJn|JAVA中的锁（四）-LockSuport
+    
+  </title>
+  <!-- favicon -->
+  <link rel="shortcut icon" href="static/img/favicon.ico">
+
+
+  <!-- Third-party CSS -->
+  <link href="/bower_components/normalize-css/normalize.min.css" rel="stylesheet">
+  <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/bower_components/animate.css/animate.min.css" rel="stylesheet">
+  <link href="/bower_components/components-font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="/static/font-mfizz/font-mfizz.css" rel="stylesheet">
+  <!-- <link href="/bower_components/toastr/toastr.min.css" rel="stylesheet"> -->
+  <link href="/bower_components/jquery.gritter/css/jquery.gritter.css" rel="stylesheet">
+  <link rel="stylesheet" href="/search/css/cb-search.css">
+
+  <!-- Custom styles for this template -->
+  <link href="/static/css/style.min.css" rel="stylesheet">
+  <link href="/static/css/pygments.css" rel="stylesheet">
+
+  <!-- Scripts -->
+  <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="/search/js/bootstrap3-typeahead.min.js"></script>
+
+  <!-- cb-search -->
+  <script src="/search/js/cb-search.js"></script>
+  <script>
+    $(function(){
+        $("pre").css('display','block');
+    });
+  </script>
+  <!-- Mainly scripts -->
+  <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="/bower_components/metisMenu/dist/metisMenu.min.js"></script>
+  <script src="/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+
+  <!-- Peity -->
+  <script src="/bower_components/peity/jquery.peity.min.js"></script>
+
+  <script src="/bower_components/PACE/pace.min.js"></script>
+  <script src="/bower_components/wow/dist/wow.min.js"></script>
+  <!-- Custom and plugin javascript -->
+  <script src="/static/js/inspinia.js"></script>
+
+  <!-- Rickshaw -->
+  <script src="/bower_components/rickshaw/vendor/d3.v3.js"></script>
+  <script src="/bower_components/rickshaw/rickshaw.min.js"></script>
+
+
+  <!-- jPages -->
+  <script src="/static/js/jPages.js"></script>
+  <script src="/static/js/js.js"></script>
+  <script type="text/javascript">
+        $(function(){
+          /* initiate the plugin */
+          $("div.pag-holder").jPages({
+              containerID  : "pag-itemContainer",
+              perPage      : 10,  /* num of items per page */
+              startPage    : 1,
+              startRange   : 1,
+              midRange     : 3,
+              endRange     : 1
+          });
+
+          $("div.pag-jump button").click(function(){
+            var page = parseInt($("div.pag-jump input").val());
+            $("div.pag-holder").jPages(page);
+          });
+
+          $("div.pag-jump input").on("keypress", function(){
+            var e=e||window.event;
+            if (e.keyCode == 13) {
+                var page = parseInt($("div.pag-jump input").val());
+                $("div.pag-holder").jPages(page);
+            } 
+          });
+      });
+  </script>
+
+<!-- GrowingIO -->
+
+  <script>
+    var _vds = _vds || [];
+    window._vds = _vds;
+    (function(){
+      _vds.push(['setAccountId', 'a49d4901c7853da9']);
+      (function() {
+        var vds = document.createElement('script');
+        vds.type='text/javascript';
+        vds.async = true;
+        vds.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'dn-growing.qbox.me/vds.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(vds, s);
+      })();
+    })();
+  </script>
+
+
+</head>
+
+	
+
+
+<body id="page-top" class="landing-page">
+
+	
+	    
+
+<!--修复手机端横轴方向左右滑动BUG-->
+<style type="text/css">
+    .landing-page .row {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+</style>
+
+<div class="search-tool"
+      style="position: fixed; top: 0px ; bottom: 0px; left: 0px; right:  0px; opacity: 0.95; background-color: #111111; z-index: 9999; display: none;">
+    <input type="text" class="form-control search-content" id="search-content" style="position: fixed; top: 60px" placeholder="Search Blog">
+
+    <div style="position: fixed; top: 16px; right: 16px; z-index: 9999;">
+        <img src="/search/img/cb-close.png" id="close-btn"/>
+    </div>
+</div>
+
+<div style="position: fixed; right: 16px; bottom: 20px; z-index: 9999;">
+    <img src="/search/img/cb-search.png"  id="search-btn"  title="Double click Ctrl"/>
+</div>
+
+<div class="navbar-wrapper">
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header page-scroll">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/">KinglyJn</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a class="page-scroll" href="/blog/"></a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/blog/">Blog</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/linux/">Linux</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/cloud/">Cloud</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/java/">Java</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/c/">C</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/php/">PHP</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/db/">DB</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/htmlx/">HTMLX</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/life/">Life</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/art/">Art</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/other/">Other</a></li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </nav>
+</div>
+<div id="inSlider" class="carousel carousel-fade" data-ride="carousel">
+    <div style="position:absolute;float:left;left:25%;z-index:15;width:50%;margin-bottom:18%;bottom:0;text-align:center;list-style:none;">
+        <span style="color:white;font-size:24px;">以平实之心写作</span><br>
+        <span style="color:white;font-size:13px;">writing with simple heart ♬. </span>
+    </div>
+    <!--
+    <ol class="carousel-indicators">
+        <li data-target="#inSlider" data-slide-to="0" class="active"></li>
+        <li data-target="#inSlider" data-slide-to="1"></li>
+    </ol>
+    -->
+    <div class="carousel-inner" role="listbox">
+        <div class="item active">
+            <div class="container">
+                <div class="carousel-caption">
+                </div>
+                <div class="carousel-image wow zoomIn">
+                    <!-- <img src="static/img/landing/laptop.png" alt="laptop"/> -->
+                </div>
+            </div>
+            <!-- Set background for slide in css -->
+            <div class="header-back blog-one"></div>
+        </div>
+        <!--
+        <div class="item">
+            <div class="container">
+                <div class="carousel-caption blank">
+                </div>
+            </div>
+            Set background for slide in css
+            <div class="header-back two"></div>
+        </div>
+        -->
+    </div>
+    <!--
+    <a class="left carousel-control" href="#inSlider" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#inSlider" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+    -->
+</div>
+
+
+	
+
+    <div class="wrapper wrapper-content  animated fadeInRight article">
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <div class="pull-right">
+                    	
+                        	<button class="btn btn-white btn-xs" type="button">Java</button>
+                        
+                    </div>
+                    <div class="text-center article-title" style="margin-bottom:50px;">
+                        <h1>
+                            JAVA中的锁（四）-LockSuport
+                        </h1>
+                        <a href="http://www.keyllo.com/studio/">
+                            <span class="text-muted"><i class="fa fa-user"></i> KinglyJn</span>
+                        </a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <span class="text-muted"><i class="fa fa-clock-o"></i> 2017-07-28</span>
+                    </div>
+                    	<h3 id="locksuport工具">LockSuport工具</h3>
+
+<p>LockSupport是JDK中比较底层的类，用来创建锁和其他同步工具类的基本线程阻塞原语。java锁和同步器框架的核心 AQS: AbstractQueuedSynchronizer，就是通过调用 LockSupport .park()和 LockSupport .unpark()实现线程的阻塞和唤醒 的。 LockSupport 很类似于二元信号量(只有1个许可证可供使用)，如果这个许可还没有被占用，当前线程获取许可并继 续 执行；如果许可已经被占用，当前线 程阻塞，等待获取许可。</p>
+
+<p>LockSuport提供的阻塞和唤醒方法：</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="c1">//阻塞当前线程，当调用unpark或者当前线程被中断，才能从park方法返回</span>
+<span class="kt">void</span> <span class="nf">park</span><span class="o">()</span>
+<span class="c1">//阻塞当前线程，blocker用来标识当前线程在等待的对象(简称阻塞对象，该对象主要用于问题排查和系统监控)</span>
+<span class="n">park</span><span class="o">(</span><span class="n">Object</span> <span class="n">blocker</span><span class="o">)</span>
+  
+<span class="c1">//阻塞当前线程，最长不超过nanos纳秒</span>
+<span class="kt">void</span> <span class="nf">parkNanos</span><span class="o">(</span><span class="kt">long</span> <span class="n">nanos</span><span class="o">)</span>
+<span class="kt">void</span> <span class="nf">parkNanos</span><span class="o">(</span><span class="n">Object</span> <span class="n">blocker</span><span class="o">,</span> <span class="kt">long</span> <span class="n">nanos</span><span class="o">)</span>
+  
+<span class="c1">//阻塞当前线程，直到deadline时间(从1970年到deadline时间的毫秒数)</span>
+<span class="kt">void</span> <span class="nf">parkUntil</span><span class="o">(</span><span class="kt">long</span> <span class="n">deadline</span><span class="o">)</span>
+<span class="kt">void</span> <span class="nf">parkUntil</span><span class="o">(</span><span class="n">Object</span> <span class="n">blocker</span><span class="o">,</span> <span class="kt">long</span> <span class="n">deadline</span><span class="o">)</span>
+  
+<span class="c1">//唤醒处于阻塞状态的线程t</span>
+<span class="kt">void</span> <span class="nf">unpark</span><span class="o">(</span><span class="n">Thread</span> <span class="n">t</span><span class="o">)</span>
+</code></pre>
+</div>
+
+<p>LockSuport是不可重入的的，如果一个线程连续2次调用 LockSupport.park()，那么该线程一定会一直阻塞下去。</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+	<span class="n">Thread</span> <span class="n">thread</span> <span class="o">=</span> <span class="n">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">();</span>
+	
+	<span class="n">LockSupport</span><span class="o">.</span><span class="na">unpark</span><span class="o">(</span><span class="n">thread</span><span class="o">);</span>
+	<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"aa"</span><span class="o">);</span>
+	
+	<span class="n">LockSupport</span><span class="o">.</span><span class="na">park</span><span class="o">();</span>
+	<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"bb"</span><span class="o">);</span>
+	
+	<span class="n">LockSupport</span><span class="o">.</span><span class="na">park</span><span class="o">();</span>
+	<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"cc"</span><span class="o">);</span>
+<span class="o">}</span>
+<span class="c1">//运行结果</span>
+<span class="c1">//这段代码打印出aa和bb，不会打印cc，因为第二次调用park的时候，线程无法获取许可出现死锁。</span>
+</code></pre>
+</div>
+
+<p>下面我们来看下LockSupport对应中断的响应性：</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.util.concurrent.locks.LockSupport</span><span class="o">;</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">LockSupportTest</span> <span class="o">{</span>
+	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+		<span class="n">t2</span><span class="o">();</span>
+	<span class="o">}</span>
+
+	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">t2</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+		<span class="n">Thread</span> <span class="n">t</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Thread</span><span class="o">(</span><span class="k">new</span> <span class="n">Runnable</span><span class="o">()</span> <span class="o">{</span>
+			<span class="kd">private</span> <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+
+			<span class="nd">@Override</span>
+			<span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+				<span class="kt">long</span> <span class="n">start</span> <span class="o">=</span> <span class="n">System</span><span class="o">.</span><span class="na">currentTimeMillis</span><span class="o">();</span>
+				<span class="kt">long</span> <span class="n">end</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+
+				<span class="k">while</span> <span class="o">((</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="o">)</span> <span class="o">&lt;=</span> <span class="mi">1000</span><span class="o">)</span> <span class="o">{</span>
+					<span class="n">count</span><span class="o">++;</span>
+					<span class="n">end</span> <span class="o">=</span> <span class="n">System</span><span class="o">.</span><span class="na">currentTimeMillis</span><span class="o">();</span>
+				<span class="o">}</span>
+				<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"about 1 second after, count="</span> <span class="o">+</span> <span class="n">count</span><span class="o">);</span>
+
+				<span class="c1">// 等待获取许可</span>
+				<span class="n">LockSupport</span><span class="o">.</span><span class="na">park</span><span class="o">();</span>
+				<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"thread over. "</span> <span class="o">+</span>
+                                   <span class="n">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">isInterrupted</span><span class="o">());</span>
+			<span class="o">}</span>
+		<span class="o">});</span>
+
+		<span class="n">t</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+		<span class="n">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="mi">2000</span><span class="o">);</span>
+		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"main thread sleep 2 second done!"</span><span class="o">);</span>
+
+		<span class="c1">// 中断线程</span>
+		<span class="n">t</span><span class="o">.</span><span class="na">interrupt</span><span class="o">();</span>
+		<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"main over"</span><span class="o">);</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+
+<span class="c1">//运行结果：</span>
+<span class="n">about</span> <span class="mi">1</span> <span class="n">second</span> <span class="n">after</span><span class="o">,</span> <span class="n">count</span><span class="o">=</span><span class="mi">22987103</span>
+<span class="n">main</span> <span class="n">thread</span> <span class="n">sleep</span> <span class="mi">2</span> <span class="n">second</span> <span class="n">done</span><span class="o">!</span>
+<span class="n">main</span> <span class="n">over</span>
+<span class="n">thread</span> <span class="n">over</span><span class="o">.</span> <span class="kc">true</span>
+</code></pre>
+</div>
+
+<p>最终线程会打印出thread over. true。这说明 线程如果因为调用park而阻塞的话，能够响应中断请求(中断状态被设置成true)，但是不会抛出InterruptedException 。</p>
+
+<p><br /></p>
+
+<h3 id="condition接口">Condition接口</h3>
+
+<p>任意一个java对象，都拥有一组监视器方法（定义在Object上），主要包括wait()、wait(long timeout)、notify()、notifyAll()方法，者写方法与synchronized关键字配合，可以实现等待通知模式。Condition接口也提供了类似Object的监控器方法，与Lock配合使用可以实现等待通知模式，但是这两者在使用方式和功能特性上还是有差别的。</p>
+
+<pre><code class="language-default">对比项						Object Monitor Methods				Condition
+------------------------------------------------------------------------------------------
+前置条件					获取对象的锁					调用Lock.lock获取锁
+													   调用Lock.newCondition()获取Conditio
+
+调用方式					直接调用(obejct.wait())		  直接调用(condition.wait())
+等待队列个数				   一个						  多个
+当前线程释放锁并进入等待状态	  支持						 支持
+
+当前线程释放锁并进入等待状态	  不支持						支持
+在等待中不响应中断
+
+当前线程释放锁并进入少时等待	  支持						 支持
+
+当前线程释放锁进入等待状态到	  不支持						支持
+将来的某个时间
+
+唤醒等待队列中的一个线程		支持						  支持
+唤醒等待队列中的全部线程		支持						  支持
+------------------------------------------------------------------------------------------
+</code></pre>
+
+<p>Condition类定义了等待/通知两种类型的方法，当前线程调用这些方法时，需要提前获取到Condition对象关联的锁。Condition对象是由Lock对象（调用Lock对象的newCondition()方法）创建出来的，换句话说，Condition是依赖于Lock对象的。</p>
+
+<p>简单使用示例：</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.util.concurrent.locks.Condition</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.concurrent.locks.Lock</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.concurrent.locks.ReentrantLock</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ConditionTest</span> <span class="o">{</span>
+	<span class="n">Lock</span> <span class="n">lock</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ReentrantLock</span><span class="o">();</span>
+	<span class="n">Condition</span> <span class="n">condition</span> <span class="o">=</span> <span class="n">lock</span><span class="o">.</span><span class="na">newCondition</span><span class="o">();</span> <span class="c1">//一般会将Condition作为成员变量</span>
+	
+	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+		
+	<span class="o">}</span>
+	
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">conditionWait</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">InterruptedException</span> <span class="o">{</span>
+		<span class="n">lock</span><span class="o">.</span><span class="na">lock</span><span class="o">();</span>
+		<span class="k">try</span> <span class="o">{</span>
+			<span class="n">condition</span><span class="o">.</span><span class="na">await</span><span class="o">();</span> <span class="c1">//当前线程释放锁并在此等待</span>
+		<span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+			<span class="n">lock</span><span class="o">.</span><span class="na">unlock</span><span class="o">();</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+	
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">conditionSignal</span><span class="o">()</span> <span class="o">{</span>
+		<span class="n">lock</span><span class="o">.</span><span class="na">lock</span><span class="o">();</span>
+		<span class="k">try</span> <span class="o">{</span>
+			<span class="n">condition</span><span class="o">.</span><span class="na">signal</span><span class="o">();</span> <span class="c1">//通知等待的某个线程，被通知的线程将从await方法返回</span>
+		<span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+			<span class="n">lock</span><span class="o">.</span><span class="na">unlock</span><span class="o">();</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>Condition定义的方法及描述：</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="c1">//当前线程进入等待状态直到被通知（signal）或中断，当前线程进入运行状态且从await方法返回的情况包括：</span>
+<span class="c1">//1.其他线程调用该Condition的signal()或者signalAll()方法，而当前线程被选中唤醒</span>
+<span class="c1">//2.其他线程(调用interrupt()方法)中断当前线程</span>
+<span class="c1">//如果当前线程从await方法返回，表明该线程已经获取了Condition对象所对应的锁</span>
+<span class="kt">void</span> <span class="nf">await</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">InterruptedException</span>
+  
+<span class="c1">//当前线程进入等待状态直到被通知，但是该方法对中断不敏感</span>
+<span class="kt">void</span> <span class="nf">awaitUninterruptibly</span><span class="o">()</span>
+  
+<span class="c1">//当前线程进入等待状态直到被通知、中断或者超时。返回值表示剩余的时间，如果在nanosTimeout纳秒之前被唤醒</span>
+<span class="c1">//那么返回值就是(nanosTimeout-实际耗时)，如果返回值是0或负数，那么可以认定已经超时了</span>
+<span class="kt">long</span> <span class="nf">awaitNanos</span><span class="o">(</span><span class="kt">long</span> <span class="n">nanosTimeout</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">InterruptedException</span>
+  
+<span class="c1">//当前线程进入等待状态直到被通知、中断或到某个时间。</span>
+<span class="c1">//如果没有到指定时间就被通知则方法返回true，否则表示到了指定时间方法返回false</span>
+<span class="kt">boolean</span> <span class="nf">awaitUntil</span><span class="o">(</span><span class="n">Date</span> <span class="n">deadline</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">InterruptedException</span>
+  
+<span class="c1">//唤醒一个等待在Condition上的线程，该线程从等待方法返回前必须获得与Condition相关联的锁</span>
+<span class="kt">void</span> <span class="nf">signal</span><span class="o">()</span>
+  
+<span class="c1">//唤醒所有等待在Condition上的线程，该线程从等待方法返回前必须获得与Condition相关联的锁</span>
+<span class="kt">void</span> <span class="nf">signalAll</span><span class="o">()</span>
+</code></pre>
+</div>
+
+<p><br /></p>
+
+<h3 id="阻塞队列">阻塞队列</h3>
+
+<blockquote>
+  <p>阻塞队列 (BlockingQueue)是 Java util.concurrent包下重要的数据结构，BlockingQueue提供了线程安全的队列访问方式：当阻塞队列进行插入数据时，如果队列已满，线程将会阻塞等待直到队列非满；从阻塞队列取数据时，如果队列已空，线程将会阻塞等待直到队列非空。并发包下很多高级同步类的实现都是基于BlockingQueue实现的。</p>
+</blockquote>
+
+<h4 id="自己构建一个阻塞队列">自己构建一个阻塞队列</h4>
+
+<p>有界阻塞队列是一种特殊的队列，当队列是空的时候，队列的获取操作将会阻塞获取线程，直到队列中有新增的元素；当队列已满时，队列的插入操作将会阻塞插入线程，直到出现新的“空位”，代码如下：</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.util.concurrent.locks.Condition</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.concurrent.locks.Lock</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.concurrent.locks.ReentrantLock</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">BoundedQueue</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="o">{</span>
+	<span class="kd">private</span> <span class="n">Object</span><span class="o">[]</span> <span class="n">items</span><span class="o">;</span>
+	<span class="kd">private</span> <span class="kt">int</span> <span class="n">addIndex</span><span class="o">,</span> <span class="n">removeIndex</span><span class="o">,</span> <span class="n">count</span><span class="o">;</span>
+	<span class="kd">private</span> <span class="n">Lock</span> <span class="n">lock</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ReentrantLock</span><span class="o">();</span>
+	<span class="kd">private</span> <span class="n">Condition</span> <span class="n">notEmpty</span> <span class="o">=</span> <span class="n">lock</span><span class="o">.</span><span class="na">newCondition</span><span class="o">();</span>
+	<span class="kd">private</span> <span class="n">Condition</span> <span class="n">notFull</span> <span class="o">=</span> <span class="n">lock</span><span class="o">.</span><span class="na">newCondition</span><span class="o">();</span>
+	
+	<span class="kd">public</span> <span class="nf">BoundedQueue</span><span class="o">(</span><span class="kt">int</span> <span class="n">size</span><span class="o">)</span> <span class="o">{</span>
+		<span class="n">items</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Object</span><span class="o">[</span><span class="n">size</span><span class="o">];</span>
+	<span class="o">}</span>
+	
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">add</span><span class="o">(</span><span class="n">E</span> <span class="n">e</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">InterruptedException</span> <span class="o">{</span>
+		<span class="n">lock</span><span class="o">.</span><span class="na">lock</span><span class="o">();</span>
+		<span class="k">try</span> <span class="o">{</span>
+			<span class="k">while</span> <span class="o">(</span><span class="n">count</span><span class="o">==</span><span class="n">items</span><span class="o">.</span><span class="na">length</span><span class="o">)</span> <span class="o">{</span>
+				<span class="n">notFull</span><span class="o">.</span><span class="na">await</span><span class="o">();</span>
+			<span class="o">}</span>
+			<span class="n">items</span><span class="o">[</span><span class="n">addIndex</span><span class="o">]</span> <span class="o">=</span> <span class="n">e</span><span class="o">;</span>
+			<span class="k">if</span> <span class="o">(++</span><span class="n">addIndex</span><span class="o">==</span><span class="n">items</span><span class="o">.</span><span class="na">length</span><span class="o">)</span> <span class="o">{</span>
+				<span class="n">addIndex</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+			<span class="o">}</span>
+			<span class="o">++</span><span class="n">count</span><span class="o">;</span>
+			<span class="n">notEmpty</span><span class="o">.</span><span class="na">signal</span><span class="o">();</span>
+		<span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+			<span class="n">lock</span><span class="o">.</span><span class="na">unlock</span><span class="o">();</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+	
+	<span class="nd">@SuppressWarnings</span><span class="o">(</span><span class="s">"unchecked"</span><span class="o">)</span>
+	<span class="kd">public</span> <span class="n">E</span> <span class="nf">remove</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">InterruptedException</span> <span class="o">{</span>
+		<span class="n">lock</span><span class="o">.</span><span class="na">lock</span><span class="o">();</span>
+		<span class="k">try</span> <span class="o">{</span>
+			<span class="k">while</span> <span class="o">(</span><span class="n">count</span><span class="o">==</span><span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+				<span class="n">notEmpty</span><span class="o">.</span><span class="na">await</span><span class="o">();</span>
+			<span class="o">}</span>
+			<span class="n">Object</span> <span class="n">x</span> <span class="o">=</span> <span class="n">items</span><span class="o">[</span><span class="n">removeIndex</span><span class="o">];</span>
+			<span class="k">if</span> <span class="o">(++</span><span class="n">removeIndex</span><span class="o">==</span><span class="n">items</span><span class="o">.</span><span class="na">length</span><span class="o">)</span> <span class="o">{</span>
+				<span class="n">removeIndex</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+			<span class="o">}</span>
+			<span class="o">--</span><span class="n">count</span><span class="o">;</span>
+			<span class="n">notFull</span><span class="o">.</span><span class="na">signal</span><span class="o">();</span>
+			<span class="k">return</span> <span class="o">(</span><span class="n">E</span><span class="o">)</span> <span class="n">x</span><span class="o">;</span>
+		<span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+			<span class="n">lock</span><span class="o">.</span><span class="na">unlock</span><span class="o">();</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p><br /></p>
+
+<h3 id="condition的实现分析">Condition的实现分析</h3>
+
+<blockquote>
+  <p>Condition的实现ConditionObject是同步器AbstractQueuedSynchronizer的内部类，因为Condition的操作需要获取相关联的锁，所以作为同步器的内部类也较为合理。每个Condition对象都包含着一个队列（以下简称为等待队列），该队列是Condition实现等待通知机制的关键。</p>
+</blockquote>
+
+<h4 id="等待队列">等待队列</h4>
+
+<p>等待队列也是一个FIFO的队列，在队列的每个节点都包含了一个线程的引用，该线程就是在Condition对象和是哪个等待的线程，如果一个线程调用了Condition.await()方法，那么这个线程就会释放锁、构成节点加入等待队列并进入等待状态。事实上，节点的定义复用了同步器中节点的定义，也就是说，同步队列和Condition的等待队列中节点的类型都是AbstractQueuedSynchronizer.Node。</p>
+
+<p>在Object的监视器模型上，一个对象只有一个同步队列和等待队列，而并发包中的Lock（更确切地说是同步器）拥有一个同步队列和多个Condition等待队列，其对应关系如下：</p>
+
+<pre><code class="language-default">如图所示：
+Condition的实现是同步器的内部类，因此每一个Condition实例都能访问同步器提供的方法，相当于每一个Condition都拥有所属同步器的引用：
+
+|同步器|
+|head |---------&gt;|节点|			 |节点|			 |节点|			|节点|
+|	  |		     |prev|&lt;----------|prev|&lt;----------|prev|&lt;----------|prev|
+|     |		     |next|----------&gt;|next|----------&gt;|next|----------&gt;|next|
+|	  |																   |
+|tail |&lt;---------------------------------------------------------------|
+  |	|
+  |	|
+  |	|
+  |	|_____
+  |		 |Condition	 |
+  |		 |firstWaiter|--------&gt;|节点		|---------&gt;|节点		|
+  |		 |			 |         |nextWaiter|		    |nextWaiter|
+  |		 |  		 |									|
+  |		 |lastWaiter |&lt;---------------------------------|
+  |		 
+  |		 
+  |		 
+  |	_____
+  		 |Condition	 |
+  		 |firstWaiter|--------&gt;|节点		|---------&gt;|节点		|
+  		 |			 |         |nextWaiter|		    |nextWaiter|
+  		 |  		 |									|
+  		 |lastWaiter |&lt;---------------------------------|	 
+</code></pre>
+
+<p><br /></p>
+
+<h4 id="等待">等待</h4>
+
+<p>调用Condition的await()方法（或者以await开头的方法），会使当前线程进入等待队列并释放锁，同时线程状态变为等待状态。当从await方法返回时，当前线程一定是获取了Condition相关联的锁。从队列（同步队列和Condition等待队列）的角度来看await()方法，当调用await()方法，相当于同步队列的首节点（获取了锁的节点）移动到Condition的等待队列中。</p>
+
+<p>CondiitionObject的await方法：</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kt">void</span> <span class="nf">await</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">InterruptedException</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">Thread</span><span class="o">.</span><span class="na">interrupted</span><span class="o">())</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nf">InterruptedException</span><span class="o">();</span>
+  	<span class="c1">//当前线程加入等待队列</span>
+    <span class="n">Node</span> <span class="n">node</span> <span class="o">=</span> <span class="n">addConditionWaiter</span><span class="o">();</span>
+  	<span class="c1">//释放同步状态，也就是释放锁</span>
+    <span class="kt">int</span> <span class="n">savedState</span> <span class="o">=</span> <span class="n">fullyRelease</span><span class="o">(</span><span class="n">node</span><span class="o">);</span>
+    <span class="kt">int</span> <span class="n">interruptMode</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+  	<span class="c1">//被唤醒后的线程将从isOnSyncQueue退出(isOnSyncQueue(node)返回true)</span>
+  	<span class="c1">//进而调用同步器的acquireQueued()方法加入到获取同步状态的竞争中</span>
+    <span class="k">while</span> <span class="o">(!</span><span class="n">isOnSyncQueue</span><span class="o">(</span><span class="n">node</span><span class="o">))</span> <span class="o">{</span>
+        <span class="n">LockSupport</span><span class="o">.</span><span class="na">park</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">((</span><span class="n">interruptMode</span> <span class="o">=</span> <span class="n">checkInterruptWhileWaiting</span><span class="o">(</span><span class="n">node</span><span class="o">))</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">)</span>
+            <span class="k">break</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">acquireQueued</span><span class="o">(</span><span class="n">node</span><span class="o">,</span> <span class="n">savedState</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="n">interruptMode</span> <span class="o">!=</span> <span class="n">THROW_IE</span><span class="o">)</span>
+        <span class="n">interruptMode</span> <span class="o">=</span> <span class="n">REINTERRUPT</span><span class="o">;</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">node</span><span class="o">.</span><span class="na">nextWaiter</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="c1">// clean up if cancelled</span>
+        <span class="n">unlinkCancelledWaiters</span><span class="o">();</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">interruptMode</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">)</span>
+        <span class="n">reportInterruptAfterWait</span><span class="o">(</span><span class="n">interruptMode</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>调用该方法的线程是成功获取了锁的线程，也就是同步队列中的首节点，该方法会将当前线程构造成Condition等待节点，并将其加入到等待队列中（addConditionWaiter），然后释放同步状态（fullyRelease），唤醒同步队列中的后继结点，然后当前线程进入等待状态。</p>
+
+<p>当等待队列中的节点被唤醒，则唤醒节点的线程开始尝试获取同步状态。如果不是通过其他线程调用Condition.signal()方法唤醒，而是等待线程进程进行中断，则会抛出InterruptedException。</p>
+
+<p><br /></p>
+
+<h4 id="通知">通知</h4>
+
+<p>调用Condition的signal()方法，将会唤醒在等待队列中等待时间最长的节点（首节点），在唤醒节点之前，会将节点移动到同步队列的尾部。Condition的signalAll方法，相当于等待队列中的每一个节点均执行了一次signal方法，效果就是将等待队列中所有的节点全部移动到同步队列中，并唤醒每个节点的线程。</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kt">void</span> <span class="nf">signal</span><span class="o">()</span> <span class="o">{</span>
+  	 <span class="c1">//调用该方法的前置条件是当前线程必须获取了锁，可以看到signal进行了isHeldExclusively检查</span>
+  	 <span class="c1">//也就是当前线程必须是获取了锁的线程</span>
+     <span class="k">if</span> <span class="o">(!</span><span class="n">isHeldExclusively</span><span class="o">())</span>
+         <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalMonitorStateException</span><span class="o">();</span>
+     <span class="c1">//获取Condition等待队列中的首节点</span>
+  	 <span class="n">Node</span> <span class="n">first</span> <span class="o">=</span> <span class="n">firstWaiter</span><span class="o">;</span>
+     <span class="k">if</span> <span class="o">(</span><span class="n">first</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span>
+       	 <span class="c1">//将Condition等待队列中的首节点移动到同步队列的尾部，并使用LockSupport唤醒节点中的线程</span>
+         <span class="n">doSignal</span><span class="o">(</span><span class="n">first</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p><br /></p>
+
+<h4 id="阻塞队列接口">阻塞队列接口</h4>
+
+<p>BlockingQueue 具有 4 组不同的方法用于插入、移除以及对队列中的元素进行检查。如果请求的操作不能得到立即执行的话，每个方法的表现也不同。这些方法如下：</p>
+
+<pre><code class="language-default">			抛异常				阻塞			特定值			超时
+------------------------------------------------------------------------------------------
+插入		   add(o)			put(o)		  offer(o)		offer(o, timeout, timeunit)	
+移除		   remove(o)		take(o)		  poll(o)		poll(timeout, timeunit)
+检查		   element(o)					  peek(o)
+------------------------------------------------------------------------------------------
+
+解释：
+抛异常：如果试图的操作无法立即执行，抛一个异常。
+阻塞：如果试图的操作无法立即执行，该方法调用将会发生阻塞，直到能够执行。
+特定值：如果试图的操作无法立即执行，返回一个特定的值(常常是 true / false)。
+超时：如果试图的操作无法立即执行，该方法调用将会发生阻塞，直到能够执行，但等待时间不会超过给定值。返回一个特定值以告知该操作是否成功(典型的是true / false)。
+</code></pre>
+
+<p>无法向一个 BlockingQueue 中插入 null。如果你试图插入 null，BlockingQueue 将会抛出一个 NullPointerException。可以访问到 BlockingQueue 中的所有元素，而不仅仅是开始和结束的元素。比如说，你将一个对象放入队列之中以等待处理，但你的应用想要将其取消掉。那么你可以调用诸如 remove(o) 方法来将队列之中的特定对象进行移除。但是这么干效率并不高(译者注：基于队列的数据结构，获取除开始或结束位置的其他对象的效率不会太高)，因此你尽量不要用这一类的方法，除非你确实不得不那么做。</p>
+
+<p><strong>BlockingQueue 的实现类</strong></p>
+
+<ul>
+  <li><strong>ArrayBlockingQueue</strong>：ArrayBlockingQueue 是一个有界的阻塞队列，其内部实现是将对象放到一个数组里。有界也就意味着，它不能够存储无限多数量的元素。它有一个同一时间能够存储元素数量的上限。你可以在对其初始化的时候设定这个上限，但之后就无法对这个上限进行修改了(译者注：因为它是基于数组实现的，也就具有数组的特性：一旦初始化，大小就无法修改)。</li>
+  <li><strong>DelayQueue</strong>：DelayQueue 对元素进行持有直到一个特定的延迟到期。注入其中的元素必须实现 java.util.concurrent.Delayed 接口。</li>
+  <li><strong>LinkedBlockingQueue</strong>：LinkedBlockingQueue 内部以一个链式结构(链接节点)对其元素进行存储。如果需要的话，这一链式结构可以选择一个上限。如果没有定义上限，将使用 Integer.MAX_VALUE 作为上限。</li>
+  <li><strong>PriorityBlockingQueue</strong>：PriorityBlockingQueue 是一个无界的并发队列。它使用了和类 java.util.PriorityQueue 一样的排序规则。你无法向这个队列中插入 null 值。所有插入到 PriorityBlockingQueue 的元素必须实现 java.lang.Comparable 接口。因此该队列中元素的排序就取决于你自己的 Comparable 实现。</li>
+  <li><strong>SynchronousQueue</strong>：SynchronousQueue 是一个特殊的队列，它的内部同时只能够容纳单个元素。如果该队列已有一元素的话，试图向队列中插入一个新元素的线程将会阻塞，直到另一个线程将该元素从队列中抽走。同样，如果该队列为空，试图向队列中抽取一个元素的线程将会阻塞，直到另一个线程向队列中插入了一条新的元素。据此，把这个类称作一个队列显然是夸大其词了。它更多像是一个汇合点。</li>
+</ul>
+
+<h3 id="简单的生产消费模型">简单的生产消费模型</h3>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.util.Random</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.concurrent.BlockingQueue</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.concurrent.LinkedBlockingQueue</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.concurrent.TimeUnit</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">BlockingQueueTest</span> <span class="o">{</span>
+    <span class="c1">//生产者</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">Producer</span> <span class="kd">implements</span> <span class="n">Runnable</span><span class="o">{</span>
+        <span class="kd">private</span> <span class="kd">final</span> <span class="n">BlockingQueue</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">blockingQueue</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="kd">volatile</span> <span class="kt">boolean</span> <span class="n">flag</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="n">Random</span> <span class="n">random</span><span class="o">;</span>
+
+        <span class="kd">public</span> <span class="nf">Producer</span><span class="o">(</span><span class="n">BlockingQueue</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">blockingQueue</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">blockingQueue</span> <span class="o">=</span> <span class="n">blockingQueue</span><span class="o">;</span>
+            <span class="n">flag</span><span class="o">=</span><span class="kc">false</span><span class="o">;</span>
+            <span class="n">random</span><span class="o">=</span><span class="k">new</span> <span class="n">Random</span><span class="o">();</span>
+
+        <span class="o">}</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">while</span><span class="o">(!</span><span class="n">flag</span><span class="o">){</span>
+                <span class="kt">int</span> <span class="n">info</span><span class="o">=</span><span class="n">random</span><span class="o">.</span><span class="na">nextInt</span><span class="o">(</span><span class="mi">100</span><span class="o">);</span>
+                <span class="k">try</span> <span class="o">{</span>
+                    <span class="n">blockingQueue</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">info</span><span class="o">);</span>
+                    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">getName</span><span class="o">()+</span><span class="s">" produce "</span><span class="o">+</span><span class="n">info</span><span class="o">);</span>
+                    <span class="n">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="mi">50</span><span class="o">);</span>
+                <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="c1">// TODO Auto-generated catch block</span>
+                    <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+                <span class="o">}</span>               
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">shutDown</span><span class="o">(){</span>
+            <span class="n">flag</span><span class="o">=</span><span class="kc">true</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="c1">//消费者</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">Consumer</span> <span class="kd">implements</span> <span class="n">Runnable</span><span class="o">{</span>
+        <span class="kd">private</span> <span class="kd">final</span> <span class="n">BlockingQueue</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">blockingQueue</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="kd">volatile</span> <span class="kt">boolean</span> <span class="n">flag</span><span class="o">;</span>
+        <span class="kd">public</span> <span class="nf">Consumer</span><span class="o">(</span><span class="n">BlockingQueue</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">blockingQueue</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">blockingQueue</span> <span class="o">=</span> <span class="n">blockingQueue</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">while</span><span class="o">(!</span><span class="n">flag</span><span class="o">){</span>
+                <span class="kt">int</span> <span class="n">info</span><span class="o">;</span>
+                <span class="k">try</span> <span class="o">{</span>
+                    <span class="n">info</span> <span class="o">=</span> <span class="n">blockingQueue</span><span class="o">.</span><span class="na">take</span><span class="o">();</span>
+                    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">getName</span><span class="o">()</span>
+                                       <span class="o">+</span><span class="s">" consumer "</span><span class="o">+</span><span class="n">info</span><span class="o">);</span>
+                    <span class="n">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="mi">50</span><span class="o">);</span>
+                <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="c1">// TODO Auto-generated catch block</span>
+                    <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+                <span class="o">}</span>               
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">shutDown</span><span class="o">(){</span>
+            <span class="n">flag</span><span class="o">=</span><span class="kc">true</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">){</span>
+        <span class="n">BlockingQueue</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">blockingQueue</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LinkedBlockingQueue</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;(</span><span class="mi">10</span><span class="o">);</span>
+        <span class="n">Producer</span> <span class="n">producer</span><span class="o">=</span><span class="k">new</span> <span class="n">Producer</span><span class="o">(</span><span class="n">blockingQueue</span><span class="o">);</span>
+        <span class="n">Consumer</span> <span class="n">consumer</span><span class="o">=</span><span class="k">new</span> <span class="n">Consumer</span><span class="o">(</span><span class="n">blockingQueue</span><span class="o">);</span>
+        <span class="c1">//创建5个生产者，5个消费者</span>
+        <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span><span class="n">i</span><span class="o">&lt;</span><span class="mi">10</span><span class="o">;</span><span class="n">i</span><span class="o">++){</span>
+            <span class="k">if</span><span class="o">(</span><span class="n">i</span><span class="o">&lt;</span><span class="mi">5</span><span class="o">){</span>
+                <span class="k">new</span> <span class="nf">Thread</span><span class="o">(</span><span class="n">producer</span><span class="o">,</span><span class="s">"producer"</span><span class="o">+</span><span class="n">i</span><span class="o">).</span><span class="na">start</span><span class="o">();</span>
+            <span class="o">}</span><span class="k">else</span><span class="o">{</span>
+                <span class="k">new</span> <span class="nf">Thread</span><span class="o">(</span><span class="n">consumer</span><span class="o">,</span><span class="s">"consumer"</span><span class="o">+(</span><span class="n">i</span><span class="o">-</span><span class="mi">5</span><span class="o">)).</span><span class="na">start</span><span class="o">();</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="mi">1000</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">// TODO Auto-generated catch block</span>
+            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="n">producer</span><span class="o">.</span><span class="na">shutDown</span><span class="o">();</span>
+        <span class="n">consumer</span><span class="o">.</span><span class="na">shutDown</span><span class="o">();</span>
+
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-6">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">Java</button>
+                                
+                        </div>
+                        
+                        <!--
+                        <div class="col-md-6">
+                            <div class="small text-right">
+                                <div>    
+                                    <i class="fa fa-comments-o"> </i> 
+                                    <span class="ds-comments">0</span>条评论
+                                </div>
+                                <div>
+                                    <i class="fa fa-share-alt"> </i> 
+                                    <span class="ds-shares">0</span>条转发
+                                </div>  
+                            </div>
+                        </div>
+                        -->
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <!-- donate -->
+                            
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal2">
+    Donate
+</button>
+<div class="modal inmodal" id="myModal2" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated flipInY">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Donate Me</h4>
+                <small class="font-bold">Thanks for your support!</small>
+            </div>
+            <div class="modal-body">
+                <div class="tabbable" id="tabs-960227">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#panel-405278" data-toggle="tab">Alipay</a>
+                        </li>
+                        <li>
+                            <a href="#panel-874705" data-toggle="tab">Wechat</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="panel-405278">
+                            <div class="text-center">
+                                <img src="/static/img/pay/alipay.png"" height="250" width="250">
+                            </div>    
+                        </div>
+                        <div class="tab-pane" id="panel-874705">
+                            <div class="text-center">
+                                <img src="/static/img/pay/wechat.png"" height="250" width="250">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+                            
+                            <br>
+                            <!-- share -->
+                            
+                                
+<!--分享-->
+<div class="row" style="margin-top:30px;">
+	<h2>Share:</h2>
+    <div class="social-share" style="margin-left:-5px;"data-sites="wechat,qq,qzone,weibo"></div> 
+</div>
+<link rel="stylesheet" href="/static/css/share.min.css">
+<script src="/static/js/jquery.share.min.js"></script>
+<script src="/static/js/embed.js"></script>
+
+<script>
+  var url = 'http://localhost:4000/java/2017/07/28/java-concurrent-09.html';
+  var source = 'http://localhost:4000/java/2017/07/28/java-concurrent-09.html';
+  var title = 'JAVA中的锁（四）-LockSuport';
+  var excerpt = $("p:eq(0)").text();
+  
+  var imageUrl = 'http://localhost:4000/static/img/landing/header_one.jpg';
+  var imgEle = $(".content_img:eq(0)");
+  if (imgEle) {
+    imageUrl = imgEle.attr("src");
+  }
+
+  var $config = {
+      url: url, // 网址，默认使用 window.location.href
+      source: source, // 来源（QQ空间会用到）, 默认读取head标签：<meta name="site" content="http://overtrue" />
+      title: title, // 标题，默认读取 document.title 或者 <meta name="title" content="share.js" />
+      description: excerpt, // 描述, 默认读取head标签：<meta name="description" content="PHP弱类型的实现原理分析" />
+      image: imageUrl, // 图片, 默认取网页中第一个img标签
+      sites: ['qzone', 'qq', 'weibo','wechat','douban'], // 启用的站点
+      //disabled: ['google', 'facebook', 'twitter'], // 禁用的站点
+      wechatQrcodeTitle: "微信扫一扫：分享", // 微信二维码提示文字
+      wechatQrcodeHelper: '<p style="font-size:10px;">微信里点“发现”，扫一下</p><p style="font-size:10px;">二维码便可将本文分享至朋友圈。</p>',
+   };
+  $('.social-share').share($config);
+</script>
+
+
+
+
+                            
+                            <br>
+                            <!-- comment -->
+                            <!--
+
+
+
+-->
+
+<!-- 多说评论框 start -->
+<div class="row" style="margin-top:25px;"></div>
+<div class="ds-thread" data-thread-key="/java/2017/07/28/java-concurrent-09.html" data-title="JAVA中的锁（四）-LockSuport" data-url="http://localhost:4000/java/2017/07/28/java-concurrent-09.html"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+	var duoshuoQuery = {short_name:"kinglyjn"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+<!-- 多说公共JS代码 end -->
+
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+	
+	    <script src="/static/js/scroll.js"></script>
+
+<!-- Baidu analytics -->
+
+
+<!-- Google analytics -->
+
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-73784599-1', 'auto');
+    ga('send', 'pageview');
+
+  </script>
+
+
+<!--
+
+-->
+
+<!--
+
+-->
+
+<script async src="/static/js/count_page.js"></script>
+
+	
+
+</body>
+</html>

@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html>
+	
+	    <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+    <meta content="hadoop的基本简介及安装、配置、使用（一）" name="description">
+  
+  
+    <meta name="keywords" content="hadoop的基本简介及安装、配置、使用（一）,hadoop,kinglyjn">
+  
+  <meta name="author" content="KinglyJn">
+
+  <title>
+    
+        KinglyJn|hadoop的基本简介及安装、配置、使用（一）
+    
+  </title>
+  <!-- favicon -->
+  <link rel="shortcut icon" href="static/img/favicon.ico">
+
+
+  <!-- Third-party CSS -->
+  <link href="/bower_components/normalize-css/normalize.min.css" rel="stylesheet">
+  <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/bower_components/animate.css/animate.min.css" rel="stylesheet">
+  <link href="/bower_components/components-font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="/static/font-mfizz/font-mfizz.css" rel="stylesheet">
+  <!-- <link href="/bower_components/toastr/toastr.min.css" rel="stylesheet"> -->
+  <link href="/bower_components/jquery.gritter/css/jquery.gritter.css" rel="stylesheet">
+  <link rel="stylesheet" href="/search/css/cb-search.css">
+
+  <!-- Custom styles for this template -->
+  <link href="/static/css/style.min.css" rel="stylesheet">
+  <link href="/static/css/pygments.css" rel="stylesheet">
+
+  <!-- Scripts -->
+  <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="/search/js/bootstrap3-typeahead.min.js"></script>
+
+  <!-- cb-search -->
+  <script src="/search/js/cb-search.js"></script>
+  <script>
+    $(function(){
+        $("pre").css('display','block');
+    });
+  </script>
+  <!-- Mainly scripts -->
+  <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="/bower_components/metisMenu/dist/metisMenu.min.js"></script>
+  <script src="/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+
+  <!-- Peity -->
+  <script src="/bower_components/peity/jquery.peity.min.js"></script>
+
+  <script src="/bower_components/PACE/pace.min.js"></script>
+  <script src="/bower_components/wow/dist/wow.min.js"></script>
+  <!-- Custom and plugin javascript -->
+  <script src="/static/js/inspinia.js"></script>
+
+  <!-- Rickshaw -->
+  <script src="/bower_components/rickshaw/vendor/d3.v3.js"></script>
+  <script src="/bower_components/rickshaw/rickshaw.min.js"></script>
+
+
+  <!-- jPages -->
+  <script src="/static/js/jPages.js"></script>
+  <script src="/static/js/js.js"></script>
+  <script type="text/javascript">
+        $(function(){
+          /* initiate the plugin */
+          $("div.pag-holder").jPages({
+              containerID  : "pag-itemContainer",
+              perPage      : 10,  /* num of items per page */
+              startPage    : 1,
+              startRange   : 1,
+              midRange     : 3,
+              endRange     : 1
+          });
+
+          $("div.pag-jump button").click(function(){
+            var page = parseInt($("div.pag-jump input").val());
+            $("div.pag-holder").jPages(page);
+          });
+
+          $("div.pag-jump input").on("keypress", function(){
+            var e=e||window.event;
+            if (e.keyCode == 13) {
+                var page = parseInt($("div.pag-jump input").val());
+                $("div.pag-holder").jPages(page);
+            } 
+          });
+      });
+  </script>
+
+<!-- GrowingIO -->
+
+  <script>
+    var _vds = _vds || [];
+    window._vds = _vds;
+    (function(){
+      _vds.push(['setAccountId', 'a49d4901c7853da9']);
+      (function() {
+        var vds = document.createElement('script');
+        vds.type='text/javascript';
+        vds.async = true;
+        vds.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'dn-growing.qbox.me/vds.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(vds, s);
+      })();
+    })();
+  </script>
+
+
+</head>
+
+	
+
+
+<body id="page-top" class="landing-page">
+
+	
+	    
+
+<!--修复手机端横轴方向左右滑动BUG-->
+<style type="text/css">
+    .landing-page .row {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+</style>
+
+<div class="search-tool"
+      style="position: fixed; top: 0px ; bottom: 0px; left: 0px; right:  0px; opacity: 0.95; background-color: #111111; z-index: 9999; display: none;">
+    <input type="text" class="form-control search-content" id="search-content" style="position: fixed; top: 60px" placeholder="Search Blog">
+
+    <div style="position: fixed; top: 16px; right: 16px; z-index: 9999;">
+        <img src="/search/img/cb-close.png" id="close-btn"/>
+    </div>
+</div>
+
+<div style="position: fixed; right: 16px; bottom: 20px; z-index: 9999;">
+    <img src="/search/img/cb-search.png"  id="search-btn"  title="Double click Ctrl"/>
+</div>
+
+<div class="navbar-wrapper">
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header page-scroll">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/">KinglyJn</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a class="page-scroll" href="/blog/"></a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/blog/">Blog</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/linux/">Linux</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/cloud/">Cloud</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/java/">Java</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/c/">C</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/php/">PHP</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/db/">DB</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/htmlx/">HTMLX</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/life/">Life</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/art/">Art</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/other/">Other</a></li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </nav>
+</div>
+<div id="inSlider" class="carousel carousel-fade" data-ride="carousel">
+    <div style="position:absolute;float:left;left:25%;z-index:15;width:50%;margin-bottom:18%;bottom:0;text-align:center;list-style:none;">
+        <span style="color:white;font-size:24px;">以平实之心写作</span><br>
+        <span style="color:white;font-size:13px;">writing with simple heart ♬. </span>
+    </div>
+    <!--
+    <ol class="carousel-indicators">
+        <li data-target="#inSlider" data-slide-to="0" class="active"></li>
+        <li data-target="#inSlider" data-slide-to="1"></li>
+    </ol>
+    -->
+    <div class="carousel-inner" role="listbox">
+        <div class="item active">
+            <div class="container">
+                <div class="carousel-caption">
+                </div>
+                <div class="carousel-image wow zoomIn">
+                    <!-- <img src="static/img/landing/laptop.png" alt="laptop"/> -->
+                </div>
+            </div>
+            <!-- Set background for slide in css -->
+            <div class="header-back blog-one"></div>
+        </div>
+        <!--
+        <div class="item">
+            <div class="container">
+                <div class="carousel-caption blank">
+                </div>
+            </div>
+            Set background for slide in css
+            <div class="header-back two"></div>
+        </div>
+        -->
+    </div>
+    <!--
+    <a class="left carousel-control" href="#inSlider" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#inSlider" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+    -->
+</div>
+
+
+	
+
+    <div class="wrapper wrapper-content  animated fadeInRight article">
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <div class="pull-right">
+                    	
+                        	<button class="btn btn-white btn-xs" type="button">Java</button>
+                        
+                    </div>
+                    <div class="text-center article-title" style="margin-bottom:50px;">
+                        <h1>
+                            hadoop的基本简介及安装、配置、使用（一）
+                        </h1>
+                        <a href="http://www.keyllo.com/studio/">
+                            <span class="text-muted"><i class="fa fa-user"></i> KinglyJn</span>
+                        </a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <span class="text-muted"><i class="fa fa-clock-o"></i> 2017-08-08</span>
+                    </div>
+                    	<h3 id="大数据的特点">大数据的特点</h3>
+
+<ul>
+  <li>大（大象 Volume）</li>
+  <li>繁（章鱼 Variety）</li>
+  <li>快（豹子 Velocity）</li>
+  <li>值（淘金 Value）</li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="由谷歌的三驾马车引申出hadoop">由谷歌的三驾马车引申出hadoop</h3>
+
+<p>MapReduce  —&gt; Map  &amp; Reduce 计算架构</p>
+
+<p>GFS  —&gt; HDFS分布式文件系统</p>
+
+<p>bigtable —&gt; hbase数据库</p>
+
+<p><br /></p>
+
+<h3 id="hadoop的常用版本">hadoop的常用版本</h3>
+
+<p>HADOOP是什么：可靠的、可扩展的、分布式计算框架。</p>
+
+<p>apache hadoop</p>
+
+<p>cloudera hadoop（CDH版 hadoop）</p>
+
+<p><br /></p>
+
+<h3 id="hadoop生态系统">hadoop生态系统</h3>
+
+<p><img src="http://img.blog.csdn.net/20170813113805924?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:70%" /></p>
+
+<h3 id="hadoop的特点">hadoop的特点</h3>
+
+<ul>
+  <li>可靠：计算 &amp; 存储：校验码定期检测数据块是否损坏、数据存储在三台不同机器上的三个副本</li>
+  <li>可扩展：集群：机架可插拔、容错性</li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="hadoop的核心模块">hadoop的核心模块</h3>
+
+<ul>
+  <li>Hadoop-Common</li>
+  <li>HDFS</li>
+  <li>YARN</li>
+  <li>MapReduce</li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="hadoop的配置文件">hadoop的配置文件</h3>
+
+<ul>
+  <li>默认的配置文件：存储在$HADOOP_HOME/share/hadoop 目录的子目录各个模块的jar包中；</li>
+  <li>自定义的配置文件：存储在$HADOOP_HOME/etc/hadoop 下面；</li>
+  <li>每次hadoop的操作，hadoop都会先加载默认的配置文件，再加载自定义的配置文件，这时候自定义配置文件参数会覆盖默认的配置文件参数，也就是自定义的配置文件的优先级要高于默认的配置文件。</li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="hdfs文件系统初步简介">HDFS文件系统初步简介</h3>
+
+<p><code class="highlighter-rouge">设计的思想</code>：一次写入、多次读取</p>
+
+<p><code class="highlighter-rouge">架构设计</code>：主从架构</p>
+
+<ul>
+  <li>主节点（namenode）：管理和存储文件的元数据</li>
+  <li>从节点（datanode）：真正存储文件的</li>
+</ul>
+
+<p><code class="highlighter-rouge">文件的属性</code>：名称、位置、副本数、权限、块（大小默认为128M)</p>
+
+<p>文件的块：比如文件的大小为500M，块的最大大小设置为256M，则第一个和第二个块的代销是256M、244M。</p>
+
+<ul>
+  <li>文件的大小小于数据块的大小，则文件不会占据整个块的空间</li>
+  <li>多个文件不能放到一个块中，即一个块一个文件</li>
+</ul>
+
+<p><code class="highlighter-rouge">文件的读写流程</code>：</p>
+
+<ul>
+  <li>首先客户端从namenode获取文件的位置（RPC协议通信）</li>
+  <li>然后客户端再按照<code class="highlighter-rouge">就近原则</code>找datanode获取文件的数据</li>
+</ul>
+
+<p><code class="highlighter-rouge">HDFS启动</code>：</p>
+
+<ul>
+  <li>namenode在启动的时候会有一个大概30s的等待过程，在这30s内namenode会接收所有datanode的<code class="highlighter-rouge">心跳注册</code> 和 <code class="highlighter-rouge">块的状态报告</code>，在这大概30s的时间内，HDFS是处于安全模式的（只读），另外namenode自己也会将fsimage镜像文件和edits操作日志文件中的元信息读取到内存当中</li>
+  <li>datanode会周期性向namenode发送心跳（一般每隔3s发送一次），namenode接收到心跳后会给datanode一个反馈，反馈可能会附带一些指令</li>
+  <li>在启动的过程中，所有的datanode向namenode汇报块的状态报告（有哪些块、有哪些损坏的块等[校验码的机制]），启动完成之后，一般每隔1h，datanode都会向namenode汇报块的状态报告。</li>
+</ul>
+
+<p>[注]：设置块的大小和查看datanode上的数据块：</p>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="c">#增加如下参数项(默认为128M)</span>
+<span class="gp">$ </span>vim hdfs-site.xml
+&lt;property&gt;
+	&lt;name&gt;dfs.blocksize&lt;/name&gt;
+	&lt;value&gt;134217728&lt;/value&gt;
+&lt;/property&gt;
+
+<span class="c">#datanode节点存储的数据块：</span>
+<span class="gp">ubuntu@nimbusz:/opt/modules/hadoop-2.5.0/data/tmp/dfs/data/current/BP-1491715413-172.16.127.129-1502205769566/current/finalized$ </span>du -sh <span class="k">*</span>
+4.0K    blk_1073741826
+4.0K    blk_1073741826_1002.meta
+4.0K    blk_1073741833
+4.0K    blk_1073741833_1009.meta
+36K     blk_1073741835
+4.0K    blk_1073741835_1011.meta
+96K     blk_1073741836
+4.0K    blk_1073741836_1012.meta
+48K     blk_1073741837
+4.0K    blk_1073741837_1013.meta
+</code></pre>
+</div>
+
+<p><br /></p>
+
+<h3 id="yarn初步简介">YARN初步简介</h3>
+
+<p><code class="highlighter-rouge">两个功能</code>：集群资源的管理和分配、多任务的调度</p>
+
+<p><code class="highlighter-rouge">架构设计</code>：主从架构</p>
+
+<ul>
+  <li>主节点（resourcemanager）</li>
+  <li>从节点（nodemanager）</li>
+</ul>
+
+<p><code class="highlighter-rouge">YRAN运行流程</code>：</p>
+
+<ul>
+  <li>客户端向resourcemanager提交应用申请，resourcemanager会为每个任务生成并启动一个appMaster；</li>
+  <li>应用管理者appMaster判断mapreduce任务需要多少资源，然后向resourcemanager申请资源；</li>
+  <li>resourcemanager为每个MR appMaster返回一个Container容器，然后应用在返回的Container容器运行；</li>
+  <li>mapreduce任务的运行和关闭，由appMaster负责监控，MR任务运行完毕之后，appMaster将关闭释放资源</li>
+</ul>
+
+<p>相关组件的说明：</p>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="c">#resourcemanager</span>
+处理客户端的请求
+启动和监控applicationMaster
+监控nodemanager
+资源的分配与调度
+
+<span class="c">#nodemanager</span>
+单个节点上的资源管理
+处理来自resourcemanager的命令
+处理来自applicationMaster的命令
+
+<span class="c">#applicationMaster</span>
+数据切分
+为应用程序申请资源，并分配给内部任务
+任务监控和容错
+
+<span class="c">#container</span>
+对任务环境的抽象，封装了CPU、内存等多维资源以及环境变量，启动变量等任务运行相关的信息
+</code></pre>
+</div>
+
+<p><br /></p>
+
+<h3 id="hadoop分布式的三种模式">hadoop分布式的三种模式</h3>
+
+<ul>
+  <li><a href="http://hadoop.apache.org/docs/r2.5.2/hadoop-project-dist/hadoop-common/#Standalone_Operation">Local (Standalone) Mode</a>：本地模式，使用的是本地文件系统，调试使用，<a href="http://hadoop.apache.org/docs/r2.5.2/hadoop-project-dist/hadoop-common/SingleCluster.html#Standalone_Operation">配置方法</a></li>
+  <li><a href="http://hadoop.apache.org/docs/r2.5.2/hadoop-project-dist/hadoop-common/#Pseudo-Distributed_Operation">Pseudo-Distributed Mode</a>：伪分布式，使用的是HDSF，调试使用，<a href="http://hadoop.apache.org/docs/r2.5.2/hadoop-project-dist/hadoop-common/SingleCluster.html#Pseudo-Distributed_Operation">配置方法</a>，<a href="http://hadoop.apache.org/docs/r2.5.2/hadoop-project-dist/hadoop-common/SingleCluster.html#Pseudo-Distributed_Operation">参考项</a></li>
+  <li><a href="http://hadoop.apache.org/docs/r2.5.2/hadoop-project-dist/hadoop-common/#Fully-Distributed_Operation">Fully-Distributed Mode</a>：完全分布式，使用的是HDSF，生产使用，<a href="http://hadoop.apache.org/docs/r2.5.2/hadoop-project-dist/hadoop-common/SingleCluster.html#Fully-Distributed_Operation">配置方法</a></li>
+</ul>
+
+<p><br /></p>
+
+<blockquote>
+  <p>常见的hadoop的默认web端口：</p>
+
+  <p>yarn外部管理界面端口：8088</p>
+
+  <p>HDFS外部管理界面端口：50070</p>
+
+  <p>secondarynamenode外部管理界面端口：50090</p>
+</blockquote>
+
+<p><br /></p>
+
+<p>安装前准备工作：</p>
+
+<ul>
+  <li>
+    <p>虚拟机(使用virtualbox 或 vmware，此处我们使用virtualbox)</p>
+
+    <pre><code class="language-default">1. virtualbox新建三台虚拟机，即nimbusz、supervisor01z、supervisor02z
+2. 每台虚拟机有两个网卡(也可以只使用，但每个虚拟机都会占用路由器ip资源)
+   NAT网卡用于连接外网(但不能实现物理机和虚拟机以及虚拟机之间的通信，注意勾选高级-混杂模式-全部允许)，
+   host-only网卡用于物理机和虚拟机以及虚拟机之间的通信(但不能连接外网)
+3. ifconfig大致如下：
+	eth0      Link encap:Ethernet  HWaddr 08:00:27:72:f1:95  
+          	  inet addr:10.0.2.15  Bcast:10.0.2.255  Mask:255.255.255.0
+              ...
+	eth1      Link encap:Ethernet  HWaddr 08:00:27:8d:c7:a8  
+              inet addr:192.168.56.102  Bcast:192.168.56.255  Mask:255.255.255.0
+              ...
+	lo        Link encap:Local Loopback  
+              inet addr:127.0.0.1  Mask:255.0.0.0
+              ...
+4. hosts配置大致如下：
+  127.0.0.1      localhost
+  192.168.56.101 dbserver
+  192.168.56.102 nimbusz
+  192.168.56.103 supervisor01z
+  192.168.56.104 supervisor02z
+</code></pre>
+  </li>
+  <li>源码编译hadoop获取native或CHD-hadoop对应版本的native本地包</li>
+  <li>用新获取的${HADOOP_HOME}/lib/native 替换 apache hadoop的native</li>
+</ul>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="c">#####源码编译hadoop获取native</span>
+<span class="c"># 1. 下载并安装 snappy库(e.g.snappy-1.1.4.tar.gz)</span>
+.configure
+make
+sudo make install
+
+<span class="c"># 2. 用maven编译hadoop原文件，编译生成的文件在target目录下</span>
+<span class="gp">$ </span>mvn package -Pdist,native -DskipTests -Dtar -Drequire.snappy 
+
+<span class="c"># 3. 用编译而成的 xxx/target/hadoop-2.5.0/lib/native </span>
+<span class="c"># 替换hadoop自己的 native文件夹 （hadoop默认的安装包不支持native）	 </span>
+
+<span class="c"># 4. 再次检查hadoop是否支持snappy压缩</span>
+<span class="gp">$ </span>bin/hadoop checknative
+
+
+<span class="c">#####CHD-hadoop对应版本的native本地包</span>
+<span class="c"># 1. 下载，解压rpm包(以hadoop-2.5.0 x64举例)</span>
+wget http://archive.cloudera.com/cdh5/redhat/5/x86_64/cdh/5.2.3/RPMS/x86_64/hadoop-2.5.0+cdh5.2.3+615-1.cdh5.2.3.p0.15.el5.x86_64.rpm
+<span class="c"># 2. 替换</span>
+<span class="c"># 3. 检查</span>
+</code></pre>
+</div>
+
+<p>下面以hadoop伪分布式模式的配置和启动过程进行大致讲解：</p>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="c"># 解压hadoop后的hadoop的目录，bin  etc  include  lib  libexec  sbin  share</span>
+<span class="c"># 建议，这里share文件夹下面有一个doc文件夹，存放的是hadoop的文档，由于线上不用，而且该文件夹很大，故删除</span>
+<span class="gp">ubuntu@nimbusz:/opt/modules/hadoop-2.5.0$ </span>du -sh <span class="k">*</span>
+...
+1.7G    share
+<span class="gp">ubuntu@nimbusz:/opt/modules/hadoop-2.5.0$ </span>rm -rf share/doc
+
+
+<span class="c">#伪分布式配置方法：</span>
+<span class="c">#1. 修改配置文件的 $JAVA_HOME 项，$JAVA_HOME需要写具体的java安装home路径而不是$JAVA_HOME</span>
+hadoop-env.sh
+mapred-env.sh
+yarn-env.sh
+
+<span class="c">#2. 查看当前的配置的配置文件是否生效</span>
+<span class="gp">ubuntu@nimbusz:/opt/modules/hadoop-2.5.0$ </span>bin/hadoop
+
+
+<span class="c">#3. 配置文件</span>
+<span class="c">#etc/hadoop/core-site.xml: </span>
+&lt;configuration&gt;
+	<span class="c">#hdfs主从节点通信默认端口号为8020</span>
+    &lt;property&gt;
+        &lt;name&gt;fs.defaultFS&lt;/name&gt;
+        &lt;value&gt;hdfs://nimbusz:8020&lt;/value&gt;
+    &lt;/property&gt;
+    <span class="c">#hdfs的namenode节点元数据的镜像文件</span>
+    &lt;property&gt;
+        &lt;name&gt;hadoop.tmp.dir&lt;/name&gt;
+        &lt;value&gt;/opt/modules/hadoop-2.5.0/data/tmp&lt;/value&gt;
+    &lt;/property&gt;
+&lt;/configuration&gt;
+
+<span class="c">#etc/hadoop/hdfs-site.xml:  #为分布式，副本数为1</span>
+&lt;configuration&gt;
+    &lt;property&gt;
+        &lt;name&gt;dfs.replication&lt;/name&gt;
+        &lt;value&gt;1&lt;/value&gt;
+    &lt;/property&gt;
+&lt;/configuration&gt;
+
+<span class="c">#etc/hadoop/slaves</span>
+<span class="c">#配置nodemanager配置文件slaves</span>
+<span class="c">#决定了datanode和nodemanager所在机器，一行就是一个主机，此处只有一个node节点</span>
+<span class="c">#严格来讲，slaves文件存储的并不是真正的datanode节点，它唯一的作用是在集群操作的时候要正对这个文件去ssh处理。我们在start-all.sh、start-dfs.sh、start-yarn.sh的时候，通过ssh向远程服务器发送指令，将远程服务器启动。至于节点是不是datanode节点，取决于dfs.hosts和dfs.hosts.exclude两个参数。</span>
+nimbusz
+
+
+<span class="c">#4. 格式化hdfs文件系统，并查看格式化后生成的元数据镜像文件(刚才配置在core-site.xml中)</span>
+<span class="c">#注意，格式化的时候需要保证fsimage不存在，这样新生成的fsimage镜像文件才不会和旧的发生冲突</span>
+<span class="gp">ubuntu@hadoop01:/opt/modules/hadoop-2.5.0$ </span>bin/hdfs namenode -format
+<span class="gp">ubuntu@nimbusz:/opt/modules/hadoop-2.5.0/data/tmp/dfs/name/current$ </span>ls
+fsimage_0000000000000000000  fsimage_0000000000000000000.md5  seen_txid  VERSION
+
+
+<span class="c">#5. 启动namenode和datanode</span>
+sbin/hadoop-daemon.sh start namenode
+sbin/hadoop-daemon.sh start datanode
+jps
+10920 NameNode
+11003 DataNode
+11071 Jps
+
+
+<span class="c">#6. 打开hdfs web 管理界面，端口号默认为50070，可通过hdfs-site dfs.namenode.http-address 选项配置</span>
+http://nimbusz:50070
+
+<span class="c">#7. 在hdfs文件系统创建文件目录，约定用户目录格式类似于 /user/ubuntu</span>
+bin/hdfs dfs -mkdir -p /user/ubuntu
+
+<span class="c">#8. 在hdfs文件系统中循环查看文件及文件目录</span>
+bin/hdfs dfs -ls -R /
+drwxr-xr-x   - ubuntu supergroup          0 2017-08-08 20:33 /user
+drwxr-xr-x   - ubuntu supergroup          0 2017-08-08 20:33 /user/ubuntu
+
+<span class="c">#9. 上传下载查看文件</span>
+touch /opt/datas/test.txt
+bin/hdfs dfs -put /opt/datas/test.txt /user/ubuntu/test.txt
+bin/hdfs dfs -get /user/ubuntu/test.txt /opt/datas/test01.txt
+bin/hdfs dfs -cat /user/ubuntu/test.txt
+
+
+<span class="c">#10. 伪分布式（单节点）运行在yarn上面需要的配置：</span>
+<span class="c">#etc/hadoop/yarn-site.xml:</span>
+&lt;configuration&gt;
+    <span class="c">#指定resourcemanager所在的机器</span>
+    &lt;property&gt;
+        &lt;name&gt;yarn.resourcemanager.hostname&lt;/name&gt;
+        &lt;value&gt;nimbusz&lt;/value&gt;
+    &lt;/property&gt;
+    <span class="c">#启动mapreduce_shuffle服务以支持运行mapreduce程序</span>
+    &lt;property&gt;
+        &lt;name&gt;yarn.nodemanager.aux-services&lt;/name&gt;
+        &lt;value&gt;mapreduce_shuffle&lt;/value&gt;
+    &lt;/property&gt;
+&lt;/configuration&gt;
+<span class="c">#etc/hadoop/mapred-site.xml:</span>
+&lt;configuration&gt;
+	<span class="c">#指定mapreduce运行在yarn上</span>
+    &lt;property&gt;
+        &lt;name&gt;mapreduce.framework.name&lt;/name&gt;
+        &lt;value&gt;yarn&lt;/value&gt;
+    &lt;/property&gt;
+&lt;/configuration&gt;
+
+
+<span class="c">#11. 启动yarn的 resourcemanager 和 nodemanager</span>
+sbin/yarn-daemon.sh start resourcemanager
+sbin/yarn-daemon.sh start nodemanager
+jps
+12339 Jps
+12004 ResourceManager
+12248 NodeManager
+10920 NameNode
+11003 DataNode
+
+<span class="c">#12. 浏览器访问yarn客户端管理界面 可以在yarn-site.xml的 yarn.resourcemanager.webapp.address 配置</span>
+<span class="c">#默认的客户端管理界面http地址 ${yarn.resourcemanager.hostname}:8088</span>
+http://nimbusz:8088
+
+
+<span class="c">#13. 测试在yarn上跑一个hadoop自带的wordcount程序</span>
+<span class="c">#前提是在core-site.xml文件中配置fs.defaultFS的值默认为hdfs文件系统</span>
+<span class="c">#上传一个待计数的wc.txt文件到hdfs文件系统</span>
+bin/hdfs dfs -mkdir -p /user/ubuntu/wc
+bin/hdfs dfs -put /opt/datas/wc.txt /user/ubuntu/wc/wc.txt
+<span class="c">#在yarn上启动wordcount程序(注意输出目录开始时不能存在)</span>
+bin/yarn jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.5.0.jar wordcount /user/ubuntu/wc /user/ubuntu/wc/output
+
+<span class="c">#查看运行结果</span>
+<span class="gp">ubuntu@nimbusz:/opt/modules/hadoop-2.5.0$ </span>bin/hdfs dfs -text /user/ubuntu/wc/output/part<span class="k">*</span>
+hadoop  4
+hello   2
+hive    1
+mapreduce       1
+spark   1
+world   1
+yarn    1
+</code></pre>
+</div>
+
+<p><br /></p>
+
+<h3 id="hadoop日志文件">hadoop日志文件</h3>
+
+<p>启动日志文件目录：$HADOOP_HOME/logs</p>
+
+<p>分析日志文件的格式（框架名-用户名-进程-主机-后缀）：</p>
+
+<ul>
+  <li>log：通过log4j记录的大部分应用程序的日志信息</li>
+  <li>out：记录标准输出和标准错误日志，少量记录</li>
+</ul>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="gp">ubuntu@nimbusz:/opt/modules/hadoop-2.5.0/logs$ </span>du -sh <span class="k">*</span>
+48K     hadoop-ubuntu-datanode-nimbusz.log
+4.0K    hadoop-ubuntu-datanode-nimbusz.out
+92K     hadoop-ubuntu-namenode-nimbusz.log
+8.0K    hadoop-ubuntu-namenode-nimbusz.out
+0       SecurityAuth-ubuntu.audit
+72K     userlogs
+52K     yarn-ubuntu-nodemanager-nimbusz.log
+4.0K    yarn-ubuntu-nodemanager-nimbusz.out
+108K    yarn-ubuntu-resourcemanager-nimbusz.log
+4.0K    yarn-ubuntu-resourcemanager-nimbusz.out
+4.0K    yarn-ubuntu-resourcemanager-nimbusz.out.1
+4.0K    yarn-ubuntu-resourcemanager-nimbusz.out.2
+</code></pre>
+</div>
+
+<p><br /></p>
+
+<h3 id="hadoop自带的作业历史记录服务">hadoop自带的作业历史记录服务</h3>
+
+<p>作业历史记录服务会在应用完成运行之后，会将日志的信息上传到HDFS文件系统上（一般保存在HDFS的 /tmp 目录下）。如果没有配置和开启历史服务器的服务，在yarn的web管理页是看不到mapreduce任务的history项的。</p>
+
+<p>配置和开启mr任务历史服务器的过程如下：</p>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="c">#配置</span>
+<span class="c">#增加如下两个参数</span>
+<span class="gp">$ </span>vim mapred-site.xml
+&lt;property&gt;
+	&lt;name&gt;mapreduce.jobhistory.address&lt;/name&gt;
+	&lt;value&gt;nimbusz:10020&lt;/value&gt;
+&lt;/property&gt;
+&lt;property&gt;
+	&lt;name&gt;mapreduce.jobhistory.webapp.address&lt;/name&gt;
+	&lt;value&gt;nimbusz:19888&lt;/value&gt;
+&lt;/property&gt;
+
+<span class="c">#启动</span>
+<span class="gp">$ </span>sbin/mr-jobhistory-daemon.sh start historyserver
+jps
+13443 JobHistoryServer <span class="c">#</span>
+12004 ResourceManager
+12248 NodeManager
+10920 NameNode
+13528 Jps
+11003 DataNode
+</code></pre>
+</div>
+
+<p><br /></p>
+
+<h3 id="hadoop的日志聚集功能">hadoop的日志聚集功能</h3>
+
+<p>如果没有配置hadoop的日志聚集功能，则在yarn点击某个mr任务 map或reduce 的 logs 选项是看不到日志信息的。</p>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code>Aggregation is not enabled. Try the nodemanager at nimbusz:42720
+</code></pre>
+</div>
+
+<p>配置和开启hadoop的日志聚集功能：</p>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="c">#配置</span>
+<span class="gp">$ </span>vim yarn-site.xml 
+&lt;property&gt;
+	<span class="c">#启用hadoop的日志聚集功能(默认false)</span>
+	&lt;name&gt;yarn.log-aggregation-enable&lt;/name&gt;
+	&lt;value&gt;true&lt;/value&gt;
+&lt;/property&gt;
+&lt;property&gt;
+	<span class="c">#日志保存在HDFS上的期限(默认为-1，这里配置的是一周)</span>
+	&lt;name&gt;yarn.log-aggregation.retain-seconds&lt;/name&gt;
+	&lt;value&gt;604800&lt;/value&gt;
+&lt;/property&gt;
+
+
+<span class="c">#重启yarn</span>
+sbin/yarn-daemon.sh stop resourcemanager 
+sbin/yarn-daemon.sh stop nodemanager
+sbin/mr-jobhistory-daemon.sh stop historyserver
+<span class="c">#</span>
+sbin/yarn-daemon.sh start resourcemanager 
+sbin/yarn-daemon.sh start nodemanager
+sbin/mr-jobhistory-daemon.sh start historyserver
+
+
+<span class="c">#重新在yarn上运行mr wordcount程序，查看作业历史记录服务和日志聚集功能是否生效</span>
+bin/hdfs dfs -rm -r /user/ubuntu/wc/output
+bin/yarn jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.5.0.jar wordcount /user/ubuntu/wc /user/ubuntu/wc/output
+</code></pre>
+</div>
+
+<p><br /></p>
+
+<h3 id="hadoop-hdfs-权限检查">hadoop HDFS 权限检查</h3>
+
+<p>比方说刚才我们配置了hadoop的作业历史记录服务，一般会将日志信息保存在HDFS的 /tmp 目录下，但是在<a href="http://nimbusz:50070/explorer.html#/">web页</a>没有配置权限情况下我们是看不到 tmp里面的内容的：</p>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code>Permission denied: <span class="nv">user</span><span class="o">=</span>dr.who, <span class="nv">access</span><span class="o">=</span>READ_EXECUTE, <span class="nv">inode</span><span class="o">=</span><span class="s2">"/tmp"</span>:ubuntu:supergroup:drwx------
+</code></pre>
+</div>
+
+<p>原因是因为在 hdfs-site.xml  配置中 dfs.permissions.enabled 参数默认是true的，在开发环境，为了方便查看日志，通常先设置为false：</p>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="c">#配置</span>
+<span class="gp">$ </span>vim hdfs-site.xml
+&lt;property&gt;
+	&lt;name&gt;dfs.permissions.enabled&lt;/name&gt;
+	&lt;value&gt;false&lt;/value&gt;
+&lt;/property&gt;
+
+<span class="gp">$ </span>vim core-site.xml
+&lt;property&gt;
+	<span class="c">#设置一个hadoop的web静态用户名(默认为dr.who)</span>
+	&lt;name&gt;hadoop.http.staticuser.user&lt;/name&gt;
+	&lt;value&gt;ubuntu&lt;/value&gt;
+&lt;/property&gt;
+
+
+<span class="c">#重启hadoop相关度的所有进程</span>
+sbin/yarn-daemon.sh stop resourcemanager
+sbin/yarn-daemon.sh stop nodemanager
+sbin/mr-jobhistory-daemon.sh stop historyserver
+sbin/hadoop-daemon.sh stop namenode
+sbin/hadoop-daemon.sh stop datanode
+
+sbin/yarn-daemon.sh start resourcemanager
+sbin/yarn-daemon.sh start nodemanager
+sbin/mr-jobhistory-daemon.sh start historyserver
+sbin/hadoop-daemon.sh start namenode
+sbin/hadoop-daemon.sh start datanode
+
+jps
+15617 Jps
+15490 NameNode
+15043 ResourceManager
+15547 DataNode
+15293 NodeManager
+15439 JobHistoryServer
+
+<span class="c">#重新在yarn上运行mr wordcount程序，查看权限检查是否生效</span>
+bin/hdfs dfs -rm -r /user/ubuntu/wc/output
+bin/yarn jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.5.0.jar wordcount /user/ubuntu/wc /user/ubuntu/wc/output
+</code></pre>
+</div>
+
+<p><br /></p>
+
+<h3 id="启用hdfs-secondarynamenode">启用HDFS secondarynamenode</h3>
+
+<p>namenode元数据（文件名、文件目录结构、文件生成时间、副本数、文件权限等信息）初始的时候是通过 bin/hdfs namenode -format 生成的，通过格式化这条命令，会在${HADOOP_TMP_DIR}/dfs/name/current 的 目录中生成一个<code class="highlighter-rouge">fsimage_*</code>的镜像文件（存放元数据），在namenode节点启动以后，元数据就被加载到内存当中。当在HDFS系统中做了增删改的操作之后，同样会在${HADOOP_TMP_DIR}/dfs/name/current 目录中产生<code class="highlighter-rouge">edits_*</code> 操作日志文件。namenode节点在重启的时候，会先读取 fsimage 和 edits文件，以将文件系统的元数据加载到namenode节点的内存当中。</p>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="gp">ubuntu@nimbusz:/opt/modules/hadoop-2.5.0/data/tmp/dfs/name/current$ </span>du -sh <span class="k">*</span>
+1.0M    edits_0000000000000000001-0000000000000000130
+1.0M    edits_inprogress_0000000000000000131
+4.0K    fsimage_0000000000000000000
+4.0K    fsimage_0000000000000000000.md5
+4.0K    seen_txid
+4.0K    VERSION
+</code></pre>
+</div>
+
+<p>通常如果hadoop如果运行了很长时间之后，edits操作日志文件就会变得很大。当这时候因为修改了hadoop的某个配置项或服务器修复需要重启 namenode节点的时候，这个重启的过程就会变得很慢（因为读edits操作日志文件通常要比读fsimage镜像文件慢很多）。所以<code class="highlighter-rouge">为了减少namenode重启的时间</code>，这时候就需要HDFS 的secondarynamenode。</p>
+
+<ol>
+  <li>secondarynamenode在启动以后也会每隔一段时间读取 fsimage镜像文件 和 操作日志文件，读取完成之后，这些元数据信息会被加载到 secondarynamenode 节点自己的内存当中，然后将自己内存当中的元数据信息写到新的 fsimage镜像文件当中。</li>
+  <li>当有新的HDFS的增删改操作之后，secondarynamenode会产生新的edits操作日志。然后下一次重启的时候，又会读取新的 fsimage镜像文件 和 操作日志文件，类似于上述1的步骤。</li>
+</ol>
+
+<p>通过以上两步，secondarynamenode会不断合并edits操作日志文件到新的fsimage镜像文件，这样就有效地减少了namenode重启所花费的时间。</p>
+
+<p>用一句话归结secondarynamenode的作用就是：每隔一段时间合并生成HDFS元数据的新的快照，以减少namenode重启所花费的时间。</p>
+
+<p>以下是配置和启动secondarynamenode服务的过程：</p>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="c">#配置</span>
+<span class="c">#增加如下参数项配置</span>
+<span class="gp">$ </span>vim hdfs-site.xml 
+&lt;property&gt;
+	&lt;name&gt;dfs.namenode.secondary.http-address&lt;/name&gt;
+	&lt;value&gt;nimbusz:50090&lt;/value&gt;
+&lt;/property&gt;
+
+
+<span class="c">#启动</span>
+sbin/hadoop-daemon.sh start secondarynamenode
+jps
+19685 NodeManager
+19862 NameNode
+20583 Jps
+19784 JobHistoryServer
+19437 ResourceManager
+20542 SecondaryNameNode <span class="c">#</span>
+19967 DataNode
+
+
+<span class="c">#访问web管理页</span>
+http://nimbusz:50090
+
+
+<span class="c">#查看secondarynamenode生成的文件(除了namenode文件夹，又多出了一个namesecondary文件夹)</span>
+<span class="gp">ubuntu@nimbusz:/opt/modules/hadoop-2.5.0/data/tmp/dfs$ </span>ls
+data  name  namesecondary
+
+<span class="gp">ubuntu@nimbusz:/opt/modules/hadoop-2.5.0/data/tmp/dfs/namesecondary/current$ </span>du -sh <span class="k">*</span>
+1.0M    edits_0000000000000000001-0000000000000000130
+4.0K    edits_0000000000000000131-0000000000000000132
+4.0K    fsimage_0000000000000000000
+4.0K    fsimage_0000000000000000000.md5
+4.0K    fsimage_0000000000000000132
+4.0K    fsimage_0000000000000000132.md5
+4.0K    VERSION
+</code></pre>
+</div>
+
+<p><br /></p>
+
+<h3 id="hadoop的快捷启动和快捷关闭脚本">hadoop的快捷启动和快捷关闭脚本</h3>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="c"># sbin/start-dfs.sh</span>
+<span class="c"># 快捷启动 namenode、datanode、secondarynamenode</span>
+<span class="gp">$ </span>sbin/start-dfs.sh 
+Starting namenodes on <span class="o">[</span>nimbusz]
+ubuntu@nimbusz<span class="s1">'s password: 
+nimbusz: starting namenode, logging to xx/logs/hadoop-ubuntu-namenode-nimbusz.out
+ubuntu@nimbusz'</span>s password: 
+nimbusz: starting datanode, logging to xx/logs/hadoop-ubuntu-datanode-nimbusz.out
+Starting secondary namenodes <span class="o">[</span>nimbusz]
+ubuntu@nimbusz<span class="s1">'s password: 
+nimbusz: starting secondarynamenode, logging to xx/logs/hadoop-ubuntu-secondarynamenode-nimbusz.out
+
+
+#上述快捷启动的过程中，我们可以看到，虽然启动方便了很多，但是每次都要输入登录密码，挺麻烦的。
+#这时候就可以设置不同主机之间通过ssh免密码登录。
+#所谓的 ssh公钥登录 就是用户将自己的公钥存储在远程主机上，登录的时候远程主机会向用户发送一段随机的字符串，
+#用户用自己的私钥加密后再发回到远程主机，远程主机主机用事先存储的公钥进行解密，如果成功，就证明用户是可信的
+#直接允许登录shell，不再要求输入密码。
+#在用户机器上生成秘钥-公钥对
+ssh-keygen -t [rsa|dsa] -C "message…"
+#拷贝用户机器上的公钥到需要登录的远程主机上
+#第一次密码验证成功后会将公钥内容拷贝到远程主机的authorized_keys文件
+ssh-copy-id ubuntu@nimbusz
+
+
+#再次使用dfs快捷启动脚本就不会每次都输密码那么麻烦了
+$ sbin/start-dfs.sh 
+$ sbin/stop-dfs.sh
+Stopping namenodes on [nimbusz]
+nimbusz: stopping namenode
+nimbusz: stopping datanode
+Stopping secondary namenodes [nimbusz]
+nimbusz: stopping secondarynamenode
+
+
+#快捷关闭和启动yarn的resourcemanager和nodemanager
+$ sbin/stop-yarn.sh 
+$ sbin/start-yarn.sh 
+
+#剩下的 MR作业历史记录服务 需要单独关闭和开启
+$ sbin/mr-jobhistory-daemon.sh stop historyserver
+$ sbin/mr-jobhistory-daemon.sh start historyserver
+</span></code></pre>
+</div>
+
+<p><br /></p>
+
+<h3 id="hadoop启动常见的问题">hadoop启动常见的问题</h3>
+
+<p>1) 多次格式化导致启动失败</p>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="c">#格式化hdfs文件系统，并查看格式化后生成的元数据镜像文件($HADOOP_TMP_DIR配置在core-site.xml中)</span>
+<span class="c">#注意，格式化的时候需要保证fsimage不存在，这样新生成的fsimage镜像文件才不会和旧的发生冲突</span>
+<span class="gp">ubuntu@hadoop01:/opt/modules/hadoop-2.5.0$ </span>bin/hdfs namenode -format
+
+<span class="gp">ubuntu@nimbusz:/opt/modules/hadoop-2.5.0/data/tmp/dfs/name/current$ </span>ls
+fsimage_0000000000000000000  fsimage_0000000000000000000.md5  seen_txid  VERSION
+</code></pre>
+</div>
+
+<p>2) 集群版本不一致导致的启动失败</p>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="c">#一般namenode、secondarynamenode、datanode三者的集群id，即clusterID不一致可能启动就会出现问题</span>
+<span class="gp">ubuntu@nimbusz:/opt/modules/hadoop-2.5.0/data/tmp/dfs/name/current$ </span>cat VERSION 
+<span class="nv">namespaceID</span><span class="o">=</span>389815234
+<span class="nv">clusterID</span><span class="o">=</span>CID-0ead1360-19df-4a73-9fc3-8ff2ecc8c472
+<span class="nv">cTime</span><span class="o">=</span>0
+<span class="nv">storageType</span><span class="o">=</span>NAME_NODE
+<span class="nv">blockpoolID</span><span class="o">=</span>BP-1491715413-172.16.127.129-1502205769566
+<span class="nv">layoutVersion</span><span class="o">=</span>-57
+
+
+<span class="gp">ubuntu@nimbusz:/opt/modules/hadoop-2.5.0/data/tmp/dfs/namesecondary/current$ </span>cat VERSION 
+<span class="nv">namespaceID</span><span class="o">=</span>389815234
+<span class="nv">clusterID</span><span class="o">=</span>CID-0ead1360-19df-4a73-9fc3-8ff2ecc8c472
+<span class="nv">cTime</span><span class="o">=</span>0
+<span class="nv">storageType</span><span class="o">=</span>NAME_NODE
+<span class="nv">blockpoolID</span><span class="o">=</span>BP-1491715413-172.16.127.129-1502205769566
+<span class="nv">layoutVersion</span><span class="o">=</span>-57
+
+
+<span class="gp">ubuntu@nimbusz:/opt/modules/hadoop-2.5.0/data/tmp/dfs/data/current$ </span>cat VERSION 
+<span class="nv">storageID</span><span class="o">=</span>DS-89f31c8e-49b0-4614-8453-f59796c88adb
+<span class="nv">clusterID</span><span class="o">=</span>CID-0ead1360-19df-4a73-9fc3-8ff2ecc8c472
+<span class="nv">cTime</span><span class="o">=</span>0
+<span class="nv">datanodeUuid</span><span class="o">=</span>59840327-bd85-4aa3-9b87-466724b63310
+<span class="nv">storageType</span><span class="o">=</span>DATA_NODE
+<span class="nv">layoutVersion</span><span class="o">=</span>-55
+</code></pre>
+</div>
+
+<p>3) 端口号被占用</p>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="c">#使用netstat查看端口号是否被占用</span>
+netstat -lntp[u]
+</code></pre>
+</div>
+
+<p>4) 多用户的混用，造成进程冲突（pid）</p>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="c">#这只是针对的单节点的为分布式的启动模式而言的</span>
+<span class="c">#这时候需要把 /tmp目录下的 *.pid文件删除，然后重新以一个用户启动</span>
+</code></pre>
+</div>
+
+<p><br /></p>
+
+<h3 id="其他一些hadoop常用的shell命令">其他一些hadoop常用的shell命令</h3>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="c">#下载两个文件并合并到本地的一个文件中</span>
+bin/hdfs dfs -getmerge xxx/file01 xxx/file02 /opt/datas/targetfile.txt
+
+<span class="c">#查看当前hdfs是不是处于安全状态(安全状态是只读的)</span>
+bin/hdfs dfsadmin -safemode get
+<span class="c">#进入|离开安全模式</span>
+bin/hdfs dfsadmin -safemode <span class="o">[</span>enter|leave]
+</code></pre>
+</div>
+
+
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-6">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">java</button>
+                                
+                        </div>
+                        
+                        <!--
+                        <div class="col-md-6">
+                            <div class="small text-right">
+                                <div>    
+                                    <i class="fa fa-comments-o"> </i> 
+                                    <span class="ds-comments">0</span>条评论
+                                </div>
+                                <div>
+                                    <i class="fa fa-share-alt"> </i> 
+                                    <span class="ds-shares">0</span>条转发
+                                </div>  
+                            </div>
+                        </div>
+                        -->
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <!-- donate -->
+                            
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal2">
+    Donate
+</button>
+<div class="modal inmodal" id="myModal2" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated flipInY">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Donate Me</h4>
+                <small class="font-bold">Thanks for your support!</small>
+            </div>
+            <div class="modal-body">
+                <div class="tabbable" id="tabs-960227">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#panel-405278" data-toggle="tab">Alipay</a>
+                        </li>
+                        <li>
+                            <a href="#panel-874705" data-toggle="tab">Wechat</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="panel-405278">
+                            <div class="text-center">
+                                <img src="/static/img/pay/alipay.png"" height="250" width="250">
+                            </div>    
+                        </div>
+                        <div class="tab-pane" id="panel-874705">
+                            <div class="text-center">
+                                <img src="/static/img/pay/wechat.png"" height="250" width="250">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+                            
+                            <br>
+                            <!-- share -->
+                            
+                                
+<!--分享-->
+<div class="row" style="margin-top:30px;">
+	<h2>Share:</h2>
+    <div class="social-share" style="margin-left:-5px;"data-sites="wechat,qq,qzone,weibo"></div> 
+</div>
+<link rel="stylesheet" href="/static/css/share.min.css">
+<script src="/static/js/jquery.share.min.js"></script>
+<script src="/static/js/embed.js"></script>
+
+<script>
+  var url = 'http://localhost:4000/java/2017/08/08/java-hadoop-01.html';
+  var source = 'http://localhost:4000/java/2017/08/08/java-hadoop-01.html';
+  var title = 'hadoop的基本简介及安装、配置、使用（一）';
+  var excerpt = $("p:eq(0)").text();
+  
+  var imageUrl = 'http://localhost:4000/static/img/landing/header_one.jpg';
+  var imgEle = $(".content_img:eq(0)");
+  if (imgEle) {
+    imageUrl = imgEle.attr("src");
+  }
+
+  var $config = {
+      url: url, // 网址，默认使用 window.location.href
+      source: source, // 来源（QQ空间会用到）, 默认读取head标签：<meta name="site" content="http://overtrue" />
+      title: title, // 标题，默认读取 document.title 或者 <meta name="title" content="share.js" />
+      description: excerpt, // 描述, 默认读取head标签：<meta name="description" content="PHP弱类型的实现原理分析" />
+      image: imageUrl, // 图片, 默认取网页中第一个img标签
+      sites: ['qzone', 'qq', 'weibo','wechat','douban'], // 启用的站点
+      //disabled: ['google', 'facebook', 'twitter'], // 禁用的站点
+      wechatQrcodeTitle: "微信扫一扫：分享", // 微信二维码提示文字
+      wechatQrcodeHelper: '<p style="font-size:10px;">微信里点“发现”，扫一下</p><p style="font-size:10px;">二维码便可将本文分享至朋友圈。</p>',
+   };
+  $('.social-share').share($config);
+</script>
+
+
+
+
+                            
+                            <br>
+                            <!-- comment -->
+                            <!--
+
+
+
+-->
+
+<!-- 多说评论框 start -->
+<div class="row" style="margin-top:25px;"></div>
+<div class="ds-thread" data-thread-key="/java/2017/08/08/java-hadoop-01.html" data-title="hadoop的基本简介及安装、配置、使用（一）" data-url="http://localhost:4000/java/2017/08/08/java-hadoop-01.html"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+	var duoshuoQuery = {short_name:"kinglyjn"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+<!-- 多说公共JS代码 end -->
+
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+	
+	    <script src="/static/js/scroll.js"></script>
+
+<!-- Baidu analytics -->
+
+
+<!-- Google analytics -->
+
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-73784599-1', 'auto');
+    ga('send', 'pageview');
+
+  </script>
+
+
+<!--
+
+-->
+
+<!--
+
+-->
+
+<script async src="/static/js/count_page.js"></script>
+
+	
+
+</body>
+</html>

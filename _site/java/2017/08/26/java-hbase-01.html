@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html>
+	
+	    <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+    <meta content="hive的基本简介及安装、配置、使用（一）" name="description">
+  
+  
+    <meta name="keywords" content="hive的基本简介及安装、配置、使用（一）,hbase,kinglyjn">
+  
+  <meta name="author" content="KinglyJn">
+
+  <title>
+    
+        KinglyJn|Hbase的基本简介及安装、配置、使用（一）
+    
+  </title>
+  <!-- favicon -->
+  <link rel="shortcut icon" href="static/img/favicon.ico">
+
+
+  <!-- Third-party CSS -->
+  <link href="/bower_components/normalize-css/normalize.min.css" rel="stylesheet">
+  <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/bower_components/animate.css/animate.min.css" rel="stylesheet">
+  <link href="/bower_components/components-font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="/static/font-mfizz/font-mfizz.css" rel="stylesheet">
+  <!-- <link href="/bower_components/toastr/toastr.min.css" rel="stylesheet"> -->
+  <link href="/bower_components/jquery.gritter/css/jquery.gritter.css" rel="stylesheet">
+  <link rel="stylesheet" href="/search/css/cb-search.css">
+
+  <!-- Custom styles for this template -->
+  <link href="/static/css/style.min.css" rel="stylesheet">
+  <link href="/static/css/pygments.css" rel="stylesheet">
+
+  <!-- Scripts -->
+  <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="/search/js/bootstrap3-typeahead.min.js"></script>
+
+  <!-- cb-search -->
+  <script src="/search/js/cb-search.js"></script>
+  <script>
+    $(function(){
+        $("pre").css('display','block');
+    });
+  </script>
+  <!-- Mainly scripts -->
+  <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="/bower_components/metisMenu/dist/metisMenu.min.js"></script>
+  <script src="/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+
+  <!-- Peity -->
+  <script src="/bower_components/peity/jquery.peity.min.js"></script>
+
+  <script src="/bower_components/PACE/pace.min.js"></script>
+  <script src="/bower_components/wow/dist/wow.min.js"></script>
+  <!-- Custom and plugin javascript -->
+  <script src="/static/js/inspinia.js"></script>
+
+  <!-- Rickshaw -->
+  <script src="/bower_components/rickshaw/vendor/d3.v3.js"></script>
+  <script src="/bower_components/rickshaw/rickshaw.min.js"></script>
+
+
+  <!-- jPages -->
+  <script src="/static/js/jPages.js"></script>
+  <script src="/static/js/js.js"></script>
+  <script type="text/javascript">
+        $(function(){
+          /* initiate the plugin */
+          $("div.pag-holder").jPages({
+              containerID  : "pag-itemContainer",
+              perPage      : 10,  /* num of items per page */
+              startPage    : 1,
+              startRange   : 1,
+              midRange     : 3,
+              endRange     : 1
+          });
+
+          $("div.pag-jump button").click(function(){
+            var page = parseInt($("div.pag-jump input").val());
+            $("div.pag-holder").jPages(page);
+          });
+
+          $("div.pag-jump input").on("keypress", function(){
+            var e=e||window.event;
+            if (e.keyCode == 13) {
+                var page = parseInt($("div.pag-jump input").val());
+                $("div.pag-holder").jPages(page);
+            } 
+          });
+      });
+  </script>
+
+<!-- GrowingIO -->
+
+  <script>
+    var _vds = _vds || [];
+    window._vds = _vds;
+    (function(){
+      _vds.push(['setAccountId', 'a49d4901c7853da9']);
+      (function() {
+        var vds = document.createElement('script');
+        vds.type='text/javascript';
+        vds.async = true;
+        vds.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'dn-growing.qbox.me/vds.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(vds, s);
+      })();
+    })();
+  </script>
+
+
+</head>
+
+	
+
+
+<body id="page-top" class="landing-page">
+
+	
+	    
+
+<!--修复手机端横轴方向左右滑动BUG-->
+<style type="text/css">
+    .landing-page .row {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+</style>
+
+<div class="search-tool"
+      style="position: fixed; top: 0px ; bottom: 0px; left: 0px; right:  0px; opacity: 0.95; background-color: #111111; z-index: 9999; display: none;">
+    <input type="text" class="form-control search-content" id="search-content" style="position: fixed; top: 60px" placeholder="Search Blog">
+
+    <div style="position: fixed; top: 16px; right: 16px; z-index: 9999;">
+        <img src="/search/img/cb-close.png" id="close-btn"/>
+    </div>
+</div>
+
+<div style="position: fixed; right: 16px; bottom: 20px; z-index: 9999;">
+    <img src="/search/img/cb-search.png"  id="search-btn"  title="Double click Ctrl"/>
+</div>
+
+<div class="navbar-wrapper">
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header page-scroll">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/">KinglyJn</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a class="page-scroll" href="/blog/"></a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/blog/">Blog</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/linux/">Linux</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/cloud/">Cloud</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/java/">Java</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/c/">C</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/php/">PHP</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/db/">DB</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/htmlx/">HTMLX</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/life/">Life</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/art/">Art</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/other/">Other</a></li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </nav>
+</div>
+<div id="inSlider" class="carousel carousel-fade" data-ride="carousel">
+    <div style="position:absolute;float:left;left:25%;z-index:15;width:50%;margin-bottom:18%;bottom:0;text-align:center;list-style:none;">
+        <span style="color:white;font-size:24px;">以平实之心写作</span><br>
+        <span style="color:white;font-size:13px;">writing with simple heart ♬. </span>
+    </div>
+    <!--
+    <ol class="carousel-indicators">
+        <li data-target="#inSlider" data-slide-to="0" class="active"></li>
+        <li data-target="#inSlider" data-slide-to="1"></li>
+    </ol>
+    -->
+    <div class="carousel-inner" role="listbox">
+        <div class="item active">
+            <div class="container">
+                <div class="carousel-caption">
+                </div>
+                <div class="carousel-image wow zoomIn">
+                    <!-- <img src="static/img/landing/laptop.png" alt="laptop"/> -->
+                </div>
+            </div>
+            <!-- Set background for slide in css -->
+            <div class="header-back blog-one"></div>
+        </div>
+        <!--
+        <div class="item">
+            <div class="container">
+                <div class="carousel-caption blank">
+                </div>
+            </div>
+            Set background for slide in css
+            <div class="header-back two"></div>
+        </div>
+        -->
+    </div>
+    <!--
+    <a class="left carousel-control" href="#inSlider" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#inSlider" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+    -->
+</div>
+
+
+	
+
+    <div class="wrapper wrapper-content  animated fadeInRight article">
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <div class="pull-right">
+                    	
+                        	<button class="btn btn-white btn-xs" type="button">Java</button>
+                        
+                    </div>
+                    <div class="text-center article-title" style="margin-bottom:50px;">
+                        <h1>
+                            Hbase的基本简介及安装、配置、使用（一）
+                        </h1>
+                        <a href="http://www.keyllo.com/studio/">
+                            <span class="text-muted"><i class="fa fa-user"></i> KinglyJn</span>
+                        </a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <span class="text-muted"><i class="fa fa-clock-o"></i> 2017-08-26</span>
+                    </div>
+                    	<h3 id="hbase简介">Hbase简介</h3>
+
+<blockquote>
+  <p>Hbase是一个构建在HDFS之上的、分布式的、可扩展的、面向列存储的开源数据库，是google的bigtable的开源实现，适用于海量数据的存储和实时查询，是hadoop生态系统中重要的一员。</p>
+</blockquote>
+
+<p><br /></p>
+
+<p><img src="http://img.blog.csdn.net/20170828161025656?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:70%" /></p>
+
+<p>以下是hbase处理数据的物理架构图：</p>
+
+<p><img src="http://img.blog.csdn.net/20170912225202089?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:72%" /></p>
+
+<p><br /></p>
+
+<pre><code class="language-default">1. master-slave主从架构。
+2. table从竖直方向进行切割，分成若干个区域region，由各个区域服务器regionserver进行管理。
+3. region
+   a.一个region就相当于大表的一个分片
+   b.region存储机制包含两部分，即内存存储（MemStore）和文件存储(StoreFile)
+4. masterserver
+   a.负责指派resion给regionserver，通过zk获得task帮助
+   b.处理跨regionserver的的负载均衡问题
+   c.从繁忙服务器到空闲服务器之间的数据转载
+   d.通过负载均衡来判断集群的状态
+5. regionserver
+   a.和client通信
+   b.处理数据操作 和 它下面的所有region的读写请求
+   c.通过阈值决定region size
+</code></pre>
+
+<p><br /></p>
+
+<p>hbase的优点：</p>
+
+<ul>
+  <li>成熟：社区成熟、理论充分经过实践、丰富的工具支持</li>
+  <li>高效：高并发写入、均衡效果好、null数据的列不占存储空间</li>
+  <li>分布式特性：基于hdfs（数据安全、普通商用服务器廉价、易扩展）、zookeeper</li>
+  <li>表的特点：
+    <ul>
+      <li>大：存储量大，一张表可以有数百亿行、上百万列；检索速度快，准实时，[毫]秒级别；</li>
+      <li>数据安全：基于hdfs存储，一条记录至少有3个备份</li>
+      <li>面向列存储：面向列（族）的存储和权限访问，列（族）独立索引；</li>
+      <li>稀疏：对于为空的列，并不占用存储空间，因此表可以设计的非常稀疏；</li>
+      <li>数据类型单一：hbase中数据类型都是字符串类型（string）；</li>
+      <li>无模式：表只定义列族，而不定义列，这样数据存储更加灵活（结构化和半结构化的数据）</li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="hbase数据存储的逻辑模型和物理模型">hbase数据存储的逻辑模型和物理模型</h3>
+
+<p><strong>数据存储的逻辑模型</strong></p>
+
+<pre><code class="language-default">0. 存储方式上，面向行和面向列的设计方式，主要的考虑因素是磁盘的寻址效率问题。
+1. 面向列族的数据库(面向行适合小量数据在线面向事务处理(OLTP)，面向列适合巨量数据在线面向分析处理(OLAP))
+2. table中只定义了列族，并按照row存储
+3. 术语
+	table：表，是row的集合
+	row：行，是列族的集合
+	column family：列族，是列的集合
+	column：列，是kv对的集合	
+</code></pre>
+
+<p>主键（Row Key）：用来检索记录的主键，访问Hbase表中的行，只有三种方式，即通过单个Row key访问、通过Row Key的range 和 全表扫描。主键为任意字符串，最大长度为64kb，按照字典顺序存储，在hbase内部保存为字节数组。</p>
+
+<p>列族（Column Family）：列族在创建表的时候声明，它是一些列的集合，一个列族的所有的列都有相同的前缀，如courses:hisotry和courses:month都是列族courses的成员，冒号(:)是列族的分隔符，用来区分前缀和列名。一个列族可以包含多个列。列中的数据都是以二进制的形式存在，没有数据类型。</p>
+
+<p>时间戳和存储单元（Timestamp and Cell）：Hbase中通过row和columns确定的为一个存储单元称为Cell。每个cell保存着一份数据的多个版本。在写入数据的时候，时间戳可以由hbase自动赋值（当前系统时间精确到毫秒），也可以显式赋值。</p>
+
+<p><img src="http://img.blog.csdn.net/20170826133710173?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:80%" /></p>
+
+<p><img src="http://img.blog.csdn.net/20170826135302496?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:50%" /></p>
+
+<p><img src="http://img.blog.csdn.net/20170826135313881?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:50%" /></p>
+
+<p><br /></p>
+
+<p><strong>数据存储的物理模型</strong></p>
+
+<ol>
+  <li>
+    <p>table中的所有行都按照rowkey的字典序进行排列；</p>
+  </li>
+  <li>
+    <p>table在行的方向上分割为多个region；</p>
+
+    <p><img src="http://img.blog.csdn.net/20170826173248598?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:50%" /></p>
+  </li>
+  <li>
+    <p>region按大小进行分割，每张表开始只有一个region，随着数据的增多，region不断增大，当增大到一定阈值的时候，region就会分裂为两个新的region，随后会有越来越多的region；</p>
+
+    <p><img src="http://img.blog.csdn.net/20170826173801054?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:50%" /></p>
+
+    <pre><code class="language-default">开始创建表
+--
+...      分裂
+--    ---------&gt;   --          分裂        
+                   ...     -----------&gt;   ...
+                   300001
+             
+             
+                   300002
+                   ...
+                   --
+</code></pre>
+  </li>
+  <li>
+    <p>Region是hbase中分布式存储和负载均衡的最小单元，不同的region分布到不同的regionserver上；</p>
+
+    <p><img src="http://img.blog.csdn.net/20170826174226363?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:50%" /></p>
+  </li>
+  <li>
+    <p>Region（[startkey, stopkey)）虽是分布式存储的最小单元，但并不是存储的最小单元。</p>
+
+    <p>region由一个或者多个store，每个store保存一个columns family。</p>
+
+    <p>每个store又由一个memStore和0个或多个storeFile组成。</p>
+
+    <p>memStore存储在内存中，storeFile存储在HDFS上。</p>
+
+    <p><img src="http://img.blog.csdn.net/20170826174902139?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:50%" /></p>
+
+    <p>hbase数据写入的流程：</p>
+
+    <div class="language-shell highlighter-rouge"><pre class="highlight"><code>put --&gt; cell
+	0<span class="o">)</span> 将操作记录写入HDFS上的WAL预写日志
+	1<span class="o">)</span> 将数据先写入内存memstore中
+	2<span class="o">)</span> 当memstore达到一定阈值的时候，将数据写入到磁盘storeFile中
+</code></pre>
+    </div>
+  </li>
+</ol>
+
+<p><br /></p>
+
+<h3 id="搭建hbase本地模式">搭建hbase本地模式</h3>
+
+<p><a href="http://hbase.apache.org/book.html#quickstart">参考</a></p>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="c"># 1.下载</span>
+wget http://archive.apache.org/dist/hbase/1.2.3/hbase-1.2.3-bin.tar.gz
+<span class="c"># 2.tar开、配置环境变量</span>
+tar -zxvf hbase-1.2.3-bin.tar.gz -C xxx/xxx
+sudo vim /etc/profile
+<span class="c"># 3.conf/hbase-env.sh：</span>
+<span class="nb">export </span><span class="nv">JAVA_HOME</span><span class="o">=</span>/opt/modules/jdk1.8.0_144
+<span class="nb">export </span><span class="nv">HBASE_MANAGES_ZK</span><span class="o">=</span><span class="nb">true</span>   <span class="c">#HBase是否管理它自己的ZooKeeper的实例</span>
+
+<span class="c"># 4.conf/hbase.conf</span>
+<span class="c"># 参考 lib/hbase-common-x.x.x.jar!/hbase-default.xml</span>
+&lt;property&gt;
+    &lt;name&gt;hbase.rootdir&lt;/name&gt;
+    &lt;value&gt;file:///opt/module/data/hbasedata/hbase&lt;/value&gt;
+    &lt;description&gt;默认值为：<span class="k">${</span><span class="nv">hbase</span><span class="p">.tmp.dir</span><span class="k">}</span>/hbase&lt;/description&gt;
+&lt;/property&gt;
+&lt;!--
+&lt;property&gt;
+    &lt;name&gt;hbase.tmp.dir&lt;/name&gt;
+    &lt;value&gt;<span class="k">${</span><span class="nv">java</span><span class="p">.io.tmpdir</span><span class="k">}</span>/hbase-<span class="k">${</span><span class="nv">user</span><span class="p">.name</span><span class="k">}</span>&lt;/value&gt;
+    &lt;description&gt;通常情况下，目录的结构为 /tmp/hbase-ubuntu，可以自定义&lt;/description&gt;
+&lt;/property&gt;
+&lt;property&gt;
+    &lt;name&gt;hbase.zookeeper.property.dataDir&lt;/name&gt;
+    &lt;value&gt;<span class="k">${</span><span class="nv">hbase</span><span class="p">.tmp.dir</span><span class="k">}</span>/zookeeper&lt;/value&gt;
+    &lt;description&gt;通常不配置，默认为<span class="k">${</span><span class="nv">hbase</span><span class="p">.tmp.dir</span><span class="k">}</span>/zookeeper&lt;/description&gt;
+&lt;/property&gt;
+--&gt;
+
+<span class="c"># 5. 快捷启动hbase</span>
+bin/start-hbase.sh
+或
+bin/hbase-daemon.sh start master
+bin/hbase-daemon.sh start regionserver
+<span class="c"># 6. 查看hbase相关进程</span>
+2424 Jps
+2173 HMaster
+<span class="c"># 7. web查看hbase集群</span>
+curl http://nimbusz:60010/master-status
+<span class="c"># 8. 关闭hbase</span>
+bin/stop-hbase.sh
+或
+bin/hbase-daemon.sh stop regionserver
+bin/hbase-daemon.sh stop master
+</code></pre>
+</div>
+
+<p><br /></p>
+
+<h3 id="搭建hbase分布式环境">搭建hbase分布式环境</h3>
+
+<p><a href="http://hbase.apache.org/book.html#quickstart">参考</a></p>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="c"># 1. 关闭防火墙(卸载防火墙apt-get remove iptables)，关闭selinux</span>
+ufw disable
+
+<span class="c"># 2.1 下载解压(或者编译源码)、删除docs文件(没用，而且占空间，故删除)</span>
+<span class="c"># 可以参考 http://archive.cloudera.com/cdh5/cdh/5/ 来确定cdh生态对应的版本</span>
+<span class="c"># 这里我选用1.2.3版本</span>
+wget http://archive.apache.org/dist/hbase/hbase-0.98.6/hbase-0.98.6-hadoop2-bin.tar.gz
+或者
+wget http://archive.apache.org/dist/hbase/1.2.3/hbase-1.2.3-bin.tar.gz
+rm -rf docs
+
+<span class="c"># 2.2 配置HBASE_HOME(可以省略)</span>
+sudo vim /etc/profile
+	<span class="nb">export </span><span class="nv">HBASE_HOME</span><span class="o">=</span>/opt/module/hbase-x.x.x
+	<span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:...:<span class="nv">$HBASE_HOME</span>/bin
+<span class="nb">source</span> /etc/profile
+
+<span class="c"># 3. 官方默认的是以hadoop2.2.0编译的，这里我们需要手动替换habsehome/lib文件夹中hadoop相关的jar成我们需要的hadoop的版本(2.5.0)</span>
+需要替换的jar包如下：
+hadoop-annotations-2.2.0.jar
+hadoop-auth-2.2.0.jar
+hadoop-client-2.2.0.jar
+hadoop-common-2.2.0.jar
+hadoop-hdfs-2.2.0.jar
+hadoop-mapreduce-client-app-2.2.0.jar
+hadoop-mapreduce-client-common-2.2.0.jar
+hadoop-mapreduce-client-core-2.2.0.jar
+hadoop-mapreduce-client-jobclient-2.2.0.jar
+hadoop-mapreduce-client-shuffle-2.2.0.jar
+hadoop-yarn-api-2.2.0.jar
+hadoop-yarn-client-2.2.0.jar
+hadoop-yarn-common-2.2.0.jar
+hadoop-yarn-server-common-2.2.0.jar
+hadoop-yarn-server-nodemanager-2.2.0.jar
+
+<span class="c"># 4. 修改HBase的配置文件 conf/hbase-env.sh 修改内容如下：</span>
+<span class="nb">export </span><span class="nv">JAVA_HOME</span><span class="o">=</span>/opt/modules/jdk1.8.0_144
+<span class="nb">export </span><span class="nv">HBASE_MANAGES_ZK</span><span class="o">=</span><span class="nb">false</span>   <span class="c">#HBase是否管理它自己的ZooKeeper的实例</span>
+
+<span class="c"># 5. 配置文件</span>
+<span class="c"># 5.1 conf/hbase-site.xml</span>
+<span class="c"># 参考 lib/hbase-common-x.x.x.jar!/hbase-default.xml</span>
+<span class="c"># [注] 如果在 HDFS HA 上部署HBase需要做的更改如下：</span>
+<span class="c"># 在hbase-site.xml中，rootdir改为和hadoop的dfs.nameservices一样(e.g. hdfs://ns1/hbase)</span>
+<span class="c"># 将hdfs的配置文件core-site.xml和hdfs-site.xml拷贝到hbase的conf目录下，然后重启hbase</span>
+-------------------------
+&lt;property&gt;
+	&lt;!--指定是完全分布式环境还是伪分布式环境--&gt;
+  	&lt;name&gt;hbase.cluster.distributed&lt;/name&gt;
+  	&lt;value&gt;true&lt;/value&gt;
+&lt;/property&gt;
+&lt;property&gt;
+  	&lt;name&gt;hbase.rootdir&lt;/name&gt;
+  	&lt;value&gt;hdfs://nimbusz:8020/hbase&lt;/value&gt;
+&lt;/property&gt;
+&lt;property&gt;
+  	&lt;name&gt;hbase.zookeeper.quorum&lt;/name&gt;
+  	&lt;value&gt;nimbusz,supervisor01z,supervisor02z&lt;/value&gt;
+&lt;/property&gt;
+&lt;property&gt;
+  	&lt;name&gt;hbase.zookeeper.property.clientPort&lt;/name&gt;
+  	&lt;value&gt;2181&lt;/value&gt;
+&lt;/property&gt;
+
+<span class="c"># 5.2 conf/regionservers</span>
+------------------------
+nimbusz
+supervisor01z
+supervisor02z
+
+<span class="c"># 5.3 分发hbase及其配置文件 到各个节点</span>
+scp -r /opt/module/hbase-1.2.3 ubuntu@supervisor01z:/opt/module/hbase-1.2.3
+scp -r /opt/module/hbase-1.2.3 ubuntu@supervisor02z:/opt/module/hbase-1.2.3
+
+<span class="c"># 6. 在master节点（使用nimbusz主机充当master节点）快捷启动hbase</span>
+bin/start-hbase.sh
+或
+bin/hbase-daemon.sh start master
+bin/hbase-daemon.sh start regionserver
+
+<span class="c"># 7. 查看hbase相关进程</span>
+35216 HMaster
+11009 QuorumPeerMain
+35362 HRegionServer
+
+<span class="c"># 8. web查看hbase集群</span>
+<span class="c"># web ui端口参数为：hbase.master.info.port</span>
+curl http://nimbusz:60010/master-status	<span class="c">#1.0版本之前</span>
+curl http://nimbusz:16010/master-status <span class="c">#1.0版本之后</span>
+
+<span class="c"># 9. 关闭hbase</span>
+bin/stop-hbase.sh
+或
+bin/hbase-daemon.sh stop regionserver
+bin/hbase-daemon.sh stop master
+</code></pre>
+</div>
+
+<blockquote>
+  <p>注：Apache提供的hadoop本地库是32位的，而在64位的服务器上就会有问题，因此需要自己编译64位的版本。</p>
+
+  <pre><code class="language-default">hbase(main):001:0&gt; get 'user', '1002'
+2017-08-28 11:28:47,988 WARN  [main] util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+</code></pre>
+</blockquote>
+
+<p><br /></p>
+
+<h3 id="hbaserootdir-对应hdfs文件简介">hbase.rootdir 对应HDFS文件简介</h3>
+
+<p><img src="http://img.blog.csdn.net/20170826162159029?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:80%" /></p>
+
+<p><br /></p>
+
+<h3 id="hbase-shell">Hbase shell</h3>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="c"># 查看hbase脚本提供的一些功能</span>
+<span class="gp">$ </span>bin/hbase
+Usage: hbase <span class="o">[</span>&lt;options&gt;] &lt;<span class="nb">command</span>&gt; <span class="o">[</span>&lt;args&gt;]
+Options:
+  --config DIR    Configuration direction to use. Default: ./conf
+  --hosts HOSTS   Override the list <span class="k">in</span> <span class="s1">'regionservers'</span> file
+Commands:
+Some commands take arguments. Pass no args or -h <span class="k">for </span>usage.
+  shell           Run the HBase shell
+  hbck            Run the hbase <span class="s1">'fsck'</span> tool
+  hlog            Write-ahead-log analyzer
+  hfile           Store file analyzer
+  zkcli           Run the ZooKeeper shell
+  upgrade         Upgrade hbase
+  master          Run an HBase HMaster node
+  regionserver    Run an HBase HRegionServer node
+  zookeeper       Run a Zookeeper server
+  rest            Run an HBase REST server
+  thrift          Run the HBase Thrift server
+  thrift2         Run the HBase Thrift2 server
+  clean           Run the HBase clean up script
+  classpath       Dump hbase CLASSPATH
+  mapredcp        Dump CLASSPATH entries required by mapreduce
+  pe              Run PerformanceEvaluation
+  ltt             Run LoadTestTool
+  version         Print the version
+  CLASSNAME       Run the class named CLASSNAME
+  
+  
+<span class="c"># 使用hbase shell</span>
+<span class="gp">$ </span>bin/habse shell
+
+<span class="c"># 使用help查看帮助文档</span>
+<span class="gp">hbase(main):001:0&gt; </span><span class="nb">help
+</span><span class="gp">hbase(main):001:0&gt; </span><span class="nb">help</span> <span class="s2">"list"</span>
+</code></pre>
+</div>
+
+<p><br /></p>
+
+<h3 id="hbase-shell-常见命令">Hbase shell 常见命令</h3>
+
+<div class="language-sql highlighter-rouge"><pre class="highlight"><code><span class="c1">-- 查看数据库中有哪些表</span>
+<span class="n">list</span>
+
+<span class="c1">-- 创建表(单引号和双引号都可以)</span>
+<span class="k">create</span> <span class="s1">'user'</span><span class="p">,</span> <span class="s1">'info'</span>
+
+<span class="c1">-- 查看表的描述信息</span>
+<span class="k">describe</span> <span class="s1">'user'</span>
+
+<span class="c1">-- 插入数据</span>
+<span class="n">put</span> <span class="s1">'user'</span><span class="p">,</span> <span class="s1">'1001'</span><span class="p">,</span> <span class="s1">'info:name'</span><span class="p">,</span> <span class="s1">'zhangsan'</span>
+<span class="n">put</span> <span class="s1">'user'</span><span class="p">,</span> <span class="s1">'1001'</span><span class="p">,</span> <span class="s1">'info:age'</span><span class="p">,</span> <span class="s1">'25'</span>
+<span class="n">put</span> <span class="s1">'user'</span><span class="p">,</span> <span class="s1">'1001'</span><span class="p">,</span> <span class="s1">'info:gender'</span><span class="p">,</span> <span class="s1">'1'</span>
+<span class="n">put</span> <span class="s1">'user'</span><span class="p">,</span> <span class="s1">'1001'</span><span class="p">,</span> <span class="s1">'info:address'</span><span class="p">,</span> <span class="s1">'beijing'</span>
+
+
+<span class="c1">-- 将memStore中的数据刷到storeFile中(一个)</span>
+<span class="n">flush</span> <span class="s1">'TABLENAME'</span>
+<span class="n">flush</span> <span class="s1">'REGIONNAME'</span>
+<span class="n">flush</span> <span class="s1">'ENCODED_REGIONNAME'</span>
+
+<span class="c1">-- 将store数据进行合并(一个个小的storeFile可能会变成大一个打的storeFile)</span>
+<span class="n">compact</span> <span class="s1">'user'</span>
+
+
+<span class="c1">-- 查询表的数据</span>
+<span class="c1">-- 在hbase中的查询只有三种方式</span>
+<span class="c1">-- 1. 依据rowkey进行查询，最快</span>
+<span class="k">get</span> <span class="s1">'user'</span><span class="p">,</span> <span class="s1">'1001'</span>
+<span class="k">get</span> <span class="s1">'user'</span><span class="p">,</span> <span class="s1">'1001'</span><span class="p">,</span> <span class="s1">'info:name'</span>
+
+<span class="c1">-- 2. 范围查询，用的最多</span>
+<span class="n">scan</span> <span class="s1">'user'</span><span class="p">,</span> <span class="err">{</span><span class="n">COLUMNS</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">'info:name'</span><span class="p">,</span><span class="s1">'info:age'</span><span class="p">],</span> <span class="k">LIMIT</span> <span class="o">=&gt;</span> <span class="mi">2</span><span class="p">,</span> <span class="n">STARTROW</span> <span class="o">=&gt;</span> <span class="s1">'1001'</span><span class="err">}</span>
+
+<span class="c1">-- 3. 全表扫描，最慢</span>
+<span class="n">scan</span> <span class="s1">'user'</span>
+
+
+<span class="c1">-- 删除表的数据</span>
+<span class="c1">-- 1. 删除某条数据的一列</span>
+<span class="k">delete</span> <span class="s1">'user'</span><span class="p">,</span> <span class="s1">'1001'</span><span class="p">,</span> <span class="s1">'info:age'</span>
+
+<span class="c1">-- 2. 删除某条数据的全部列</span>
+<span class="n">deleteadll</span> <span class="s1">'user'</span><span class="p">,</span> <span class="s1">'1001'</span>
+</code></pre>
+</div>
+
+<p><br /></p>
+
+<h3 id="hbase检索和操作数据的过程">hbase检索和操作数据的过程</h3>
+
+<p><strong>定位的过程</strong></p>
+
+<ol>
+  <li>user表的数据存储在很多region上，而region的元数据信息（包括每个region被哪一个regionserver管理）存储在hbase:meta表中。</li>
+  <li>客户端首先会根据配置文件中zookeeper地址连接zookeeper，并读取/<hbase-rootdir>/meta-region-server节点信息，该节点信息存储HBase元数据（hbase:meta）表所在的RegionServer地址以及访问端口等信息。用户可以通过zookeeper命令(get /<hbase-rootdir>/meta-region-server)查看该节点信息。</hbase-rootdir></hbase-rootdir></li>
+  <li>根据hbase:meta所在RegionServer的访问信息，客户端会将该元数据表加载到本地并进行缓存。然后在表中确定待检索rowkey所在的RegionServer信息。</li>
+  <li>根据数据所在RegionServer的访问信息，客户端会向该RegionServer发送真正的数据读取请求。服务器端接收到该请求之后需要进行复杂的处理，后面做介绍。</li>
+</ol>
+
+<p>通过上述对客户端以及HBase系统的交互分析，可以基本明确两点：</p>
+
+<ul>
+  <li>客户端只需要配置zookeeper的访问地址以及根目录，就可以进行正常的读写请求。不需要配置集群的RegionServer地址列表。</li>
+  <li>客户端会将hbase:meta元数据表缓存在本地，因此上述步骤中前两步只会在客户端第一次请求的时候发生，之后所有请求都直接从缓存中加载元数据。如果集群发生某些变化导致hbase:meta元数据更改，客户端再根据本地元数据表请求的时候就会发生异常，此时客户端需要重新加载一份最新的元数据表到本地。RegionServer接收到客户端的get/scan请求之后，先后做了两件事情：构建scanner体系（实际上就是做一些scan前的准备工作），在此体系基础上一行一行检索。举个不太合适但易于理解的例子，scan数据就和开发商盖房一样，也是分成两步：组建施工队体系，明确每个工人的职责；一层一层盖楼。</li>
+</ul>
+
+<p><img src="http://img.blog.csdn.net/20170827123335932?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:70%" /></p>
+
+<p><img src="http://img.blog.csdn.net/20170827123444896?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:65%" /></p>
+
+<p><img src="http://img.blog.csdn.net/20170827123530230?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:66%" /></p>
+
+<p><img src="http://img.blog.csdn.net/20170827123631343?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:67%" /></p>
+
+<p><strong>“盖楼”的过程</strong></p>
+
+<p>构建scanner体系－组建施工队<br /></p>
+
+<p>scanner体系的核心在于三层scanner：RegionScanner、StoreScanner以及StoreFileScanner。三者是层级的关系，一个RegionScanner由多个StoreScanner构成，一张表由多个列族组成，就有多少个StoreScanner负责该列族的数据扫描。一个StoreScanner又是由多个StoreFileScanner组成。每个Store的数据由内存中的MemStore和磁盘上的StoreFile文件组成，相对应的，StoreScanner对象会雇佣一个MemStoreScanner和N个StoreFileScanner来进行实际的数据读取，每个StoreFile文件对应一个StoreFileScanner，注意：StoreFileScanner和MemstoreScanner是整个scan的最终执行者。</p>
+
+<p>对应于建楼项目，一栋楼通常由好几个单元楼构成（每个单元楼对应于一个Store），每个单元楼会请一个监工（StoreScanner）负责该单元楼的建造。而监工一般不做具体的事情，他负责招募很多工人（StoreFileScanner），这些工人才是建楼的主体。下图是整个构建流程图：</p>
+
+<p><img src="http://img.blog.csdn.net/20170827124935983?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:80%" /></p>
+
+<ol>
+  <li>
+    <p>RegionScanner会根据列族构建StoreScanner，有多少列族就构建多少StoreScanner，用于负责该列族的数据检索</p>
+
+    <ol>
+      <li>
+        <p>构建StoreFileScanner：每个StoreScanner会为当前该Store中每个HFile构造一个StoreFileScanner，用于实际执行对应文件的检索。同时会为对应Memstore构造一个MemstoreScanner，用于执行该Store中Memstore的数据检索。该步骤对应于监工在人才市场招募建楼所需的各种类型工匠。</p>
+      </li>
+      <li>
+        <p>过滤淘汰StoreFileScanner：根据Time Range以及RowKey Range对StoreFileScanner以及MemstoreScanner进行过滤，淘汰肯定不存在待检索结果的Scanner。上图中StoreFile3因为检查RowKeyRange不存在待检索Rowkey所以被淘汰。该步骤针对具体的建楼方案，裁撤掉部分不需要的工匠，比如这栋楼不需要地暖安装，对应的工匠就可以撤掉。</p>
+      </li>
+      <li>
+        <p>Seek rowkey：所有StoreFileScanner开始做准备工作，在负责的HFile中定位到满足条件的起始Row。工匠也开始准备自己的建造工具，建造材料，找到自己的工作地点，等待一声命下。就像所有重要项目的准备工作都很核心一样，Seek过程（此处略过Lazy Seek优化）也是一个很核心的步骤，它主要包含下面三步：</p>
+
+        <ol>
+          <li>定位Block Offset：在Blockcache中读取该HFile的索引树结构，根据索引树检索对应RowKey所在的Block Offset和Block Size</li>
+          <li>Load Block：根据BlockOffset首先在BlockCache中查找Data Block，如果不在缓存，再在HFile中加载</li>
+          <li>Seek Key：在Data Block内部通过二分查找的方式定位具体的RowKey
+整体流程细节参见《HBase原理-探索HFile索引机制》，文中详细说明了HFile索引结构以及如何通过索引结构定位具体的Block以及RowKey</li>
+        </ol>
+      </li>
+      <li>
+        <p>StoreFileScanner合并构建最小堆：将该Store中所有StoreFileScanner和MemstoreScanner合并形成一个heap（最小堆），所谓heap是一个优先级队列，队列中元素是所有scanner，排序规则按照scanner seek到的keyvalue大小由小到大进行排序。这里需要重点关注三个问题，首先为什么这些Scanner需要由小到大排序，其次keyvalue是什么样的结构，最后，keyvalue谁大谁小是如何确定的。</p>
+
+        <p>为什么这些Scanner需要由小到大排序？最直接的解释是scan的结果需要由小到大输出给用户，当然，这并不全面，最合理的解释是只有由小到大排序才能使得scan效率最高。举个简单的例子，HBase支持数据多版本，假设用户只想获取最新版本，那只需要将这些数据由最新到最旧进行排序，然后取队首元素返回就可以。那么，如果不排序，就只能遍历所有元素，查看符不符合用户查询条件。这就是排队的意义。</p>
+
+        <p>工匠们也需要排序，先做地板的排前面，做墙体的次之，最后是做门窗户的。做墙体的内部还需要再排序，做内墙的排前面，做外墙的排后面，这样，假如设计师临时决定不做外墙的话，就可以直接跳过外墙部分工作。很显然，如果不排序的话，是没办法临时做决定的，因为这部分工作已经可能做掉了。</p>
+
+        <p>HBase中KeyValue是什么样的结构？HBase中KeyValue并不是简单的KV数据对，而是一个具有复杂元素的结构体，其中Key由RowKey，ColumnFamily，Qualifier ，TimeStamp，KeyType等多部分组成，Value是一个简单的二进制数据。Key中元素KeyType表示该KeyValue的类型，取值分别为Put/Delete/Delete Column/Delete Family等。KeyValue可以表示为如下图所示：</p>
+
+        <p><img src="http://img.blog.csdn.net/20170827125303503?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:70%" /></p>
+
+        <p>了解了KeyValue的逻辑结构后，我们不妨再进一步从原理的角度想想HBase的开发者们为什么如此对其设计。这个就得从HBase所支持的数据操作说起了，HBase支持四种主要的数据操作，分别是Get/Scan/Put/Delete，其中Get和Scan代表数据查询，Put操作代表数据插入或更新（如果Put的RowKey不存在则为插入操作、否则为更新操作），特别需要注意的是HBase中更新操作并不是直接覆盖修改原数据，而是生成新的数据，新数据和原数据具有不同的版本（时间戳）；Delete操作执行数据删除，和数据更新操作相同，HBase执行数据删除并不会马上将数据从数据库中永久删除，而只是生成一条删除记录，最后在系统执行文件合并的时候再统一删除。</p>
+
+        <p>HBase中更新删除操作并不直接操作原数据，而是生成一个新纪录，那问题来了，如何知道一条记录到底是插入操作还是更新操作亦或是删除操作呢？这正是KeyType和Timestamp的用武之地。上文中提到KeyType取值为分别为Put/Delete/Delete Column/Delete Family四种，如果KeyType取值为Put，表示该条记录为插入或者更新操作，而无论是插入或者更新，都可以使用版本号（Timestamp）对记录进行选择；如果KeyType为Delete，表示该条记录为整行删除操作；相应的KeyType为Delete Column和Delete Family分别表示删除某行某列以及某行某列族操作；</p>
+
+        <p>不同KeyValue之间如何进行大小比较？
+上文提到KeyValue中Key由RowKey，ColumnFamily，Qualifier ，TimeStamp，KeyType等5部分组成，HBase设定Key大小首先比较RowKey，RowKey越小Key就越小；RowKey如果相同就看CF，CF越小Key越小；CF如果相同看Qualifier，Qualifier越小Key越小；Qualifier如果相同再看Timestamp，Timestamp越大表示时间越新，对应的Key越小。如果Timestamp还相同，就看KeyType，KeyType按照DeleteFamily -&gt; DeleteColumn -&gt; Delete -&gt; Put 顺序依次对应的Key越来越大。</p>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p>StoreScanner合并构建最小堆：上文讨论的是一个监工如何构建自己的工匠师团队以及工匠师如何做准备工作、排序工作。实际上，监工也需要进行排序，比如一单元的监工排前面，二单元的监工排之后… StoreScanner一样，列族小的StoreScanner排前面，列族大的StoreScanner排后面。</p>
+
+    <p>scan查询－层层建楼：构建Scanner体系是为了更好地执行scan查询，就像组建工匠师团队就是为了盖房子一样。scan查询总是一行一行查询的，先查第一行的所有数据，再查第二行的所有数据，但每一行的查询流程却没有什么本质区别。盖房子也一样，无论是盖8层还是盖18层，都需要一层一层往上盖，而且每一层的盖法并没有什么区别。所以实际上我们只需要关注其中一行数据是如何查询的就可以。</p>
+
+    <p>对于一行数据的查询，又可以分解为多个列族的查询，比如RowKey=row1的一行数据查询，首先查询列族1上该行的数据集合，再查询列族2里该行的数据集合。同样是盖第一层房子，先盖一单元的一层，再改二单元的一层，盖完之后才算一层盖完，接着开始盖第二层。所以我们也只需要关注某一行某个列族的数据是如何查询的就可以。</p>
+
+    <p>还记得Scanner体系构建的最终结果是一个由StoreFileScanner和MemstoreScanner组成的heap（最小堆）么，这里就派上用场了。下图是一张表的逻辑视图，该表有两个列族cf1和cf2（我们只关注cf1），cf1只有一个列name，表中有5行数据，其中每个cell基本都有多个版本。cf1的数据假如实际存储在三个区域，memstore中有r2和r4的最新数据，hfile1中是最早的数据。现在需要查询RowKey=r2的数据，按照上文的理论对应的Scanner指向就如图所示：</p>
+
+    <p><img src="http://img.blog.csdn.net/20170827125742344?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:80%" /></p>
+
+    <p>这三个Scanner组成的heap为&lt;MemstoreScanner，StoreFileScanner2, StoreFileScanner1&gt;，Scanner由小到大排列。查询的时候首先pop出heap的堆顶元素，即MemstoreScanner，得到keyvalue = r2:cf1:name:v3:name23的数据，拿到这个keyvalue之后，需要进行如下判定：</p>
+
+    <p>检查该KeyValue的KeyType是否是Deleted/DeletedCol等，如果是就直接忽略该列所有其他版本，跳到下列（列族）
+检查该KeyValue的Timestamp是否在用户设定的Timestamp Range范围，如果不在该范围，忽略
+检查该KeyValue是否满足用户设置的各种filter过滤器，如果不满足，忽略
+检查该KeyValue是否满足用户查询中设定的版本数，比如用户只查询最新版本，则忽略该cell的其他版本；反正如果用户查询所有版本，则还需要查询该cell的其他版本。</p>
+
+    <p>现在假设用户查询所有版本而且该keyvalue检查通过，此时当前的堆顶元素需要执行next方法去检索下一个值，并重新组织最小堆。即图中MemstoreScanner将会指向r4，重新组织最小堆之后最小堆将会变为&lt;StoreFileScanner2, StoreFileScanner1, MemstoreScanner&gt;，堆顶元素变为StoreFileScanner2，得到keyvalue＝r2:cf1:name:v2:name22，进行一系列判定，再next，再重新组织最小堆…</p>
+
+    <p>不断重复这个过程，直至一行数据全部被检索得到。继续下一行…</p>
+  </li>
+</ol>
+
+<p><br /></p>
+
+<h3 id="hbase切割风暴">Hbase切割风暴</h3>
+
+<pre><code class="language-default">#切割风暴
+#hbase默认自动切割达到一定阈值大小的表，由于hbase的负载均衡机制，所有regionserver的管理的所有region容易同时达到这个阈值，从而会引起切割风暴，导致hbase性能下降。一般为避免Hbase的切割风暴，生产环境会将切割阈值设置的非常大（不让hbase自动切割），由运维人员手动完成大表的切割工作 或 合并工作。
+
+masterserver
+----------------------------------------------------------
+regionserver01        regionserver02        regionserver03
+----------------------------------------------------------
+region01 阈值          region06              region09 阈值
+region04              region03 阈值          region07
+resion02              region05              region08  阈值
+</code></pre>
+
+
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-6">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">java</button>
+                                
+                        </div>
+                        
+                        <!--
+                        <div class="col-md-6">
+                            <div class="small text-right">
+                                <div>    
+                                    <i class="fa fa-comments-o"> </i> 
+                                    <span class="ds-comments">0</span>条评论
+                                </div>
+                                <div>
+                                    <i class="fa fa-share-alt"> </i> 
+                                    <span class="ds-shares">0</span>条转发
+                                </div>  
+                            </div>
+                        </div>
+                        -->
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <!-- donate -->
+                            
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal2">
+    Donate
+</button>
+<div class="modal inmodal" id="myModal2" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated flipInY">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Donate Me</h4>
+                <small class="font-bold">Thanks for your support!</small>
+            </div>
+            <div class="modal-body">
+                <div class="tabbable" id="tabs-960227">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#panel-405278" data-toggle="tab">Alipay</a>
+                        </li>
+                        <li>
+                            <a href="#panel-874705" data-toggle="tab">Wechat</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="panel-405278">
+                            <div class="text-center">
+                                <img src="/static/img/pay/alipay.png"" height="250" width="250">
+                            </div>    
+                        </div>
+                        <div class="tab-pane" id="panel-874705">
+                            <div class="text-center">
+                                <img src="/static/img/pay/wechat.png"" height="250" width="250">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+                            
+                            <br>
+                            <!-- share -->
+                            
+                                
+<!--分享-->
+<div class="row" style="margin-top:30px;">
+	<h2>Share:</h2>
+    <div class="social-share" style="margin-left:-5px;"data-sites="wechat,qq,qzone,weibo"></div> 
+</div>
+<link rel="stylesheet" href="/static/css/share.min.css">
+<script src="/static/js/jquery.share.min.js"></script>
+<script src="/static/js/embed.js"></script>
+
+<script>
+  var url = 'http://localhost:4000/java/2017/08/26/java-hbase-01.html';
+  var source = 'http://localhost:4000/java/2017/08/26/java-hbase-01.html';
+  var title = 'Hbase的基本简介及安装、配置、使用（一）';
+  var excerpt = $("p:eq(0)").text();
+  
+  var imageUrl = 'http://localhost:4000/static/img/landing/header_one.jpg';
+  var imgEle = $(".content_img:eq(0)");
+  if (imgEle) {
+    imageUrl = imgEle.attr("src");
+  }
+
+  var $config = {
+      url: url, // 网址，默认使用 window.location.href
+      source: source, // 来源（QQ空间会用到）, 默认读取head标签：<meta name="site" content="http://overtrue" />
+      title: title, // 标题，默认读取 document.title 或者 <meta name="title" content="share.js" />
+      description: excerpt, // 描述, 默认读取head标签：<meta name="description" content="PHP弱类型的实现原理分析" />
+      image: imageUrl, // 图片, 默认取网页中第一个img标签
+      sites: ['qzone', 'qq', 'weibo','wechat','douban'], // 启用的站点
+      //disabled: ['google', 'facebook', 'twitter'], // 禁用的站点
+      wechatQrcodeTitle: "微信扫一扫：分享", // 微信二维码提示文字
+      wechatQrcodeHelper: '<p style="font-size:10px;">微信里点“发现”，扫一下</p><p style="font-size:10px;">二维码便可将本文分享至朋友圈。</p>',
+   };
+  $('.social-share').share($config);
+</script>
+
+
+
+
+                            
+                            <br>
+                            <!-- comment -->
+                            <!--
+
+
+
+-->
+
+<!-- 多说评论框 start -->
+<div class="row" style="margin-top:25px;"></div>
+<div class="ds-thread" data-thread-key="/java/2017/08/26/java-hbase-01.html" data-title="Hbase的基本简介及安装、配置、使用（一）" data-url="http://localhost:4000/java/2017/08/26/java-hbase-01.html"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+	var duoshuoQuery = {short_name:"kinglyjn"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+<!-- 多说公共JS代码 end -->
+
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+	
+	    <script src="/static/js/scroll.js"></script>
+
+<!-- Baidu analytics -->
+
+
+<!-- Google analytics -->
+
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-73784599-1', 'auto');
+    ga('send', 'pageview');
+
+  </script>
+
+
+<!--
+
+-->
+
+<!--
+
+-->
+
+<script async src="/static/js/count_page.js"></script>
+
+	
+
+</body>
+</html>

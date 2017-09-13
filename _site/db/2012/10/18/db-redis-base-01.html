@@ -369,6 +369,66 @@ redis 127.0.0.1:6379 &gt; select_ 1
 </div>
 <p><br /></p>
 
+<h3 id="redis的源码编译安装">redis的源码编译安装</h3>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="c"># 安装 gcc tcl make 源码编译工具</span>
+sudo apt-get install gcc
+sudo apt-get install tcl 
+sudo apt-get install make 
+
+<span class="c"># 下载、解压源码包</span>
+wget http://download.redis.io/releases/redis-3.2.10.tar.gz
+tar -zxvf redis-3.2.10.tar.gz
+
+<span class="c"># 进入redis-3.2.10根目录进行编译和安装到指定目录(不存在.configuration文件)</span>
+make
+make install <span class="nv">PREFIX</span><span class="o">=</span>/opt/module/redis
+
+<span class="c"># 配置环境变量</span>
+sudo vim /etc/profile
+	<span class="nb">export </span><span class="nv">REDIS_HOME</span><span class="o">=</span>/opt/module/redis
+	<span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:<span class="nv">$REDIS_HOME</span>/bin
+<span class="nb">source</span> /etc/profile
+
+<span class="c"># 在 $REDIS_HOME 目录新建 data、conf、logs目录</span>
+<span class="nb">cd</span> <span class="nv">$REDIS_HOME</span>
+mkdir data conf log
+
+<span class="c"># 进入到redis源码目录的 utils 目录，执行redis_server.sh脚本，在执行的过程中可选择redis的安装配置</span>
+<span class="c"># redis安装以后，默认已经加入了开机启动项</span>
+sudo /opt/software/redis-3.2.10/utils/install_server.sh
+	安装服务端口选择：6379
+	安装服务配置文件：/opt/module/redis/conf/6379.conf
+	安装服务日志文件：/opt/module/redis/logs/redis_6379.log
+	安装服务数据存储目录：/opt/module/redis/data/6379
+	安装服务启动程序：/opt/module/redis/bin/redis-server
+	
+	Port           : 6379
+    Config file    : /opt/module/redis/conf/6379.conf
+    Log file       : /opt/module/redis/logs/redis_6379.log
+    Data dir       : /opt/module/redis/data/6379
+    Executable     : /opt/module/redis/bin/redis-server
+    Cli Executable : /opt/module/redis/bin/redis-cli
+    
+
+<span class="c"># 修改配置文件 6379.conf 的 bind 项为 0.0.0.0</span>
+vim /opt/module/redis/conf/6379.conf
+	<span class="nb">bind </span>0.0.0.0
+
+<span class="c"># 启动redis服务(需要管理员权限)</span>
+sudo service redis_6379 start
+
+<span class="c"># 查看redis进程 和 tcp服务监听</span>
+ps -aux |grep redis
+root    15956  0.0  0.3  36268  9228 ?        Ssl  13:19   0:00 /opt/module/redis/bin/redis-server 0.0.0.0:6379
+
+netstat -lntp |grep redis
+tcp        0      0 0.0.0.0:6379            0.0.0.0:<span class="k">*</span>               LISTEN      15956/redis-server 
+</code></pre>
+</div>
+
+<p><br /></p>
+
 <p>redis.conf （redis 2.8.9）<br /></p>
 
 <div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="c">#daemonize no  默认情况下， redis 不是在后台运行的，如果需要在后台运行，把该项的值更改为 yes</span>
@@ -755,27 +815,36 @@ sync  <span class="c">#用于复制功能(replication)的内部命令</span>
   <li><code class="highlighter-rouge">字符串(Strings)</code><br />
 字符串是Redis值的最基础的类型。Redis字符串是二进制安全的，这意味着一个Redis字符串可以包含任何种类的数据，例如一个JPEG图像或者一个序列化的Ruby对象。 一个字符串值最多可以保存512M字节的内容。你可以使用Redis的字符串做一些有趣的事情，例如你可以：
     <ul>
-      <li>在使用命令INCR系列（ INCR, DECR, INCRBY）命令时将字符串作为的原子计数器。</li>
-      <li>使用APPEND命令追加字符串。</li>
-      <li>将字符串作为GETRANGE 和 SETRANGE的随机访问向量。</li>
-      <li>在小空间里编码大量数据, 或者使用 GETBIT 和 SETBIT创建一个Redis支持的Bloom过滤器。</li>
+      <li>在使用命令INCR系列（ INCR, DECR, INCRBY）命令时将字符串作为的原子计数器。
+        <ul>
+          <li>使用APPEND命令追加字符串。</li>
+          <li>将字符串作为GETRANGE 和 SETRANGE的随机访问向量。</li>
+          <li>在小空间里编码大量数据, 或者使用 GETBIT 和 SETBIT创建一个Redis支持的Bloom过滤器。</li>
+        </ul>
+      </li>
     </ul>
   </li>
   <li><code class="highlighter-rouge">列表(Lists)</code> <br />
 Redis列表是简单的字符串列表，按照插入顺序排序。你可以添加一个元素导列表的头部（左边）或者尾部（右边）LPUSH命令插入一个新的元素导头部,而RPUSH插入一个新元素导尾部。当LPUSH或RPUSH操作在一个空的Key上被执行的时候一个新的列表被创建。相似的，如果一个列表操作清空一个列表那么对应的key将被从key空间删除。这是非常方便的语义，因为他们被调用使用一个空列表完全就像他们被调用时使用一个不存在的键值（可以）做为参数。一个列表最多可以包含 2^32-1 个元素 (4294967295, 每个列表超过40亿个元素)。从时间复杂度的角度来看Redis列表的主要特征是在头和尾的元素插入和删除是固定时间，即便是数以百万计的插入。在列表的两端访问元素是非常快的。但是如果你试着访问一个非常大的列表的中间的元素是很慢的，因为那是一个O(N)操作。你可以用Redis列表做很多有趣的事情，比如你可以：
     <ul>
-      <li>在一个社交网络中建立一个时间线模型，使用LPUSH 去添加新的元素到用户的时间线， 使用LRANGE去接收一些最近插入的元素。</li>
-      <li>你可以将 LPUSH 和 LTRIM 一起用去创建一个永远也不会超过指定元素数目的列表，但是记住是最后的N个元素。</li>
-      <li>列表能够被用来作为消息传递的primitive[基元], 例如众所周知的用来创建后台工作的Resque Ruby库。</li>
-      <li>你可以使用列表做更多的事，这个数据类型支持许多命令，包括像BLPOP这样的阻塞命令。</li>
+      <li>在一个社交网络中建立一个时间线模型，使用LPUSH 去添加新的元素到用户的时间线， 使用LRANGE去接收一些最近插入的元素。
+        <ul>
+          <li>你可以将 LPUSH 和 LTRIM 一起用去创建一个永远也不会超过指定元素数目的列表，但是记住是最后的N个元素。</li>
+          <li>列表能够被用来作为消息传递的primitive[基元], 例如众所周知的用来创建后台工作的Resque Ruby库。</li>
+          <li>你可以使用列表做更多的事，这个数据类型支持许多命令，包括像BLPOP这样的阻塞命令。</li>
+        </ul>
+      </li>
     </ul>
   </li>
   <li><code class="highlighter-rouge">集合(Sets)</code> <br />
 Redis 集合（Set）是一个无序的字符串集合. 你可以以O(1)的时间复杂度 (无论集合中有多少元素时间复杂度都是常量)完成添加，删除，以及测试元素是否存在。redis集合拥有令人满意的不允许包含相同成员的属性。多次添加相同的元素，最终在集合里只会有一个元素。实际上说这些就是意味着在添加元素的时候无须检测元素是否存在。一个Redis集合的非常有趣的事情是他支持一些服务端的命令从现有的集合出发去进行集合运算，因此你可以在非常短的时间内进行合并（unions）, 求交集（intersections）,找出不同的元素（differences of sets）。一个集合最多可以包含 2^32-1 个元素(4294967295, 每个集合超过40亿个元素). 你可以使用集合多很多有趣的事情，比如你能够：
     <ul>
-      <li>你可以使用集合追踪一件（独一无二的）事情，想要知道所有访问一个博客文章的独立IP?每次当你处理一个页面访问的事简单的使用SADD。你可以肯定重复的IP是不会被插入的。</li>
-      <li>redis 集合是很擅长表现关系的。你可以使用Redis集合创建一个tagging系统去表现每一个tag。接下来你能够使用SADD命令将有一个给定tag的所有对象的所有ID添加到一个用来展现这个特定tag的集合里。你想要同时有三个不同tag的所有对象的ID吗？使用SINTER就好了。</li>
-      <li>使用 SPOP 或者 SRANDMEMBER 命令你可以使用集合去随意的抽取元素。</li>
+      <li>你可以使用集合追踪一件（独一无二的）事情，想要知道所有访问一个博客文章的独立IP?每次当你处理一个页面访问的事简单的使用SADD。你可以肯定重复的IP是不会被插入的。
+        <ul>
+          <li>redis 集合是很擅长表现关系的。你可以使用Redis集合创建一个tagging系统去表现每一个tag。接下来你能够使用SADD命令将有一个给定tag的所有对象的所有ID添加到一个用来展现这个特定tag的集合里。你想要同时有三个不同tag的所有对象的ID吗？使用SINTER就好了。</li>
+          <li>使用 SPOP 或者 SRANDMEMBER 命令你可以使用集合去随意的抽取元素。</li>
+        </ul>
+      </li>
     </ul>
   </li>
   <li><code class="highlighter-rouge">哈希（Hashes)</code><br />
@@ -783,8 +852,11 @@ Redis Hashes是字符串字段和字符串值之间的映射,因此他们是展�
   <li><code class="highlighter-rouge">有序集合(Sorted Sets)</code><br />
 Redis有序集合与普通集合非常相似，是一个没有重复元素的字符串集合。不同之处是有序集合的没有成员都关联了一个评分，这个评分被用来按照从最低分到最高分的方式排序集合中的成员。集合的成员是唯一的，但是评分可以是重复了。 使用有序集合你可以以非常快的速度（O(log(N))）添加，删除和更新元素。因为元素是有序的, 所以你也可以很快的根据评分（score）或者次序（position）来获取一个范围的元素。访问有序集合的中间元素也是非常快的,因此你能够使用有序集合作为一个没有重复成员的智能列表。在有序集合中，你可以很快捷的访问一切你需要的东西：有序的元素，快速的存在性测试，快速访问集合的中间元素！简而言之使用有序集合你可以做完成许多对性能有极端要求的任务，而那些任务使用其他类型的数据库真的是很难完成的。 使用有序集合你可以：
     <ul>
-      <li>在一个大型的在线游戏中展示一个排行榜，在那里一旦一个新的分数被提交，你可以使用ZADD命令去更新它.你也可用使用 ZRANGE命令来得到顶级的用户,你还可以使用ZRANK命令根据用户名返回该用户在排行榜中的位次。同时使用ZRANK 和 ZRANGE 你可以显示和给定用户分数相同的所有用户。所有这些操作都非常的快速。</li>
-      <li>有序集合常常被用来索引存储在Redis中的数据。举个例子，如果你有许多的哈希（Hashes）来代表用户，你可以使用一个有序集合，这个集合中的元素的年龄字段被用来当做评分，而ID作为值。因此，使用 ZRANGEBYSCORE 命令，那是微不足道的并且能够很快的接收到给定年龄段的所有用户。</li>
+      <li>在一个大型的在线游戏中展示一个排行榜，在那里一旦一个新的分数被提交，你可以使用ZADD命令去更新它.你也可用使用 ZRANGE命令来得到顶级的用户,你还可以使用ZRANK命令根据用户名返回该用户在排行榜中的位次。同时使用ZRANK 和 ZRANGE 你可以显示和给定用户分数相同的所有用户。所有这些操作都非常的快速。
+        <ul>
+          <li>有序集合常常被用来索引存储在Redis中的数据。举个例子，如果你有许多的哈希（Hashes）来代表用户，你可以使用一个有序集合，这个集合中的元素的年龄字段被用来当做评分，而ID作为值。因此，使用 ZRANGEBYSCORE 命令，那是微不足道的并且能够很快的接收到给定年龄段的所有用户。</li>
+        </ul>
+      </li>
     </ul>
   </li>
 </ul>

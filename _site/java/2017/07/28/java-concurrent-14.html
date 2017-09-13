@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html>
+	
+	    <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+    <meta content="JAVA中的线程池-ThreadPoolExecutor" name="description">
+  
+  
+    <meta name="keywords" content="JAVA中的线程池-ThreadPoolExecutor,java,kinglyjn,张庆力">
+  
+  <meta name="author" content="KinglyJn">
+
+  <title>
+    
+        KinglyJn|JAVA中的线程池-ThreadPoolExecutor
+    
+  </title>
+  <!-- favicon -->
+  <link rel="shortcut icon" href="static/img/favicon.ico">
+
+
+  <!-- Third-party CSS -->
+  <link href="/bower_components/normalize-css/normalize.min.css" rel="stylesheet">
+  <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/bower_components/animate.css/animate.min.css" rel="stylesheet">
+  <link href="/bower_components/components-font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="/static/font-mfizz/font-mfizz.css" rel="stylesheet">
+  <!-- <link href="/bower_components/toastr/toastr.min.css" rel="stylesheet"> -->
+  <link href="/bower_components/jquery.gritter/css/jquery.gritter.css" rel="stylesheet">
+  <link rel="stylesheet" href="/search/css/cb-search.css">
+
+  <!-- Custom styles for this template -->
+  <link href="/static/css/style.min.css" rel="stylesheet">
+  <link href="/static/css/pygments.css" rel="stylesheet">
+
+  <!-- Scripts -->
+  <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="/search/js/bootstrap3-typeahead.min.js"></script>
+
+  <!-- cb-search -->
+  <script src="/search/js/cb-search.js"></script>
+  <script>
+    $(function(){
+        $("pre").css('display','block');
+    });
+  </script>
+  <!-- Mainly scripts -->
+  <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="/bower_components/metisMenu/dist/metisMenu.min.js"></script>
+  <script src="/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+
+  <!-- Peity -->
+  <script src="/bower_components/peity/jquery.peity.min.js"></script>
+
+  <script src="/bower_components/PACE/pace.min.js"></script>
+  <script src="/bower_components/wow/dist/wow.min.js"></script>
+  <!-- Custom and plugin javascript -->
+  <script src="/static/js/inspinia.js"></script>
+
+  <!-- Rickshaw -->
+  <script src="/bower_components/rickshaw/vendor/d3.v3.js"></script>
+  <script src="/bower_components/rickshaw/rickshaw.min.js"></script>
+
+
+  <!-- jPages -->
+  <script src="/static/js/jPages.js"></script>
+  <script src="/static/js/js.js"></script>
+  <script type="text/javascript">
+        $(function(){
+          /* initiate the plugin */
+          $("div.pag-holder").jPages({
+              containerID  : "pag-itemContainer",
+              perPage      : 10,  /* num of items per page */
+              startPage    : 1,
+              startRange   : 1,
+              midRange     : 3,
+              endRange     : 1
+          });
+
+          $("div.pag-jump button").click(function(){
+            var page = parseInt($("div.pag-jump input").val());
+            $("div.pag-holder").jPages(page);
+          });
+
+          $("div.pag-jump input").on("keypress", function(){
+            var e=e||window.event;
+            if (e.keyCode == 13) {
+                var page = parseInt($("div.pag-jump input").val());
+                $("div.pag-holder").jPages(page);
+            } 
+          });
+      });
+  </script>
+
+<!-- GrowingIO -->
+
+  <script>
+    var _vds = _vds || [];
+    window._vds = _vds;
+    (function(){
+      _vds.push(['setAccountId', 'a49d4901c7853da9']);
+      (function() {
+        var vds = document.createElement('script');
+        vds.type='text/javascript';
+        vds.async = true;
+        vds.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'dn-growing.qbox.me/vds.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(vds, s);
+      })();
+    })();
+  </script>
+
+
+</head>
+
+	
+
+
+<body id="page-top" class="landing-page">
+
+	
+	    
+
+<!--修复手机端横轴方向左右滑动BUG-->
+<style type="text/css">
+    .landing-page .row {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+</style>
+
+<div class="search-tool"
+      style="position: fixed; top: 0px ; bottom: 0px; left: 0px; right:  0px; opacity: 0.95; background-color: #111111; z-index: 9999; display: none;">
+    <input type="text" class="form-control search-content" id="search-content" style="position: fixed; top: 60px" placeholder="Search Blog">
+
+    <div style="position: fixed; top: 16px; right: 16px; z-index: 9999;">
+        <img src="/search/img/cb-close.png" id="close-btn"/>
+    </div>
+</div>
+
+<div style="position: fixed; right: 16px; bottom: 20px; z-index: 9999;">
+    <img src="/search/img/cb-search.png"  id="search-btn"  title="Double click Ctrl"/>
+</div>
+
+<div class="navbar-wrapper">
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header page-scroll">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/">KinglyJn</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a class="page-scroll" href="/blog/"></a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/blog/">Blog</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/linux/">Linux</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/cloud/">Cloud</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/java/">Java</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/c/">C</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/php/">PHP</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/db/">DB</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/htmlx/">HTMLX</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/life/">Life</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/art/">Art</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/other/">Other</a></li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </nav>
+</div>
+<div id="inSlider" class="carousel carousel-fade" data-ride="carousel">
+    <div style="position:absolute;float:left;left:25%;z-index:15;width:50%;margin-bottom:18%;bottom:0;text-align:center;list-style:none;">
+        <span style="color:white;font-size:24px;">以平实之心写作</span><br>
+        <span style="color:white;font-size:13px;">writing with simple heart ♬. </span>
+    </div>
+    <!--
+    <ol class="carousel-indicators">
+        <li data-target="#inSlider" data-slide-to="0" class="active"></li>
+        <li data-target="#inSlider" data-slide-to="1"></li>
+    </ol>
+    -->
+    <div class="carousel-inner" role="listbox">
+        <div class="item active">
+            <div class="container">
+                <div class="carousel-caption">
+                </div>
+                <div class="carousel-image wow zoomIn">
+                    <!-- <img src="static/img/landing/laptop.png" alt="laptop"/> -->
+                </div>
+            </div>
+            <!-- Set background for slide in css -->
+            <div class="header-back blog-one"></div>
+        </div>
+        <!--
+        <div class="item">
+            <div class="container">
+                <div class="carousel-caption blank">
+                </div>
+            </div>
+            Set background for slide in css
+            <div class="header-back two"></div>
+        </div>
+        -->
+    </div>
+    <!--
+    <a class="left carousel-control" href="#inSlider" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#inSlider" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+    -->
+</div>
+
+
+	
+
+    <div class="wrapper wrapper-content  animated fadeInRight article">
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <div class="pull-right">
+                    	
+                        	<button class="btn btn-white btn-xs" type="button">Java</button>
+                        
+                    </div>
+                    <div class="text-center article-title" style="margin-bottom:50px;">
+                        <h1>
+                            JAVA中的线程池-ThreadPoolExecutor
+                        </h1>
+                        <a href="http://www.keyllo.com/studio/">
+                            <span class="text-muted"><i class="fa fa-user"></i> KinglyJn</span>
+                        </a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <span class="text-muted"><i class="fa fa-clock-o"></i> 2017-07-28</span>
+                    </div>
+                    	<blockquote>
+  <p>java中的线程池是运用场景最多的并发组件，几乎所有的异步或者并发任务的程序都可以使用线程池。在开发过程中使用线程池将会带来3个好处：</p>
+
+  <ul>
+    <li>降低资源的消耗。通过反复利用已创建的线程降低线程创建和销毁造成的消耗；</li>
+    <li>提高响应速度。当任务到达时，任务可以不需要等到线程创建就立即执行；</li>
+    <li>提高线程的可管理性。</li>
+  </ul>
+</blockquote>
+
+<h3 id="线程池的主要处理流程">线程池的主要处理流程</h3>
+
+<p>当提交一个新任务到线程池时，线程池的主要处理流程如下：</p>
+
+<ol>
+  <li>线程池判断核心线程池里的线程是否都在执行任务。如果不是，则创建一个新的工作线程来执行任务。如果核心线程池里的线程都在执行任务，则进入下一个流程。</li>
+  <li>线程池判断工作队列是否已经满了，如果没有则将提交的任务存储在工作队列里，如果已经满了则进入下一个工作流程。</li>
+  <li>线程池判断线程池的线程是否都处于工作状态，如果不是则创建一个新的工作线程来执行任务，如果已经满了则交给饱和策略来处理这个任务。</li>
+</ol>
+
+<pre><code class="language-default">使用者提交任务
+    |
+    |
+    |
+    |/            Y                    Y                   Y
+核心线程池是否满了---------&gt;队列是否满了---------&gt;线程池是否满了-------&gt;按照策略执行无法执行的任务	
+    |                        |                    |
+    |N                       |N                   |N
+    |                        |                    |
+    |/                       |/                   |/
+创建线程执行任务          将任务存储在队列里       创建线程执行任务     
+</code></pre>
+
+<p><br /></p>
+
+<p><img src="http://img.blog.csdn.net/20170801142006205?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:70%" /></p>
+
+<p>ThreadPoolExecutor执行execute方法分为以下4中情况：</p>
+
+<ul>
+  <li>如果当前运行的线程小于corePoolSize，则创建线程来执行任务（注意：执行这一步需要获取去全局锁）。</li>
+  <li>如果运行的线程等于或者多于corePoolSize，则将任务加入到BlockingQueue。</li>
+  <li>如果无法将任务加入到BlockingQueue（队列已满），则创建新的线程来处理任务（注意执行这一步骤需要获取全局锁）。</li>
+  <li>如果创建新线程将使当前运行的线程超出maximumPoolSize，则任务将被拒绝，并调用RejectedExecutionHandler.rejectedExecution()方法。</li>
+</ul>
+
+<p>ThreadPoolExecutor采取上述步骤的总体设计思路，是为了在执行execute()方法时，尽可能地避免获取全局锁（那将会是一个严重的可伸缩瓶颈）。在ThreadPoolExecutor完成预热之后（当前运行的线程数大于等于corePoolSize），几乎所有的execute方法调用都是执行步骤二，而步骤二不需要获取全局锁。</p>
+
+<p>源码如下(java7)：</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">execute</span><span class="o">(</span><span class="n">Runnable</span> <span class="n">command</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">command</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nf">NullPointerException</span><span class="o">();</span>
+    <span class="kt">int</span> <span class="n">c</span> <span class="o">=</span> <span class="n">ctl</span><span class="o">.</span><span class="na">get</span><span class="o">();</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">workerCountOf</span><span class="o">(</span><span class="n">c</span><span class="o">)</span> <span class="o">&lt;</span> <span class="n">corePoolSize</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">addWorker</span><span class="o">(</span><span class="n">command</span><span class="o">,</span> <span class="kc">true</span><span class="o">))</span>
+            <span class="k">return</span><span class="o">;</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">ctl</span><span class="o">.</span><span class="na">get</span><span class="o">();</span>
+    <span class="o">}</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">isRunning</span><span class="o">(</span><span class="n">c</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="n">workQueue</span><span class="o">.</span><span class="na">offer</span><span class="o">(</span><span class="n">command</span><span class="o">))</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">recheck</span> <span class="o">=</span> <span class="n">ctl</span><span class="o">.</span><span class="na">get</span><span class="o">();</span>
+        <span class="k">if</span> <span class="o">(!</span> <span class="n">isRunning</span><span class="o">(</span><span class="n">recheck</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="n">remove</span><span class="o">(</span><span class="n">command</span><span class="o">))</span>
+            <span class="n">reject</span><span class="o">(</span><span class="n">command</span><span class="o">);</span>
+        <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="n">workerCountOf</span><span class="o">(</span><span class="n">recheck</span><span class="o">)</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
+            <span class="n">addWorker</span><span class="o">(</span><span class="kc">null</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="k">else</span> <span class="nf">if</span> <span class="o">(!</span><span class="n">addWorker</span><span class="o">(</span><span class="n">command</span><span class="o">,</span> <span class="kc">false</span><span class="o">))</span>
+        <span class="n">reject</span><span class="o">(</span><span class="n">command</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>工作线程：线程池创建线程时，会将线程封装成工作线程Worker，Worker在执行任务后，还会循环获取工作队列里的任务来执行。</p>
+
+<p>线程池中的线程执行任务分为两种情况：</p>
+
+<ul>
+  <li>在execute()方法中创建一个线程时，会让这个线程执行当前的任务。</li>
+  <li>这个线程执行完当前任务后，会反复从BlockingQueue获取任务来执行。</li>
+</ul>
+
+<p><img src="http://img.blog.csdn.net/20170801144601037?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:70%" /></p>
+
+<p><br /></p>
+
+<h3 id="线程池的使用">线程池的使用</h3>
+
+<p>我们可以通过ThreadPoolExecutor来创建一个线程池，常用的构造方法如下 ：</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="k">new</span> <span class="n">ThreadPoolExecutor</span><span class="o">(</span><span class="n">corePoolSize</span><span class="o">,</span> 
+                       <span class="n">maximumPoolSize</span><span class="o">,</span> 
+                       <span class="n">keepAliveTime</span><span class="o">,</span> 
+                       <span class="n">milliseconds</span><span class="o">,</span> 
+                       <span class="n">runnableTaskQueue</span><span class="o">,</span> 
+                       <span class="n">handler</span><span class="o">);</span>
+</code></pre>
+</div>
+
+<ul>
+  <li>
+    <p>corePoolSize：线程池的基本大小，当提交一个任务到线程池时，线程池会出创建一个线程来执行任务，即使其他空闲的基本线程能够执行新任务也会创建线程，等到需要执行的任务数大于线程池的基本大小时就不在创建。如果调用了线程池的prestartAllCoreThreads()方法，线程池会提前创建并启动所有的基本线程；</p>
+  </li>
+  <li>
+    <p>runnableTaskQueue：任务队列，用于保存等待执行的阻塞队列，可以选择使用以下几种阻塞队列：</p>
+
+    <ul>
+      <li>ArrayBlockingQueue：基于数组结构的有界阻塞队列</li>
+      <li>LinkedBlockingQueue：基于链表结构的阻塞队列</li>
+      <li>SynchronousQueue：一个不存储元素的阻塞队列，每个插入操作必须等到另一个点成调用移除操作，否则插入操作一直处于阻塞状态，吞吐量通常高于LinkedBlockingQueue，静态工厂方法Executors.newCachedThreadPool使用了这个队列</li>
+      <li>PriorityBlockingQueue：一个具有优先级的无限阻塞队列</li>
+    </ul>
+  </li>
+  <li>
+    <p>maximumPoolSize：线程池的最大数量，线程池允许创建的最大线程数。如果队列池满了，并且已创建的线程数小于最大线程数，则线程池会创建新的线程来执行任务。指的注意的是，如果使用了无界的任务队列这个参数就不会有什么效果；</p>
+  </li>
+  <li>
+    <p>ThreadFactory：用于设置创建线程的工厂，可以通过线程工厂给每个床架出来的线程设置更有意义的名称。</p>
+  </li>
+  <li>
+    <p>RejectedExcutionHandler（饱和策略）：当队列和线程池都满了，说明线程池处于饱和状态，那么必须采取一种策略来处理提交的新任务。者个策略默认情况下是AbortPolicy，表示无法处理任务时抛出异常。在JDK1.5中java线程池提供了以下4中策略:</p>
+
+    <ul>
+      <li>AbortPolicy：直接抛出异常</li>
+      <li>CallerRunsPolicy：只用调用者所在线程来运行任务</li>
+      <li>DiscardOldestPolicy：丢弃队列里最近的一个任务，并执行当前的任务</li>
+      <li>DiscardPolicy：不处理，丢弃掉</li>
+    </ul>
+
+    <p>当前也可以根据应用场景来实现RejectedExcutionHandler接口定义自定义策略。如记录日志或者持久化存储不能处理的任务；</p>
+  </li>
+  <li>
+    <p>keepAliveTime：线程活动保持时间，线程池的工作线程空闲之后，保持存活的时间。所以如果任务很多，并且每个任务执行的时间都很短，可以调大时间，以提高线程的利用率。</p>
+  </li>
+  <li>
+    <p>TimeUnit：线程活动保持时间的单位，可选的单位有天（DAYS）、小时（HOURS）、分钟（MINUTES）、毫秒（MILLISECONDS）、微秒（MICROSECONDS，千分之一毫秒）和纳秒（NANOSECONDS，千分之一微秒）</p>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="向线程池提交任务">向线程池提交任务</h3>
+
+<p>可以使用两个方法向线程池提交任务，分别为execute()和submit方法。</p>
+
+<p>execute用于提交不需要返回值的任务（无法判断任务是否被执行成功），示例：</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">threadPool</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span><span class="k">new</span> <span class="n">Runnable</span><span class="o">()</span> <span class="o">{</span>
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+		<span class="c1">// TODO</span>
+	<span class="o">}</span>
+<span class="o">});</span>
+</code></pre>
+</div>
+
+<p>submit方法用于提交需要返回值的任务，线程池会返回一个future类型的对象，通过这个future对象可以判断任务是否执行成功，并且可以通过future的get()方法来获取返回值，get()方法阻塞当前线程直到任务完成，而使用get(long timeout, TimeUnit unit)则会阻塞当前线程一段时间后立即返回，这个时候可能任务没有执行完。</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">Future</span><span class="o">&lt;?&gt;</span> <span class="n">future</span> <span class="o">=</span> <span class="n">threadPool</span><span class="o">.</span><span class="na">submit</span><span class="o">(</span><span class="n">taskWithReturnValue</span><span class="o">);</span>
+<span class="k">try</span> <span class="o">{</span>
+	<span class="n">Object</span> <span class="n">s</span> <span class="o">=</span> <span class="n">future</span><span class="o">.</span><span class="na">get</span><span class="o">();</span>
+<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">InterruptedException</span> <span class="n">e1</span><span class="o">)</span> <span class="o">{</span>
+	<span class="c1">// 处理中断异常</span>
+<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">ExecutionException</span> <span class="n">e1</span><span class="o">)</span> <span class="o">{</span>
+	<span class="c1">// 处理无法执行的任务异常</span>
+<span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+	<span class="c1">//关闭线程池</span>
+	<span class="n">threadPool</span><span class="o">.</span><span class="na">shutdown</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p><br /></p>
+
+<h3 id="关闭线程池">关闭线程池</h3>
+
+<p>可以使用线程池的shutdown或者shutdownNow方法来关闭线程池。他们的原理遍历线程池中的工作线程，然后逐个调用线程的inerrupt方法来中断线程，所以无法响应中断的任务可能永远无法终止。这两个方法存在一定的区别，shutdownNow首先将线程池的状态设置为STOP，然后尝试停止所有正在执行或暂停任务的线程，并返回等待执行的任务的列表，而shutdown只是将线程的状态设置为SHUTDOWN状态，然后中断所有没有正在执行任务的线程。</p>
+
+<p>只要调用了这两个方法中的任意一个，isShutdown方法就会返回true，当所有的任务都已经关闭了之后，才表示线程池关闭成功，这时候调用isTerminated方法会返回true。至于应该调用哪种方法来关闭线程池，应该由提交到线程池中的任务特性来决定，通常调用shutdown方法来关闭线程池，如果任务不一定要执行完则可以调用shutdownNow方法。</p>
+
+<p><br /></p>
+
+<h3 id="合理配置线程池">合理配置线程池</h3>
+
+<p>要向合理分配线程池，就必须首先分析任务的特性，可以从以下几个角度来分析：</p>
+
+<ul>
+  <li>任务的性质：CPU密集型任务、IO密集型任务、混合型任务</li>
+  <li>任务的优先级：高、中、低</li>
+  <li>任务的执行时间：长、中、短</li>
+  <li>任务的依赖性：是否依赖其他系统资源，如数据库连接</li>
+</ul>
+
+<p>性质不同的任务可以使不同规模的线程池分开处理。CPU密集型任务应该分配尽可能小的线程，如配置<code class="highlighter-rouge">Ncpu+1</code>个线程的线程池。由于IO密集型任务线程并不是一直在执行任务，则应分配尽可能多的线程，如<code class="highlighter-rouge"> 2*Ncpu</code> 。混合型的任务，如果可以拆分，将其拆分成一个CPU密集型的任务和一个IO密集型的任务，这要两个任务执行的时间相差不是太大，那么分解后执行的吞吐量将高于串行执行的吞吐量，如果这两个任务执行的时间相差太大，则没必要进行分解。可以通过Runtime.getRuntime().avaliableProcessors()方法获得当前设备的CPU个数。</p>
+
+<p>优先级不同的任务可以使用优先级队列PriorityBlockingQueue来处理。他可以让优先级高的任务先执行。注意如果一直有优先级高的任务提交到队列里，那么优先级低的线程将可能永远必能执行。</p>
+
+<p>执行时间不同的线程可以提交到不同规模的线程池来处理，或者可以使用优先级队列，让执行时间短的任务先执行。</p>
+
+<p>以来数据库连接池的任务，因为提交sql之后需要等待数据库返回结果，等待的时间越长，则CPU的空闲时间就越长，那么线程数应该设置的更大，这样才能更好的利用CPU。</p>
+
+<p>建议使用有节队列：永杰队列能能加系统的稳定性和预警能力，可以根据需要设置的大一点，比如几千。有一次，我们系统里后台任务线程池队列和线程池全满了，不断抛出抛弃任务的异常，通过排查发现是数据库出了问题，导致执行sql变得非常缓慢，因为后台任务线程池里的任务全是需要向数据库查询和插入数据的，所以导致线程池里的工作线程全部阻塞，任务积压在线程池里。如果当时我们设置成有界队列，那么线程池里的队列就会越来越多，有可能会撑满内存，导致整个系统不可用，而不只是后台任务出现问题。当然，我们系统的所有任务使用单独的服务器部署的，我们使用不同规模的线程池来完成不同类型的任务，但是出现这样的问题也会影响到其他任务。</p>
+
+<p><br /></p>
+
+<h3 id="线程池的监控">线程池的监控</h3>
+
+<p>如果在系统中大量使用线程池，则有必要对线程池进行监控，方便在出现问题时，可以根据线程池的使用情况快速定位问题。可以通过线程池提供的参数来进行监控，在监控线程池的时候可以使用以下属性：</p>
+
+<ul>
+  <li>takeCount：线程池需要执行的任务数量</li>
+  <li>completedTaskCount：线程池在运行过程中已完成的任务数量，小于等于takeCount</li>
+  <li>largestPoolSize：线程池里曾经创建过的最大线程数量。通过这个数据可以知道线程池是否已经满过。如果该值等于线程池的最大大小，则表示线程池曾经满过。</li>
+  <li>getPoolSize：线程池的线程数量。如果线程池不销毁的话，线程池里的线程不会自动销毁，所以这个大小只增不减。</li>
+  <li>getActiveCount：获取活动的线程数。</li>
+</ul>
+
+<p>通过扩展线程池进行监控。可以通过继承线程池来自定义线程池，重写线程池的 beforeExecute、afterExecute和terminated方法，也可以在任务执行前、执行后和线程池关闭前执行一些代码来进行监控。例如监控任务的平均执行时间和最小执行时间等。这几个方法在线程池里是空方法：</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">protected</span> <span class="kt">void</span> <span class="nf">beforeExecute</span><span class="o">(</span><span class="n">Thread</span> <span class="n">t</span><span class="o">,</span> <span class="n">Runnable</span> <span class="n">r</span><span class="o">)</span> <span class="o">{</span> <span class="o">}</span>
+
+<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">afterExecute</span><span class="o">(</span><span class="n">Runnable</span> <span class="n">r</span><span class="o">,</span> <span class="n">Throwable</span> <span class="n">t</span><span class="o">)</span> <span class="o">{</span> <span class="o">}</span>
+
+<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">terminated</span><span class="o">()</span> <span class="o">{</span> <span class="o">}</span>
+</code></pre>
+</div>
+
+
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-6">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">Java</button>
+                                
+                        </div>
+                        
+                        <!--
+                        <div class="col-md-6">
+                            <div class="small text-right">
+                                <div>    
+                                    <i class="fa fa-comments-o"> </i> 
+                                    <span class="ds-comments">0</span>条评论
+                                </div>
+                                <div>
+                                    <i class="fa fa-share-alt"> </i> 
+                                    <span class="ds-shares">0</span>条转发
+                                </div>  
+                            </div>
+                        </div>
+                        -->
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <!-- donate -->
+                            
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal2">
+    Donate
+</button>
+<div class="modal inmodal" id="myModal2" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated flipInY">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Donate Me</h4>
+                <small class="font-bold">Thanks for your support!</small>
+            </div>
+            <div class="modal-body">
+                <div class="tabbable" id="tabs-960227">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#panel-405278" data-toggle="tab">Alipay</a>
+                        </li>
+                        <li>
+                            <a href="#panel-874705" data-toggle="tab">Wechat</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="panel-405278">
+                            <div class="text-center">
+                                <img src="/static/img/pay/alipay.png"" height="250" width="250">
+                            </div>    
+                        </div>
+                        <div class="tab-pane" id="panel-874705">
+                            <div class="text-center">
+                                <img src="/static/img/pay/wechat.png"" height="250" width="250">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+                            
+                            <br>
+                            <!-- share -->
+                            
+                                
+<!--分享-->
+<div class="row" style="margin-top:30px;">
+	<h2>Share:</h2>
+    <div class="social-share" style="margin-left:-5px;"data-sites="wechat,qq,qzone,weibo"></div> 
+</div>
+<link rel="stylesheet" href="/static/css/share.min.css">
+<script src="/static/js/jquery.share.min.js"></script>
+<script src="/static/js/embed.js"></script>
+
+<script>
+  var url = 'http://localhost:4000/java/2017/07/28/java-concurrent-14.html';
+  var source = 'http://localhost:4000/java/2017/07/28/java-concurrent-14.html';
+  var title = 'JAVA中的线程池-ThreadPoolExecutor';
+  var excerpt = $("p:eq(0)").text();
+  
+  var imageUrl = 'http://localhost:4000/static/img/landing/header_one.jpg';
+  var imgEle = $(".content_img:eq(0)");
+  if (imgEle) {
+    imageUrl = imgEle.attr("src");
+  }
+
+  var $config = {
+      url: url, // 网址，默认使用 window.location.href
+      source: source, // 来源（QQ空间会用到）, 默认读取head标签：<meta name="site" content="http://overtrue" />
+      title: title, // 标题，默认读取 document.title 或者 <meta name="title" content="share.js" />
+      description: excerpt, // 描述, 默认读取head标签：<meta name="description" content="PHP弱类型的实现原理分析" />
+      image: imageUrl, // 图片, 默认取网页中第一个img标签
+      sites: ['qzone', 'qq', 'weibo','wechat','douban'], // 启用的站点
+      //disabled: ['google', 'facebook', 'twitter'], // 禁用的站点
+      wechatQrcodeTitle: "微信扫一扫：分享", // 微信二维码提示文字
+      wechatQrcodeHelper: '<p style="font-size:10px;">微信里点“发现”，扫一下</p><p style="font-size:10px;">二维码便可将本文分享至朋友圈。</p>',
+   };
+  $('.social-share').share($config);
+</script>
+
+
+
+
+                            
+                            <br>
+                            <!-- comment -->
+                            <!--
+
+
+
+-->
+
+<!-- 多说评论框 start -->
+<div class="row" style="margin-top:25px;"></div>
+<div class="ds-thread" data-thread-key="/java/2017/07/28/java-concurrent-14.html" data-title="JAVA中的线程池-ThreadPoolExecutor" data-url="http://localhost:4000/java/2017/07/28/java-concurrent-14.html"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+	var duoshuoQuery = {short_name:"kinglyjn"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+<!-- 多说公共JS代码 end -->
+
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+	
+	    <script src="/static/js/scroll.js"></script>
+
+<!-- Baidu analytics -->
+
+
+<!-- Google analytics -->
+
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-73784599-1', 'auto');
+    ga('send', 'pageview');
+
+  </script>
+
+
+<!--
+
+-->
+
+<!--
+
+-->
+
+<script async src="/static/js/count_page.js"></script>
+
+	
+
+</body>
+</html>
