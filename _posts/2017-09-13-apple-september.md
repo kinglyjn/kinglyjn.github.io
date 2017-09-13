@@ -6,7 +6,7 @@ keywords: "iPhoneX & iPhone8 for Jobs, iPhoneX, iPhone8"
 date: 2017-09-03
 categories: [Other]
 tags: [Other]
-icon: fa-rub
+icon: fa-apple
 ---
 
 
