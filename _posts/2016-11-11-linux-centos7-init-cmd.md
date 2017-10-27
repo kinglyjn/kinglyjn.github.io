@@ -98,6 +98,21 @@ centos  ALL=(ALL)       ALL
 centos  ALL=(ALL)       NOPASSWD: ALL
 ```
 
+### 给操作命令加入时间
+
+```shell
+sudo vim /etc/profile
+或者
+sudo vim /etc/bash.bashrc
+	HISTFILESIZE=2000
+	HISTSIZE=2000
+	HISTTIMEFORMAT="%Y%m%d-%H%M%S: "
+	export HISTTIMEFORMAT
+	
+last -x
+history
+```
+
 ### 更改本机的hosts 和 hostname
 
 ```shell
