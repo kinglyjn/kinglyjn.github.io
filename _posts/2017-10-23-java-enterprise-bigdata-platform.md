@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "企业打他数据平台"
-desc: "企业打他数据平台"
-keywords: "企业打他数据平台,kinglyjn"
+title:  "企业大数据平台"
+desc: "企业大数据平台"
+keywords: "企业大数据平台,kinglyjn"
 date: 2017-08-26
 categories: [Java]
 tags: [java]
