@@ -86,7 +86,7 @@ logStdErr		当前命令所产生的标准错误输出是否需要采集(默认�
 
 
 
-Spooling Directory Source
+Spooling Directory Source（flume1.7+提供的Taildir Source对该source进行了改进，[参照](http://flume.apache.org/FlumeUserGuide.html#taildir-source)）
 
 ```default
 此种源会将目标文件夹中新出现的文件作为要采集的资源，为了保证文件的完整采集和不被重复采集，此种源会给采集完成的文件添加上一个特殊的后缀名。
@@ -113,6 +113,16 @@ trackerDir		被处理文件的元数据的存储目录，如果不是绝对路�
 batchSize		批量写入Channel端的大小(默认值为100)
 inputCharset	输出字符集(默认值为UTF-8)
 deserializer	解串器类型，日志文件需要使用LINE(默认)，大二进制文件如：pdf、图片采用BLOB
+```
+
+<br>
+
+
+
+Taildir Source
+
+```default
+SpoolDirectorySource可以配置一个监听目录，会监听该目录下所有的文件，但是如果配置目录下面嵌套了子目录，则无法监听；并且SpoolDirectorySource监听目录下的文件不允许动态变化。而
 ```
 
 <br>
@@ -302,7 +312,7 @@ $ bin/flume-ng agent --name a1 --conf conf --conf-file conf/flume-conf-01.proper
 
 ### 使用exec source将日志文件实时[t+0]抽取到 HDFS-HA中
 
-```shell
+```properties
 #1.配置flume agent
 -------------------------------------
 # define agents, one of them named a2
@@ -397,7 +407,7 @@ Spooling Directory Source可以获取硬盘上“spooling”目录的数据，�
 
 配置flume agent：
 
-```shell
+```properties
 # define agents, one of them named a3
 a3.sources = r1
 a3.channels = c1
@@ -444,4 +454,167 @@ a3.sinks.k1.hdfs.writeFormat = Text
 a3.sources.r1.channels = c1
 a3.sinks.k1.channel = c1
 ```
+
+<br>
+
+
+
+### 自定义AsyncHBaseSink存储exec source传来的日志信息到hbase中
+
+1、编写AsyncHBaseSink类，然后编译打包到flume lib文件夹下：
+
+```java
+package com.keyllo.flume.sink.hbase;
+
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.flume.Context;
+import org.apache.flume.Event;
+import org.apache.flume.conf.ComponentConfiguration;
+import org.apache.flume.sink.hbase.AsyncHbaseEventSerializer;
+import org.hbase.async.AtomicIncrementRequest;
+import org.hbase.async.PutRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import com.google.common.base.Charsets;
+
+/**
+* AsyncHBaseEventSerialier示例
+* 参照SimpleAsyncHbaseEventSerializer实现类进行编写
+*/
+public class AsyncHBaseEventSerialierLogDemo implements AsyncHbaseEventSerializer {
+	private static final Logger LOGGER = LoggerFactory.getLogger(AsyncHBaseEventSerialierLogDemo.class);
+	private byte[] table;			//table
+	private byte[] cf;				//column family
+	private byte[] payload;			//传递过来的 envent负载
+	private byte[] payloadColumn;	//传递过来的 serializer.payloadColumn=xx,xx,xx
+	private byte[][] columns;		//columns 由payloadColumn解析得来
+  	private byte[] incrementRow;	//hbase中计数器cell的rowkey名称
+	private byte[] incrementColumn;	//hbase中计数器cell的值(类型为Long，值为rowkey个数+1)
+
+	
+	@Override
+	public void initialize(byte[] table, byte[] cf) {
+		this.table = table;
+		this.cf = cf;
+	}
+
+	@Override
+	public List<PutRequest> getActions() {
+		List<PutRequest> actions = new ArrayList<PutRequest>();
+		
+		//校验
+		if (columns.length == 0) {
+			LOGGER.info("列名个数为0（不合法），跳过！");
+			return actions;
+		}
+		
+		//解析传来的payload成hbase values
+		String[] values = new String(payload).split(",");
+		if (columns.length != values.length) {
+			LOGGER.info("列名和列值个数不匹配，跳过！");
+			return actions;
+		}
+		
+		//event-->put（此处使用payload充当rowkey）
+		byte[] currentRowkey = payload;
+		byte[][] vs = new byte[columns.length][];
+		for (int i = 0; i < values.length; i++) {
+			vs[i] = values[i].getBytes();
+		}
+		PutRequest put = new PutRequest(table, currentRowkey, cf, columns, vs);
+      	//PutRequest put = new PutRequest(table, currentRowkey, cf, columns, vs, new Date().getTime()); //可以加时间版本
+		actions.add(put);
+		
+		return actions;
+	}
+
+	public List<AtomicIncrementRequest> getIncrements() {
+		List<AtomicIncrementRequest> actions = new ArrayList<AtomicIncrementRequest>();
+		if (incrementColumn != null) {
+			AtomicIncrementRequest inc = new AtomicIncrementRequest(table, incrementRow, cf, incrementColumn);
+			actions.add(inc);
+		}
+		return actions;
+	}
+
+	@Override
+	public void cleanUp() {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void configure(Context context) {
+		//在flume agent中使用 serializer.* 定义的参数payloadColumn 和 incrementColumn
+		String pCol = context.getString("payloadColumn", "pCol");	
+		String iCol = context.getString("incrementColumn", "iCol");
+		if (pCol != null && !pCol.isEmpty()) {
+			payloadColumn = pCol.getBytes(Charsets.UTF_8);
+			String[] columnNames = new String(payloadColumn).split(",");
+			if(columnNames!=null && columnNames.length!=0) {
+				columns = new byte[columnNames.length][];
+				for (int i = 0; i < columnNames.length; i++) {
+					columns[i] = columnNames[i].getBytes();
+				}
+			}
+		}
+		if (iCol != null && !iCol.isEmpty()) {
+			incrementColumn = iCol.getBytes(Charsets.UTF_8);
+		}
+		incrementRow = context.getString("incrementRow", "incRow").getBytes(Charsets.UTF_8);
+	}
+
+	@Override
+	public void setEvent(Event event) {
+		this.payload = event.getBody();
+	}
+
+	@Override
+	public void configure(ComponentConfiguration conf) {
+		// TODO Auto-generated method stub
+	}
+}
+```
+
+2、编写flume agent配置文件
+
+```properties
+#define agents, one of them named a4
+a4.sources = r1
+a4.channels = c1
+a4.sinks = k1
+
+
+# define sources, one of them named r1
+a4.sources.r1.type = exec
+a4.sources.r1.command = tail -f /opt/app/apache-tomcat-7.0.82/logs/catalina.out
+a4.sources.r1.shell = /bin/bash -c
+a4.sources.r1.batchTimeout = 1000
+a4.sources.r1.batchSize = 100
+
+
+# define channels, one of them named c1
+a4.channels.c1.type = memory
+a4.channels.c1.capacity = 200
+a4.channels.c1.transactionCapacity = 100
+
+
+# define sinks, one of them named k1
+# hbase中必须存在 loan:t1表，并且表中存在名字为d的列族
+a4.sinks.k1.type = asynchbase
+a4.sinks.k1.table = loan:t1
+a4.sinks.k1.columnFamily = d
+a4.sinks.k1.serializer = com.keyllo.flume.sink.hbase.AsyncHBaseEventSerialierLogDemo
+a4.sinks.k1.serializer.payloadColumn = column1,column2,column3
+a4.sinks.k1.keeperQuorum = nimbusz:2181,supervisor01z:2181,supervisor02z:2181
+a4.sinks.k1.znodeParent = /hbase
+a4.sinks.k1.batchSize = 100
+
+
+# bind sources and sink to channel
+a4.sources.r1.channels = c1
+a4.sinks.k1.channel = c1
+```
+
+
 
