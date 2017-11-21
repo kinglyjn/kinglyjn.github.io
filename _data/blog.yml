@@ -13,6 +13,9 @@
 - name: C
   href: '/c/'
 
+- name: Py
+  href: '/py/'
+
 - name: PHP
   href: '/php/'  
 

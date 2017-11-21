@@ -3,8 +3,24 @@
 	"data" : [
 	 
 	{
-		"title" : "iPhoneX & iPhone8 for Jobs - 2017-09-03",
-		"url" : "/other/2017/09/03/apple-september.html"
+		"title" : "flume的安装和使用 - 2017-10-27",
+		"url" : "/java/2017/10/27/java-flume-install-use.html"
+	}
+	
+	,
+	
+    
+	{
+		"title" : "iPhoneX & iPhone8 for Jobs - 2017-09-13",
+		"url" : "/other/2017/09/13/apple-september.html"
+	}
+	
+	,
+	
+    
+	{
+		"title" : "企业大数据平台 - 2017-08-26",
+		"url" : "/java/2017/08/26/java-enterprise-bigdata-platform.html"
 	}
 	
 	,
@@ -389,6 +405,14 @@
 	{
 		"title" : "linux环境下mysql5.6的安装、配置、使用及常见问题解决办法 - 2016-12-13",
 		"url" : "/linux/2016/12/13/mysql.html"
+	}
+	
+	,
+	
+    
+	{
+		"title" : "mysql主备 - 2016-12-13",
+		"url" : "/linux/2016/12/13/mysql-mster-slave.html"
 	}
 	
 	,

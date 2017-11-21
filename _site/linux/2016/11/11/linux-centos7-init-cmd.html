@@ -189,6 +189,11 @@
                             
                             <li>
                             
+                            <a class="page-scroll" href="/py/">Py</a></li>
+                        
+                            
+                            <li>
+                            
                             <a class="page-scroll" href="/php/">PHP</a></li>
                         
                             
@@ -377,6 +382,21 @@ chmod 777 dirname<br /></p>
 <span class="c"># 添加配置</span>
 centos  <span class="nv">ALL</span><span class="o">=(</span>ALL<span class="o">)</span>       ALL
 centos  <span class="nv">ALL</span><span class="o">=(</span>ALL<span class="o">)</span>       NOPASSWD: ALL
+</code></pre>
+</div>
+
+<h3 id="给操作命令加入时间">给操作命令加入时间</h3>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code>sudo vim /etc/profile
+或者
+sudo vim /etc/bash.bashrc
+	<span class="nv">HISTFILESIZE</span><span class="o">=</span>2000
+	<span class="nv">HISTSIZE</span><span class="o">=</span>2000
+	<span class="nv">HISTTIMEFORMAT</span><span class="o">=</span><span class="s2">"%Y%m%d-%H%M%S: "</span>
+	<span class="nb">export </span>HISTTIMEFORMAT
+	
+last -x
+<span class="nb">history</span>
 </code></pre>
 </div>
 

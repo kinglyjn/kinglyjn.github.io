@@ -189,6 +189,11 @@
                             
                             <li>
                             
+                            <a class="page-scroll" href="/py/">Py</a></li>
+                        
+                            
+                            <li>
+                            
                             <a class="page-scroll" href="/php/">PHP</a></li>
                         
                             
@@ -421,8 +426,15 @@
 
     <div class="language-shell highlighter-rouge"><pre class="highlight"><code>put --&gt; cell
 	0<span class="o">)</span> 将操作记录写入HDFS上的WAL预写日志
-	1<span class="o">)</span> 将数据先写入内存memstore中
-	2<span class="o">)</span> 当memstore达到一定阈值的时候，将数据写入到磁盘storeFile中
+	1<span class="o">)</span> 将数据先写入内存memstore中，一直到memstore满
+	2<span class="o">)</span> --&gt;flush成一个storefile，直至storefile增长到一定的阈值
+	3<span class="o">)</span> --&gt;触发compact合并操作，多个storefile合并成一个storefile，同时进行版本合并和数据删除
+	4<span class="o">)</span> --&gt;compact动作使得storefile越来越大，单个的storefile超过一定的阈值之后，触发split操作
+	5<span class="o">)</span> --&gt;split操作将当前region split成两个region，旧region会下线，
+	      新的两个孩子region会被hmaster分配到相应的hregionserver上，使得原先一个region的压力
+	      分流到两个region上
+   	     
+注意：hbase只是增加数据，所有更新和删除操作都是在compact阶段做的，所以用户写操作只需要进入内存即可立即返回，从而保证IO的高性能。
 </code></pre>
     </div>
   </li>
@@ -550,6 +562,19 @@ hadoop-yarn-server-nodemanager-2.2.0.jar
   	&lt;name&gt;hbase.zookeeper.property.clientPort&lt;/name&gt;
   	&lt;value&gt;2181&lt;/value&gt;
 &lt;/property&gt;
+&lt;!--这个值默认是60s，这意味着一个serve宕机了，master至少需要60s才能察觉到宕机，并开始恢复。
+在调节这个参数之前，你需要确认你的JVM的GC参数，否则一个很长的GC操作就可能导致超时。建议开始的时候，
+将这个值调的高一点，因为每当我们在执行一个大规模数据导入的时候regionserver死掉，通常这样的问题是由于长时间的GC造成的--&gt;
+&lt;property&gt;
+	&lt;name&gt;zookeeper.session.timeout&lt;/name&gt;
+	&lt;value&gt;60000&lt;/value&gt;
+&lt;/property&gt;
+&lt;!--这个参数决定了处理用户请求的线程数量，默认是30--&gt;
+&lt;property&gt;
+	&lt;name&gt;hbase.regionserver.handler.count&lt;/name&gt;
+	&lt;value&gt;30&lt;/value&gt;
+&lt;/property&gt;
+
 
 <span class="c"># 5.2 conf/regionservers</span>
 ------------------------
@@ -810,6 +835,146 @@ region01 阈值          region06              region09 阈值
 region04              region03 阈值          region07
 resion02              region05              region08  阈值
 </code></pre>
+
+<p><br /></p>
+
+<h3 id="hbase自带压测工具">Hbase自带压测工具</h3>
+
+<p>命令：</p>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>hbase org.apache.Hadoop.hbase.PerformanceEvaluation sequentialWrite 1
+或者
+<span class="gp">$ </span>hbase pe
+
+命令形式：
+Java org.apache.hadoop.hbase.PerformanceEvaluation &lt;OPTIONS&gt; <span class="o">[</span>-D&lt;<span class="nv">property</span><span class="o">=</span>value&gt;]<span class="k">*</span> &lt;<span class="nb">command</span>&gt; &lt;nclients&gt;
+
+Options:
+nomapred        Run multiple clients using threads <span class="o">(</span>rather than use mapreduce<span class="o">)</span>
+rows            Rows each client runs. Default: One million
+size            Total size <span class="k">in </span>GiB. Mutually exclusive with --rows. Default: 1.0.
+sampleRate      Execute <span class="nb">test </span>on a sample of total rows. Only supported by randomRead. Default: 1.0
+traceRate       Enable HTrace spans. Initiate tracing every N rows. Default: 0
+table           Alternate table name. Default: <span class="s1">'TestTable'</span>
+multiGet        If &gt;0, when doing RandomRead, perform multiple gets instead of single gets. Default: 0
+compress        Compression <span class="nb">type </span>to use <span class="o">(</span>GZ, LZO, ...<span class="o">)</span>. Default: <span class="s1">'NONE'</span>
+flushCommits    Used to determine <span class="k">if </span>the <span class="nb">test </span>should flush the table. Default: <span class="nb">false
+</span>writeToWAL      Set writeToWAL on puts. Default: True
+autoFlush       Set autoFlush on htable. Default: False
+oneCon          all the threads share the same connection. Default: False
+presplit        Create presplit table. Recommended <span class="k">for </span>accurate perf analysis <span class="o">(</span>see guide<span class="o">)</span>.  Default: disabled
+inmemory        Tries to keep the HFiles of the CF inmemory as far as possible. Not guaranteed that reads are always served from memory.  Default: <span class="nb">false
+</span>usetags         Writes tags along with KVs. Use with HFile V3. Default: <span class="nb">false
+</span>numoftags       Specify the no of tags that would be needed. This works only <span class="k">if </span>usetags is true.
+filterAll       Helps to filter out all the rows on the server side there by not returning any thing back to the client.  Helps to check the server side performance.  Uses FilterAllFilter internally. 
+latency         Set to report operation latencies. Default: False
+bloomFilter      Bloom filter <span class="nb">type</span>, one of <span class="o">[</span>NONE, ROW, ROWCOL
+valueSize       Pass value size to use: Default: 1024
+valueRandom     Set <span class="k">if </span>we should vary value size between 0 and <span class="s1">'valueSize'</span>; <span class="nb">set </span>on <span class="nb">read </span><span class="k">for </span>stats on size:Default: Not set.
+valueZipf       Set <span class="k">if </span>we should vary value size between 0 and <span class="s1">'valueSize'</span> <span class="k">in </span>zipf form: Default: Not set.
+period          Report every <span class="s1">'period'</span> rows: Default: opts.perClientRunRows / 10
+multiGet        Batch gets together into groups of N. Only supported by randomRead. Default: disabled
+addColumns      Adds columns to scans/gets explicitly. Default: <span class="nb">true
+</span>replicas        Enable region replica testing. Defaults: 1.
+splitPolicy     Specify a custom RegionSplitPolicy <span class="k">for </span>the table.
+randomSleep     Do a random sleep before each get between 0 and entered value. Defaults: 0
+columns         Columns to write per row. Default: 1
+caching         Scan caching to use. Default: 30
+Note: -D properties will be applied to the conf used. 
+  For example: 
+   -Dmapreduce.output.fileoutputformat.compress<span class="o">=</span><span class="nb">true</span>
+   -Dmapreduce.task.timeout<span class="o">=</span>60000
+
+Command:
+filterScan      Run scan <span class="nb">test </span>using a filter to find a specific row based on it<span class="s1">'s value (make sure to use --rows=20)
+randomRead      Run random read test
+randomSeekScan  Run random seek and scan 100 test
+randomWrite     Run random write test
+scan            Run scan test (read every row)
+scanRange10     Run random seek scan with both start and stop row (max 10 rows)
+scanRange100    Run random seek scan with both start and stop row (max 100 rows)
+scanRange1000   Run random seek scan with both start and stop row (max 1000 rows)
+scanRange10000  Run random seek scan with both start and stop row (max 10000 rows)
+sequentialRead  Run sequential read test
+sequentialWrite Run sequential write test
+
+Args:
+nclients        Integer. Required. Total number of clients (and HRegionServers)
+                 running: 1 &lt;= value &lt;= 500
+
+Examples:
+To run a single evaluation client:
+$ bin/hbase org.apache.hadoop.hbase.PerformanceEvaluation sequentialWrite 1
+</span></code></pre>
+</div>
+
+<p>默认pe是使用MapReduce作业来执行的。其中参数:nClients可以当做创建多少线程执行测试.</p>
+
+<p>顺序写命令: hbase pe sequentialWrite 1 :</p>
+
+<pre><code class="language-default">结果:
+HBase Performance Evaluation
+  Elapsed time in milliseconds=171522
+  Row count=1048570
+
+说明: 
+命令行创建一个单独客户端，并且执行持续的写入测试。命令行将一直显示完成的进度直到打印最后的结果，当用户确定客户端服务器负载并不大时，可增加一定数量的客户端（也就是说线程或者MapReduce任务）
+hbase pe sequentialWrite 4 :  
+	HBase Performance Evaluation
+      Elapsed time in milliseconds=232334
+      Row count=1048560
+</code></pre>
+
+<p>随机写命令:hbase pe randomWrite 1</p>
+
+<pre><code class="language-default">结果:  
+HBase Performance Evaluation
+      Elapsed time in milliseconds=163566
+      Row count=1048570
+</code></pre>
+
+<p>顺序读命令:hbase pe sequentialRead 1</p>
+
+<pre><code class="language-default">结果:  
+HBase Performance Evaluation
+	Elapsed time in milliseconds=493891
+	Row count=1048570
+</code></pre>
+
+<p>随机读命令:hbase pe randomRead 1</p>
+
+<pre><code class="language-default">HBase Performance Evaluation
+      Elapsed time in milliseconds=586889
+      Row count=1048570
+</code></pre>
+
+<p><br /></p>
+
+<p><strong>测试环境使用hbase自带压测工具的一些测试数据</strong></p>
+
+<pre><code class="language-default">集群配置(3个slave)
+	CPU: 12core
+	Mem: 64G
+	HD: 普通商用机械硬盘 2T
+	
+测试数据：
+顺序写	hbase pe sequentialWrite nClients
+1:5000/s	2:3000/s	3:1700/s	4:1440/s	5:1140/s	6:850/s		10:670/s	20:1060/s	50:1160/s
+
+随机写	hbase pe randomWrite nClients
+1:6000/s	2:2800/s	3:1800/s	4:1700/s	5:1300/s	6:870/s		10:700/s
+20:1340/s	50:1280/s
+
+顺序读 hbase pe sequentialRead nClients
+1:3800/s	2:3100/s	3:2760/s	4:1900/s	5:2010/s	6:1702/s	10:1090/s
+20:1330/s	50:780/s
+
+随机读 hbase pe randomRead nClients
+1:3180/s	2:2850/s	3:2480/s	4:2130/s	5:1740/s	6:1540/s	10:840/s
+20:930/s	50:722/s
+</code></pre>
+
+<p><img src="http://img.blog.csdn.net/20171025125617770?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:80%" /></p>
 
 
                     <hr>

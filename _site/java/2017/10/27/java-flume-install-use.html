@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html>
+	
+	    <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+    <meta content="flume的安装和使用" name="description">
+  
+  
+    <meta name="keywords" content="flume的安装和使用,kinglyjn">
+  
+  <meta name="author" content="KinglyJn">
+
+  <title>
+    
+        KinglyJn|flume的安装和使用
+    
+  </title>
+  <!-- favicon -->
+  <link rel="shortcut icon" href="static/img/favicon.ico">
+
+
+  <!-- Third-party CSS -->
+  <link href="/bower_components/normalize-css/normalize.min.css" rel="stylesheet">
+  <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/bower_components/animate.css/animate.min.css" rel="stylesheet">
+  <link href="/bower_components/components-font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="/static/font-mfizz/font-mfizz.css" rel="stylesheet">
+  <!-- <link href="/bower_components/toastr/toastr.min.css" rel="stylesheet"> -->
+  <link href="/bower_components/jquery.gritter/css/jquery.gritter.css" rel="stylesheet">
+  <link rel="stylesheet" href="/search/css/cb-search.css">
+
+  <!-- Custom styles for this template -->
+  <link href="/static/css/style.min.css" rel="stylesheet">
+  <link href="/static/css/pygments.css" rel="stylesheet">
+
+  <!-- Scripts -->
+  <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="/search/js/bootstrap3-typeahead.min.js"></script>
+
+  <!-- cb-search -->
+  <script src="/search/js/cb-search.js"></script>
+  <script>
+    $(function(){
+        $("pre").css('display','block');
+    });
+  </script>
+  <!-- Mainly scripts -->
+  <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="/bower_components/metisMenu/dist/metisMenu.min.js"></script>
+  <script src="/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+
+  <!-- Peity -->
+  <script src="/bower_components/peity/jquery.peity.min.js"></script>
+
+  <script src="/bower_components/PACE/pace.min.js"></script>
+  <script src="/bower_components/wow/dist/wow.min.js"></script>
+  <!-- Custom and plugin javascript -->
+  <script src="/static/js/inspinia.js"></script>
+
+  <!-- Rickshaw -->
+  <script src="/bower_components/rickshaw/vendor/d3.v3.js"></script>
+  <script src="/bower_components/rickshaw/rickshaw.min.js"></script>
+
+
+  <!-- jPages -->
+  <script src="/static/js/jPages.js"></script>
+  <script src="/static/js/js.js"></script>
+  <script type="text/javascript">
+        $(function(){
+          /* initiate the plugin */
+          $("div.pag-holder").jPages({
+              containerID  : "pag-itemContainer",
+              perPage      : 10,  /* num of items per page */
+              startPage    : 1,
+              startRange   : 1,
+              midRange     : 3,
+              endRange     : 1
+          });
+
+          $("div.pag-jump button").click(function(){
+            var page = parseInt($("div.pag-jump input").val());
+            $("div.pag-holder").jPages(page);
+          });
+
+          $("div.pag-jump input").on("keypress", function(){
+            var e=e||window.event;
+            if (e.keyCode == 13) {
+                var page = parseInt($("div.pag-jump input").val());
+                $("div.pag-holder").jPages(page);
+            } 
+          });
+      });
+  </script>
+
+<!-- GrowingIO -->
+
+  <script>
+    var _vds = _vds || [];
+    window._vds = _vds;
+    (function(){
+      _vds.push(['setAccountId', 'a49d4901c7853da9']);
+      (function() {
+        var vds = document.createElement('script');
+        vds.type='text/javascript';
+        vds.async = true;
+        vds.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'dn-growing.qbox.me/vds.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(vds, s);
+      })();
+    })();
+  </script>
+
+
+</head>
+
+	
+
+
+<body id="page-top" class="landing-page">
+
+	
+	    
+
+<!--修复手机端横轴方向左右滑动BUG-->
+<style type="text/css">
+    .landing-page .row {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+</style>
+
+<div class="search-tool"
+      style="position: fixed; top: 0px ; bottom: 0px; left: 0px; right:  0px; opacity: 0.95; background-color: #111111; z-index: 9999; display: none;">
+    <input type="text" class="form-control search-content" id="search-content" style="position: fixed; top: 60px" placeholder="Search Blog">
+
+    <div style="position: fixed; top: 16px; right: 16px; z-index: 9999;">
+        <img src="/search/img/cb-close.png" id="close-btn"/>
+    </div>
+</div>
+
+<div style="position: fixed; right: 16px; bottom: 20px; z-index: 9999;">
+    <img src="/search/img/cb-search.png"  id="search-btn"  title="Double click Ctrl"/>
+</div>
+
+<div class="navbar-wrapper">
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header page-scroll">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/">KinglyJn</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a class="page-scroll" href="/blog/"></a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/blog/">Blog</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/linux/">Linux</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/cloud/">Cloud</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/java/">Java</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/c/">C</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/py/">Py</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/php/">PHP</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/db/">DB</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/htmlx/">HTMLX</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/life/">Life</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/art/">Art</a></li>
+                        
+                            
+                            <li>
+                            
+                            <a class="page-scroll" href="/other/">Other</a></li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </nav>
+</div>
+<div id="inSlider" class="carousel carousel-fade" data-ride="carousel">
+    <div style="position:absolute;float:left;left:25%;z-index:15;width:50%;margin-bottom:18%;bottom:0;text-align:center;list-style:none;">
+        <span style="color:white;font-size:24px;">以平实之心写作</span><br>
+        <span style="color:white;font-size:13px;">writing with simple heart ♬. </span>
+    </div>
+    <!--
+    <ol class="carousel-indicators">
+        <li data-target="#inSlider" data-slide-to="0" class="active"></li>
+        <li data-target="#inSlider" data-slide-to="1"></li>
+    </ol>
+    -->
+    <div class="carousel-inner" role="listbox">
+        <div class="item active">
+            <div class="container">
+                <div class="carousel-caption">
+                </div>
+                <div class="carousel-image wow zoomIn">
+                    <!-- <img src="static/img/landing/laptop.png" alt="laptop"/> -->
+                </div>
+            </div>
+            <!-- Set background for slide in css -->
+            <div class="header-back blog-one"></div>
+        </div>
+        <!--
+        <div class="item">
+            <div class="container">
+                <div class="carousel-caption blank">
+                </div>
+            </div>
+            Set background for slide in css
+            <div class="header-back two"></div>
+        </div>
+        -->
+    </div>
+    <!--
+    <a class="left carousel-control" href="#inSlider" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#inSlider" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+    -->
+</div>
+
+
+	
+
+    <div class="wrapper wrapper-content  animated fadeInRight article">
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <div class="pull-right">
+                    	
+                        	<button class="btn btn-white btn-xs" type="button">Java</button>
+                        
+                    </div>
+                    <div class="text-center article-title" style="margin-bottom:50px;">
+                        <h1>
+                            flume的安装和使用
+                        </h1>
+                        <a href="http://www.keyllo.com/studio/">
+                            <span class="text-muted"><i class="fa fa-user"></i> KinglyJn</span>
+                        </a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <span class="text-muted"><i class="fa fa-clock-o"></i> 2017-10-27</span>
+                    </div>
+                    	<h3 id="flume简介">flume简介</h3>
+
+<p>Flume是Cloudera提供的一个高可用的，高可靠的，分布式的海量日志采集、聚合和传输的系统。最早是Cloudera提供的日志收集系统，目前是Apache下的一个孵化项目。支持在日志 系统中定制各类数据发送方，用于收集数据；同时，Flume提供对数据进行简单处理，并写到各种数据接受方。Flume采用了多Master的方式，为了保证配置数据的一致性，Flume引入了ZooKeeper，用于保存配置数据，ZooKeeper本身可保证配置数据的一致性和高可用，另外，在配置数据发生变化时，ZooKeeper可以通知Flume Master节点，Flume Master间使用gossip协议同步数据。</p>
+
+<p>Flume在目前的使用过程中，有两种日志采集结构是比较常用，第一种是多agent链路模式，第二种是多渠道采集模式。具体的结构图如下：</p>
+
+<p><img src="http://img.blog.csdn.net/20171030113141385?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:60%" /></p>
+
+<p><br /></p>
+
+<p><img src="http://img.blog.csdn.net/20171030113154519?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="width:60%" /></p>
+
+<p>Flume日志采集工具从结构图上可以看出，它是一个集群式的部署方式，故在选择主机时，要按照主机所担当的角色来划分主机。在Flume日志采集系统的系统架构中，共有三种主机角色：日志采集源(source)、渠道/缓冲区(channel)和目标主机(sink)。</p>
+
+<p><br /></p>
+
+<h3 id="常见的四种source组件">常见的四种source组件</h3>
+
+<p>Source作为Flume中的一个组成部分，其作用是用来作为日志采集的源头而存在，Flume可以通过其提供的多种源来实现日志的采集工作，Flume的源有很多种，下面列出的是比较常见的，适应我们目前的应用场景的源的配置方式，如果下面这四种源不能满足需求，可以到官方网站查看<a href="http://flume.apache.org/FlumeUserGuide.html#flume-sources">更多源介绍及配置方式</a>。</p>
+
+<p>Avro Source</p>
+
+<pre><code class="language-default">这个源可以监听一个端口，接收外部Avro客户端发送到这个端口上的数据，可以作为分层拓扑结构中的中转源而存在。
+具体的配置方式如下：
+a1.sources = r1
+a1.channels = c1
+a1.sources.r1.type = avro
+a1.sources.r1.channels = c1
+a1.sources.r1.bind = 0.0.0.0
+a1.sources.r1.port = 4141
+
+配置属性如下(必要参数为#标识)：
+#channels	当前源中的数据通过哪一频道进行下一步传输
+#type		当前源类型的名称，必须填写为avro
+#bind		当前源所监听的IP地址，推荐使用127.0.0.1，可以监听任何请求到本机的请求
+#port		当前源所监听的端口，要保证这一端口没有被占用
+threads		最大工作线程数，需要根据客户端的数量及发送数据的频率进行设置
+</code></pre>
+
+<p><br /></p>
+
+<p>Exec Source</p>
+
+<pre><code class="language-default">这个源可以将执行命令所产生的标准输出作为采集内容。这种命令最好可以不断的产生新的数据，如果不能需要设置命令的执行频率以保证数据的连续性。如果是单次执行连续输出的命令，当命令被意外中断，则这种源不会再产生新的数据。
+具体配置方式如下：
+a1.sources = r1
+a1.channels = c1
+a1.sources.r1.type = exec
+a1.sources.r1.command = tail -F /var/log/secure
+a1.sources.r1.channels = c1
+
+配置属性如下(必要参数为#标识)：
+#channels		当前源中的数据通过哪一频道进行下一步传输
+#type			当前源类型的名称，必须填写为exec
+#command		需要执行的命令
+shell			如果执行的命令是脚本命令，那么使用什么类型的脚本
+restart			当前命令是否需要重复执行(默认值为false)
+restartThrottle	命令重复执行频率，单位为毫秒(默认值为10000)
+batchTimeout	Source的拉取频率，单位为毫秒(默认为3000)
+batchSize		采集多少行数据向频道批量发送一次(默认值为20)
+logStdErr		当前命令所产生的标准错误输出是否需要采集(默认值为false)
+</code></pre>
+
+<p><br /></p>
+
+<p>Spooling Directory Source（flume1.7+提供的Taildir Source对该source进行了改进，<a href="http://flume.apache.org/FlumeUserGuide.html#taildir-source">参照</a>）</p>
+
+<pre><code class="language-default">此种源会将目标文件夹中新出现的文件作为要采集的资源，为了保证文件的完整采集和不被重复采集，此种源会给采集完成的文件添加上一个特殊的后缀名。
+注意：此种源只能够检测并采集整个文件，不能够检测到文件内部的变化，所以不适用于文件被创建后内容依然会不断变化的应用场景。如果需要使用在这种场景下，那么需要利用正则表达式将会不断发生变化的文件进行屏蔽，以保证系统正在进行操作的文件内容不会被同步。
+具体的配置方式如下：
+agent-1.channels = ch-1
+agent-1.sources = src-1
+agent-1.sources.src-1.type = spooldir
+agent-1.sources.src-1.channels = ch-1
+agent-1.sources.src-1.spoolDir = /var/log/apache/flumeSpool
+
+配置属性如下(必要参数为#标识)：
+#channels		当前源中的数据通过哪一频道进行下一步传输
+#type			当前源类型的名称，必须填写为spooldir
+#spoolDir		需要检测的文件目录
+fileSuffix		同步完成标识的后缀名(默认值为.COMPLETED)
+deletePolicy	是否删除同步完成的文件，只有两个可选值never（从不删除，默认）或immediate（立即删除）
+fileHeader		是否把路径加入到Heander(默认值为false)
+fileHeaderKey	路径加入到Header的Key是什么(默认值为file)
+basenameHeader	是否把文件名加入到Heander
+basenameHeaderKey	文件名加入到Header的Key是什么(默认值为basename)
+ignorePattern	不同步文件的正则表达式(默认值为 ^$)
+trackerDir		被处理文件的元数据的存储目录，如果不是绝对路径，就被会解析到spoolDir目录下(默认值为.flumespool)
+batchSize		批量写入Channel端的大小(默认值为100)
+inputCharset	输出字符集(默认值为UTF-8)
+deserializer	解串器类型，日志文件需要使用LINE(默认)，大二进制文件如：pdf、图片采用BLOB
+</code></pre>
+
+<p><br /></p>
+
+<p>Taildir Source</p>
+
+<pre><code class="language-default">SpoolDirectorySource可以配置一个监听目录，会监听该目录下所有的文件，但是如果配置目录下面嵌套了子目录，则无法监听；并且SpoolDirectorySource监听目录下的文件不允许动态变化。而
+</code></pre>
+
+<p><br /></p>
+
+<p>Syslog TCP/UDP Source</p>
+
+<pre><code class="language-default">Syslog Source为系统日志采集源，这个源可以作为Syslog服务器来接收syslog客户机所产生的syslog的内容，这种源主要有三个源，分别问TCP系统日志源，多端口TCP系统日志源，和UDP系统日志源。
+
+Syslog TCP Source
+用来接收TCP传入的Syslog的源，具体配置方式如下：
+a1.sources = r1
+a1.channels = c1
+a1.sources.r1.type = syslogtcp
+a1.sources.r1.port = 5140
+a1.sources.r1.host = localhost
+a1.sources.r1.channels = c1
+
+配置属性如下(必要参数为#标识)：
+#channels		当前源中的数据通过哪一频道进行下一步传输
+#type			当前源类型的名称，必须填写为syslogtcp
+#host			绑定到哪个IP地址
+#port			绑定到哪个端口号
+eventSize		每一个事件的最大大小，单位b(默认值为2500)
+
+
+Multiport Syslog TCP Source
+这个是可以监听多个端口的TCP Syslog源,具体的配置方式如下：
+a1.sources = r1
+a1.channels = c1
+a1.sources.r1.type = multiport_syslogtcp
+a1.sources.r1.channels = c1
+a1.sources.r1.host = 0.0.0.0
+a1.sources.r1.ports = 10001 10002 10003
+a1.sources.r1.portHeader = port
+
+配置属性如下(必要参数为#标识)：
+#channels		当前源中的数据通过哪一频道进行下一步传输
+#type			当前源类型的名称，必须填写为multiport_syslogtcp
+#host			绑定到哪个IP地址
+#ports			绑定到哪些端口号
+eventSize		每一个事件的最大大小，单位b(默认值为2500)
+portHeader		将事件来源的端口号加入事件头时所使用的key
+charset.default	默认输出字符集(UTF-8)
+charset.port.&lt;port&gt;	每一个端口的默认输出字符集
+
+
+Syslog UDP Source
+用来接收通过UDP协议所发送过来的日志数据，具体的配置方式如下：
+a1.sources = r1
+a1.channels = c1
+a1.sources.r1.type = syslogudp
+a1.sources.r1.port = 5140
+a1.sources.r1.host = localhost
+a1.sources.r1.channels = c1
+
+配置属性如下(必要参数为#标识)：
+#channels		当前源中的数据通过哪一频道进行下一步传输
+#type			当前源类型的名称，必须填写为syslogudp
+#host			绑定到哪个IP地址
+#port			绑定到哪些端口号
+</code></pre>
+
+<p><br /></p>
+
+<h3 id="常见的sink组件">常见的sink组件</h3>
+
+<p>hdfs sink</p>
+
+<pre><code class="language-default">Sink配置参数说明（必要参数为#标识）：
+#channel		传输的channel
+#type			值必须为hdfs
+#hdfs.path		写入hdfs的路径，如 hdfs://ns1/user/ubuntu/flume/tomcat-logs/%y%m%d
+hdfs.filePrefix		写入hdfs的文件名前缀，可以使用日期及%{host}表达式 (默认值为FlumeData)
+hdfs.fileSuffix		写入hdfs的文件名后缀，可使用比如：.lzo .log等。
+hdfs.inUsePrefix	临时文件的文件名前缀，hdfs sink会先往目标目录中写临时文件，再重命名成最终目标文件
+hdfs.inUseSuffix	临时文件的文件名后缀(默认值为 .tmp)
+					注意，目标文件的前缀和后缀中间的.timestamp不能去掉！
+
+#参数rollInterval、rollSize、rollCount的含义是逻辑”或“的关系
+hdfs.rollInterval	间隔多少秒将临时文件滚动成最终目标文件(默认为30)，0表示不根据时间来滚动文件
+hdfs.rollSize	当临时文件达到该大小bytes（默认值为1024）时滚动成目标文件，0表示不根据该值来滚动文件
+hdfs.rollCount	当events数据达到该数量时候，将临时文件滚动成目标文件，0表示不根据events数量来滚动文件
+				注：source的日志实时写入到sink的临时文件中，滚动roll指的是sink将临时文件重命名成
+				目标文件，并新打开一个临时文件来写入数据
+hdfs.idleTimeout 当前被打开的临时文件在多少秒内（默认0）无数据写入，则将该临时文件关闭并重命名成目标文件
+hdfs.batchSize	每个批次刷新到HDFS上的events数量(默认值为100)
+
+hdfs.codeC		文件压缩格式，包括：gzip, bzip2, lzo, lzop, snappy
+hdfs.fileType	文件格式，包括：SequenceFile, DataStream,CompressedStream(默认SequenceFile)
+				当使用DataStream时候，文件不会被压缩，不需要设置hdfs.codeC;
+				当使用CompressedStream时候，必须设置一个正确的hdfs.codeC值
+hdfs.writeFormat	写sequence文件的格式。包含：Text, Writable（默认为Writable）
+hdfs.maxOpenFiles	最大允许打开的HDFS文件数（默认5000），当打开文件数达到该值，最早打开的文件将被关闭
+hdfs.minBlockReplicas 写入HDFS文件块的最小副本数(默认值为HDFS副本数)
+					注意：该参数会影响文件的滚动配置，一般将该参数配置成1，才可以按照配置正确滚动文件。
+hdfs.callTimeout	执行HDFS操作的超时时间，单位毫秒(默认值为10000)
+hdfs.threadsPoolSize 操作HDFS的线程数(默认值为10)
+hdfs.rollTimerPoolSize 滚动文件的线程数(默认值为10)
+
+hdfs.kerberosPrincipal	HDFS安全认证kerberos配置
+hdfs.kerberosKeytab		HDFS安全认证kerberos配置
+hdfs.proxyUser			代理用户
+
+hdfs.round		是否启用时间上的”舍弃”（类似于”四舍五入”）。如果启用，则会影响除了%t的其他所有时间表达式
+hdfs.roundValue	时间上进行“舍弃”的值(默认值为1)
+hdfs.roundUnit	时间上进行”舍弃”的单位，包含：second,minute,hour(默认为second)
+				注：上述配置配合%y-%m-%d/%H%M/%S形式，可以设置每多长时间单位生成一个文件夹或文件
+
+hdfs.timeZone	时区，例如America/Los_Angeles (默认值为Local Time)
+hdfs.useLocalTimeStamp	是否使用当地时间 (默认值为flase)
+hdfs.closeTries	是否关闭文件的尝试次数
+				0表示当一次关闭失败后，hdfs sink会继续尝试下一次关闭，直到成功(默认)；
+				1表示当一次关闭文件失败后，hdfs sink将不会再次尝试关闭文件，
+				这个未关闭的文件将会一直留在那，并且是打开状态
+hdfs.retryInterval	hdfs sink尝试关闭文件的时间间隔，单位秒(默认值为180)
+					如果设置为0，表示不尝试，相当于于将hdfs.closeTries设置成1。
+				
+serializer	序列化类型（默认TEXT）。其他还有avro_event或者是实现了EventSerializer.Builder的类名。
+</code></pre>
+
+<p><br /></p>
+
+<h3 id="flume的安装和配置">flume的安装和配置</h3>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code><span class="c">#1.下载(以flume-ng-1.5.0-cdh5.3.6为例)</span>
+<span class="gp">$ </span>wget http://archive.cloudera.com/cdh5/cdh/5/flume-ng-1.5.0-cdh5.3.6.tar.gz
+
+<span class="c">#2.解压和jar包准备(如果需要将数据sink到hdfs则需要将hadoop相关jar包移到flume的lib文件夹中)</span>
+<span class="c"># 注意：如果hadoop配置了环境变量HADDOP_HOME，则可以不用考虑hadoop jar包的准备</span>
+<span class="gp">$ </span>tar -zxvf flume-ng-1.5.0-cdh5.3.6.tar.gz -C /opt/module
+<span class="c">#hadoop的jar包准备</span>
+commons-configuration-1.6.jar
+hadoop-auth-2.5.0-cdh5.3.6.jar
+hadoop-common-2.5.0-chd5.3.6.jar
+hadoop-hdfs-2.5.0-chd5.3.6.jar
+
+<span class="c">#3.配置flume-env.sh</span>
+<span class="gp">$ </span>vim conf/flume-env.sh
+	<span class="nb">export </span><span class="nv">JAVA_HOME</span><span class="o">=</span>/opt/tool/jdk1.8.0_144
+	
+<span class="c">#4.配置一个简单的flume agent</span>
+<span class="gp">$ </span>cp conf/flume-conf.properties.template flume-conf-01.properties
+<span class="gp">$ </span>vim conf/flume-conf-01.properties
+-------------------------------------
+<span class="c"># define agents, one of them named a1</span>
+a1.sources <span class="o">=</span> r1
+a1.channels <span class="o">=</span> c1
+a1.sinks <span class="o">=</span> k1
+
+<span class="c"># define sources, one of them named r1</span>
+a1.sources.r1.type <span class="o">=</span> netcat
+a1.sources.r1.bind <span class="o">=</span> nimbusz
+a1.sources.r1.port <span class="o">=</span> 44444
+
+<span class="c"># define channels, one of them named c1</span>
+a1.channels.c1.type <span class="o">=</span> memory
+a1.channels.c1.capacity <span class="o">=</span> 1000
+a1.channels.c1.transactionCapacity <span class="o">=</span> 100
+
+<span class="c"># define sinks, one of them named k1</span>
+a1.sinks.k1.type <span class="o">=</span> logger
+a1.sinls.k1.maxBytesToLog <span class="o">=</span> 1024
+
+<span class="c"># bind sources and sink to channel</span>
+a1.sources.r1.channels <span class="o">=</span> c1
+a.sinks.k1.channel <span class="o">=</span> c1
+  
+<span class="c">#5.测试flume agent是否正常</span>
+<span class="c"># 需要netcat、telnet的软件支持</span>
+<span class="c"># 分别打开两个linux shell窗口，分别用于netcat在44444端口发送数据 和flume sink数据的显示</span>
+<span class="gp">$ </span>nc -nimbusz 44444
+<span class="gp">$ </span>bin/flume-ng agent --name a1 --conf conf --conf-file conf/flume-conf-01.properties -Dflume.root.logger<span class="o">=</span>INFO,console
+</code></pre>
+</div>
+
+<p><br /></p>
+
+<h3 id="使用exec-source将日志文件实时t0抽取到-hdfs-ha中">使用exec source将日志文件实时[t+0]抽取到 HDFS-HA中</h3>
+
+<div class="language-properties highlighter-rouge"><pre class="highlight"><code><span class="c">#1.配置flume agent
+</span><span class="err">-------------------------------------</span>
+<span class="c"># define agents, one of them named a2
+</span><span class="py">a2.sources</span> <span class="p">=</span> <span class="s">r1</span>
+<span class="py">a2.channels</span> <span class="p">=</span> <span class="s">c1</span>
+<span class="py">a2.sinks</span> <span class="p">=</span> <span class="s">k1</span>
+
+
+<span class="c"># define sources, one of them named r1
+</span><span class="py">a2.sources.r1.type</span> <span class="p">=</span> <span class="s">exec</span>
+<span class="py">a2.sources.r1.command</span> <span class="p">=</span> <span class="s">tail -f /opt/app/apache-tomcat-7.0.82/logs/catalina.out</span>
+<span class="py">a2.sources.r1.shell</span> <span class="p">=</span> <span class="s">/bin/bash -c</span>
+<span class="py">a2.sources.r1.batchTimeout</span> <span class="p">=</span> <span class="s">1000</span>
+<span class="py">a2.sources.r1.batchSize</span> <span class="p">=</span> <span class="s">20</span>
+
+
+<span class="c"># define channels, one of them named c1
+# MemoryTransaction会根据事务容量transCapacity创建两个阻塞双端队列（LinkedBlockingDeque）putList和takeList，队列的容量为transCapacity，这两个队列主要就是用于事务处理的。当从Source往 Channel中放事件event 时，会先将event放入 putList 队列（相当于一个临时缓冲队列），然后将putList队列中的event 放入 MemoryChannel的queue中；当从 Channel 中将数据传送给 Sink 时，则会将event先放入 takeList 队列中，然后从takeList队列中将event送入Sink。不论是 put 还是 take 发生异常，都会调用 rollback 方法回滚事务，先给 Channel 加锁防止回滚时有其他线程访问，若takeList 不为空就将写入 takeList中的event再次放入 Channel 中，然后移除 putList 中的所有event（即就是丢弃写入putList临时队列的 event）。
+</span><span class="py">a2.channels.c1.type</span> <span class="p">=</span> <span class="s">memory</span>
+<span class="py">a2.channels.c1.capacity</span> <span class="p">=</span> <span class="s">2000</span>
+<span class="py">a2.channels.c1.transactionCapacity</span> <span class="p">=</span> <span class="s">1000</span>
+
+
+<span class="c"># define sinks, one of them named k1
+</span><span class="py">a2.sinks.k1.type</span> <span class="p">=</span> <span class="s">hdfs  </span>
+<span class="py">a2.sinks.k1.hdfs.path</span> <span class="p">=</span> <span class="s">hdfs://ns1/user/ubuntu/flume/tomcat-logs/%Y%m%d</span>
+<span class="py">a2.sinks.k1.hdfs.minBlockReplicas</span> <span class="p">=</span> <span class="s">1</span>
+<span class="py">a2.sinks.k1.hdfs.useLocalTimeStamp</span> <span class="p">=</span> <span class="s">true</span>
+<span class="py">a2.sinks.k1.hdfs.round</span> <span class="p">=</span> <span class="s">false</span>
+<span class="py">a2.sinks.k1.hdfs.filePrefix</span> <span class="p">=</span> <span class="s">catlina%H</span>
+<span class="py">a2.sinks.k1.hdfs.rollInterval</span> <span class="p">=</span> <span class="s">3600</span>
+<span class="py">a2.sinks.k1.hdfs.rollCount</span> <span class="p">=</span> <span class="s">0</span>
+<span class="py">a2.sinks.k1.hdfs.rollSize</span> <span class="p">=</span> <span class="s">134217728</span>
+<span class="py">a2.sinks.k1.hdfs.batchSize</span> <span class="p">=</span> <span class="s">1000</span>
+<span class="py">a2.sinks.k1.hdfs.fileType</span> <span class="p">=</span> <span class="s">DataStream</span>
+<span class="py">a2.sinks.k1.hdfs.writeFormat</span> <span class="p">=</span> <span class="s">Text</span>
+
+
+<span class="c"># bind sources and sink to channel
+</span><span class="py">a2.sources.r1.channels</span> <span class="p">=</span> <span class="s">c1</span>
+<span class="py">a2.sinks.k1.channel</span> <span class="p">=</span> <span class="s">c1</span>
+<span class="err">-------------------------------------</span>
+
+
+<span class="c">#2.将hadoop的core-site.xml和hdfs-site.xml文件拷贝到flume的conf文件夹下
+</span><span class="err">cp</span> <span class="err">hadoop-2.5.0/etc/hadoop/core-site.xml</span> <span class="err">apache-flume-1.5.0-cdh5.3.6-bin/conf/</span>
+<span class="err">cp</span> <span class="err">hadoop-2.5.0/etc/hadoop/hdfs-site.xml</span> <span class="err">apache-flume-1.5.0-cdh5.3.6-bin/conf/</span>
+
+
+<span class="c">#3.启动flume agent
+</span><span class="err">$</span> <span class="err">bin/flume-ng</span> <span class="err">agent</span> <span class="err">--name</span> <span class="err">a2</span> <span class="err">--conf</span> <span class="err">conf</span> <span class="err">--conf-file</span> <span class="err">conf/flume-conf-02.properties</span>
+
+<span class="c">#4.测试(访问tomcat app将产生日志信息，flume将收集tomcat产生的日志到hdfs的/user/ubuntu/flume/tomcat-logs文件夹)
+</span><span class="err">$</span> <span class="err">tail</span> <span class="err">-f</span> <span class="err">logs/flume.log</span>
+<span class="err">$</span> <span class="err">hdfs</span> <span class="err">dfs</span> <span class="err">-ls</span> <span class="err">/user/ubuntu/flume/tomcat-logs</span>
+</code></pre>
+</div>
+
+<blockquote>
+  <p>关于flume中涉及到时间戳的错误解决，Expected timestamp in the Flume even：
+在搭建flume集群收集日志写入hdfs时发生了下面的错误：
+java.lang.NullPointerException: Expected timestamp in the Flume event headers, but it was null</p>
+
+  <p>原因是因为写入到hfds时使用到了时间戳来区分目录结构，flume的消息组件event在接受到之后在header中没有发现时间戳参数，导致该错误发生，有三种方法可以解决这个错误：</p>
+
+  <pre><code class="language-default">1、a2.sources.r1.interceptors = t1
+   a2.sources.r1.interceptors.t1.type = timestamp
+   为source添加拦截，每条event头中加入时间戳（效率会慢一些）
+
+2、a2.sinks.k1.hdfs.useLocalTimeStamp = true
+   为sink指定该参数为true（如果客户端和flume集群时间不一致数据时间会不准确）
+
+3、在向source发送event时，将时间戳参数添加到event的header中即可，
+   header是一个map，添加时mapkey为timestamp(推荐使用)
+</code></pre>
+</blockquote>
+
+<p><br /></p>
+
+<h3 id="使用spooling-directory-source将新增日志文件t1抽取到-hdfs-ha中">使用Spooling Directory Source将新增日志文件[t+1]抽取到 HDFS-HA中</h3>
+
+<p>Spooling Directory Source可以获取硬盘上“spooling”目录的数据，这个Source将监视指定目录是否有新文件，如果有新文件的话，就解析这个新文件。事件的解析逻辑是可插拔的。在文件的内容所有的都读取到Channel之后，Spooling Directory Source会重名或者是删除该文件以表示文件已经读取完成。
+不像Exec Source，这个Source是可靠的，且不会丢失数据。即使Flume重启或者被Kill。但是需要注意如下两点:</p>
+
+<ol>
+  <li>如果文件在放入spooling目录之后还在写，那么Flume会打印错误日志，并且停止处理该文件。</li>
+  <li>如果文件之后重复使用，Flume将打印错误日志，并且停止处理。</li>
+</ol>
+
+<p>为了避免以上问题，我们可以使用唯一的标识符来命令文件，例如：时间戳。
+尽管这个Source是可靠的，但是如果下游发生故障，也会导致Event重复，这种情况就需要通过Flume的其他组件提供保障。</p>
+
+<p>配置flume agent：</p>
+
+<div class="language-properties highlighter-rouge"><pre class="highlight"><code><span class="c"># define agents, one of them named a3
+</span><span class="py">a3.sources</span> <span class="p">=</span> <span class="s">r1</span>
+<span class="py">a3.channels</span> <span class="p">=</span> <span class="s">c1</span>
+<span class="py">a3.sinks</span> <span class="p">=</span> <span class="s">k1</span>
+
+
+<span class="c"># define sources, one of them named r1
+</span><span class="py">a3.sources.r1.type</span> <span class="p">=</span> <span class="s">spooldir</span>
+<span class="py">a3.sources.r1.spoolDir</span> <span class="p">=</span> <span class="s">/opt/app/apache-tomcat-7.0.82/logs</span>
+<span class="py">a3.sources.r1.ignorePattern</span> <span class="p">=</span> <span class="s">^(.)*</span><span class="se">\\</span><span class="s">.out$</span>
+<span class="py">a3.sources.r1.fileSuffix</span> <span class="p">=</span> <span class="s">.COMPLETED</span>
+<span class="py">a3.sources.r1.fileHeader</span> <span class="p">=</span> <span class="s">true</span>
+<span class="py">a3.sources.r1.fileHeaderKey</span> <span class="p">=</span> <span class="s">fishfile</span>
+<span class="py">a3.sources.r1.basenameHeader</span> <span class="p">=</span> <span class="s">true</span>
+<span class="py">a3.sources.r1.basenameHeaderKey</span> <span class="p">=</span> <span class="s">fishbasename</span>
+
+
+<span class="c"># define channels, one of them named c1
+# File Channel是一个持久化的隧道（channel），他持久化所有的事件，并将其存储到磁盘中。因此，即使Java 虚拟机当掉，或者操作系统崩溃或重启，再或者事件没有在管道中成功地传递到下一个代理（agent），这一切都不会造成数据丢失。Memory Channel是一个不稳定的隧道，其原因是由于它在内存中存储所有事件。如果java进程死掉，任何存储在内存的事件将会丢失。另外，内存的空间收到RAM大小的限制,而File Channel这方面是它的优势，只要磁盘空间足够，它就可以将所有事件数据存储到磁盘上。
+# 注意：capacity的值一定要大于transactionCapacity，不然会报错！
+</span><span class="py">a3.channels.c1.type</span> <span class="p">=</span> <span class="s">file</span>
+<span class="py">a3.channels.c1.checkpointDir</span> <span class="p">=</span> <span class="s">/opt/module/apache-flume-1.5.0-cdh5.3.6-bin/spool/chk</span>
+<span class="py">a3.channels.c1.dataDirs</span> <span class="p">=</span> <span class="s">/opt/module/apache-flume-1.5.0-cdh5.3.6-bin/spool/data</span>
+<span class="py">a3.channels.c1.capacity</span> <span class="p">=</span> <span class="s">1000000</span>
+<span class="py">a3.channels.c1.transactionCapacity</span> <span class="p">=</span> <span class="s">10000</span>
+
+
+<span class="c"># define sinks, one of them named k1
+</span><span class="py">a3.sinks.k1.type</span> <span class="p">=</span> <span class="s">hdfs</span>
+<span class="py">a3.sinks.k1.hdfs.path</span> <span class="p">=</span> <span class="s">hdfs://ns1/user/ubuntu/flume/tomcat-logs/%Y%m%d</span>
+<span class="py">a3.sinks.k1.hdfs.minBlockReplicas</span> <span class="p">=</span> <span class="s">1</span>
+<span class="py">a3.sinks.k1.hdfs.useLocalTimeStamp</span> <span class="p">=</span> <span class="s">true</span>
+<span class="py">a3.sinks.k1.hdfs.round</span> <span class="p">=</span> <span class="s">false</span>
+<span class="py">a3.sinks.k1.hdfs.filePrefix</span> <span class="p">=</span> <span class="s">catlina%H</span>
+<span class="py">a3.sinks.k1.hdfs.rollInterval</span> <span class="p">=</span> <span class="s">3600</span>
+<span class="py">a3.sinks.k1.hdfs.rollCount</span> <span class="p">=</span> <span class="s">0</span>
+<span class="py">a3.sinks.k1.hdfs.rollSize</span> <span class="p">=</span> <span class="s">134217728</span>
+<span class="py">a3.sinks.k1.hdfs.batchSize</span> <span class="p">=</span> <span class="s">1000</span>
+<span class="py">a3.sinks.k1.hdfs.fileType</span> <span class="p">=</span> <span class="s">DataStream</span>
+<span class="py">a3.sinks.k1.hdfs.writeFormat</span> <span class="p">=</span> <span class="s">Text</span>
+
+
+<span class="c"># bind sources and sink to channel
+</span><span class="py">a3.sources.r1.channels</span> <span class="p">=</span> <span class="s">c1</span>
+<span class="py">a3.sinks.k1.channel</span> <span class="p">=</span> <span class="s">c1</span>
+</code></pre>
+</div>
+
+<p><br /></p>
+
+<h3 id="自定义asynchbasesink存储exec-source传来的日志信息到hbase中">自定义AsyncHBaseSink存储exec source传来的日志信息到hbase中</h3>
+
+<p>1、编写AsyncHBaseSink类，然后编译打包到flume lib文件夹下：</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">keyllo</span><span class="o">.</span><span class="na">flume</span><span class="o">.</span><span class="na">sink</span><span class="o">.</span><span class="na">hbase</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.ArrayList</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.apache.flume.Context</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.apache.flume.Event</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.apache.flume.conf.ComponentConfiguration</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.apache.flume.sink.hbase.AsyncHbaseEventSerializer</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.hbase.async.AtomicIncrementRequest</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.hbase.async.PutRequest</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.slf4j.Logger</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.slf4j.LoggerFactory</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.google.common.base.Charsets</span><span class="o">;</span>
+
+<span class="cm">/**
+* AsyncHBaseEventSerialier示例
+* 参照SimpleAsyncHbaseEventSerializer实现类进行编写
+*/</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">AsyncHBaseEventSerialierLogDemo</span> <span class="kd">implements</span> <span class="n">AsyncHbaseEventSerializer</span> <span class="o">{</span>
+	<span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Logger</span> <span class="n">LOGGER</span> <span class="o">=</span> <span class="n">LoggerFactory</span><span class="o">.</span><span class="na">getLogger</span><span class="o">(</span><span class="n">AsyncHBaseEventSerialierLogDemo</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+	<span class="kd">private</span> <span class="kt">byte</span><span class="o">[]</span> <span class="n">table</span><span class="o">;</span>			<span class="c1">//table</span>
+	<span class="kd">private</span> <span class="kt">byte</span><span class="o">[]</span> <span class="n">cf</span><span class="o">;</span>				<span class="c1">//column family</span>
+	<span class="kd">private</span> <span class="kt">byte</span><span class="o">[]</span> <span class="n">payload</span><span class="o">;</span>			<span class="c1">//传递过来的 envent负载</span>
+	<span class="kd">private</span> <span class="kt">byte</span><span class="o">[]</span> <span class="n">payloadColumn</span><span class="o">;</span>	<span class="c1">//传递过来的 serializer.payloadColumn=xx,xx,xx</span>
+	<span class="kd">private</span> <span class="kt">byte</span><span class="o">[][]</span> <span class="n">columns</span><span class="o">;</span>		<span class="c1">//columns 由payloadColumn解析得来</span>
+  	<span class="kd">private</span> <span class="kt">byte</span><span class="o">[]</span> <span class="n">incrementRow</span><span class="o">;</span>	<span class="c1">//hbase中计数器cell的rowkey名称</span>
+	<span class="kd">private</span> <span class="kt">byte</span><span class="o">[]</span> <span class="n">incrementColumn</span><span class="o">;</span>	<span class="c1">//hbase中计数器cell的值(类型为Long，值为rowkey个数+1)</span>
+
+	
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">initialize</span><span class="o">(</span><span class="kt">byte</span><span class="o">[]</span> <span class="n">table</span><span class="o">,</span> <span class="kt">byte</span><span class="o">[]</span> <span class="n">cf</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">table</span> <span class="o">=</span> <span class="n">table</span><span class="o">;</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">cf</span> <span class="o">=</span> <span class="n">cf</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">PutRequest</span><span class="o">&gt;</span> <span class="nf">getActions</span><span class="o">()</span> <span class="o">{</span>
+		<span class="n">List</span><span class="o">&lt;</span><span class="n">PutRequest</span><span class="o">&gt;</span> <span class="n">actions</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">PutRequest</span><span class="o">&gt;();</span>
+		
+		<span class="c1">//校验</span>
+		<span class="k">if</span> <span class="o">(</span><span class="n">columns</span><span class="o">.</span><span class="na">length</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+			<span class="n">LOGGER</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"列名个数为0（不合法），跳过！"</span><span class="o">);</span>
+			<span class="k">return</span> <span class="n">actions</span><span class="o">;</span>
+		<span class="o">}</span>
+		
+		<span class="c1">//解析传来的payload成hbase values</span>
+		<span class="n">String</span><span class="o">[]</span> <span class="n">values</span> <span class="o">=</span> <span class="k">new</span> <span class="n">String</span><span class="o">(</span><span class="n">payload</span><span class="o">).</span><span class="na">split</span><span class="o">(</span><span class="s">","</span><span class="o">);</span>
+		<span class="k">if</span> <span class="o">(</span><span class="n">columns</span><span class="o">.</span><span class="na">length</span> <span class="o">!=</span> <span class="n">values</span><span class="o">.</span><span class="na">length</span><span class="o">)</span> <span class="o">{</span>
+			<span class="n">LOGGER</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"列名和列值个数不匹配，跳过！"</span><span class="o">);</span>
+			<span class="k">return</span> <span class="n">actions</span><span class="o">;</span>
+		<span class="o">}</span>
+		
+		<span class="c1">//event--&gt;put（此处使用payload充当rowkey）</span>
+		<span class="kt">byte</span><span class="o">[]</span> <span class="n">currentRowkey</span> <span class="o">=</span> <span class="n">payload</span><span class="o">;</span>
+		<span class="kt">byte</span><span class="o">[][]</span> <span class="n">vs</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">byte</span><span class="o">[</span><span class="n">columns</span><span class="o">.</span><span class="na">length</span><span class="o">][];</span>
+		<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">values</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+			<span class="n">vs</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">values</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">getBytes</span><span class="o">();</span>
+		<span class="o">}</span>
+		<span class="n">PutRequest</span> <span class="n">put</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PutRequest</span><span class="o">(</span><span class="n">table</span><span class="o">,</span> <span class="n">currentRowkey</span><span class="o">,</span> <span class="n">cf</span><span class="o">,</span> <span class="n">columns</span><span class="o">,</span> <span class="n">vs</span><span class="o">);</span>
+      	<span class="c1">//PutRequest put = new PutRequest(table, currentRowkey, cf, columns, vs, new Date().getTime()); //可以加时间版本</span>
+		<span class="n">actions</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">put</span><span class="o">);</span>
+		
+		<span class="k">return</span> <span class="n">actions</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">AtomicIncrementRequest</span><span class="o">&gt;</span> <span class="nf">getIncrements</span><span class="o">()</span> <span class="o">{</span>
+		<span class="n">List</span><span class="o">&lt;</span><span class="n">AtomicIncrementRequest</span><span class="o">&gt;</span> <span class="n">actions</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">AtomicIncrementRequest</span><span class="o">&gt;();</span>
+		<span class="k">if</span> <span class="o">(</span><span class="n">incrementColumn</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+			<span class="n">AtomicIncrementRequest</span> <span class="n">inc</span> <span class="o">=</span> <span class="k">new</span> <span class="n">AtomicIncrementRequest</span><span class="o">(</span><span class="n">table</span><span class="o">,</span> <span class="n">incrementRow</span><span class="o">,</span> <span class="n">cf</span><span class="o">,</span> <span class="n">incrementColumn</span><span class="o">);</span>
+			<span class="n">actions</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">inc</span><span class="o">);</span>
+		<span class="o">}</span>
+		<span class="k">return</span> <span class="n">actions</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">cleanUp</span><span class="o">()</span> <span class="o">{</span>
+		<span class="c1">// TODO Auto-generated method stub</span>
+	<span class="o">}</span>
+
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">configure</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">)</span> <span class="o">{</span>
+		<span class="c1">//在flume agent中使用 serializer.* 定义的参数payloadColumn 和 incrementColumn</span>
+		<span class="n">String</span> <span class="n">pCol</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="s">"payloadColumn"</span><span class="o">,</span> <span class="s">"pCol"</span><span class="o">);</span>	
+		<span class="n">String</span> <span class="n">iCol</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="s">"incrementColumn"</span><span class="o">,</span> <span class="s">"iCol"</span><span class="o">);</span>
+		<span class="k">if</span> <span class="o">(</span><span class="n">pCol</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">pCol</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span>
+			<span class="n">payloadColumn</span> <span class="o">=</span> <span class="n">pCol</span><span class="o">.</span><span class="na">getBytes</span><span class="o">(</span><span class="n">Charsets</span><span class="o">.</span><span class="na">UTF_8</span><span class="o">);</span>
+			<span class="n">String</span><span class="o">[]</span> <span class="n">columnNames</span> <span class="o">=</span> <span class="k">new</span> <span class="n">String</span><span class="o">(</span><span class="n">payloadColumn</span><span class="o">).</span><span class="na">split</span><span class="o">(</span><span class="s">","</span><span class="o">);</span>
+			<span class="k">if</span><span class="o">(</span><span class="n">columnNames</span><span class="o">!=</span><span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">columnNames</span><span class="o">.</span><span class="na">length</span><span class="o">!=</span><span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+				<span class="n">columns</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">byte</span><span class="o">[</span><span class="n">columnNames</span><span class="o">.</span><span class="na">length</span><span class="o">][];</span>
+				<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">columnNames</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+					<span class="n">columns</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">columnNames</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">getBytes</span><span class="o">();</span>
+				<span class="o">}</span>
+			<span class="o">}</span>
+		<span class="o">}</span>
+		<span class="k">if</span> <span class="o">(</span><span class="n">iCol</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">iCol</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span>
+			<span class="n">incrementColumn</span> <span class="o">=</span> <span class="n">iCol</span><span class="o">.</span><span class="na">getBytes</span><span class="o">(</span><span class="n">Charsets</span><span class="o">.</span><span class="na">UTF_8</span><span class="o">);</span>
+		<span class="o">}</span>
+		<span class="n">incrementRow</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="s">"incrementRow"</span><span class="o">,</span> <span class="s">"incRow"</span><span class="o">).</span><span class="na">getBytes</span><span class="o">(</span><span class="n">Charsets</span><span class="o">.</span><span class="na">UTF_8</span><span class="o">);</span>
+	<span class="o">}</span>
+
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setEvent</span><span class="o">(</span><span class="n">Event</span> <span class="n">event</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">payload</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="na">getBody</span><span class="o">();</span>
+	<span class="o">}</span>
+
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">configure</span><span class="o">(</span><span class="n">ComponentConfiguration</span> <span class="n">conf</span><span class="o">)</span> <span class="o">{</span>
+		<span class="c1">// TODO Auto-generated method stub</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>2、编写flume agent配置文件</p>
+
+<div class="language-properties highlighter-rouge"><pre class="highlight"><code><span class="c">#define agents, one of them named a4
+</span><span class="py">a4.sources</span> <span class="p">=</span> <span class="s">r1</span>
+<span class="py">a4.channels</span> <span class="p">=</span> <span class="s">c1</span>
+<span class="py">a4.sinks</span> <span class="p">=</span> <span class="s">k1</span>
+
+
+<span class="c"># define sources, one of them named r1
+</span><span class="py">a4.sources.r1.type</span> <span class="p">=</span> <span class="s">exec</span>
+<span class="py">a4.sources.r1.command</span> <span class="p">=</span> <span class="s">tail -f /opt/app/apache-tomcat-7.0.82/logs/catalina.out</span>
+<span class="py">a4.sources.r1.shell</span> <span class="p">=</span> <span class="s">/bin/bash -c</span>
+<span class="py">a4.sources.r1.batchTimeout</span> <span class="p">=</span> <span class="s">1000</span>
+<span class="py">a4.sources.r1.batchSize</span> <span class="p">=</span> <span class="s">100</span>
+
+
+<span class="c"># define channels, one of them named c1
+</span><span class="py">a4.channels.c1.type</span> <span class="p">=</span> <span class="s">memory</span>
+<span class="py">a4.channels.c1.capacity</span> <span class="p">=</span> <span class="s">200</span>
+<span class="py">a4.channels.c1.transactionCapacity</span> <span class="p">=</span> <span class="s">100</span>
+
+
+<span class="c"># define sinks, one of them named k1
+# hbase中必须存在 loan:t1表，并且表中存在名字为d的列族
+</span><span class="py">a4.sinks.k1.type</span> <span class="p">=</span> <span class="s">asynchbase</span>
+<span class="py">a4.sinks.k1.table</span> <span class="p">=</span> <span class="s">loan:t1</span>
+<span class="py">a4.sinks.k1.columnFamily</span> <span class="p">=</span> <span class="s">d</span>
+<span class="py">a4.sinks.k1.serializer</span> <span class="p">=</span> <span class="s">com.keyllo.flume.sink.hbase.AsyncHBaseEventSerialierLogDemo</span>
+<span class="py">a4.sinks.k1.serializer.payloadColumn</span> <span class="p">=</span> <span class="s">column1,column2,column3</span>
+<span class="py">a4.sinks.k1.keeperQuorum</span> <span class="p">=</span> <span class="s">nimbusz:2181,supervisor01z:2181,supervisor02z:2181</span>
+<span class="py">a4.sinks.k1.znodeParent</span> <span class="p">=</span> <span class="s">/hbase</span>
+<span class="py">a4.sinks.k1.batchSize</span> <span class="p">=</span> <span class="s">100</span>
+
+
+<span class="c"># bind sources and sink to channel
+</span><span class="py">a4.sources.r1.channels</span> <span class="p">=</span> <span class="s">c1</span>
+<span class="py">a4.sinks.k1.channel</span> <span class="p">=</span> <span class="s">c1</span>
+</code></pre>
+</div>
+
+
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-6">
+                                <h5 style="display: inline;">Tags:</h5>
+                                
+                                    <button class="btn btn-white btn-xs" type="button">java</button>
+                                
+                        </div>
+                        
+                        <!--
+                        <div class="col-md-6">
+                            <div class="small text-right">
+                                <div>    
+                                    <i class="fa fa-comments-o"> </i> 
+                                    <span class="ds-comments">0</span>条评论
+                                </div>
+                                <div>
+                                    <i class="fa fa-share-alt"> </i> 
+                                    <span class="ds-shares">0</span>条转发
+                                </div>  
+                            </div>
+                        </div>
+                        -->
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <!-- donate -->
+                            
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal2">
+    Donate
+</button>
+<div class="modal inmodal" id="myModal2" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated flipInY">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Donate Me</h4>
+                <small class="font-bold">Thanks for your support!</small>
+            </div>
+            <div class="modal-body">
+                <div class="tabbable" id="tabs-960227">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#panel-405278" data-toggle="tab">Alipay</a>
+                        </li>
+                        <li>
+                            <a href="#panel-874705" data-toggle="tab">Wechat</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="panel-405278">
+                            <div class="text-center">
+                                <img src="/static/img/pay/alipay.png"" height="250" width="250">
+                            </div>    
+                        </div>
+                        <div class="tab-pane" id="panel-874705">
+                            <div class="text-center">
+                                <img src="/static/img/pay/wechat.png"" height="250" width="250">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+                            
+                            <br>
+                            <!-- share -->
+                            
+                                
+<!--分享-->
+<div class="row" style="margin-top:30px;">
+	<h2>Share:</h2>
+    <div class="social-share" style="margin-left:-5px;"data-sites="wechat,qq,qzone,weibo"></div> 
+</div>
+<link rel="stylesheet" href="/static/css/share.min.css">
+<script src="/static/js/jquery.share.min.js"></script>
+<script src="/static/js/embed.js"></script>
+
+<script>
+  var url = 'http://localhost:4000/java/2017/10/27/java-flume-install-use.html';
+  var source = 'http://localhost:4000/java/2017/10/27/java-flume-install-use.html';
+  var title = 'flume的安装和使用';
+  var excerpt = $("p:eq(0)").text();
+  
+  var imageUrl = 'http://localhost:4000/static/img/landing/header_one.jpg';
+  var imgEle = $(".content_img:eq(0)");
+  if (imgEle) {
+    imageUrl = imgEle.attr("src");
+  }
+
+  var $config = {
+      url: url, // 网址，默认使用 window.location.href
+      source: source, // 来源（QQ空间会用到）, 默认读取head标签：<meta name="site" content="http://overtrue" />
+      title: title, // 标题，默认读取 document.title 或者 <meta name="title" content="share.js" />
+      description: excerpt, // 描述, 默认读取head标签：<meta name="description" content="PHP弱类型的实现原理分析" />
+      image: imageUrl, // 图片, 默认取网页中第一个img标签
+      sites: ['qzone', 'qq', 'weibo','wechat','douban'], // 启用的站点
+      //disabled: ['google', 'facebook', 'twitter'], // 禁用的站点
+      wechatQrcodeTitle: "微信扫一扫：分享", // 微信二维码提示文字
+      wechatQrcodeHelper: '<p style="font-size:10px;">微信里点“发现”，扫一下</p><p style="font-size:10px;">二维码便可将本文分享至朋友圈。</p>',
+   };
+  $('.social-share').share($config);
+</script>
+
+
+
+
+                            
+                            <br>
+                            <!-- comment -->
+                            <!--
+
+
+
+-->
+
+<!-- 多说评论框 start -->
+<div class="row" style="margin-top:25px;"></div>
+<div class="ds-thread" data-thread-key="/java/2017/10/27/java-flume-install-use.html" data-title="flume的安装和使用" data-url="http://localhost:4000/java/2017/10/27/java-flume-install-use.html"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+	var duoshuoQuery = {short_name:"kinglyjn"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+<!-- 多说公共JS代码 end -->
+
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+	
+	    <script src="/static/js/scroll.js"></script>
+
+<!-- Baidu analytics -->
+
+
+<!-- Google analytics -->
+
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-73784599-1', 'auto');
+    ga('send', 'pageview');
+
+  </script>
+
+
+<!--
+
+-->
+
+<!--
+
+-->
+
+<script async src="/static/js/count_page.js"></script>
+
+	
+
+</body>
+</html>
