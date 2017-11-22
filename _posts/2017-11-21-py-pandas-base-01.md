@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "pandas 基础01"
-desc: "pandas 基础01"
-keywords: "pandas 基础01,kinglyjn,张庆力"
+title:  "pandas 基础01 - 基本常见API"
+desc: "pandas 基础01 - 基本常见API"
+keywords: "pandas 基础01 - 基本常见API,kinglyjn,张庆力"
 date: 2017-11-21
 categories: [Py]
 tags: [Py]
@@ -397,6 +397,156 @@ Unknown     0.293785
 ```
 
 <br>
+
+
+
+pandas Series 的使用：
+
+```python
+'''
+fandango_score_comparison.csv数据示例:
+------------------------------------
+FILM,RottenTomatoes,RottenTomatoes_User,Metacritic,Metacritic_User,IMDB,Fandango_Stars,Fandango_Ratingvalue,RT_norm,RT_user_norm,Metacritic_norm,Metacritic_user_nom,IMDB_norm,RT_norm_round,RT_user_norm_round,Metacritic_norm_round,Metacritic_user_norm_round,IMDB_norm_round,Metacritic_user_vote_count,IMDB_user_vote_count,Fandango_votes,Fandango_Difference
+Avengers: Age of Ultron (2015),74,86,66,7.1,7.8,5,4.5,3.7,4.3,3.3,3.55,3.9,3.5,4.5,3.5,3.5,4,1330,271107,14846,0.5
+Cinderella (2015),85,80,67,7.5,7.1,5,4.5,4.25,4,3.35,3.75,3.55,4.5,4,3.5,4,3.5,249,65709,12640,0.5
+Ant-Man (2015),80,90,64,8.1,7.8,5,4.5,4,4.5,3.2,4.05,3.9,4,4.5,3,4,4,627,103660,12055,0.5
+Do You Believe? (2015),18,84,22,4.7,5.4,5,4.5,0.9,4.2,1.1,2.35,2.7,1,4,1,2.5,2.5,31,3136,1793,0.5
+------------------------------------
+'''
+
+import pandas as pd
+import numpy as np
+from pandas import Series
+
+# 读取数据
+fandango = pd.read_csv("fandango_score_comparison.csv")
+series_film = fandango['FILM']
+series_rt = fandango['RottenTomatoes']
+print ("Series类型的数据，底层使用numpy的ndarray，两者之间可以混用: ", type(series_film))
+print ("Series.values的类型就是ndarray: ", type(series_film.values))
+print ("第[0,5)行series_film数据: \n", series_film[0:5])
+print ("第[0,5)行series_rt数据: \n", series_rt[0:5])
+
+# 自定义一个Series
+film_names = series_film.values
+rt_scores = series_rt.values
+series_custom = Series(rt_scores, index=film_names)
+print ("自定义的series_custom示例：\n", series_custom.head(5))
+print ("取对应电影索引的数据: \n", series_custom[['Ant-Man (2015)', 'Do You Believe? (2015)']] )
+print ("其实在padas中我们既可以使用自定义的索引，也可以继续使用之前的数字索引来取数据:\n", series_custom[[2,3]] )
+print ("series_custom[[2,3]] 相当于 series_custom[2:4]:\n", series_custom[2:4])
+print ("取出自定义Series的索引列:\n", series_custom.index)
+
+# 按索引重新排序Series
+original_index = series_custom.index.tolist()
+sorted_index = sorted(original_index)
+sorted_by_index = series_custom.reindex(sorted_index)
+print ("重新按索引排序的Series（自定义方法）: \n", sorted_by_index.head(5))
+
+# 直接使用 pandas api 对Series排序
+sc2 = series_custom.sort_index()
+sc3 = series_custom.sort_values(ascending=False)
+print ("重新按索引排序的Series（使用pandas api）:\n", sc2[0:5])
+print ("重新按值排序的Series:（使用pandas api）\n", sc3[0:5])
+
+# pandas Series 和 numpy ndarray 混用
+print ("两个Series对应元素值相加, 即 series_custom+series_custom: \n", np.add(series_custom, series_custom)[0:5] )
+print ("对Series的值列进行函数计算:\n", np.sin(series_custom)[0:5] )
+print ("取出满足一定条件的电影序列: \n", series_custom[(series_custom>80) | (series_custom<30)].head(5) )
+
+
+'''
+Series类型的数据，底层使用numpy的ndarray，两者之间可以混用:  <class 'pandas.core.series.Series'>
+Series.values的类型就是ndarray:  <class 'numpy.ndarray'>
+第[0,5)行series_film数据: 
+ 0    Avengers: Age of Ultron (2015)
+1                 Cinderella (2015)
+2                    Ant-Man (2015)
+3            Do You Believe? (2015)
+4     Hot Tub Time Machine 2 (2015)
+Name: FILM, dtype: object
+第[0,5)行series_rt数据: 
+ 0    74
+1    85
+2    80
+3    18
+4    14
+Name: RottenTomatoes, dtype: int64
+自定义的series_custom示例：
+ Avengers: Age of Ultron (2015)    74
+Cinderella (2015)                 85
+Ant-Man (2015)                    80
+Do You Believe? (2015)            18
+Hot Tub Time Machine 2 (2015)     14
+dtype: int64
+取对应电影索引的数据: 
+ Ant-Man (2015)            80
+Do You Believe? (2015)    18
+dtype: int64
+其实在padas中我们既可以使用自定义的索引，也可以继续使用之前的数字索引来取数据:
+ Ant-Man (2015)            80
+Do You Believe? (2015)    18
+dtype: int64
+series_custom[[2,3]] 相当于 series_custom[2:4]:
+ Ant-Man (2015)            80
+Do You Believe? (2015)    18
+dtype: int64
+取出自定义Series的索引列:
+ Index(['Avengers: Age of Ultron (2015)', 'Cinderella (2015)', 'Ant-Man (2015)',
+       'Do You Believe? (2015)', 'Hot Tub Time Machine 2 (2015)',
+       'The Water Diviner (2015)', 'Irrational Man (2015)', 'Top Five (2014)',
+       'Shaun the Sheep Movie (2015)', 'Love & Mercy (2015)',
+       ...
+       'The Woman In Black 2 Angel of Death (2015)', 'Danny Collins (2015)',
+       'Spare Parts (2015)', 'Serena (2015)', 'Inside Out (2015)',
+       'Mr. Holmes (2015)', ''71 (2015)', 'Two Days, One Night (2014)',
+       'Gett: The Trial of Viviane Amsalem (2015)',
+       'Kumiko, The Treasure Hunter (2015)'],
+      dtype='object', length=146)
+重新按索引排序的Series（自定义方法）: 
+ '71 (2015)                    97
+5 Flights Up (2015)           52
+A Little Chaos (2015)         40
+A Most Violent Year (2014)    90
+About Elly (2015)             97
+dtype: int64
+重新按索引排序的Series（使用pandas api）:
+ '71 (2015)                    97
+5 Flights Up (2015)           52
+A Little Chaos (2015)         40
+A Most Violent Year (2014)    90
+About Elly (2015)             97
+dtype: int64
+重新按值排序的Series:（使用pandas api）
+ Gett: The Trial of Viviane Amsalem (2015)    100
+Seymour: An Introduction (2015)              100
+Selma (2014)                                  99
+Phoenix (2015)                                99
+Song of the Sea (2014)                        99
+dtype: int64
+两个Series对应元素值相加, 即 series_custom+series_custom: 
+ Avengers: Age of Ultron (2015)    148
+Cinderella (2015)                 170
+Ant-Man (2015)                    160
+Do You Believe? (2015)             36
+Hot Tub Time Machine 2 (2015)      28
+dtype: int64
+对Series的值列进行函数计算:
+ Avengers: Age of Ultron (2015)   -0.985146
+Cinderella (2015)                -0.176076
+Ant-Man (2015)                   -0.993889
+Do You Believe? (2015)           -0.750987
+Hot Tub Time Machine 2 (2015)     0.990607
+dtype: float64
+取出满足一定条件的电影序列: 
+ Cinderella (2015)                85
+Do You Believe? (2015)           18
+Hot Tub Time Machine 2 (2015)    14
+Top Five (2014)                  86
+Shaun the Sheep Movie (2015)     99
+dtype: int64
+'''
+```
 
 
 
