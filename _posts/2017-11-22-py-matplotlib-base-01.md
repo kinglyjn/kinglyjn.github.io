@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "可视化分析库 matplotlib 基础01 - 基本常见API"
-desc: "可视化分析库 matplotlib 基础01 - 基本常见API"
-keywords: "可视化分析库 matplotlib 基础01 - 基本常见API,kinglyjn,张庆力"
+title:  "matplotlib 可视化分析库基础01 - 基本常见API"
+desc: "matplotlib 可视化分析库基础01 - 基本常见API"
+keywords: "matplotlib 可视化分析库基础01 - 基本常见API,kinglyjn,张庆力"
 date: 2017-11-22
 categories: [Py]
 tags: [Py]
@@ -13,7 +13,7 @@ icon: fa-cubes
 
 ### Matplotlib库简介
 
-[Matplotlib 官网](http://matplotlib.org/devdocs/tutorials/index.html)
+[Matplotlib 官网](http://matplotlib.org/devdocs/tutorials/index.html) <br>
 Matplotlib 可能是 Python 2D- 绘图领域使用最广泛的套件。它能让使用者很轻松地将数据图形化，并且提供多样化的输出格式。通过数据绘图，我们可以将枯燥的数字转换成容易被人们接受的图表，从而让人留下更加深刻的印象。
 
 <img src="http://img.blog.csdn.net/20171122150637833?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="weidth:70%"/>
