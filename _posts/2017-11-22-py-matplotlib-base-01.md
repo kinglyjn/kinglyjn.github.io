@@ -53,7 +53,7 @@ plt.grid(False)
 plt.show()
 ```
 
-![这里写图片描述](http://img.blog.csdn.net/20171122150932438?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+<img src="http://img.blog.csdn.net/20171122150932438?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"  style="weidth:100%"/>
 <br>
 
 
@@ -78,7 +78,7 @@ ax2.plot(np.linspace(0,2*np.pi,8), np.sin(np.linspace(0,2*pi,8)), c='blue')
 plt.show()
 ```
 
-![这里写图片描述](http://img.blog.csdn.net/20171122151111857?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+<img src="http://img.blog.csdn.net/20171122151111857?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" style="weidth:100%"/>
 <br>
 
 
@@ -115,7 +115,7 @@ plt.title('Monthly Unemployment Trends, 1948-1952')
 plt.show()
 ```
 
-![这里写图片描述](http://img.blog.csdn.net/20171122151332490?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+<img src="http://img.blog.csdn.net/20171122151332490?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"   style="weidth:100%"/>
 <br>
 
 
@@ -154,7 +154,7 @@ ax.set_title('Average User Rating For Avengers: Age of Ultron (2015)')
 plt.show()
 ```
 
-![这里写图片描述](http://img.blog.csdn.net/20171122154942901?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+<img src="http://img.blog.csdn.net/20171122154942901?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"   style="weidth:100%"/>
 <br>
 
 
@@ -190,7 +190,7 @@ ax.set_title('Average User Rating For Avengers: Age of Ultron (2015)')
 plt.show()
 ```
 
-![这里写图片描述](http://img.blog.csdn.net/20171122155036345?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+<img src="http://img.blog.csdn.net/20171122155036345?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"   style="weidth:100%"/>
 <br>
 
 
@@ -214,7 +214,7 @@ ax.set_ylabel('Rotten Tomatoes')
 plt.show()
 ```
 
-![这里写图片描述](http://img.blog.csdn.net/20171122160604640?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+<img src="http://img.blog.csdn.net/20171122160604640?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"   style="weidth:100%"/>
 <br>
 
 
@@ -245,7 +245,7 @@ ax2.set_ylabel('Fandango')
 plt.show()
 ```
 
-![这里写图片描述](http://img.blog.csdn.net/20171122160700807?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+<img src="http://img.blog.csdn.net/20171122160700807?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"   style="weidth:100%"/>
 <br>
 
 
@@ -278,7 +278,7 @@ ax.hist(norm_reviews['Fandango_Ratingvalue'], range=(4,5), bins=20)
 plt.show()
 ```
 
-![这里写图片描述](http://img.blog.csdn.net/20171122164944861?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+<img src="http://img.blog.csdn.net/20171122164944861?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"   style="weidth:100%"/>
 <br>
 
 
@@ -302,7 +302,7 @@ ax.set_ylim(0,5) #设置y轴的取值范围
 plt.show()
 ```
 
-![这里写图片描述](http://img.blog.csdn.net/20171122170148371?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+<img src="http://img.blog.csdn.net/20171122170148371?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"   style="weidth:100%"/>
 <br>
 
 > 更多画图示例，请参考[Matplotlib 官网](http://matplotlib.org/devdocs/tutorials/index.html)

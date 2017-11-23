@@ -49,7 +49,7 @@ plt.subplot(212)
 sinplot(-1) 
 ```
 
-![这里写图片描述](http://img.blog.csdn.net/20171122193655164?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+<img src="http://img.blog.csdn.net/20171122193655164?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"   style="weidth:100%"/>
 <br>
 
 设置画板上下文参数
@@ -61,7 +61,7 @@ plt.figure(figsize=(8,4))
 sinplot()
 ```
 
-![这里写图片描述](http://img.blog.csdn.net/20171122193836559?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+<img src="http://img.blog.csdn.net/20171122193836559?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"   style="weidth:100%"/>
 <br>
 
 调色板
@@ -107,9 +107,9 @@ data = np.random.normal(size=(20,8)) + np.arange(8)/2
 sns.boxplot(data=data, palette=sns.color_palette("hls", 12))
 ```
 
-![这里写图片描述](http://img.blog.csdn.net/20171122194125544?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
-![这里写图片描述](http://img.blog.csdn.net/20171122194137099?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
-![这里写图片描述](http://img.blog.csdn.net/20171122194150471?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+<img src="http://img.blog.csdn.net/20171122194125544?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"   style="weidth:100%"/>
+<img src="http://img.blog.csdn.net/20171122194137099?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"   style="weidth:100%"/>
+<img src="http://img.blog.csdn.net/20171122194150471?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"   style="weidth:100%"/>
 <br>
 
 使用xkcd颜色画图
@@ -123,5 +123,5 @@ plt.plot([0,1], [0,2], sns.xkcd_rgb["medium green"], lw=3)
 plt.plot([0,1], [0,3], sns.xkcd_rgb["denim blue"], lw=3)
 ```
 
-![这里写图片描述](http://img.blog.csdn.net/20171122194254944?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+<img src="http://img.blog.csdn.net/20171122194254944?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQva2luZ2x5am4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"   style="weidth:100%"/>
 <br>
