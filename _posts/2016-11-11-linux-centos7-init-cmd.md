@@ -342,6 +342,48 @@ zip命令:
    压缩：zip FileName.zip DirName
 ```
 
+<br>
+
+### 配置linux以文本而非桌面的方式启动
+
+```shell
+# 1. 修改 /etc/default/grub
+     ...
+     GRUB_CMDLINE_LINUX_DEFAULT="quiet" >>>>>  GRUB_CMDLINE_LINUX_DEFAULT="text"
+     ...
+    
+# 2. 运行update-grub
+$ sudo update-grub
+
+# 3. 重启
+$ sudo reboot
+
+# 4. 如果在命令行文本模式下，可以直接启动桌面程序
+$ startx
+```
+
+<br>
+
+
+
+### linux前后台程序的切换
+
+```shell
+# 后台启动程序
+$ java jar xxx.jar XxxClass &
+
+# 将前台运行的程序放在后台执行
+# 1.先暂停当前前台运行的程序
+ctrl+z
+# 2.使用bg命令将刚刚暂停的程序放在后台执行，bg后面加 进程作业号码，可以根据 jobs 命令查询
+$ bg &1
+
+# 将后台的程序切换到前台
+$ fg &1
+```
+
+<br>
+
 
 
 ### awk命令

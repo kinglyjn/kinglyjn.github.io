@@ -248,6 +248,67 @@ README.txt
 
 
 
+### 上传下载和远程ssh插件
+
+```xml
+<!-- SSH远程执行插件 -->
+<plugin>
+	<groupId>org.codehaus.mojo</groupId>
+	<artifactId>wagon-maven-plugin</artifactId>
+	<version>1.0</version>
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.maven.wagon</groupId>
+			<artifactId>wagon-ssh</artifactId>
+			<version>2.10</version>
+		</dependency>
+	</dependencies>
+	<configuration>
+		<!-- 事先在setting.xml中配置
+		<server>
+			<id>nimbusz</id> 
+			<username>xxx</username> 
+			<password>xxx</password>
+		</server> -->
+		<serverId>nimbusz</serverId>
+		<!-- 需部署的文件或目录 -->
+		<fromFile>target/${finalname}.jar</fromFile>
+		<!-- 部署目录 -->
+		<url>scp://ubuntu@nimbusz/opt/data</url>
+		<commands>
+			<!-- 需要远程执行的命令 -->
+			<command><![CDATA[/opt/module/hadoop-2.5.0/bin/hdfs dfs -rm -r
+ 				/user/ubuntu/test/output > /dev/null 2>&1 &]]></command>
+			<command><![CDATA[/opt/module/hadoop-2.5.0/bin/yarn jar
+ 					/opt/data/${finalname}.jar mr01.maxtemperature.MaxTemperatureApp 
+ 					/user/ubuntu/test/maxtemperature /user/ubuntu/test/output]]></command>
+		</commands>
+		<displayCommandOutputs>true</displayCommandOutputs>
+		<failOnError>false</failOnError>
+	</configuration>
+	<executions>
+		<execution>
+			<id>ssh-upload</id>
+			<phase>package</phase>
+			<goals>
+				<goal>upload-single</goal>
+			</goals>
+		</execution>
+		<execution>
+			<id>ssh-sshexec</id>
+			<phase>package</phase>
+			<goals>
+				<goal>sshexec</goal>
+			</goals>
+		</execution>
+	</executions>
+</plugin>
+```
+
+<br>
+
+
+
 ### 小结
 
 打包是项目构建最重要的组成部分之一，本文介绍了主流Maven打包技巧，包括默认打包方式的原理、如何制作源码包和Javadoc包、如何制作命令行可运行的CLI包、以及进一步的，如何基于个性化需求自定义打包格式。这其中涉及了很多的Maven插件，当然最重要，也是最为复杂和强大的打包插件就是maven-assembly-plugin。事实上Maven本身的分发包就是通过maven-assembly-plugin制作的，感兴趣的读者可以直接[查看源码](http://svn.apache.org/viewvc/maven/maven-3/trunk/apache-maven/src/main/assembly/)一窥究竟。
