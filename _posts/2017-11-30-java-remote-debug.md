@@ -13,7 +13,7 @@ icon: fa-coffee
 
 ### jdwp远程调试简介
 
-Java远程调试的原理是两个VM之间通过debug协议进行通信，然后以达到远程调试的目的。两者之间可以通过socket进行通信。这对于一些分布式框架（如hadoop集群、storm集群等）的远程调试非常有用！
+Java远程调试的原理是两个VM之间通过debug协议进行通信，然后以达到远程调试的目的。两者之间可以通过socket进行通信。这对于一些分布式框架（如hadoop集群【可设置YARN_RESOURCEMANAGER_OPTS环境比变量为 -agentlib:xxx】、storm集群等）的远程调试非常有用！
 
 首先被debug程序的虚拟机在启动时要开启debug模式，启动debug监听程序。jdwp是Java Debug Wire Protocol的缩写。
 
