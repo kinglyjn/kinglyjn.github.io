@@ -62,3 +62,41 @@ public class RegexDemo {
 <br>
 
 
+
+字符串和16进制串之间的互转
+
+```java
+public static void main(String[] args) {
+  	System.out.println(parseStrToHexs("好雨知时节"));
+  	System.out.println(parseBytesToStr(
+    	"\\xe5\\xa5\\xbd\\xe9\\x9b\\xa8\\xe7\\x9f\\xa5\\xe6\\x97\\xb6\\xe8\\x8a\\x82"));
+}
+	
+public static String parseStrToHexs(String str) {
+    byte[] bs = str.getBytes();
+    StringBuffer sb = new StringBuffer();
+    for (byte b : bs) {
+      	sb.append("\\x" + String.format(Locale.getDefault(), "%x", b));
+    }
+    return sb.toString();
+}
+public static String parseBytesToStr(String hexs) {
+    String[] splits = hexs.split("[\\\\x\\\\X]");
+    byte[] bs = new byte[splits.length];
+    int i = 0;
+    for (String s : splits) {
+      	if (s==null || s.isEmpty()) {
+     		continue;
+      	}
+      	bs[i] = ((byte)(0xff & Integer.parseInt(s, 16)));
+      	i++;
+    }
+    return new String(bs);
+}
+
+
+//运行结果
+//\xe5\xa5\xbd\xe9\x9b\xa8\xe7\x9f\xa5\xe6\x97\xb6\xe8\x8a\x82
+//好雨知时节
+```
+

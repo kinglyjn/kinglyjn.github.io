@@ -30,6 +30,7 @@ icon: fa-coffee
     </path>
     <target name="compile" depends="prepare">
         <javac srcdir="${basedir}/src" destdir="${basedir}/build/classes" classpathref="path1" includeantruntime="true"/>
+        <javac srcdir="${basedir}/test" destdir="${basedir}/build/classes" classpathref="path1" includeantruntime="true"/>
     </target>
 
     <target name="package" depends="compile">
