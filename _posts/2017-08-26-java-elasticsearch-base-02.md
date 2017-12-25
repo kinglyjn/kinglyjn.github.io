@@ -14,7 +14,7 @@ icon: fa-coffee
 ## Restfull API 
 
 ### 请求格式
-```json
+```default
 curl [-u xxx] [-I] -X[HEAD|POST|DELETE|PUT|GET] '<PROTOCOL>://<HOST>:<PORT>/<PATH>?<QUERY_STRING>' [-H 'Content-Type:application/json'] -d '<BODY>'
 ```
 <br>
@@ -32,7 +32,7 @@ routing 是一个可变值，默认是文档的 _id ，也可以设置成一个�
 2. 节点使用文档的_id确定文档属于分片0。请求会被转发到 Node 3`，因为分片 0 的主分片目前被分配在Node3上;
 3. Node3在主分片上面执行请求。如果成功了，它将请求并行转发到 Node 1 和 Node 2 的副本分片上。一旦所有的副本分片都报告成功, Node 3 将向协调节点报告成功，协调节点向客户端报告成功。
 
-```json
+```default
 //创建的时候必须指定id；文档不存在则创建，存在则更新
 PUT /{index}/{type}/{id}  
 {
@@ -74,7 +74,7 @@ bulk API 按如下步骤顺序执行：<br>
 * 关于批量json文件的大小：编辑整个批量请求都需要由接收到请求的节点加载到内存中，因此该请求越大，其他请求所能获得的内存就越少。批量请求的大小有一个最佳值，大于这个值，性能将不再提升，甚至会下降。 但是最佳值不是一个固定的值。它完全取决于硬件、文档的大小和复杂度、索引和搜索的负载的整体情况。幸运的是，很容易找到这个最佳点，通过批量索引典型文档，并不断增加批量大小进行尝试。 当性能开始下降，那么你的批量大小就太大了。一个好的办法是开始时将 1,000 到 5,000 个文档作为一个批次, 如果你的文档非常大，那么就减少批量的文档个数。密切关注你的批量请求的物理大小往往非常有用，一千个 1KB 的文档是完全不同于一千个 1MB 文档所占的物理大小。一个好的批量大小在开始处理后所占用的物理大小约为 5-15 MB。<br>
 
 数据示例一：data.json
-```json
+```default
 //相当于 PUT /test/type1/1/_create 操作
 { "create" : { "_index" : "test", "_type" : "type1", "_id" : "1" } }      
 { "field1" : "value3" }
@@ -94,7 +94,7 @@ bulk API 按如下步骤顺序执行：<br>
 然后执行：curl -XPOST {hostname}:9200/_bulk --data-binary @data.json 即可 <br>
 
 数据示例二：<br>
-```json
+```default
 在Url中设置默认的index和type，如果在路径中设置了index或者type，那么在JSON中就不需要设置了。
 如果在JSON中设置，会覆盖掉路径中的配置。
 ```
@@ -103,7 +103,7 @@ bulk API 按如下步骤顺序执行：<br>
 
 ### 简易搜索（query-string-search）
 
-```json
+```default
 //查看集群的状态，返回集群基本状态
 GET /_cluster/health
 
@@ -164,7 +164,7 @@ GET /{index}/{type}/{id}?version={_version}
 
 ### 请求体搜索（full-body-search）
 对于一个查询请求，Elasticsearch 的工程师偏向于使用 GET 方式，因为他们觉得它比POST 能更好的描述信息检索（retrieving information）的行为。然而，因为带请求体的 GET 请求并不被广泛支持，所以 search API 同时支持 POST 请求：
-```json
+```default
 POST /_search
 {
   "from": 30,
@@ -177,7 +177,7 @@ POST /_search
 1. 客户端向 Node1 发送mget请求，Node1会创建一个大小为 from+size 的空优先队列;
 2. Node1 为每个分片构建多文档获取请求，然后并行转发这些请求到托管在每个所需的主分片或者副本分片的节点上。一旦收到所有答复到Node1中的优先队列中，Node1构建响应并将其返回给客户端。可以对 docs 数组中每个文档设置 routing 参数。每个分片在本地执行查询请求并且创建一个长度为 from + size 的优先队列—也就是说，每个分片创建的结果集足够大，均可以满足全局的搜索请求。 分片返回一个轻量级的结果列表到协调节点，它仅包含文档 ID 集合以及任何排序需要用到的值，例如 _score。协调节点将这些分片级的结果合并到自己的有序优先队列里，它代表了全局排序结果集合。至此查询过程结束。
 
-```json
+```default
 //使用mget一次请求取回多个多个文档，返回的结果按请求的顺序排列，某个文档不存在则其对应的found字段为false
 GET /_mget	 
 {
@@ -230,7 +230,7 @@ GET /{index}/{type}/{id}/_mget
 解决深度查询的内存消耗问题，使用`游标查询`（scroll query）：<br>
 scroll查询 可以用来对 Elasticsearch 有效地执行大批量的文档查询，而又不用付出深度分页那种代价。游标查询允许我们先做查询初始化，然后再批量地拉取结果，这有点儿像传统数据库中的 cursor。游标查询会取某个时间点的快照数据。 查询初始化之后索引上的任何变化会被它忽略。它通过保存旧的数据文件来实现这个特性，结果就像保留初始化时的索引视图一样。深度分页的代价根源是结果集全局排序，如果去掉全局排序的特性的话查询结果的成本就会很低。 游标查询用字段 _doc 来排序。这个指令让 Elasticsearch 仅仅从还有结果的分片返回下一批结果。启用游标查询可以通过在查询的时候设置参数 scroll 的值为我们期望的游标查询的过期时间。游标查询的过期时间会在每次做查询的时候刷新，所以这个时间只需要足够处理当前批的结果就可以了，而不是处理查询结果的所有文档的所需时间。这个过期时间的参数很重要, 因为保持这个游标查询窗口需要消耗资源，所以我们期望如果不再需要维护这种资源就该早点儿释放掉。设置这个超时能够让 Elasticsearch在稍后空闲的时候自动释放这部分资源。<br>
 
-```json
+```default
 //保持游标查询窗口一分钟
 //关键字 _doc 是最有效的排序顺序
 GET /old_index/_search?scroll=1m 				
@@ -242,7 +242,7 @@ GET /old_index/_search?scroll=1m
 ```
 这个查询的返回结果包括一个字段 _scroll_id`，它是一个base64编码的长字符串 ((("scroll_id")))，现在我们能传递字段`_scroll_id 到 _search/scroll 查询接口获取下一批结果。尽管我们指定字段 size 的值为1000，我们有可能取到超过这个值数量的文档。当查询的时候，字段 size 作用于单个分片，所以每个批次实际返回的文档数量最大为 size * number_of_primary_shards。当没有更多的结果返回的时候，我们就处理完所有匹配的文档了。
 
-```json
+```default
 //注意再次设置游标查询过期时间为一分钟
 GET /_search/scroll
 {
@@ -254,7 +254,7 @@ GET /_search/scroll
 
 #### match_all搜索
 
-```json
+```default
 //相当于 GET /_search
 GET /_search									
 {
@@ -265,7 +265,7 @@ GET /_search
 
 #### match搜索
 
-```json
+```default
 //相当于 GET /_search?q=xxx
 GET /_search									
 {
@@ -287,7 +287,7 @@ GET /_search
 
 #### multi_match搜索
 
-```json
+```default
 //multi_match 查询可以在多个字段上执行相同的 match 查询
 GET /_search									
 {
@@ -301,7 +301,7 @@ GET /_search
 
 #### term搜索：
 
-```json	
+```default	
 //term搜索被用于精确值 匹配，这些精确值可能是数字、时间、布尔或者那些 not_analyzed 的字符串		
 //term 搜索对于输入的文本不 分析 ，所以它将给定的值进行精确查询	
 GET /_search									
@@ -315,7 +315,7 @@ GET /_search
 
 #### terms搜索
 
-```json
+```default
 //terms 查询和 term 查询一样，但它允许你指定多值进行匹配
 //如果这个字段包含了指定值中的任何一个值，那么这个文档满足条件
 GET /_search									
@@ -329,7 +329,7 @@ GET /_search
 
 #### range搜索
 
-```json
+```default
 //range搜索找出那些落在指定区间内的数字或者时间
 GET /_search	
 {
@@ -342,7 +342,7 @@ GET /_search
 
 #### exists搜索和missing搜索
 
-```json
+```default
 //exists搜索和missing搜索被用于查找那些指定字段中有值 (exists) 或无值 (missing) 的文档
 GET /_search
 {
@@ -367,7 +367,7 @@ filter：	必须 匹配，但它以不评分、过滤模式来进行。这些语
 ```
 由于这是我们看到的第一个包含多个查询的查询，所以有必要讨论一下相关性得分是如何组合的。每一个子查询都独自地计算文档的相关性得分。一旦他们的得分被计算出来， bool 查询就将这些得分进行合并并且返回一个代表整个布尔操作的得分。下面的查询用于查找 title 字段匹配 how to make millions 并且不被标识为 spam 的文档。那些被标识为 starred 或在2014之后的文档，将比另外那些文档拥有更高的排名。如果 _两者_ 都满足，那么它排名将更高：
 
-```json
+```default
 {
    "bool": {
         "must":     { "match": { "title": "how to make millions" }},
@@ -380,7 +380,7 @@ filter：	必须 匹配，但它以不评分、过滤模式来进行。这些语
 }
 ```
 如果我们不想因为文档的时间而影响得分，可以用 filter 语句来重写前面的例子：
-```json
+```default
 {
    "bool": {
         "must":     { "match": { "title": "how to make millions" }},
@@ -395,7 +395,7 @@ filter：	必须 匹配，但它以不评分、过滤模式来进行。这些语
 }
 ```
 通过将 range 查询移到 filter 语句中，我们将它转成不评分的查询，将不再影响文档的相关性排名。由于它现在是一个不评分的查询，可以使用各种对 filter 查询有效的优化手段来提升性能。所有查询都可以借鉴这种方式。将查询移到 bool 查询的 filter 语句中，这样它就自动的转成一个不评分的 filter 了。如果你需要通过多个不同的标准来过滤你的文档，bool 查询本身也可以被用做不评分的查询。简单地将它放置到 filter 语句中并在内部构建布尔逻辑：
-```json
+```default
 {
     "bool": {
         "must":     { "match": { "title": "how to make millions" }},
@@ -418,7 +418,7 @@ filter：	必须 匹配，但它以不评分、过滤模式来进行。这些语
 }
 ```
 通过混合布尔查询，我们可以在我们的查询请求中灵活地编写 scoring 和 filtering 查询逻辑。对于constant_score查询，尽管没有bool 查询使用这么频繁，constant_score 查询也是你工具箱里有用的查询工具。它将一个不变的常量评分应用于所有匹配的文档。它被经常用于你只需要执行一个 filter 而没有其它查询（例如，评分查询）的情况下。可以使用它来取代只有 filter 语句的 bool 查询。在性能上是完全相同的，但对于提高查询简洁性和清晰度有很大帮助。
-```json
+```default
 {
    "constant_score":   {
         "filter": {
@@ -433,7 +433,7 @@ filter：	必须 匹配，但它以不评分、过滤模式来进行。这些语
 
 为了按照相关性来排序，需要将相关性表示为一个数值。在 Elasticsearch 中， 相关性得分 由一个浮点数进行表示，并在搜索结果中通过 _score 参数返回，默认排序是 _score 降序。有时，相关性评分对你来说并没有意义。例如，下面的查询返回所有 user_id 字段包含 1 的结果：
 
-```json
+```default
 GET /_search
 {
     "query" : {
@@ -448,7 +448,7 @@ GET /_search
 }
 ```
 这里没有一个有意义的分数：因为我们使用的是 filter （过滤），这表明我们只希望获取匹配 user_id: 1 的文档，并没有试图确定这些文档的相关性。 实际上文档将按照随机顺序返回，并且每个文档都会评为零分。你可以使用 constant_score 查询进行替代，这将让所有文档应用一个恒定分数（默认为 1 ）。它将执行与前述查询相同的查询，并且所有的文档将像之前一样随机返回，这些文档只是有了一个分数而不是零分：
-```json
+```default
 GET /_search
 {
    "query" : {
@@ -463,7 +463,7 @@ GET /_search
 }
 ```
 在下面案例中，通过时间来对 tweets 进行排序是有意义的，最新的 tweets 排在最前。 我们可以使用 sort 参数进行实现，返回结果中我们发现，第一：_score的值为null, 计算 _score 的花销巨大，通常仅用于排序，我们并不根据相关性排序，所以记录_score是没有意义的，如果无论如何你都要计算 _score，你可以将 track_scores 参数设置为 true；第二，返回的字段中包含date排序字段，它以时间戳的形式进行返回。
-```json
+```default
 GET /_search
 {
     "query" : {
@@ -480,7 +480,7 @@ GET /_search
 
 假定我们想要结合使用 date 和 _score 进行查询，并且匹配的结果首先按照日期排序，然后按照相关性排序。排序条件的顺序是很重要的。结果首先按第一个条件排序，仅当结果集的第一个 sort 值完全相同时才会按照第二个条件进行排序，以此类推。多级排序并不一定包含 _score 。你可以根据一些不同的字段进行排序， 如地理距离或是脚本计算的特定值。
 
-```json
+```default
 GET /_search
 {
     "query" : {
@@ -500,7 +500,7 @@ GET /_search
 #### 字段多值的排序
 
 一种情形是字段有多个值的排序， 需要记住这些值并没有固有的顺序；一个多值的字段仅仅是多个值的包装，这时应该选择哪个进行排序呢？对于数字或日期，你可以将多值字段减为单值，这可以通过使用 min 、 max、avg 或是 sum 排序模式。例如你可以按照每个 date 字段中的最早日期进行排序，通过以下方法：
-```json
+```default
 GET /_search
 {
     "query" : {
@@ -522,7 +522,7 @@ GET /_search
 #### 字符串的排序
 
 为了以字符串字段进行排序，这个字段应仅包含一项：整个 not_analyzed 字符串（即字段为keyword类型）。但是我们仍需要analyzed 字段，这样才能以全文进行查询。一个简单的方法是用两种方式对同一个字符串进行索引，这将在文档中包括两个字段：analyzed 用于搜索，not_analyzed 用于排序。但是保存相同的字符串两次在 _source 字段是浪费空间的。 我们真正想要做的是传递一个 单字段 但是却用两种方式索引它。所有的 _core_field 类型 (text, keyword、numbers, Booleans, dates) 接收一个 fields 参数，该参数允许你转化一个简单的映射如：
-```json
+```default
 //转化
 "tweet": {
    "type":     "text",
@@ -542,7 +542,7 @@ GET /_search
 }
 ```
 tweet 主字段与之前的一样: 是一个 analyzed 全文字段。新的 tweet.raw 子字段是 not_analyzed。现在，至少只要我们重新索引了我们的数据，使用 tweet 字段用于搜索，tweet.raw 字段用于排序。现在，至少只要我们重新索引了我们的数据，使用 tweet 字段用于搜索，tweet.raw 字段用于排序。注意：以全文 analyzed 字段排序会消耗大量的内存。
-```json
+```default
 GET /_search
 {
     "query": {
@@ -557,7 +557,7 @@ GET /_search
 
 #### 检查文档在检查的时刻是否存在
 
-```json
+```default
 //返回200状态码表示文档存在，404状态码表示不存在
 HEAD /{index}/{type}/{id}						 
 ```
@@ -568,7 +568,7 @@ HEAD /{index}/{type}/{id}
 
 #### 更新整个文档
 
-```json
+```default
 //返回的_version表示更新后文档的版本，created表示文档是否是新创建的
 //在内部，Elasticsearch 已将旧文档标记为已删除，并增加一个全新的文档。 
 //尽管你不能再对旧版本的文档进行访问，但它并不会立即消失。    
@@ -596,14 +596,14 @@ PUT /{index}/{type}/{id}?version={_version}&version_type=external
 <br>
 
 #### 更新部分文档
-	在更新整个文档 , 我们已经介绍过 更新一个文档的方法是检索并修改它，然后重新索引整个文档，这的确如此。然而，使用 update API 我们还可以部分更新文档，例如在某个请求时对计数器进行累加。我们也介绍过文档是不可变的：他们不能被修改，只能被替换。update API 必须遵循同样的规则。从外部来看，我们在一个文档的某个位置进行部分更新。然而在内部， update API 简单使用与之前描述相同的 检索-修改-重建索引 的处理过程。 区别在于这个过程发生在分片内部，这样就避免了多次请求的网络开销。通过减少检索和重建索引步骤之间的时间，我们也减少了其他进程的变更带来冲突的可能性。update 请求最简单的一种形式是接收文档的一部分作为 doc 的参数，它只是与现有的文档进行合并。对象被合并到一起，覆盖现有的字段，增加新的字段。 update API 还接受routing、replication、consistency 和 timeout 等参数。以下是部分更新一个文档的步骤：
+在更新整个文档 , 我们已经介绍过 更新一个文档的方法是检索并修改它，然后重新索引整个文档，这的确如此。然而，使用 update API 我们还可以部分更新文档，例如在某个请求时对计数器进行累加。我们也介绍过文档是不可变的：他们不能被修改，只能被替换。update API 必须遵循同样的规则。从外部来看，我们在一个文档的某个位置进行部分更新。然而在内部， update API 简单使用与之前描述相同的 检索-修改-重建索引 的处理过程。 区别在于这个过程发生在分片内部，这样就避免了多次请求的网络开销。通过减少检索和重建索引步骤之间的时间，我们也减少了其他进程的变更带来冲突的可能性。update 请求最简单的一种形式是接收文档的一部分作为 doc 的参数，它只是与现有的文档进行合并。对象被合并到一起，覆盖现有的字段，增加新的字段。 update API 还接受routing、replication、consistency 和 timeout 等参数。以下是部分更新一个文档的步骤：
 
 1. 客户端向Node1发送更新请求;
 2. Node1将请求转发到主分片所在的 Node3;
 3. Node3从主分片检索文档，修改 _source 字段中的 JSON ，并且尝试重新索引主分片的文档。如果文档已经被另一个进程修改，它会重试步骤3，超过 retry_on_conflict 次后放弃;
 4. 如果Node3成功地更新文档，它将新版本的文档并行转发到Node1和Node2上的副本分片，重新建立索引。一旦所有副本分片都返回成功，Node3向协调节点也返回成功，协调节点向客户端返回成功。注意当主分片把更改转发到副本分片时， 它不会转发更新请求。相反，它转发完整文档的新版本。请记住，这些更改将会异步转发到副本分片，并且不能保证它们以发送它们相同的顺序到达。
 
-```json
+```default
 //文档的部分数据更新之后，数据版本_version也会增加1，如果待更新的文档不存在则返回404
 POST /{index}/{type}/{id}/_update				 
 {
@@ -631,7 +631,7 @@ POST /megacorp/employee/3/_update?retry_on_conflict=3
 script.groovy.sandbox.enabled: false 
 ```
 这将关闭 Groovy 沙盒，从而防止动态 Groovy 脚本作为请求的一部分被接受， 或者从特殊的 .scripts 索引中被检索。当然，你仍然可以使用存储在每个节点的 config/scripts/ 目录下的 Groovy 脚本。
-```json
+```default
 //增加博客文章中views的数量
 POST /website/blog/1/_update 			
 {
@@ -725,7 +725,7 @@ Elasticsearch 尽可能地屏蔽了分布式系统的复杂性。这里列举了
 
 #### 集群的健康
 
-```json
+```default
 GET /_cluster/health
 GET /_cluster/health?level=[indices|shards]
 
@@ -749,7 +749,7 @@ GET /_cluster/health?level=[indices|shards]
 
 #### 创建索引时设置分片和副本个数
 
-```json
+```default
 PUT /blogs
 {
 	"settings": {
@@ -769,7 +769,7 @@ cluster
 	|  p0  p1  p2
 ```
 查看集群健康状况如下：
-```json
+```default
 {
 	"cluster_name": "elasticsearch",
 	 "status": "yellow", 
@@ -782,7 +782,7 @@ cluster
 
 **添加故障转移，启动第二个节点：** <br>
 为了测试第二个节点启动后的情况，你可以在同一个目录内，完全依照启动第一个节点的方式来启动一个新节点（参考安装并运行 Elasticsearch）。多个节点可以共享同一个目录。当你在同一台机器上启动了第二个节点时，只要它和第一个节点有同样的 cluster.name 配置，它就会自动发现集群并加入到其中。 但是在不同机器上启动节点的时候，为了加入到同一集群，你需要配置一个可连接到的单播主机列表。 详细信息请查看最好使用单播代替组播拥有两个节点的集群——所有主分片和副本分片都已被分配：
-```json
+```default
 cluster
 	|--node1-master
 	|  p0  p1  p2
@@ -792,7 +792,7 @@ cluster
 	|
 ```
 当第二个节点加入到集群后，3个 副本分片 将会分配到这个节点上——每个主分片对应一个副本分片。 这意味着当集群内任何一个节点出现问题时，我们的数据都完好无损。所有新近被索引的文档都将会保存在主分片上，然后被并行的复制到对应的副本分片上。这就保证了我们既可以从主分片又可以从副本分片上获得文档。查看集群健康状况如下：
-```json
+```default
 {
   "cluster_name": "elasticsearch",
   "status": "green", 
@@ -806,7 +806,7 @@ cluster
 **再次水平扩容，使集群中有三个节点：** <br>
 增加集群的节点数为3，集群的数据分布如下：<br>
 
-```json
+```default
 cluster
 	|--node1-master
 	|  p1   p2
@@ -822,14 +822,14 @@ Node 1 和 Node 2 上各有一个分片被迁移到了新的 Node 3 节点，现
 
 **假如继续扩容超过六个节点怎么办呢？** <br>
 主分片的数目在索引创建时 就已经确定了下来。实际上，这个数目定义了这个索引能够 存储 的最大数据量。（实际大小取决于你的数据、硬件和使用场景。） 但是，读操作——搜索和返回数据——可以同时被主分片 或 副本分片所处理，所以当你拥有越多的副本分片时，也将拥有越高的吞吐量。在运行中的集群上是可以动态调整副本分片数目的 ，我们可以按需伸缩集群。让我们把副本数从默认的 1 增加到 2 ：
-```json
+```default
 PUT /blogs/_settings
 {
    "number_of_replicas" : 2
 }
 ```
 blogs 索引现在拥有9个分片：3个主分片和6个副本分片。 这意味着我们可以将集群扩容到9个节点，每个节点上一个分片。相比原来3个节点时，集群搜索性能可以提升 3 倍。集群的数据现在分布如下:
-```json
+```default
 cluster
 	|--node1-master
 	|  p1   p2  r0

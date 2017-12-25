@@ -21,8 +21,6 @@ icon: fa-coffee
 * 将所有的功能打包成一个单独的服务，这样你可以通过程序与它提供的简单的 RESTful API 进行通信
 * 全文搜索/结构化数据的实时
 
-<br>
-
 
 
 ### ES索引和Lucene索引比较
@@ -36,12 +34,10 @@ icon: fa-coffee
 n.代表一个索引库，相当于关系型数据库的schema概念。索引是保存相关数据的地方，实际上是指向一个或者多个物理分片的逻辑命名空间。索引名称必须小写，不能以下划线开头，不能包含逗号！<br>
 v.存储数据到ES的行为。<br>
 
-
-
 **创建一个索引** <br>
 我们可以通过索引一个文档创建一个新的索引，这个索引采用的是默认的配置，新的字段通过动态映射的方式被添加到类型映射。现在我们需要对这个建立索引的过程做更多的控制：<br>
 我们想要确保这个索引有数量适中的主分片，并且在我们索引任何数据 之前 ，分析器和映射已经被建立好。为了达到这个目的，我们需要手动创建索引，在请求体里面传入设置或类型映射，如下所示。如果你想禁止自动创建索引，你 可以通过在 config/elasticsearch.yml 的每个节点下添加下面的配置：action.auto_create_index: false
-```json
+```default
 PUT /my_index
 {
     "settings": { ... any settings ... },
@@ -58,7 +54,7 @@ PUT /my_index
 
 **删除一个索引** <br>
 
-```json
+```default
 DELETE /my_index
 DELETE /index_one,index_two
 DELETE /index_*
@@ -75,7 +71,7 @@ number_of_replicas：每个主分片的副本数，默认值是 1 。对于活�
 ```
 
 例如，我们可以创建只有 一个主分片，没有副本的小索引：<br>
-```json
+```default
 PUT /my_temp_index
 {
     "settings": {
@@ -94,9 +90,9 @@ PUT /my_temp_index/_settings
 
 
 
-**重新索引你的数据**
+**重新索引你的数据** <br>
 尽管可以增加新的类型到索引中，或者增加新的字段到类型中，但是不能添加新的分析器或者对现有的字段做改动。 如果你那么做的话，结果就是那些已经被索引的数据就不正确， 搜索也不能正常工作。对现有数据的这类改变最简单的办法就是重新索引：用新的设置创建新的索引并把文档从旧的索引复制到新的索引。字段_source 的一个优点是在Elasticsearch中已经有整个文档，你不必从源数据中重建索引，而且那样通常比较慢。为了有效的重新索引所有在旧的索引中的文档，用 scroll 从旧的索引检索批量文档 ， 然后用 bulk API 把文档推送到新的索引中。从Elasticsearch v2.3.0开始，Reindex API 被引入。详见：[点击](https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-reindex.html#docs-reindex)
-```json
+```default
 POST _reindex
 {
   "source": {
@@ -169,17 +165,17 @@ _alias 用于单个操作， _aliases 用于执行多个原子级操作。
 ```
 在这里，我们假设你的应用有一个叫 my_index 的索引。事实上， my_index 是一个指向当前真实索引的别名。真实索引包含一个版本号： my_index_v1，my_index_v2 等等。首先，创建索引 my_index_v1 ，然后用别名 my_index 指向它：<br>
 
-```json
+```default
 PUT /my_index_v1 
 PUT /my_index_v1/_alias/my_index
 ```
 你可以检测这个别名指向哪一个索引, 或哪些别名指向这个索引：
-```json
+```default
 GET /*/_alias/my_index
 GET /my_index_v1/_alias/*
 ```
 然后，我们决定修改索引中一个字段的映射。当然，我们不能修改现存的映射，所以我们必须重新索引数据。首先，我们用新映射创建索引my_index_v2：
-```json
+```default
 PUT /my_index_v2
 {
     "mappings": {
@@ -195,7 +191,7 @@ PUT /my_index_v2
 }
 ```
 然后我们将数据从 my_index_v1 索引到 my_index_v2，一旦我们确定文档已经被正确地重索引了，我们就将别名指向新的索引。一个别名可以指向多个索引，所以我们在添加别名到新索引的同时必须从旧的索引中删除它。这个操作需要原子化，这意味着我们需要使用 _aliases 操作：
-```json
+```default
 POST /_aliases
 {
     "actions": [
@@ -210,12 +206,12 @@ POST /_aliases
 
 **Refresh API** <br>
 在 Elasticsearch 中，写入和打开一个新段的轻量的过程叫做 refresh 。 默认情况下每个分片会每秒自动刷新一次。这就是为什么我们说 Elasticsearch 是近实时搜索: 文档的变化并不是立即对搜索可见，但会在一秒之内变为可见。这些行为可能会对新用户造成困惑: 他们索引了一个文档然后尝试搜索它，但却没有搜到。这个问题的解决办法是用 refresh API 执行一次手动刷新:<br>
-```json
+```default
 POST /_refresh 
 POST /blogs/_refresh
 ```
 尽管刷新是比提交轻量很多的操作，它还是会有性能开销。 当写测试的时候， 手动刷新很有用，但是不要在生产环境下每次索引一个文档都去手动刷新。 相反，你的应用需要意识到 Elasticsearch 的近实时的性质，并接受它的不足。并不是所有的情况都需要每秒刷新。可能你正在使用 Elasticsearch 索引大量的日志文件， 你可能想优化索引速度而不是近实时搜索， 可以通过设置 refresh_interval ， 降低每个索引的刷新频率：<br>
-```json
+```default
 PUT /my_logs
 {
   "settings": {
@@ -225,7 +221,7 @@ PUT /my_logs
 ```
 refresh_interval 可以在既存索引上进行动态更新。 在生产环境中，当你正在建立一个大的新索引时，可以先关闭自动刷新，待开始使用该索引时，再把它们调回来。
 refresh_interval 需要一个 持续时间 值， 例如 1s （1 秒） 或 2m （2 分钟）。 一个绝对值 1 表示的是 1毫秒，这无疑会使你的集群陷入瘫痪。
-```json
+```default
 PUT /my_logs/_settings
 { "refresh_interval": -1 } 
 
@@ -238,7 +234,7 @@ PUT /my_logs/_settings
 
 **Flush API** <br>
 这个执行一个提交并且截断 translog 的行为在 Elasticsearch 被称作一次 flush 。 分片每30分钟被自动刷新（flush），或者在 translog 太大的时候也会刷新。请查看 translog 文档 来设置，它可以用来 控制这些阈值，flush API 可以 被用来执行一个手工的刷新（flush），你很少需要自己手动执行一个的 flush 操作；通常情况下，自动刷新就足够了。
-```json
+```default
 POST /blogs/_flush 
 POST /_flush?wait_for_ongoing
 ```
@@ -264,7 +260,7 @@ Elasticsearch集群 --> 多个索引[index] --> 多个类型[type] --> 多个文
 
 **描述数据在每个字段内如何存储** <br>
 注意：ES不允许同一个索引库中的两个不同的类型下具有同名但是类型不同的字段，因为同一个索引库所有类型下字段的映射是共享的！为索引设置映射示例：
-```json
+```default
 PUT /{index}/_mapping/{type}
 {
   "properties": {
@@ -284,7 +280,7 @@ PUT /{index}/_mapping/{type}
 
 
 **查看索引的映射** <br>
-```json
+```default
 GET /{index}/_mapping/{type}
 ```
 <br>
@@ -299,7 +295,7 @@ false：忽略新的字段
 strict：如果遇到新字段抛出异常
 ```
 配置参数 dynamic 可以用在根 object 或任何 object 类型的字段上。你可以将 dynamic 的默认值设置为 strict , 而只在指定的内部对象中开启它, 例如：
-```json
+```default
 PUT /my_index
 {
     "mappings": {
@@ -322,15 +318,15 @@ PUT /my_index
 
 **自动检测日期映射** <br>
 当 Elasticsearch 遇到一个新的字符串字段时，它会检测这个字段是否包含一个可识别的日期，比如 2014-01-01。如果它像日期，这个字段就会被作为 date 类型添加。否则，它会被作为 text 类型添加。有些时候这个行为可能导致一些问题。想象下，你有如下这样的一个文档:
-```json
+```default
 { "note": "2014-01-01" }
 ```
 假设这是第一次识别 note 字段，它会被添加为 date 字段。但是如果下一个文档像这样：
-```json
+```default
 { "note": "Logged out" }
 ```
 这显然不是一个日期，但为时已晚。这个字段已经是一个日期类型，这个 不合法的日期 将会造成一个异常。日期检测可以通过在根对象上设置 date_detection 为 false 来关闭，使用下面设置 字符串将始终作为 string 类型。如果你需要一个 date 字段，你必须手动添加。Elasticsearch 判断字符串为日期的规则可以通过 dynamic_date_formats setting 来设置。<br>
-```json
+```default
 PUT /my_index
 {
     "mappings": {
@@ -354,12 +350,12 @@ PUT my_index
 
 **动态模板映射** <br>
 使用 dynamic_templates，你可以完全控制 新检测生成字段的映射。你甚至可以通过字段名称或数据类型来应用不同的映射。每个模板都有一个名称，你可以用来描述这个模板的用途，一个 mapping 来指定映射应该怎样使用，以及至少一个参数 (如 match) 来定义这个模板适用于哪个字段。模板按照顺序来检测；第一个匹配的模板会被启用。例如，我们给 string 类型字段定义两个模板：
-```json
+```default
 es ：以 _es 结尾的字段名需要使用 spanish 分词器。
 en ：所有其他字段使用 english 分词器
 ```
 我们将 es 模板放在第一位，因为它比匹配所有字符串字段的 en 模板更特殊。match_mapping_type 允许你应用模板到特定类型的字段上，就像有标准动态映射规则检测的一样，例如 text 或 long；match 参数只匹配字段名称； path_match 参数匹配字段在对象上的完整路径，例如 address.*.name。
-```json
+```default
 PUT /my_index
 {
     "mappings": {
@@ -389,7 +385,7 @@ PUT /my_index
 **缺省映射** <br>
 通常，一个索引中的所有类型共享相同的字段和设置。 _default_ 映射更加方便地指定通用设置，而不是每次创建新类型时都要重复设置。 _default_  映射是新类型的模板。在设置 _default_ 映射之后创建的所有类型都将应用这些缺省的设置，除非类型在自己的映射中明确覆盖这些设置。例如，我们可以使用 _default_ 映射为所有的类型禁用 _all 字段， 而只在 blog 类型启用。_default_映射也是一个指定索引动态模板的好方法。
 
-```json
+```default
 PUT /my_index
 {
     "mappings": {
@@ -561,7 +557,7 @@ Elasticsearch的相似度算法 被定义为 检索词频率/反向文档频率�
 如果多条查询子句被合并为一条复合查询语句 ，比如 bool 查询，则每个查询子句计算得出的评分会被合并到总的相关性评分中。<br>
 我们有一️整章着眼于相关性计算和如何让其配合你的需求控制相关度，详见：[点击](https://www.elastic.co/guide/cn/elasticsearch/guide/current/controlling-relevance.html)
 我们可以使用explain参数 在开发中了解_score得来的依据，例如：
-```json
+```default
 GET /_search?explain 
 {
    "query"   : { "match" : { "tweet" : "honeymoon" }}
@@ -605,7 +601,7 @@ set, shape, semi, transpar, call, set_tran, 5
 最后，词条按顺序通过每个 token 过滤器 。这个过程可能会改变词条（例如，小写化 Quick ），删除词条（例如，像a、and、the等无用词），或者增加词条（例如，像jump和leap这种同义词）
 ```
 为索引库创建一个自定义的分析器，这里我们创建的分析器不是全局的，它仅仅存在于我们定义的my_index索引中：
-```json
+```default
 PUT /my_index
 {
     "settings": {
@@ -635,7 +631,7 @@ PUT /my_index
 }
 ```
 使用 analyze API 来 测试这个新的分析器：
-```json
+```default
 GET /my_index/_analyze
 {
   "analyzer": "my_analyzer",
@@ -653,7 +649,7 @@ GET /my_index/_analyze
 }
 ```
 设置某个字段所使用的分析器：这个分析器现在是没有多大用处的，除非我们告诉 Elasticsearch在哪里用上它。我们可以像下面这样把这个分析器应用在一个 string 字段上：
-```json
+```default
 PUT /my_index/_mapping/my_type
 {
     "properties": {
@@ -665,7 +661,7 @@ PUT /my_index/_mapping/my_type
 }
 ```
 分析器是怎样起作用的？当我们 索引 一个文档，它的全文域被分析成词条以用来创建倒排索引。但是，当我们在全文域搜索的时候，我们需要将查询字符串通过相同的分析过程 ，以保证我们搜索的词条格式与索引中的词条格式一致。测试某个text字段的分析器是否起作用：
-```json
+```default
 GET /my_index/_analyze 
 {
   "field": "title",
