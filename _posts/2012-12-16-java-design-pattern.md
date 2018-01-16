@@ -752,6 +752,204 @@ tank end!
 ```
 <br>
 
+`动态代理实现1`<br>
+
+```java
+public interface ArithmeticCaculator {
+	int add(int i, int j);
+	int minus(int i, int j);
+	int multi(int i, int j);
+	int div(int i, int j);
+}
+
+/**
+ * 计算器功能实现类（保持其清纯性）
+ * @author zhangqingli
+ *
+ */
+public class ArithmeticCaculatorImpl implements ArithmeticCaculator {
+
+	@Override
+	public int add(int i, int j) {
+		return i+j;
+	}
+
+	@Override
+	public int minus(int i, int j) {
+		return i-j;
+	}
+
+	@Override
+	public int multi(int i, int j) {
+		return i*j;
+	}
+
+	@Override
+	public int div(int i, int j) {
+		return i/j;
+	}
+}
+
+
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+import java.util.Arrays;
+/**
+ * ArithmeticCaculator的java动态代理类
+ * @author zhangqingli
+ *
+ */
+public class MyArithmeticCaculatorJavaProxy {
+	
+	private ArithmeticCaculator target;
+	public MyArithmeticCaculatorJavaProxy(ArithmeticCaculator target) {
+		this.target = target;
+	}
+
+	/**
+	 * 生成java动态代理对象
+	 * @return
+	 */
+	public ArithmeticCaculator generateJavaProxy() {
+		
+		ClassLoader loader = this.getClass().getClassLoader();
+		Class<?>[] interfaces = target.getClass().getInterfaces();
+		InvocationHandler h = new InvocationHandler() {
+			/**
+			 * proxy: 正在返回的那个代理对象， 一般情况下invoke方法中都不使用该对象
+			 * method: 正在被调用的方法
+			 * args: 正在被调用方法的参数列表
+			 */
+			@Override
+			public Object invoke(Object proxy, Method method, Object[] args)
+					throws Throwable {
+				Object result = null;
+				try {
+					System.out.println("before（前置通知）: " 
+                                       + method.getName() + 
+                                       " with args " + Arrays.asList(args));
+					result = method.invoke(target, args);
+					System.out.println("after returning（返回通知）: " 
+                                       + method.getName() 
+                                       + " with result " + result);
+				} catch (Exception e) {
+					System.out.println("after throwing（异常通知）: " 
+                                       + method.getName()
+                                       + " occurs exception " + e.toString());
+					throw e;
+				} finally {
+					System.out.println("after（后置通知）: " 
+                                       + method.getName() 
+                                       + " ends");
+				}
+				return result;
+			}
+		};
+		return (ArithmeticCaculator) Proxy.newProxyInstance(loader, interfaces, h);
+	}
+	
+	
+	/*
+	 * 测试
+	 */
+	public static void main(String[] args) {
+		ArithmeticCaculator caculator = 
+          new MyArithmeticCaculatorJavaProxy(
+          	new ArithmeticCaculatorImpl()).generateJavaProxy();
+		//int result = caculator.add(1, 2);
+		int result = caculator.div(1, 0);
+		System.out.println(result);
+	}
+}
+```
+
+<br>
+
+`动态代理实现2`<br>
+
+```java
+import java.lang.reflect.Method;
+import java.util.Arrays;
+import org.springframework.cglib.proxy.Enhancer;
+import org.springframework.cglib.proxy.MethodInterceptor;
+import org.springframework.cglib.proxy.MethodProxy;
+
+/**
+ * AirithmeticCaculator的cglib动态代理类
+ * 在spring的AOP中，就是使用到java的动态代理和CGLib动态代理
+ * 
+ * java的动态代理是必须基于接口的
+ * 而CGLib基于字节码创建代理类对象，不需要基于接口就可以直接创建代理类
+ * 
+ * @author zhangqingli
+ *
+ */
+public class MyArithmeticCaculatorCglibProxy {
+	
+	/**
+	 * 生成cglib动态代理类对象
+	 * @param targetType
+	 * @return
+	 */
+	public ArithmeticCaculator generateCglibProxy(Class<? extends ArithmeticCaculator> targetType) {
+		Enhancer enhancer = new Enhancer();
+		enhancer.setSuperclass(targetType);
+		enhancer.setCallback(new MethodInterceptor() {
+			/**
+			 * obj: 动态生成的代理对象
+			 * method: 实际调用的方法
+			 * method: 调用方法入参列表
+			 * proxy: method类的代理类，可以实现委托类对象的方法的调用，
+			 *        常用invokeSuper方法，在拦截方法内可以调用多次
+			 * 
+			 */
+			@Override
+			public Object intercept(Object obj, Method method, Object[] args,
+					MethodProxy methodProxy) throws Throwable {
+				
+				Object result = null;
+				try {
+					System.out.println("before（前置通知）: " 
+                                       + method.getName() 
+                                       + " with args " + Arrays.asList(args));
+					result = methodProxy.invokeSuper(obj, args);
+					System.out.println("after returning（返回通知）: " 
+                                       + method.getName() 
+                                       + " with result " + result);
+				} catch (Exception e) {
+					System.out.println("after throwing（异常通知）: " 
+                                       + method.getName() 
+                                       + " occurs exception " + e.toString());
+					throw e;
+				} finally {
+					System.out.println("after（后置通知）: " 
+                                       + method.getName() 
+                                       + " ends");
+				}
+				return result;
+			}
+		});
+		return (ArithmeticCaculator) enhancer.create();
+	}
+	
+	/*
+	 * main
+	 */
+	public static void main(String[] args) {
+		ArithmeticCaculator caculator = new MyArithmeticCaculatorCglibProxy()
+          	.generateCglibProxy(ArithmeticCaculatorImpl.class);
+		//int result = caculator.add(1, 0);
+		int result = caculator.div(1, 0);
+		System.out.println(result);
+	}
+}
+```
+
+<br>
+
+
+
 ### 工厂模式
 
 ### 单例模式
