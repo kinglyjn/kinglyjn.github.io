@@ -118,5 +118,17 @@ All rights reserved.
 花括号中的即为uuid，根据自己想要压缩的文件选择相应的字符串。 
 ```
 
+<br>
+
+
+
+> 注：
+
+Virtualbox .vdi 磁盘扩容
+
+```shell
+$ ./VBoxManage modifyhd ~/Documents/vmbox/cdh02/cdh02.vdi --resize 30720
+```
+
 
 

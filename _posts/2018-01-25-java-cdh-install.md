@@ -351,6 +351,35 @@ $ su hdfs
 $ hadoop fs -setrep -R 1 /
 ```
 
+<br>
+
+
+
+11、安装kafka等外在组件
+
+```shell
+# 0.cdh对应支持的kafka版本
+$ curl https://www.cloudera.com/documentation/enterprise/release-notes/topics/rn_consolidated_pcm.html#pcm_kafka
+
+# 1.下载kafka包文件，放到 /opt/cloudera/parcel-repo 目录中（注意将以前的 manifest.json文件备份）
+$ sudo wget http://archive.cloudera.com/kafka/parcels/2.2/KAFKA-2.2.0-1.2.2.0.p0.68-trusty.parcel
+$ sudo wget http://archive.cloudera.com/kafka/parcels/2.2/KAFKA-2.2.0-1.2.2.0.p0.68-trusty.parcel.sha1
+$ sudo wget http://archive.cloudera.com/kafka/parcels/2.2/manifest.json
+
+# 2.更改parcel.sha1文件名为parcel.sha
+$ sudo mv KAFKA-2.2.0-1.2.2.0.p0.68-trusty.parcel.sha1 KAFKA-2.2.0-1.2.2.0.p0.68-trusty.parcel.sha
+
+# 3.在cm管理页面中点击 主机->Parcel->检查新Parcel(右上角)->KAFKA(分配->激活)
+
+# 4.在cm管理主页面添加kafka服务（注意不要将 zookeeper.chroot 修改为 /kafka，使用默认的 /）
+
+# 5.修改每个节点kafka的配置文件的 brooker.id 和 zookeeper.connect (视情况而定)
+
+# 6.kafka 配置中 搜索 "java heap size"，设置 Java Heap Size of Broker 为1G (默认)，不然broker进程启动不起来
+```
+
+
+
 
 
 

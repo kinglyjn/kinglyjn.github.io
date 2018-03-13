@@ -210,25 +210,49 @@ leader与follower同步数据的大部分操作都在LearnerHandler线程中处�
 ```shell
 ubuntu@supervisor01z:~$ vi zookeeper-3.4.6/conf/zoo.cfg 
 
-#表示zk的一个基本时间单元，可用它的倍数来表示系统内部的时间间隔设置
-tickTime=2000
-#表示follower连接到leader，初始化连接时最长能忍受多少个心跳的的时间间隔，这里的10表示，当已经超过了10个
-#tickTime心跳的时间，zk服务器还没有收到客户端的返回信息，表明这个客户端连接失败
-initLimit=10	
-#标识Leader与Follower之间发送消息，请求和应答最长允许时间
-syncLimit=5
+#########
+# 最低配置
+#########
 
+#zk的运行端口，默认是2181
+clientPort=2181
 #用于配置存储快照文件的目录，如果没有配置dataLogDir，那么事务日志也会存储在此目录
 dataDir=/home/ubuntu/zookeeper-3.4.6/zkdata
 #日志的存放路径
 dataLogDir=/home/ubuntu/zookeeper-3.4.6/logs
+#表示zk的一个基本时间单元，可用它的倍数来表示系统内部的时间间隔设置
+tickTime=2000
+
+#########
+# 高级配置
+#########
+
+#单个客户端与单台服务器之间的连接数的限制，是ip级别的，默认是60，如果设置为0，那么表明不作任何限制。
+#请注意这个限制的使用范围，仅仅是单台客户端机器与单台ZK服务器之间的连接数限制，不是针对指定客户端IP，
+#也不是ZK集群的连接数限制，也不是单台ZK对所有客户端的连接数限制。
+maxClientCnxns=60
+
+#Session超时时间限制，如果客户端设置的超时时间不在这个范围，那么会被强制设置为最大或最小时间。
+#默认的Session超时时间是在 2*tickTime ~ 20*tickTime 这个范围
+minSessionTimeout=2*2000
+maxSessionTimeout=20*2000
+
 #自动清理snapshot和事务日志(单位为小时,默认为0表示不开启)
 autopurge.purgeInterval=1
 #这个参数和上面的参数搭配使用，这个参数指定了需要保留的文件数目。默认是保留3个
 autopurge.snapRetainCount=3
 
-#zk的运行端口，默认是2181
-clientPort=2181
+#########
+# 集群配置
+#########
+
+#表示follower连接到leader，初始化连接时最长能忍受多少个心跳的的时间间隔，这里的10表示，当已经超过了10个
+#tickTime心跳的时间，zk服务器还没有收到客户端的返回信息，表明这个客户端连接失败。默认值为10
+initLimit=10
+#标识Leader与Follower之间发送消息，请求和应答最长允许时间。如果Leader发出心跳包在syncLimit时间之后，
+#还没有从Follower那里收到响应，那么就认为这个F已经不在线了。注意：不要把这个参数设置得过大，否则可能会
+#掩盖一些问题。
+syncLimit=5
 #server.A=host:port1:port2 
 #其中A是一个数字，表示这个是第几号服务器
 #host表示这个服务器的地址

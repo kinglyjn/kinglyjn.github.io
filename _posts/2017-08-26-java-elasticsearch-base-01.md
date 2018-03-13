@@ -744,6 +744,16 @@ $ curl 'http://localhost:9200/?pretty‘
 
 #集群中默认数据传输端口：9300
 #WEB端口：9200
+#默认用户名：elastic
+#默认密码：changme
+
+#修改用户名和密码
+curl -XPUT -u elastic 'http://localhost:9200/_xpack/security/user/elastic/_password' -d '{
+  "password" : "yourpasswd"
+}'
+curl -XPUT -u elastic 'http://localhost:9200/_xpack/security/user/kibana/_password' -d '{
+  "password" : "yourpasswd"
+}'
 ```
 4、插件
 ```shell
@@ -775,6 +785,36 @@ $ curl http://nimbusz:5601
 $ bin/kibana-plugin install x-pack 或者
 $ bin/kibana-plugin install file:///opt/software/x-pack-5.6.5.zip
 ```
+
+<br>
+
+
+
+**关于license的更新**
+
+Elasticsearch安装完毕以后，默认许可为30天，到期后可能会影响一些功能的使用，如Kibana。到期之后，需要先注册一个许可，注册链接:[register](https://register.elastic.co/marvel_register)。注册时候填写的邮箱，在注册完成几分钟内会收到一封邮件标有license的json下载地址和安装教程的官方链接，就是上面的链接。点击链接，下载对应的elasticsearch许可版本。下载json文件，传到服务器的某个目录，然后在cd到license的目录服务器执行如下：
+
+```shell
+$ curl -XPUT -u elastic:密码 'http://ip:9200/_xpack/license' -H "Content-Type: application/json" -d @es_license.json
+
+$ curl -XPUT -u elastic:密码 'http://ip:9200/_xpack/license?acknowledge=true' -H "Content-Type: application/json" -d @es_license.json
+```
+
+@后面那个es_license.json是我下载的文件名自定义的名称。然后通过：
+
+```shell
+$ curl -XGET -u elastic:密码 'http://ip:9200/_xpack/license'
+```
+
+查看可以发现license的日期变为1年了，默认的是30天的。更新license之后，可以看到有些功能就不可用了：
+
+```shell
+$ curl http://localhost:9200/_xpack?pretty
+```
+
+available变为false，这个...是因为上面的那种方式注册的license不具备支持这些功能的许可.所以x-pack那个security安全授权认证也不支持了...
+
+license的功能描述：[点击](https://www.elastic.co/subscriptions)
 
 
 
