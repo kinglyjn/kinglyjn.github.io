@@ -1,26 +1,26 @@
 - name: Java
   percentage: 90
 
-- name: Hadoop
-  percentage: 65
-
 - name: Storm
-  percentage: 70
+  percentage: 80
 
-- name: Linux/Shell
+- name: Hadoop/CHD5
   percentage: 75
 
+- name: Hbase/Hive
+- percentage: 78
+
+- name: Linux/Shell
+  percentage: 70
+
 - name: Javascript
-  percentage: 80
+  percentage: 70
 
 - name: Python
   percentage: 65
 
-- name: PHP
-  percentage: 67
-
 - name: C/C++
-  percentage: 70
+  percentage: 60
 
 - name: HTML/CSS
   percentage: 60

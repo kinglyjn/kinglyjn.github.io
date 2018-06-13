@@ -134,8 +134,11 @@ db.dropDatabase()
 db.cname.drop()
 db.copyDatabase("src_dbname", "target_dbname", "127.0.0.1")
 db.repairDatabase()
+```
 
+<br>
 
+```shell
 #数据库状态分析
 mongostat -h 127.0.0.1:27017
 # 0：profile操作记录功能关闭  
@@ -146,8 +149,11 @@ db.getProfilingLevel()
 db.setProfilingLevel(2) 
 db.getProfilingStatus() { "was" : 0, "slowms" : 100 }
 # 通过mongodb的配置文件/etc/mongo.conf的 verbose参数可以配置日志的详细程序（一个v~5个v）
+```
 
+<br>
 
+```shell
 #配置文件开启权限模式：
 --------------------------
 security:
@@ -156,14 +162,16 @@ security:
 或者
 auth = true
 --------------------------
+
 #在相应的库下创建和删除用户：
+
 #数据库管理角色
-#read、readWrite、dbAdmin、dbOwner、userAdmin
 read：该角色只有读取数据的权限
 readWrite：该角色有数据的读写权限，但不能创建删除索引，也不能创建和删除数据库
 dbAdmin：该角色拥有数据库管理权限（比如更改数据库类型）
 dbOwner：是read、readWrite、dbAdmin这三者角色的集合体
 userAdmin：该角色可以对其他角色权限进行管理
+
 #集群管理角色
 clusterAdmin：提供了最大的集群管理功能。相当于clusterManager, clusterMonitor, 
 			  and hostManager和dropDatabase的权限组合
@@ -171,12 +179,14 @@ clusterManager：提供了集群和复制集管理和监控操作。拥有该权
 			  和local数据库（即分片和复制功能）
 clusterMonitor：仅仅监控集群和复制集
 hostManager：提供了监控和管理服务器的权限，包括shutdown节点，logrotate, repairDatabase等。
+
 #所有数据库角色
 readAnyDatabase：具有read每一个数据库权限。但是不包括应用到集群中的数据库。
 readWriteAnyDatabase：具有readWrite每一个数据库权限。但是不包括应用到集群中的数据库。
 userAdminAnyDatabase：具有userAdmin每一个数据库权限，但是不包括应用到集群中的数据库。
 dbAdminAnyDatabase：提供了dbAdmin每一个数据库权限，但是不包括应用到集群中的数据库。
-#超级管理员权限
+
+#超级管理员角色
 root: dbadmin到admin数据库、useradmin到admin数据库以及UserAdminAnyDatabase。
 	  但它不具有备份恢复、直接操作system.*集合的权限，但是拥有root权限的超级用户
 	  可以自己给自己赋予这些权限。
@@ -190,12 +200,32 @@ var user = {
  	roles:[{role:"userAdmin", db:"admin"}, {role:"read", db:"response"}]
 }
 db.createUser(user); 
-db.dropUser("usernamexxx");
+
 #使用新创建的用户登录：
 mongo 127.0.0.1:27017/test -u usernamexxx -p passwordxxx
 或 db.auth('usernamexxx','passwordxxx')
 
+#修改用户权限
+#这里我使用的是db.grantRolesToUser()命令，而没有使用db.updateUser()命令的原因是，
+#后者会替换账号的原有的角色，而前者是追加
+db.grantRolesToUser( "myusername", [{role:"readWrite", db:"myTest"}] )
 
+#删除权限
+db.revokeRolesFromUser("myusername", [{role:"read", db:"myTest"}] )
+
+#删除用户
+db.dropUser("myusername");
+```
+
+>认证数据库概念：<br>
+>
+>当在`mongodb`中创建一个用户时，是要指定它属于哪个数据库（为了便于说明，我假定为`A数据库`）而这个`A数据库`就是该用户的`认证数据库`，通俗点讲就是，该用户只能登陆`A数据库`。虽然该用户只能登陆`A数据库`，但是我们可以给该用户其他数据库（假定为`B数据库`）权限。
+
+
+
+<br>
+
+```shell
 #添加数据
 #insert添加时如果主键重复则报错，而save添加时主键重复则覆盖
 db.cname.insert({name:"zhangsan", age:23}) 
@@ -217,8 +247,11 @@ db.cname.renameCollection("target_name")
 
 #删除数据
 db.cname.remove({name:"zhangsan"})
+```
 
+<br>
 
+```shell
 #查询数据
 db.cname.count()
 db.cname.dataSize()
@@ -259,8 +292,10 @@ db.user.group({
 	condition:{name:{$exists:true}}, #过滤条件
 	finalize:function(out){out.count=out.users.length}
 })
+```
+<br>
 
-
+```shell
 #索引数据
 #_id索引
 #单建索引
@@ -320,3 +355,4 @@ db.cname.find({p:{$geoWithin:{$box:[[0,0], [3,3]]}}})
 #查找多边形内的点
 db.cname.find({p:{$polygon:[[0,0],[1,3],[4,5]]}})
 ```
+

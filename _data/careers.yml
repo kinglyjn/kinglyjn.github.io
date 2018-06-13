@@ -1,4 +1,18 @@
 - name:
+    detail: Mint Quantum Co. Ltd.
+    i18n: mintq1
+  desc:
+    detail: Global FinTech company with offices in China, be committed to becoming China's CapitalOne.
+    i18n: mintq1_des
+  date:
+    detail: Apr. 2017
+    i18n: mintq1_date
+  job:
+    detail: Big Data Engineer
+    i18n: mintq1_job
+  icon: fa-bar-chart
+
+- name:
     detail: Hunan ShangRong Information Technology Co. Ltd. Beijing Branch
     i18n: shangrong1
   desc:
