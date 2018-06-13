@@ -8,7 +8,7 @@
   percentage: 75
 
 - name: Hbase/Hive
-- percentage: 78
+  percentage: 78
 
 - name: Linux/Shell
   percentage: 70
