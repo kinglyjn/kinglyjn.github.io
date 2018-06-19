@@ -26,10 +26,20 @@ Git creating a new branch is quick and simple.
 ```
 <br>
 
+### git和svn的比较
+
+```default
+1、git是分布式的SCM，svn是集中式的
+2、git每个版本存储完整的文件，svn存储文件差异
+3、git可离线完成大部分操作，svn则相反
+```
+
+<br>
 
 ### 修改git用户名称和邮箱
 
 ```shell
+$ git help -a
 $ git config --global user.name "Your Name"
 $ git config --global user.email "email@example.com"
 ```
@@ -291,6 +301,10 @@ $ git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Cre
 a. 搭建内部git服务器非常简单，通常只需要一下几步即可（强烈推荐用Ubuntu或Debian，这样，通过几条简单的apt命令就可以完成安装）：
    1. 安装git
       $ sudo apt-get install git
+      版本更新
+      $ sudo add-apt-repository ppa:git-core/ppa
+      $ sudo apt-get update
+      $ sudo apt-get install -y git
    2. 创建git用户来运行git服务
       $ sudo adduser git
    3. 创建证书登录
@@ -316,4 +330,9 @@ c. 要像SVN那样变态地控制权限，用Gitolite。
 ```
 <br>
 
+### github常用快捷键
+
+```default
+查找内容：t
+```
 
