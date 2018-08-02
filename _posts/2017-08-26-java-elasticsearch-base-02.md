@@ -15,7 +15,15 @@ icon: fa-coffee
 
 ### 请求格式
 ```default
-curl [-u xxx] [-I] -X[HEAD|POST|DELETE|PUT|GET] '<PROTOCOL>://<HOST>:<PORT>/<PATH>?<QUERY_STRING>' [-H 'Content-Type:application/json'] -d '<BODY>'
+curl [-u xxx] [-I] -X[HEAD|POST|DELETE|PUT|GET] 'http://<HOST>:<PORT>/<PATH>?<QUERY_STRING>' [-H 'Content-Type:application/json'] -d '<BODY>'
+
+API基本格式：http://<ip>:<port>/<索引>/<类型>/<文档id>
+常用HTTP动词：GET/PUT/POST/DELETE
+索引名称：必须小写，不能有中划线
+
+如何区分索引是结构化的还是非结构化的？
+索引信息->mappings节点
+当mappings节点后的内容为空时：非结构化索引
 ```
 <br>
 

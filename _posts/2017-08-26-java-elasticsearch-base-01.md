@@ -23,6 +23,16 @@ icon: fa-coffee
 
 
 
+
+### 可用应用场景
+
+* 海量数据分析引擎
+* 站内搜索引擎
+* 数据仓库
+
+<br>
+
+
 ### ES索引和Lucene索引比较
 
 一个 Lucene 索引 我们在 Elasticsearch 称作 分片 。 一个 Elasticsearch 索引 是分片的集合。 当 Elasticsearch 在索引中搜索的时候， 他发送查询到每一个属于索引的分片(Lucene 索引)，然后像 执行分布式检索 提到的那样，合并每个分片的结果到一个全局的结果集。<br>
@@ -33,6 +43,22 @@ icon: fa-coffee
 
 n.代表一个索引库，相当于关系型数据库的schema概念。索引是保存相关数据的地方，实际上是指向一个或者多个物理分片的逻辑命名空间。索引名称必须小写，不能以下划线开头，不能包含逗号！<br>
 v.存储数据到ES的行为。<br>
+
+`和索引相关的两个高级概念`<br>
+
+```default
+分片：每个索引都有多个分片，每个分片是一个Lucene索引
+备份：拷贝一份分片就完成了分片的备份
+
+ES默认在创建索引时，会创建5个分片、1个备份。
+分片的数量只能在创建索引时设置，而不能在后期进行修改，而备份是可以动态修改的
+
+[特别注意]
+Type在6.0.0版本中已经不赞成使用，即类型(Type)[Deprecated in 6.0.0.] 
+一个类型是你的索引中的一个分类或者说是一个分区，它可以让你在同一索引中存储不同类型的文档，例如，为用户建一个类型，为博客文章建另一个类型。现在已不可能在同一个索引中创建多个类型，并且整个类型的概念将会在未来的版本中移除。
+```
+
+
 
 **创建一个索引** <br>
 我们可以通过索引一个文档创建一个新的索引，这个索引采用的是默认的配置，新的字段通过动态映射的方式被添加到类型映射。现在我们需要对这个建立索引的过程做更多的控制：<br>
@@ -703,17 +729,24 @@ ES 使用的查询语言（DSL） 拥有一套查询组件，这些组件可以�
 1、解压
 2、配置，编辑文件 elasticsearch.yml，请参考 [重要参数配置](https://www.elastic.co/guide/cn/elasticsearch/guide/current/important-configuration-changes.html)
 ```yaml
-network.host: 0.0.0.0
-cluster.name: es-dev
-node.name: es_001
-node.master: true
-node.data: false
+cluster.name: es_dev
+node.name: node-5
+#如果是master节点设置成true
+node.master: false
+#如果是data节点设置成true
+node.data: true
 path.data: /xxx/xxx
 path.logs: /xxx/xxx
-path.plugins: /xxx/xxx
+network.host: 10.20.23.82
+http.port: 9200
+transport.tcp.port: 9300
+discovery.zen.ping.unicast.hosts: ["10.20.23.29", "10.20.23.38","10.20.23.82"]
 #候选节点个数/2+1 例如你有10个节点（能保存数据，同时能成为 master），法定数就是 6
-discovery.zen.minimum_master_nodes: 2
-discovery.zen.ping.unicast.hosts: ["host1", "host2:port"]
+discovery.zen.minimum_master_nodes: 1
+bootstrap.memory_lock: true
+bootstrap.system_call_filter: false
+http.cors.enabled: true
+http.cors.allow-origin: "*"
 ```
 注意：
 ```
@@ -764,6 +797,52 @@ $ bin/elasticsearch-plugin install x-pack
 $ bin/elasticsearch-plugin install file:///opt/software/x-pack-5.6.5.zip 
 ```
 <br><br>
+
+5、elasticsearch-head-master插件（了解）
+
+```
+github地址：https://github.com/mobz/elasticsearch-head
+下载插件包：https://codeload.github.com/mobz/elasticsearch-head/zip/master
+unzip elasticsearch-head-master.zip
+
+cd elasticsearch-head-master
+
+检查Node环境
+node -v
+请确保已经安装nodejs6.0以上
+
+安装插件
+npm install
+启动插件
+npm run start
+输出日志表示启动成功
+Started connect web server on http://localhost:9100
+访问
+http://localhost:9100
+
+
+ElasticSearch整合elasticsearch-head插件
+cd elasticsearch-5.6.0
+
+vim config/elasticsearch.yml
+在配置文件的最后面加上
+允许head插件跨域访问rest接口
+http.cors.allowed: true
+http.cors.allow-origin: "*"
+:wq
+
+后台启动
+./bin/elasticsearch -d
+
+再次重新启动elasticsearch-head插件
+cd elasticsearch-head-master
+启动插件
+npm run start
+访问
+http://localhost:9100
+```
+
+<br>
 
 
 
